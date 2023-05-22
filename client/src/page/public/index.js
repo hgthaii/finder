@@ -1,0 +1,7 @@
+export { default as Home } from './Home'
+export { default as Login } from './Login'
+export { default as Register } from './Register'
+export { default as Public } from './Public'
+export { default as Movies } from './Movies'
+export { default as Movieseris } from './Movieseris'
+export { default as Mylist } from './Mylist'
