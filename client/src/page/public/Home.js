@@ -1,19 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 import { Section, Banner, Modal } from '../../components'
 import { useSelector } from 'react-redux'
+import io from 'socket.io-client'
 
 const Home = () => {
     const { movies, randomMovies } = useSelector((state) => state.app)
-    console.log({ randomMovies })
+    // console.log({ randomMovies })
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
 
     const openModal = (movies) => {
+        const socket = io('http://localhost:5000', { transports: ['websocket'] })
+        // Gửi sự kiện getComment
+        socket.emit('getLatestComments')
+
+        // Lắng nghe sự kiện 'latestComments' từ server và hiển thị các comment
+        socket.on('latestComments', (comments) => {
+            console.log('Sự kiện latestComments đã được kích hoạt.')
+            console.log('Dữ liệu comments:', comments)
+        })
+
+        // socket.disconnect() // Ngắt kết nối khi component unmount
+
         setSelectedProduct(movies)
         setModalIsOpen(true)
     }

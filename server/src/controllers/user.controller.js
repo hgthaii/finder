@@ -127,7 +127,7 @@ const signin = async (req, res) => {
             refresh_token: refreshToken,
         })
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Đăng nhập không thành công')
     }
 }

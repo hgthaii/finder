@@ -38,14 +38,13 @@ const auth = async (req, res, next) => {
 }
 
 const isRefreshTokenExpired = (refreshToken) => {
-    if(!refreshToken) return true
+    if (!refreshToken) return true
     const decoded = tokenDecode(refreshToken)
     const expiryDate = new Date(decoded.exp * 1000) // Chuyển đổi từ timestamp thành đối tượng Date
 
     // So sánh thời gian hiện tại với thời gian hết hạn của refresh token
     return new Date() > expiryDate
 }
-
 
 const verifyTokenAndRefresh = async (req, res, next) => {
     const { accessToken, refreshToken } = req.cookies

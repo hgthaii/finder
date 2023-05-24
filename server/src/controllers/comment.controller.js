@@ -3,6 +3,7 @@ import userModel from '../models/user.model.js'
 import commentModel from '../models/comment.model.js'
 import responseHandler from '../handlers/response.handler.js'
 import movieModel from '../models/movie.model.js'
+import { io } from '../../app.js'
 
 const createComment = async (req, res) => {
     try {
@@ -20,7 +21,7 @@ const createComment = async (req, res) => {
 
         // Kiểm tra nội dung bình luận chỉ chứa chữ cái và dấu cách
         const isValidComment = (comment) => {
-            const regex = /^[a-zA-Z0-9\s]+$/
+            const regex = /^[\p{L}\d\s]+$/u
             return regex.test(comment)
         }
         // Kiểm tra nội dung bình luận hợp lệ
@@ -37,6 +38,7 @@ const createComment = async (req, res) => {
         })
 
         await comment.save()
+
         responseHandler.created(res, {
             statusCode: 201,
             message: 'Bình luận thành công.',
@@ -55,7 +57,10 @@ const getAllCommentOfFilm = async (req, res) => {
         if (!checkMovie) return responseHandler.badrequest(res, 'Phim không tồn tại!')
 
         const getComment = await commentModel.find({ movieId }).sort('-createdAt')
-
+        io.on('connection', (socket) => {
+            console.log('getAllCommentOfFilm đã kết nối')
+            socket.emit('latestComments', getComment)
+        })
         responseHandler.ok(res, getComment)
     } catch (error) {
         console.log(error)
@@ -70,17 +75,16 @@ const editComment = async (req, res) => {
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
         const userId = await userModel.findById(tokenDecoded.infor.id)
         if (!userId) return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
-        
+
         const checkComment = await commentModel.findById(commentId).select('content userId movieId updatedAt')
         if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
 
-
         checkComment.content = content || checkComment.content
         await checkComment.save()
-        
+
         responseHandler.ok(res, checkComment)
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Chỉnh sửa comment không thành công.')
     }
 }
@@ -90,12 +94,13 @@ const deleteComment = async (req, res) => {
         const { commentId } = req.params
         const checkComment = await commentModel.findByIdAndDelete(commentId)
         if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+
         responseHandler.ok(res, {
             statusCode: 200,
-            message: 'Xoá bình luận thành công!'
+            message: 'Xoá bình luận thành công!',
         })
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Xoá comment không thành công.')
     }
 }

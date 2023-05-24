@@ -1,9 +1,11 @@
 import React from 'react'
 import { Modalsection, Banner, Modalcard } from './'
 import icons from '../ultis/icons'
+// import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
+
     const { AiOutlineClose } = icons
 
     return (

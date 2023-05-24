@@ -9,6 +9,7 @@ import icons from '../ultis/icons'
 import { useDebounce } from '../hook'
 import { Section, Modal } from './'
 
+
 const Search = () => {
     const { BiSearchAlt2, GrClose } = icons
     const [isSearchOpen, setIsSearchOpen] = useState(false)

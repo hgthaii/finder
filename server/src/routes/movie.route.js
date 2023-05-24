@@ -26,22 +26,15 @@ router.get('/:movieId/comments', commentController.getAllCommentOfFilm)
 
 router.post(
     '/comments',
+    tokenMiddleware.auth,
     tokenMiddleware.verifyTokenAndRefresh,
     rateLimitMiddleware(windowMs, maxRequests),
     commentController.createComment,
 )
 
-router.put(
-    '/comments',
-    tokenMiddleware.verifyTokenAndRefresh,
-    commentController.editComment
-)
+router.put('/comments', tokenMiddleware.verifyTokenAndRefresh, commentController.editComment)
 
-router.delete(
-    '/comments/:commentId',
-    tokenMiddleware.verifyTokenAndRefresh,
-    commentController.deleteComment
-)
+router.delete('/comments/:commentId', tokenMiddleware.verifyTokenAndRefresh, commentController.deleteComment)
 
 router.put(
     '/:movieId',
