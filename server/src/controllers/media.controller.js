@@ -61,9 +61,9 @@ const search = async (req, res) => {
             return responseHandler.badrequest(res, 'Tiêu đề không hợp lệ.')
         }
         const regex = new RegExp(title, 'i') // Tạo biểu thức chính quy
-        const checkTitle = await movieModel.find({ title: { $regex: regex } })
+        const checkTitle = await movieModel.find({ title: { $regex: regex }})
         if (!checkTitle) {
-            return responseHandler.badrequest(res, 'Không tìm thấy phim.')
+            return responseHandler.badrequest(res, 'Không tìm thấy phim hoặc thể loại liên quan')
         }
 
         responseHandler.ok(res, checkTitle)

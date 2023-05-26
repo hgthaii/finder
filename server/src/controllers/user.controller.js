@@ -154,8 +154,10 @@ const updatePassword = async (req, res) => {
         // Lấy data từ req
         const { password, newPassword } = req.body
 
+        const userId = tokenMiddleware.tokenDecode(req).infor.id
+
         // Tìm user và lấy các trường được select
-        const user = await userModel.findById(req.user.id).select('password id salt')
+        const user = await userModel.findById(userId).select('password id salt')
 
         if (!user) return responseHandler.unauthorize(res)
 
@@ -169,7 +171,8 @@ const updatePassword = async (req, res) => {
             statusCode: 200,
             message: 'Đổi mật khẩu thành công!',
         })
-    } catch {
+    } catch (error) {
+        console.log(error);
         responseHandler.error(res, 'Đổi mật khẩu không thành công!')
     }
 }
