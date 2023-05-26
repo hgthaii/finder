@@ -51,7 +51,7 @@ const search = async (req, res) => {
 
         const checkTitle = await movieModel.find(query)
         if (!checkTitle) {
-            return responseHandler.badrequest(res, 'Không tìm thấy phim.')
+            return responseHandler.badrequest(res, 'Không tìm thấy phim hoặc thể loại liên quan')
         }
 
         responseHandler.ok(res, checkTitle)

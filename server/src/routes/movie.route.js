@@ -13,8 +13,9 @@ const maxRequests = 5
 
 router.get('/', movieController.getAllMovies)
 
-router.get('/genre/:genreId', movieController.getMovieByGenre)
+router.get('/genre/:genreId', movieController.getAllMovieByGenre)
 router.get('/:movieId', movieController.getMovieById)
+router.get('/media/search', movieController.searchMovieByGenre)
 
 router.get('/:movieId/view', movieController.incrementViews)
 
