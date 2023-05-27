@@ -33,27 +33,6 @@ const getGenres = async (req, res) => {
     }
 }
 
-const getFilmOfGenre = async (req, res) => {
-    try {
-        const { genreId } = req.params
-        const checkGenre = await genreModel.findById(genreId)
-        if (!checkGenre) return responseHandler.notfound(res, 'Không tìm thấy thể loại trong hệ thống.')
-        const listMovies = []
-        const getAllMovies = await movieModel.find().sort('-createdAt')
-        for (const index in getAllMovies) {
-            const movie = getAllMovies[index]
-            if (Array.isArray(movie.genres) && movie.genres.some((g) => g && g._id && g._id.toString() === genreId)) {
-                listMovies.push(movie)
-            }
-        }
-
-        responseHandler.ok(res, listMovies)
-    } catch (error) {
-        // console.log(error)
-        responseHandler.error(res, 'Lấy danh sách phim từ thể loại thất bại')
-    }
-}
-
 const search = async (req, res) => {
     try {
         const { title } = req.query
@@ -61,9 +40,18 @@ const search = async (req, res) => {
             return responseHandler.badrequest(res, 'Tiêu đề không hợp lệ.')
         }
         const regex = new RegExp(title, 'i') // Tạo biểu thức chính quy
-        const checkTitle = await movieModel.find({ title: { $regex: regex } })
+
+        const query = {
+            $or: [
+                { title: { $regex: regex } },
+                { 'genres.name': { $regex: regex } },
+                { 'cast.name': { $regex: regex } },
+            ],
+        }
+
+        const checkTitle = await movieModel.find(query)
         if (!checkTitle) {
-            return responseHandler.badrequest(res, 'Không tìm thấy phim.')
+            return responseHandler.badrequest(res, 'Không tìm thấy phim hoặc thể loại liên quan')
         }
 
         responseHandler.ok(res, checkTitle)
@@ -73,4 +61,4 @@ const search = async (req, res) => {
     }
 }
 
-export default { getGenres, search, addGenres, getFilmOfGenre }
+export default { getGenres, search, addGenres }

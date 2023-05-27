@@ -124,8 +124,33 @@ const getMovieById = async (req, res) => {
     }
 }
 
+const searchMovieByGenre = async (req, res) => {
+    try {
+        const { genreName } = req.query
+        if (!genreName || typeof genreName !== 'string' || genreName.trim() === '') {
+            return responseHandler.badrequest(res, 'Tiêu đề không hợp lệ.')
+        }
+        const isValidGenre = (genre) => {
+            const regex = /^[\p{L}\d\s]+$/u
+            return regex.test(genre)
+        }
+        if (!isValidGenre(genreName)) {
+            return responseHandler.badrequest(res, 'Tên thể loại không hợp lệ')
+        }
+        const checkGenre = await movieModel.find({ genres: [{ name: genreName }] })
+        console.log(checkGenre)
+        if (!checkGenre) {
+            return responseHandler.badrequest(res, 'Không tìm thấy phim.')
+        }
+        responseHandler.ok(res, checkGenre)
+    } catch (error) {
+        console.log(error);
+        responseHandler.error(res, 'Lấy danh sách phim không thành công!')
+    }
+}
+
 // Lấy danh sách phim theo thể loại
-const getMovieByGenre = async (req, res) => {
+const getAllMovieByGenre = async (req, res) => {
     try {
         const { genreId } = req.params
 
@@ -266,11 +291,12 @@ const getRandomMovies = async (req, res) => {
 export default {
     getAllMovies,
     getMovieById,
-    getMovieByGenre,
+    searchMovieByGenre,
     getHotMovies,
     getRandomMovies,
     createMovie,
     deleteMovie,
     updateMovie,
     incrementViews,
+    getAllMovieByGenre,
 }
