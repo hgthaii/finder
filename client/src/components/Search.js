@@ -4,10 +4,14 @@ import Modals from 'react-modal'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import * as actions from '../store/actions'
 
+import * as apis from '../apis'
 import icons from '../ultis/icons'
 import { useDebounce } from '../hook'
 import { Section, Modal } from './'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const Search = () => {
@@ -17,6 +21,8 @@ const Search = () => {
     const [searchResults, setSearchResults] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const debounce = useDebounce(searchValue, 500)
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen)
@@ -100,6 +106,7 @@ const Search = () => {
     const clearSearch = () => {
         setSearchValue('')
         closeModal()
+        navigate('/')
     }
 
     const openModal = () => {
@@ -114,20 +121,15 @@ const Search = () => {
     const handleChange = (event) => {
         const value = event.target.value
         setSearchValue(value)
-
-        if (value !== '') {
-            openModal()
-        } else {
-            closeModal()
-        }
+        dispatch(actions.search(searchValue))
+        navigate(`search`)
     }
 
-    console.log(searchResults)
+    // console.log(searchResults)
     return (
         <div
-            className={`flex  items-center  cursor-pointer ${
-                isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
-            }`}
+            className={`flex  items-center  cursor-pointer ${isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
+                }`}
         >
             <button onClick={toggleSearch} className=" mx-2 ">
                 <span>
@@ -150,26 +152,7 @@ const Search = () => {
                     )}
                 </div>
             )}
-            <Modals
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                ariaHideApp={false}
-                scrollable={true}
-            >
-                <div className="px-12 w-full">
-                    <div className="flex flex-col mt-4">
-                        <Slider {...settings}>
-                            {searchResults?.map((item) => (
-                                <div key={item?.id}>
-                                    <Section height={136} data={item} openModal={openModal} />
-                                    {/* <Modal isOpenModal={isModalOpen} closeModal={closeModal} data={searchResults} /> */}
-                                </div>
-                            ))}
-                        </Slider>
-                    </div>
-                </div>
-            </Modals>
+
         </div>
     )
 }

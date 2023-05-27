@@ -51,19 +51,19 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     data?.casts
                                         ?.slice(0, 5)
                                         ?.map((item, index) => (
-                                            <span key={item._id}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
+                                            <span key={item.id}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
                                         ))}
                             </div>
                             <div className=" text-white text-sm  my-[7px] mr-[7px]">
                                 <span className="text-[#777]">Thể loại: </span>
                                 {data?.genres?.map((item, index) => (
-                                    <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                                    <span key={item.id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                                 ))}
                             </div>
                             <div className="text-sm text-white my-[7px] mr-[7px]">
                                 <span className="text-[#777]">Chương trình này : </span>
                                 {data?.program_type?.map((item, index) => (
-                                    <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                                    <span key={item.id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                                 ))}
                             </div>
                         </div>
@@ -76,7 +76,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </div>
                         )}
                         {data?.episodes?.map((item, index) => (
-                            <Modalsection episodes={item} key={item?._id} index={index} />
+                            <Modalsection episodes={item} key={item?.id} index={index} />
                         ))}
                     </div>
 
@@ -148,20 +148,20 @@ const Modalcontainer = ({ data, closeModal }) => {
                         <div className="text-sm  ">
                             <span className="text-[#777777]">Diễn viên: </span>
                             {data?.casts?.map((item, index) => (
-                                <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                                <span key={item.id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                             ))}
                         </div>
 
                         <div className=" text-sm my-[7px] mr-[7px] w-full ">
                             <span className="text-[#777777]">Thể loại: </span>
                             {data?.genres?.map((item, index) => (
-                                <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                                <span key={item.id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                             ))}
                         </div>
                         <div className=" text-sm my-[7px] mr-[7px] ">
                             <span className="text-[#777777]">Chương trình này: </span>
                             {data?.program_type?.map((item, index) => (
-                                <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                                <span key={item.id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                             ))}
                         </div>
                         <div className="flex text-sm my-[7px] mr-[7px] ">

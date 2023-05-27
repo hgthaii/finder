@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
-import { Home, Public, Movies, Movieseris, Mylist } from './page/public'
+import { Home, Public, Movies, Movieseris, Mylist, Search } from './page/public'
 import HomePageAdmin from './page/dashboard/HomePageAdmin'
 import * as action from './store/actions'
 import { useDispatch } from 'react-redux'
@@ -24,6 +24,7 @@ function App() {
                     <Route path="movieseris" element={<Movieseris />} />
                     <Route path="mylist" element={<Mylist />} />
                     <Route path="home-admin" element={<HomePageAdmin />} />
+                    <Route path="search" element={<Search />} />
                 </Route>
             </Routes>
         </>

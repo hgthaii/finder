@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const Public = () => {
     return (
-        <div className="flex flex-col bg-[#1E1E1E] text-white">
+        <div className="flex flex-col bg-[#1E1E1E] text-white min-h-screen">
             <ToastContainer
                 position="bottom-left"
                 autoClose={5000}
