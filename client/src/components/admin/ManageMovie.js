@@ -286,31 +286,32 @@ export const ModalDeleteMovie = (props) => {
 export const ModalAddMovie = (props) => {
     const { open, handleCloseAdd } = props
             const [movieData, setMovieData] = useState({
-                title: '',
-                logo: '',
-                duration: '',
-                release_date: '',
-                overview: '',
-                trailer: '',
-                video: '',
-                poster_path: [],
-                genres: [],
+                title: 'Thái',
+                logo: 'asdasd',
+                duration: 'asdasd',
+                release_date: 'afdgfdhgf',
+                overview: 'dgsfdhg',
+                trailer: 'gjhkgjlkl',
+                video: 'gjhkgjlh;l',
+                poster_path: [{ path: 'https://image.tmdb.org/t/p/w500/rzRb63TldOKdKydCvWJM8B6EkPM.jpg' }],
+                genres: [{ name: 'Hàn Quốc' }],
                 episodes: [],
-                casts: [],
-                program_type: [],
+                casts: [{ name: 'Kim Woo Bin' }],
+                program_type: [{ name: 'Gai góc' }, { name: 'Đen tối' }],
                 creators: [],
                 age_rating: '',
                 item_genre: '',
             })
     const onAddMovie = async () => {
-
         try {
             const data = await axios.post('http://localhost:5000/api/v1/movies', movieData, {
                 withCredentials: true,
             })
+            console.log('data',data);
             console.log('oke' + JSON.stringify(data))
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            // throw new Error(error)
         }
         handleCloseAdd()
     }
@@ -328,7 +329,7 @@ export const ModalAddMovie = (props) => {
                     <form action="#">
                         <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                             <div className="sm:col-span-2">
-                                <label for="name" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
                                     Title
                                 </label>
                                 <input
@@ -341,25 +342,22 @@ export const ModalAddMovie = (props) => {
                                     required=""
                                 />
                             </div>
-                            <div class="sm:col-span-2">
-                                <label for="overview" class="block mb-2 text-sm font-medium ">
+                            <div className="sm:col-span-2">
+                                <label htmlFor="overview" className="block mb-2 text-sm font-medium ">
                                     Overview
                                 </label>
                                 <textarea
                                     id="overview"
                                     rows="4"
                                     onChange={(e) => setMovieData({ ...movieData, overview: e.target.value })}
-                                    class="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
+                                    value={movieData.overview}
+                                    className="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
                                     placeholder="Write a product description here..."
-                                >
-                                    Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost
-                                    up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory,
-                                    256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US
-                                </textarea>
+                                ></textarea>
                             </div>
 
                             <div className="w-full">
-                                <label for="duration" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="duration" className="block mb-2 text-sm font-medium ">
                                     Duration
                                 </label>
                                 <input
@@ -373,7 +371,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label for="release_date" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="release_date" className="block mb-2 text-sm font-medium ">
                                     Release Date
                                 </label>
                                 <input
@@ -387,7 +385,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label for="trailer" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="trailer" className="block mb-2 text-sm font-medium ">
                                     Trailer
                                 </label>
                                 <input
@@ -401,7 +399,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label for="video" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="video" className="block mb-2 text-sm font-medium ">
                                     Video
                                 </label>
                                 <input
@@ -415,7 +413,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="sm:col-span-2">
-                                <label for="name" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
                                     Logo
                                 </label>
                                 <input
@@ -429,7 +427,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label for="age_rating" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="age_rating" className="block mb-2 text-sm font-medium ">
                                     Age rating
                                 </label>
                                 <input
@@ -443,7 +441,7 @@ export const ModalAddMovie = (props) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label for="item_genre" className="block mb-2 text-sm font-medium ">
+                                <label htmlFor="item_genre" className="block mb-2 text-sm font-medium ">
                                     Item genre
                                 </label>
                                 <input

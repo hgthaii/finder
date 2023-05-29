@@ -1,6 +1,8 @@
 import responseHandler from '../handlers/response.handler.js'
 import genreModel from '../models/genre.model.js'
 import movieModel from '../models/movie.model.js'
+import castModel from '../models/cast.model.js'
+import qs from 'qs'
 
 const addGenres = async (req, res) => {
     try {
@@ -35,11 +37,11 @@ const getGenres = async (req, res) => {
 
 const search = async (req, res) => {
     try {
-        const { title } = req.query
-        if (!title || typeof title !== 'string' || title.trim() === '') {
+        const { search: searchQuery } = qs.parse(req.query, { delimiter: ' ' })
+        if (!searchQuery || typeof searchQuery !== 'string' || searchQuery.trim() === '') {
             return responseHandler.badrequest(res, 'Tiêu đề không hợp lệ.')
         }
-        const regex = new RegExp(title, 'i') // Tạo biểu thức chính quy
+        const regex = new RegExp(searchQuery, 'i') // Tạo biểu thức chính quy
 
         const query = {
             $or: [
@@ -49,16 +51,39 @@ const search = async (req, res) => {
             ],
         }
 
-        const checkTitle = await movieModel.find(query)
-        if (!checkTitle) {
+        let noResultsCount = 0 // Biến đếm số lượng model không có kết quả
+
+        const movieQuery = movieModel.find(query)
+        const genreQuery = genreModel.find(query)
+        const castQuery = castModel.find(query)
+
+        const [movies, genres, casts] = await Promise.all([movieQuery, genreQuery, castQuery])
+
+        if (movies.length === 0) {
+            noResultsCount++
+        }
+
+        if (genres.length === 0) {
+            noResultsCount++
+        }
+
+        if (casts.length === 0) {
+            noResultsCount++
+        }
+
+        if (noResultsCount === 3) {
             return responseHandler.badrequest(res, 'Không tìm thấy phim hoặc thể loại liên quan')
         }
 
-        responseHandler.ok(res, checkTitle)
+        const searchData = [...movies, ...genres, ...casts]
+
+        responseHandler.ok(res, searchData)
     } catch (error) {
         console.error(error)
         responseHandler.error(res, 'Tìm kiếm thất bại!')
     }
 }
+
+
 
 export default { getGenres, search, addGenres }

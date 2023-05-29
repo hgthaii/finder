@@ -64,7 +64,7 @@ router.post(
     body('casts').exists().withMessage('casts is required'),
     body('program_type').exists().withMessage('program_type is required'),
     body('age_rating').exists().withMessage('age_rating is required'),
-    body('creators').exists().withMessage('creators is required'),
+    // body('creators').exists().withMessage('creators is required'),
     body('item_genre').exists().withMessage('item_genre is required'),
     tokenMiddleware.auth,
     tokenMiddleware.verifyTokenAndRefresh,
