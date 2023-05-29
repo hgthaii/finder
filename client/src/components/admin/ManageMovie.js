@@ -120,7 +120,7 @@ const ManageMovie = () => {
         [],
     )
     const { movies } = useSelector((state) => state.app)
-    
+
     const [openDelete, setOpenDelete] = React.useState(false)
     const handleOpenDelete = () => {
         setOpenDelete(true)
@@ -163,7 +163,7 @@ const ManageMovie = () => {
                         Delete movie
                     </button>
                 </div>
-                <Modal
+                {/* <Modal
                     open={openAdd}
                     onClose={handleCloseAdd}
                     aria-labelledby="parent-modal-title"
@@ -172,7 +172,8 @@ const ManageMovie = () => {
                     <Box sx={style}>
                         <ModalAddMovie onClose={handleCloseAdd} />
                     </Box>
-                </Modal>
+                </Modal> */}
+                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd} />
                 <Modal
                     open={openDelete}
                     onClose={handleCloseDelete}
@@ -282,235 +283,216 @@ export const ModalDeleteMovie = (props) => {
     )
 }
 
-export const ModalAddMovie = ({ onClose, setIsLoading }) => {
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState()
-    const [displayName, setDisplayName] = useState()
-
-    const onAddUser = async () => {
-        try {
-            setIsLoading(true)
-            await axios.post('http://localhost:5000/api/v1/user/signup', {
-                username,
-                password,
-                confirmPassword,
-                displayName,
+export const ModalAddMovie = (props) => {
+    const { open, handleCloseAdd } = props
+            const [movieData, setMovieData] = useState({
+                title: '',
+                logo: '',
+                duration: '',
+                release_date: '',
+                overview: '',
+                trailer: '',
+                video: '',
+                poster_path: [],
+                genres: [],
+                episodes: [],
+                casts: [],
+                program_type: [],
+                creators: [],
+                age_rating: '',
+                item_genre: '',
             })
-            toast.success('Added user successfully!')
-            setIsLoading(false)
+    const onAddMovie = async () => {
+
+        try {
+            const data = await axios.post('http://localhost:5000/api/v1/movies', movieData, {
+                withCredentials: true,
+            })
+            console.log('oke' + JSON.stringify(data))
         } catch (error) {
-            setIsLoading(false)
-            if (error.response) {
-                toast.error(error.response.data.message)
-            } else {
-                console.log(error)
-            }
+            console.log(error)
         }
-        onClose()
+        handleCloseAdd()
     }
-    const onChangeUsername = (event) => {
-        const value = event.target.value
-        setUsername(value)
-    }
-    const onChangePass = (event) => {
-        const value = event.target.value
-        setPassword(value)
-    }
-    const onChangeConfirmPass = (event) => {
-        const value = event.target.value
-        setConfirmPassword(value)
-    }
-    const onChangeDisplayName = (event) => {
-        const value = event.target.value
-        setDisplayName(value)
-    }
+
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            onAddUser()
+            onAddMovie()
         }
     }
     return (
-        <section className="bg-[#1E1E1E] text-white">
-            <div className="px-4 py-8 mx-auto lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add Movie</h2>
-                <form action="#">
-                    <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-                        <div className="sm:col-span-2">
-                            <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Title
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple iMac 27&ldquo;"
-                                placeholder="Type product name"
-                                required=""
-                            />
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label for="overview" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Overview
-                            </label>
-                            <textarea
-                                id="overview"
-                                rows="4"
-                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Write a product description here..."
-                            >
-                                Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to
-                                5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD
-                                storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US
-                            </textarea>
-                        </div>
+        <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseAdd}>
+            <DialogTitle>Add movie</DialogTitle>
+            <section>
+                <div className="px-6 mx-auto">
+                    <form action="#">
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                            <div className="sm:col-span-2">
+                                <label for="name" className="block mb-2 text-sm font-medium ">
+                                    Title
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, title: e.target.value })}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label for="overview" class="block mb-2 text-sm font-medium ">
+                                    Overview
+                                </label>
+                                <textarea
+                                    id="overview"
+                                    rows="4"
+                                    onChange={(e) => setMovieData({ ...movieData, overview: e.target.value })}
+                                    class="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
+                                    placeholder="Write a product description here..."
+                                >
+                                    Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost
+                                    up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory,
+                                    256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US
+                                </textarea>
+                            </div>
 
-                        <div className="w-full">
-                            <label
-                                for="duration"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            <div className="w-full">
+                                <label for="duration" className="block mb-2 text-sm font-medium ">
+                                    Duration
+                                </label>
+                                <input
+                                    type="text"
+                                    name="duration"
+                                    id="duration"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, duration: e.target.value })}
+                                    placeholder="Enter duration"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label for="release_date" className="block mb-2 text-sm font-medium ">
+                                    Release Date
+                                </label>
+                                <input
+                                    type="text"
+                                    name="release_date"
+                                    id="release_date"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, release_date: e.target.value })}
+                                    placeholder="$299"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label for="trailer" className="block mb-2 text-sm font-medium ">
+                                    Trailer
+                                </label>
+                                <input
+                                    type="text"
+                                    name="trailer"
+                                    id="trailer"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, trailer: e.target.value })}
+                                    placeholder="Enter trailer"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label for="video" className="block mb-2 text-sm font-medium ">
+                                    Video
+                                </label>
+                                <input
+                                    type="text"
+                                    name="video"
+                                    id="video"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, video: e.target.value })}
+                                    placeholder="$299"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label for="name" className="block mb-2 text-sm font-medium ">
+                                    Logo
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, logo: e.target.value })}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label for="age_rating" className="block mb-2 text-sm font-medium ">
+                                    Age rating
+                                </label>
+                                <input
+                                    type="text"
+                                    name="age_rating"
+                                    id="age_rating"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, age_rating: e.target.value })}
+                                    placeholder="Enter age rating"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label for="item_genre" className="block mb-2 text-sm font-medium ">
+                                    Item genre
+                                </label>
+                                <input
+                                    type="text"
+                                    name="item_genre"
+                                    id="item_genre"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieData({ ...movieData, item_genre: e.target.value })}
+                                    placeholder="$299"
+                                    required=""
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <button
+                                onClick={onAddMovie}
+                                type="button"
+                                className="text-black bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
-                                Duration
-                            </label>
-                            <input
-                                type="text"
-                                name="duration"
-                                id="duration"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple"
-                                placeholder="Enter duration"
-                                required=""
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label
-                                for="release_date"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                Update product
+                            </button>
+                            <button
+                                type="button"
+                                className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                             >
-                                Release Date
-                            </label>
-                            <input
-                                type="text"
-                                name="release_date"
-                                id="release_date"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="2999"
-                                placeholder="$299"
-                                required=""
-                            />
+                                <svg
+                                    className="w-5 h-5 mr-1 -ml-1"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                                Delete
+                            </button>
                         </div>
-                        <div className="w-full">
-                            <label
-                                for="trailer"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Trailer
-                            </label>
-                            <input
-                                type="text"
-                                name="trailer"
-                                id="trailer"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple"
-                                placeholder="Enter trailer"
-                                required=""
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label for="video" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Video
-                            </label>
-                            <input
-                                type="text"
-                                name="video"
-                                id="video"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="2999"
-                                placeholder="$299"
-                                required=""
-                            />
-                        </div>
-                        <div className="sm:col-span-2">
-                            <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Logo
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple iMac 27&ldquo;"
-                                placeholder="Type product name"
-                                required=""
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label
-                                for="age_rating"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Age rating
-                            </label>
-                            <input
-                                type="text"
-                                name="age_rating"
-                                id="age_rating"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple"
-                                placeholder="Enter age rating"
-                                required=""
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label for="item_genre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Item genre
-                            </label>
-                            <input
-                                type="text"
-                                name="item_genre"
-                                id="item_genre"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="2999"
-                                placeholder="$299"
-                                required=""
-                            />
-                        </div>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                        <button
-                            type="button"
-                            className="text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                        >
-                            Update product
-                        </button>
-                        <button
-                            type="button"
-                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                        >
-                            <svg
-                                className="w-5 h-5 mr-1 -ml-1"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            Delete
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
+                    </form>
+                </div>
+            </section>
+        </Dialog>
     )
 }
 
 export const DialogMovieDetail = (props) => {
-    const {open, handleClose, detail} = props;
+    const { open, handleClose, detail } = props
     const renderRow = ({ index, style }) => {
         const episode = detail?.episodes[index]
 
