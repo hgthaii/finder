@@ -57,11 +57,7 @@ const ManageUser = () => {
                     const response = await axios.get('http://localhost:5000/api/v1/user/info', {
                         withCredentials: true,
                     })
-                    // const { accessToken } = response.cookie
-                    console.log(response)
-                    // axios.defaults.withCredentials = true //cho phép lấy cookie từ server
 
-                    console.log('oke123' + JSON.stringify(response))
                     setUsers(response.data)
                     setMainUsers(response.data)
                 } catch (error) {
@@ -137,7 +133,6 @@ const ManageUser = () => {
         setDisplay(selectRowData.displayName)
         setRole(selectRowData.roles)
 
-        console.log(selectRowData)
         setDisable(selectRowData.length === 0)
     }
 
@@ -156,7 +151,9 @@ const ManageUser = () => {
                 {
                     displayName,
                 },
-                config,
+                {
+                    withCredentials: true,
+                },
             )
             if (request) {
                 setUsers(request.data)
@@ -313,7 +310,9 @@ export const ModalDeleteUser = (props) => {
                 },
             }
             const requests = userIds.map((userId) =>
-                axios.delete(`http://localhost:5000/api/v1/user/${userId.id}`, config),
+                axios.delete(`http://localhost:5000/api/v1/user/${userId.id}`, {
+                    withCredentials: true,
+                }),
             )
 
             const responses = await Promise.all(requests)
@@ -455,8 +454,6 @@ export const ModalUpdateUser = (props) => {
     const { userIds, setIsLoading, onClose, display, role } = props
     const [displayName, setDisplayName] = useState()
     const [roles, setRoles] = useState('')
-    console.log(display)
-    console.log(role)
 
     const onUpdateUser = async () => {
         try {
@@ -472,7 +469,9 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`http://localhost:5000/api/v1/user/info/${userId.id}`, data, config),
+                axios.put(`http://localhost:5000/api/v1/user/info/${userId.id}`, data, {
+                    withCredentials: true,
+                }),
             )
             const responses = await Promise.all(requests)
 

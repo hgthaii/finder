@@ -200,8 +200,12 @@ const HomePageAdmin = () => {
     }
 
     // const name = JSON.parse(localStorage.getItem("infor"));
-    const name = cookies['accessToken']
-
+    const accessToken = cookies['accessToken']
+    const tokenParts = accessToken.split('.')
+    const encodedPayload = tokenParts[1]
+    const decodedPayload = atob(encodedPayload)
+    const payloadObj = JSON.parse(decodedPayload)
+    const name = payloadObj.infor;
     const handleLogout = () => {
         removeCookie('accessToken')
         removeCookie('refreshToken')
@@ -359,11 +363,19 @@ export const ModalProfile = () => {
         const year = `${date.getFullYear()}`
         return `${day}-${month}-${year}`
     }
-    const inforRole = JSON.parse(localStorage.getItem('role'))
-    const infor = JSON.parse(localStorage.getItem('infor'))
+    const tokenBody = localStorage.getItem('token').split('.')[1]
 
-    const formattedDateCreated = formatDate(infor.createdAt)
-    const formattedDateUpdated = formatDate(infor.updatedAt)
+    // Giai ma body voi base64
+    const decodedTokenBody = atob(tokenBody)
+
+    // Giai ma cac phan tu JSON cua body
+    const parsedTokenBody = JSON.parse(decodedTokenBody)
+    console.log('first' + parsedTokenBody.roles)
+    const inforRole = parsedTokenBody.roles
+    const infor = parsedTokenBody.infor
+
+    const formattedDateCreated = formatDate(infor?.createdAt)
+    const formattedDateUpdated = formatDate(infor?.updatedAt)
 
     const [displayName, setDisplayName] = React.useState()
     const onChangeName = (event) => {
@@ -372,17 +384,16 @@ export const ModalProfile = () => {
     }
     const onChangeDisplayName = async () => {
         try {
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bear ${token}`,
+            const request = await axios.put(
+                'http://localhost:5000/api/v1/user/update-profile',
+                { displayName },
+                {
+                    withCredentials: true,
                 },
-            }
-            const request = await axios.put('http://localhost:5000/api/v1/user/update-profile', { displayName }, config)
-            // console.log(request);
+            )
             toast.success(request.data.message)
 
-            window.location.reload()
+            // window.location.reload()
         } catch (error) {
             if (error.response) {
                 toast.error(error.response.data.message)
@@ -410,12 +421,7 @@ export const ModalProfile = () => {
     }
     const onChangePassword = async () => {
         try {
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bear ${token}`,
-                },
-            }
+
             const request = await axios.put(
                 'http://localhost:5000/api/v1/user/update-password',
                 {
@@ -423,7 +429,9 @@ export const ModalProfile = () => {
                     newPassword,
                     confirmNewPassword,
                 },
-                config,
+                {
+                    withCredentials: true,
+                },
             )
             toast.success(request.data.message)
         } catch (error) {
@@ -449,13 +457,13 @@ export const ModalProfile = () => {
                     <TabPanel value={value} index={0}>
                         <div className="grid grid-cols-2 gap-4">
                             <label>
-                                <strong>ID:</strong> {infor.id}
+                                <strong>ID:</strong> {infor?.id}
                             </label>
                             <label>
-                                <strong>DISPLAY NAME:</strong> {infor.displayName}
+                                <strong>DISPLAY NAME:</strong> {infor?.displayName}
                             </label>
                             <label>
-                                <strong>USERNAME:</strong> {infor.username}
+                                <strong>USERNAME:</strong> {infor?.username}
                             </label>
                             <label>
                                 <strong>ROLE:</strong> {inforRole}
