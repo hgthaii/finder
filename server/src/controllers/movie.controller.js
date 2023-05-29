@@ -204,25 +204,27 @@ const updateMovie = async (req, res) => {
         const movie = await movieModel.findById(movieId)
         if (!movie) return responseHandler.notfound(res, 'Không tìm thấy phim trong hệ thống.')
 
-        const genresParse = JSON.parse(genres)
-        const castParse = JSON.parse(casts)
-        const posterParse = JSON.parse(poster_path)
-        const episodesParse = JSON.parse(episodes)
-        const programParse = JSON.parse(program_type)
-        const creatorsParse = JSON.parse(creators)
+        const cleanField = (field) => (typeof field === 'string' ? JSON.parse(field.replace(/\\/g, '')) : field)
+
+        const genreParse = cleanField(genres)
+        const episodesParse = cleanField(episodes)
+        const castsParse = cleanField(casts)
+        const program_typeParse = cleanField(program_type)
+        const poster_pathParse = cleanField(poster_path)
+        const creatorsParse = cleanField(creators)
 
         movie.title = title
         movie.logo = logo
         movie.duration = duration
         movie.release_date = release_date
-        movie.poster_path = posterParse
+        movie.poster_path = poster_pathParse
         movie.overview = overview
         movie.trailer = trailer
         movie.video = video
-        movie.genres = genresParse
+        movie.genres = genreParse
         movie.episodes = episodesParse
-        movie.casts = castParse
-        movie.program_type = programParse
+        movie.casts = castsParse
+        movie.program_type = program_typeParse
         movie.age_rating = age_rating
         movie.creators = creatorsParse
         movie.item_genre = item_genre
