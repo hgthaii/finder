@@ -70,7 +70,8 @@ const getAllCommentOfFilm = async (req, res) => {
 
 const editComment = async (req, res) => {
     try {
-        const { commentId, content } = req.body
+        const { commentId } = req.params
+        const { content } = req.body
         if (!commentId) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
         const userId = await userModel.findById(tokenDecoded.infor.id)
@@ -89,11 +90,53 @@ const editComment = async (req, res) => {
     }
 }
 
+const editReplyComment = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        const { content } = req.body
+        if (!commentId) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const userId = await userModel.findById(tokenDecoded.infor.id)
+        if (!userId) return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+
+        const checkComment = await commentModel.findOne({ 'replies._id': commentId })
+
+        if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+
+        let foundReply = null
+
+        for (let i = 0; i < checkComment.replies.length; i++) {
+            if (checkComment.replies[i]._id.toString() === commentId) {
+                foundReply = checkComment.replies[i]
+                break
+            }
+        }
+
+        foundReply.content = content || foundReply.content
+        await checkComment.save()
+
+        responseHandler.ok(res, checkComment)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Chỉnh sửa comment không thành công.')
+    }
+}
+
 const deleteComment = async (req, res) => {
     try {
         const { commentId } = req.params
-        const checkComment = await commentModel.findByIdAndDelete(commentId)
-        if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        const userId = tokenMiddleware.tokenDecode(req).infor.id
+        const checkComment = await commentModel.findById(commentId)
+
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        if (checkComment.userId.toString() !== userId) {
+            return responseHandler.badrequest(res, 'Bạn không có quyền xoá bình luận này!')
+        }
+
+        await commentModel.findByIdAndDelete(commentId)
 
         responseHandler.ok(res, {
             statusCode: 200,
@@ -101,8 +144,395 @@ const deleteComment = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        responseHandler.error(res, 'Xoá comment không thành công.')
+        responseHandler.error(res, 'Xoá bình luận không thành công.')
     }
 }
 
-export default { createComment, editComment, deleteComment, getAllCommentOfFilm }
+const deleteReplyComment = async (req, res) => {
+    try {
+        const { commentId, replyId } = req.params
+        const userId = tokenMiddleware.tokenDecode(req).infor.id
+        const checkUser = await userModel.findById(userId)
+        if (!checkUser) return responseHandler.badrequest(res, 'User không tồn tại!')
+
+        const checkComment = await commentModel.findById(commentId)
+        if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+
+        const replyIndex = checkComment.replies.findIndex((reply) => reply._id.toString() === replyId)
+        if (replyIndex === -1) return responseHandler.badrequest(res, 'Bình luận phản hồi không tồn tại!')
+
+        // Kiểm tra xem userId của bình luận phản hồi có bằng với userId hiện tại không
+        if (checkComment.replies[replyIndex].userId.toString() === userId) {
+            checkComment.replies.splice(replyIndex, 1)
+            await checkComment.save()
+            responseHandler.ok(res, {
+                statusCode: 200,
+                message: 'Xoá bình luận phản hồi thành công!',
+            })
+        } else {
+            responseHandler.badrequest(res, 'Bạn không có quyền xoá bình luận phản hồi này!')
+        }
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Xoá bình luận phản hồi không thành công.')
+    }
+}
+
+const likeComment = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const { likedIcon } = req.body
+        const userId = tokenDecoded.infor.id
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findById(commentId),
+        ])
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        const likedByUser = checkComment.likes.some((like) => like.userId === userId)
+
+        if (likedByUser) {
+            return responseHandler.badrequest(res, 'Bạn đã thích bình luận này trước đó!')
+        }
+
+        // Kiểm tra tính hợp lệ của icon
+        const isValidIcon = [1100, 1101, 1102, 1103, 1104, 1105].includes(Number(likedIcon))
+        if (!isValidIcon) {
+            return responseHandler.badrequest(res, 'Icon không hợp lệ!')
+        }
+
+        // Thêm lượt thích mới vào danh sách likes
+        checkComment.likes.push({ userId, likedIcon })
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Thích bình luận thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Thích bình luận không thành công!')
+    }
+}
+
+const likeReplyComment = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const { likedIcon } = req.body
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findOne({ 'replies._id': commentId }).select('replies'),
+        ])
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        let foundReply = null
+
+        for (let i = 0; i < checkComment.replies.length; i++) {
+            if (checkComment.replies[i]._id.toString() === commentId) {
+                foundReply = checkComment.replies[i]
+                break
+            }
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        let foundUserId = null
+        for (let i = 0; i < foundReply.likes.length; i++) {
+            if (foundReply.likes[i].userId === userId) {
+                foundUserId = foundReply.likes[i]
+                break
+            }
+        }
+
+        if (foundUserId !== null) {
+            return responseHandler.badrequest(res, 'Bạn đã thích bình luận này trước đó!')
+        }
+
+        // Kiểm tra tính hợp lệ của icon
+        const isValidIcon = [1100, 1101, 1102, 1103, 1104, 1105].includes(Number(likedIcon))
+        if (!isValidIcon) {
+            return responseHandler.badrequest(res, 'Icon không hợp lệ!')
+        }
+
+        // Thêm lượt thích mới vào danh sách likes
+        foundReply.likes.push({ userId, likedIcon })
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Thích bình luận thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Thích bình luận không thành công!')
+    }
+}
+
+const unlikeComment = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findById(commentId),
+        ])
+
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        const likedByUser = checkComment.likes.some((like) => like.userId.toString() === userId)
+        if (!likedByUser) {
+            return responseHandler.badrequest(res, 'Người dùng chưa thích bình luận này!')
+        }
+
+        // Xoá lượt thích của người dùng khỏi danh sách likes
+        checkComment.likes = checkComment.likes.filter((like) => {
+            return !(like.userId.toString() === userId)
+        })
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Bỏ thích bình luận thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Bỏ thích bình luận không thành công!')
+    }
+}
+
+const unlikeReplyComment = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findOne({ 'replies._id': commentId }).select('replies'),
+        ])
+
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        let foundReply = null
+
+        for (let i = 0; i < checkComment.replies.length; i++) {
+            if (checkComment.replies[i]._id.toString() === commentId) {
+                foundReply = checkComment.replies[i]
+                break
+            }
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        let foundUserId = null
+        for (let i = 0; i < foundReply.likes.length; i++) {
+            if (foundReply.likes[i].userId === userId) {
+                foundUserId = foundReply.likes[i]
+                break
+            }
+        }
+
+        if (foundUserId === null) {
+            return responseHandler.badrequest(res, 'Bạn chưa thích bình luận này!')
+        }
+
+        // Xoá lượt thích của người dùng khỏi danh sách likes
+        foundReply.likes = foundReply.likes.filter((like) => {
+            return !(like.userId === userId)
+        })
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Bỏ thích bình luận thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Bỏ thích bình luận không thành công!')
+    }
+}
+
+const changeLikedIcon = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const { newLikedIcon } = req.body
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findById(commentId),
+        ])
+
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        const likedByUser = checkComment.likes.find((like) => like.userId.toString() === userId)
+        if (!likedByUser) {
+            return responseHandler.badrequest(res, 'Người dùng chưa thích bình luận này!')
+        }
+
+        // Kiểm tra tính hợp lệ của icon mới
+        const isValidNewIcon = [1100, 1101, 1102, 1103, 1104, 1105].includes(Number(newLikedIcon))
+        if (!isValidNewIcon) {
+            return responseHandler.badrequest(res, 'Icon mới không hợp lệ!')
+        }
+        // Thay đổi icon trong lượt thích của người dùng
+        likedByUser.likedIcon = newLikedIcon
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Thay đổi icon thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Thay đổi icon không thành công!')
+    }
+}
+
+const changeLikedReplyIcon = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const { newLikedIcon } = req.body
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findOne({ 'replies._id': commentId }).select('replies'),
+        ])
+
+        if (!checkUser) {
+            return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        }
+        if (!checkComment) {
+            return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+        }
+
+        let foundReply = null
+
+        for (let i = 0; i < checkComment.replies.length; i++) {
+            if (checkComment.replies[i]._id.toString() === commentId) {
+                foundReply = checkComment.replies[i]
+                break
+            }
+        }
+
+        // Kiểm tra xem người dùng đã thích bình luận này trước đó chưa
+        let foundUserId = null
+        for (let i = 0; i < foundReply.likes.length; i++) {
+            if (foundReply.likes[i].userId === userId) {
+                foundUserId = foundReply.likes[i]
+                break
+            }
+        }
+
+        if (foundUserId === null) {
+            return responseHandler.badrequest(res, 'Bạn chưa thích bình luận này!')
+        }
+
+        // Kiểm tra tính hợp lệ của icon mới
+        const isValidNewIcon = [1100, 1101, 1102, 1103, 1104, 1105].includes(Number(newLikedIcon))
+        if (!isValidNewIcon) {
+            return responseHandler.badrequest(res, 'Icon mới không hợp lệ!')
+        }
+        // Thay đổi icon trong lượt thích của người dùng
+        foundUserId.likedIcon = newLikedIcon
+
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Thay đổi icon thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Thay đổi icon không thành công!')
+    }
+}
+
+const replyToComment = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const { commentId } = req.params
+        const { content } = req.body
+        const userId = tokenDecoded.infor.id
+
+        const [checkUser, checkComment] = await Promise.all([
+            userModel.findById(userId),
+            commentModel.findById(commentId),
+        ])
+
+        if (!checkUser) return responseHandler.badrequest(res, 'Người dùng không tồn tại!')
+        if (!checkComment) return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
+
+        const reply = {
+            content: content,
+            userId: userId,
+        }
+
+        checkComment.replies.push(reply)
+        await checkComment.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Phản hồi bình luận thành công!',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Reply không thành công.')
+    }
+}
+
+export default {
+    createComment,
+    editComment,
+    deleteComment,
+    getAllCommentOfFilm,
+    likeComment,
+    replyToComment,
+    unlikeComment,
+    unlikeReplyComment,
+    changeLikedIcon,
+    likeReplyComment,
+    changeLikedReplyIcon,
+    editReplyComment,
+    deleteReplyComment,
+}

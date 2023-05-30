@@ -33,9 +33,82 @@ router.post(
     commentController.createComment,
 )
 
-router.put('/comments', tokenMiddleware.verifyTokenAndRefresh, commentController.editComment)
+router.put(
+    '/comments/:commentId/like',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.likeComment,
+)
 
-router.delete('/comments/:commentId', tokenMiddleware.verifyTokenAndRefresh, commentController.deleteComment)
+router.put(
+    '/comments/:commentId/like/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.likeReplyComment,
+)
+
+router.put(
+    '/comments/:commentId/unlike',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.unlikeComment,
+)
+
+router.put(
+    '/comments/:commentId/unlike/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.unlikeReplyComment,
+)
+
+router.put(
+    '/comments/:commentId/change-liked',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.changeLikedIcon,
+)
+
+router.put(
+    '/comments/:commentId/change-liked/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.changeLikedReplyIcon,
+)
+
+router.post(
+    '/comments/:commentId/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.replyToComment,
+)
+
+router.put(
+    '/comments/:commentId/edit',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.editComment,
+)
+
+router.put(
+    '/comments/:commentId/edit/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.editReplyComment,
+)
+
+router.delete(
+    '/comments/:commentId/delete',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.deleteComment,
+)
+
+router.delete(
+    '/comments/:commentId/delete/:replyId/reply',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    commentController.deleteReplyComment,
+)
 
 router.put(
     '/:movieId',

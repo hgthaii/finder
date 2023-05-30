@@ -84,6 +84,4 @@ const search = async (req, res) => {
     }
 }
 
-
-
 export default { getGenres, search, addGenres }

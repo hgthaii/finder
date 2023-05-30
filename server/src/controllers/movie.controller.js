@@ -22,31 +22,31 @@ const createMovie = async (req, res) => {
             age_rating,
             creators,
             item_genre,
-        } = req.body;
+        } = req.body
 
-        const checkTitle = await movieModel.findOne({ title });
-        if (checkTitle) return responseHandler.badrequest(res, 'Phim đã tồn tại trong hệ thống!');
+        const checkTitle = await movieModel.findOne({ title })
+        if (checkTitle) return responseHandler.badrequest(res, 'Phim đã tồn tại trong hệ thống!')
 
         const cleanField = (field) => (typeof field === 'string' ? JSON.parse(field.replace(/\\/g, '')) : field)
-        
-        const genreParse = cleanField(genres);
-        const episodesParse = cleanField(episodes);
-        const castsParse = cleanField(casts);
-        const program_typeParse = cleanField(program_type);
-        const poster_pathParse = cleanField(poster_path);
-        const creatorsParse = cleanField(creators);
 
-        const names = genreParse.map((genre) => genre.name);
+        const genreParse = cleanField(genres)
+        const episodesParse = cleanField(episodes)
+        const castsParse = cleanField(casts)
+        const program_typeParse = cleanField(program_type)
+        const poster_pathParse = cleanField(poster_path)
+        const creatorsParse = cleanField(creators)
 
-        console.log(names);
-        
+        const names = genreParse.map((genre) => genre.name)
+
+        console.log(names)
+
         const getName = await Promise.all(
             names.map(async (name) => {
-                const checkName = await genreModel.findOne({ name }).lean();
-                if (!checkName) throw new Error(`Không tìm thấy thể loại trong DB.`);
-                return checkName;
-            })
-        );
+                const checkName = await genreModel.findOne({ name }).lean()
+                if (!checkName) throw new Error(`Không tìm thấy thể loại trong DB.`)
+                return checkName
+            }),
+        )
 
         const movie = await new movieModel({
             title,
@@ -64,20 +64,18 @@ const createMovie = async (req, res) => {
             age_rating,
             creators: creatorsParse,
             item_genre,
-        });
+        })
 
-        await movie.save();
+        await movie.save()
 
         responseHandler.created(res, {
             ...movie._doc,
-        });
+        })
     } catch (error) {
-        console.log(error);
-        responseHandler.error(res, 'Thêm phim thất bại.');
+        console.log(error)
+        responseHandler.error(res, 'Thêm phim thất bại.')
     }
-};
-
-
+}
 
 // Xóa một bộ phim
 const deleteMovie = async (req, res) => {
@@ -148,7 +146,7 @@ const searchMovieByGenre = async (req, res) => {
         }
         responseHandler.ok(res, checkGenre)
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Lấy danh sách phim không thành công!')
     }
 }

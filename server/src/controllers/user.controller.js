@@ -172,7 +172,7 @@ const updatePassword = async (req, res) => {
             message: 'Đổi mật khẩu thành công!',
         })
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Đổi mật khẩu không thành công!')
     }
 }

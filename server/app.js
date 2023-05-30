@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser"
 import "dotenv/config"
 import routes from "./src/routes/index.js"
 import {Server} from 'socket.io'
-import commentModel from './src/models/comment.model.js'
 
 const app = express()
 
