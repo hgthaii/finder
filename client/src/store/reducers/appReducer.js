@@ -3,7 +3,9 @@ import actionType from '../actions/actionType'
 const initState = {
     movies: [],
     radomMovies: [],
-    searchData: []
+    searchData: [],
+    genreData: [],
+    detailsMovies: []
 }
 
 const appReducer = (state = initState, action) => {
@@ -22,6 +24,16 @@ const appReducer = (state = initState, action) => {
             return {
                 ...state,
                 searchData: action.data || [],
+            }
+        case actionType.GENRES:
+            return {
+                ...state,
+                genreData: action.data || [],
+            }
+        case actionType.DETAI_MOVIES:
+            return {
+                ...state,
+                detailsMovies: action || [],
             }
         default:
             return state

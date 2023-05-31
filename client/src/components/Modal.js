@@ -27,6 +27,7 @@ const Modal = ({ isOpenModal, closeModal, data }) => {
             backgroundColor: 'transparent',
         },
     }
+    console.log('re-render');
     return (
         <Modals
             isOpen={isOpenModal}
@@ -37,7 +38,7 @@ const Modal = ({ isOpenModal, closeModal, data }) => {
         >
             <div className="animate-scaleUp ">
                 <div className="relative min-w-[850px] flex items-center justify-center mt-[30px] z-50  ">
-                    <Modalcontainer data={data} closeModal={closeModal} />
+                    <Modalcontainer data={data} />
                 </div>
             </div>
         </Modals>
