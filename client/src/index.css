@@ -61,3 +61,7 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+.slick-next::before,.slick-prev::before {
+  font-size: 30px !important;
+}

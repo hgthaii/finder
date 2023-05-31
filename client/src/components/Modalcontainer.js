@@ -1,25 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modalsection, Banner, Modalcard } from './'
 import icons from '../ultis/icons'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import * as actions from '../store/actions'
+import { useNavigate } from 'react-router-dom'
+
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
-
     const { AiOutlineClose } = icons
+    const navigate = useNavigate()
+    const [genre, setGenre] = useState([]);
+    const idGenre = data?.genres[0].id
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/v1/movies/genre/${idGenre}`)
+                if (response.status === 200) {
+                    setGenre(response.data)
+                }
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+
+        fetchData()
+    }, [idGenre])
 
     return (
         <div className=" bg-[#181818] text-white rounded-lg ">
             <div className="max-w-[850px] w-full ">
                 <div className="relative ">
                     <Banner banerModal data={data} />
-                    <button onClick={closeModal} className="absolute top-[20px] right-[20px] cursor-pointer  ">
+                    <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer  ">
                         <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                             {' '}
                             <AiOutlineClose size={25} color="white" />
                         </span>
                     </button>
                 </div>
+
                 <div className="px-12">
                     <div className="flex">
                         <div className="w-[70%] flex flex-col ">
@@ -83,27 +107,16 @@ const Modalcontainer = ({ data, closeModal }) => {
                     <div className="">
                         <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
                         <div className="flex flex-wrap w-full gap-3">
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <Modalcard />
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%]">
-                                <Modalcard />
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%]">
-                                <Modalcard />
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%]">
-                                <Modalcard />
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%]">
-                                <Modalcard />
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%]">
-                                <Modalcard />
-                            </div>
+                            {genre && genre.map((item) => (
+                                <div key={item.id} className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
+                                    <Modalcard data={item} />
+                                </div>
+                            ))}
+
+
                         </div>
                     </div>
-                    <div className="">
+                    {/* <div className="">
                         <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Trailer & nội dung khác</h3>
 
                         <div className="flex flex-wrap w-full gap-3 text-white ">
@@ -138,7 +151,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex flex-col pb-[32px] w-full">
                         <div className="text-white mt-12 mb-5 text-2xl flex">
@@ -172,9 +185,12 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span> {`Phù hợp với độ tuổi từ ${data?.age_rating} trở lên`} </span>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+
     )
 }
 
