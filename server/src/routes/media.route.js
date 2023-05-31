@@ -4,6 +4,7 @@ import mediaController from '../controllers/media.controller.js'
 import requestHandler from '../handlers/request.handler.js'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import authorizeMiddleware from '../middlewares/authorize.middleware.js'
+import transportController from '../controllers/transport.controller.js'
 
 // MergeParams cho phép truyền các tham số của router cha xuống router con
 const router = express.Router({ mergeParams: true })
@@ -23,10 +24,9 @@ router.post(
     mediaController.addGenres,
 )
 
-// http://localhost:5000/api/v1/movie/550
-// router.get("/detail/:mediaId", mediaController.getDetail)
+// Gọi hàm gửi email
 
-// http://localhost:5000/api/v1/movie/popular
-// router.get("/:mediaCategory", mediaController.getList)
+
+router.post('/email', transportController.sendEmail)
 
 export default router

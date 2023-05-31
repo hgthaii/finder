@@ -292,6 +292,36 @@ const getRandomMovies = async (req, res) => {
     }
 }
 
+const episodeList = async (req, res) => {
+    try {
+        const { movieId } = req.params
+        let startIndex = req.session.startIndex || 0 // Lấy giá trị startIndex từ session, mặc định là 0 nếu không tồn tại
+        const checkMovie = await movieModel.findById(movieId)
+        if (!checkMovie) return responseHandler.badrequest(res, 'Không tìm thấy phim.')
+
+        const totalEpisodes = checkMovie.episodes.length
+        let endIndex = startIndex + 10
+
+        // Xử lý trường hợp endIndex vượt quá số lượng tập phim hiện có
+        if (endIndex > totalEpisodes) {
+            endIndex = totalEpisodes
+        }
+
+        const episodes = checkMovie.episodes.slice(startIndex, endIndex)
+
+        // Tăng startIndex lên 10 để chuẩn bị cho lần tiếp theo
+        startIndex += 10
+        req.session.startIndex = startIndex // Lưu giá trị mới của startIndex vào session
+
+        responseHandler.ok(res, episodes)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Hiển thị tập phim không thành công.')
+    }
+}
+
+
+
 export default {
     getAllMovies,
     getMovieById,
@@ -303,4 +333,5 @@ export default {
     updateMovie,
     incrementViews,
     getAllMovieByGenre,
+    episodeList,
 }
