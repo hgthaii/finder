@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { useState, useEffect } from 'react'
 
 export const apiMoviesRandom = () =>
     new Promise(async (resolve, reject) => {
@@ -25,17 +24,6 @@ export const top10Movies = () =>
             reject(error)
         }
     })
-
-export const apiShowMore = (movieId, startIndex) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await axios.get(`/movies/${movieId}/episodes?startIndex=${startIndex}`)
-            resolve(response)
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
 
 export const apiSearchMovies = (title) =>
     new Promise(async (resolve, reject) => {
