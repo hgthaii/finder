@@ -146,6 +146,8 @@ router.post(
     movieController.createMovie,
 )
 
+router.get('/:movieId/episodes', movieController.episodeList)
+
 router.delete(
     '/:filmId',
     tokenMiddleware.auth,
