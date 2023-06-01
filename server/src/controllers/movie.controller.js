@@ -331,10 +331,6 @@ const episodeList = async (req, res) => {
     }
 }
 
-
-
-
-
 export default {
     getAllMovies,
     getMovieById,
