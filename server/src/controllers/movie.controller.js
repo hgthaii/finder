@@ -113,7 +113,7 @@ const getMovieById = async (req, res) => {
         const movies = []
         const getMovie = await movieModel.find()
         for (const movie of getMovie) {
-            if (movie.id === movieId) {
+            if (movie._id === movieId) {
                 movies.push(movie)
             }
         }

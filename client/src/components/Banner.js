@@ -1,27 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react'
-import YouTube from 'react-youtube';
-
+import YouTube from 'react-youtube'
+import ReactPlayer from 'react-player'
 import icons from '../ultis/icons'
-import Modal from './Modal';
+import Modal from './Modal'
 
 const Banner = ({ banerModal, data, randomMovies }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle } = icons
-    const [showImage, setShowImage] = useState(false);
-    const playerRef = useRef(null);
+    const [showImage, setShowImage] = useState(false)
+    const playerRef = useRef(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isFullScreen, setIsFullScreen] = useState(false);
-    // 
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [isFullScreen, setIsFullScreen] = useState(false)
+    //
     const handlePlayFullScreen = () => {
-        setIsPlaying(true);
-        setIsFullScreen(true);
-    };
+        setIsPlaying(true)
+        setIsFullScreen(true)
+    }
 
     const handlePause = () => {
-        setIsPlaying(false);
-    };
-
+        setIsPlaying(false)
+    }
 
     const opt = {
         width: '100%',
@@ -31,15 +30,15 @@ const Banner = ({ banerModal, data, randomMovies }) => {
         },
     }
 
-    //   
+    //
     const handleVideoEnd = () => {
         // Dừng video
-        playerRef.current.internalPlayer.pauseVideo();
+        playerRef.current.internalPlayer.pauseVideo()
         // Xóa video
-        playerRef.current.internalPlayer.loadVideoById(null);
+        playerRef.current.internalPlayer.loadVideoById(null)
         // Hiển thị hình ảnh
-        setShowImage(true);
-    };
+        setShowImage(true)
+    }
 
     const openModal = (movies) => {
         setSelectedProduct(movies)
@@ -60,38 +59,39 @@ const Banner = ({ banerModal, data, randomMovies }) => {
             wmode: 'opaque',
             origin: 'https://localhost:3000',
         },
-    };
+    }
 
     const handleButtonClick = () => {
-        setIsFullScreen(true);
-    };
+        setIsFullScreen(true)
+    }
+
+    // Dữ liệu video từ MongoDB
+    const videoData = randomMovies?.video
+    // console.log(randomMovies)
+
+    console.log(videoData)
 
     return (
         <div className="relative ">
             <div>
-                <img
+                {/* <img
                     src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
                     alt="background"
                     className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'} `}
-                />
+                /> */}
                 <div className="bg-gradient-radial absolute top-0 bottom-0 left-0 right-0"></div>
+                {showImage ? (
+                    <img
+                        src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
+                        alt="background"
+                        className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'}`}
+                    />
+                ) : (
+                    // <div >
+                    <ReactPlayer url={videoData} playing width="100%" height="auto" />
+                    // </div>
+                )}
             </div>
-
-            {/* {showImage ? (
-                <img
-                    src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
-                    alt="background"
-                    className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'}`} />
-            ) : (
-                <YouTube
-                    videoId="pQh775SP_dA" opts={opts}
-                    onReady={(event) => {
-                        // Lưu trữ tham chiếu đến trình phát YouTube
-                        playerRef.current = event.target;
-                    }}
-                    onEnd={handleVideoEnd}
-                />
-            )} */}
 
             <div className="px-12 absolute top-0 left-0 bottom-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-transparent  text-white">
                 <div className="absolute top-[80px] pt-8 text-white">{/* phim h.hinh */}</div>
@@ -105,22 +105,20 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                         </p>
                         <div className="flex items-center">
                             <div>
-                                <button onClick={handleButtonClick} className="  flex items-center justify-center rounded-md bg-white text-black text-center font-semibold py-2 px-5 mr-2 ">
+                                <button
+                                    onClick={handleButtonClick}
+                                    className="  flex items-center justify-center rounded-md bg-white text-black text-center font-semibold py-2 px-5 mr-2 "
+                                >
                                     <BsFillPlayFill size={35} />
                                     Phát
                                 </button>
                                 <div>
                                     {isFullScreen && (
                                         <div className="video-wrapper">
-                                            <YouTube
-                                                videoId="pQh775SP_dA"
-                                                opts={opt}
-                                                playing={isPlaying}
-                                            />
+                                            <YouTube videoId="pQh775SP_dA" opts={opt} playing={isPlaying} />
                                         </div>
                                     )}
                                 </div>
-
                             </div>
 
                             {banerModal ? (
@@ -137,7 +135,10 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 </div>
                             ) : (
                                 <div>
-                                    <button onClick={() => openModal(randomMovies)} className=" gap-2  flex items-center justify-center rounded-md bg-transparent text-white text-center font-bold py-2 px-5 ml-2 border border-white">
+                                    <button
+                                        onClick={() => openModal(randomMovies)}
+                                        className=" gap-2  flex items-center justify-center rounded-md bg-transparent text-white text-center font-bold py-2 px-5 ml-2 border border-white"
+                                    >
                                         <AiOutlineExclamationCircle size={30} color="white" />
                                         Thông tin khác
                                     </button>

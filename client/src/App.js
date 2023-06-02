@@ -34,7 +34,6 @@ function App() {
                     <Route path="mylist" element={<Mylist />} />
                     <Route path="home-admin" element={<HomePageAdmin />} />
                     <Route path="search" element={<Search />} />
-
                 </Route>
             </Routes>
         </>

@@ -77,7 +77,6 @@ const Movies = () => {
                     slidesToScroll: 2,
                     initialSlide: 2,
                     dots: false,
-
                 },
             },
             {
@@ -86,7 +85,6 @@ const Movies = () => {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots: false,
-
                 },
             },
         ],
@@ -96,7 +94,6 @@ const Movies = () => {
         <div className="flex flex-col w-full ">
             <Banner randomMovies={randomMovies} />
             <div className="px-12 w-full">
-
                 <div className="flex flex-col my-4 ">
                     <h3 className="text-white mb-4 text-[18px]">Top 10 phim hay nhất</h3>
                     <Slider {...settings}>
@@ -108,8 +105,9 @@ const Movies = () => {
                     </Slider>
                 </div>
             </div>
-            <div className=""><Outlet /></div>
-
+            <div className="">
+                <Outlet />
+            </div>
         </div>
     )
 }

@@ -11,20 +11,6 @@ export default mongoose.model(
             },
         },
         {
-            toJSON: {
-                virtuals: true,
-                transform: (_, obj) => {
-                    delete obj._id
-                    return obj
-                },
-            },
-            toObject: {
-                virtuals: true,
-                transform: (_, obj) => {
-                    delete obj._id
-                    return obj
-                },
-            },
             timestamps: false,
             versionKey: false,
         },

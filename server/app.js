@@ -1,4 +1,5 @@
 import express from "express"
+import session from 'express-session'
 import mongoose from "mongoose"
 import http from "http"
 import cors from "cors"
@@ -14,6 +15,13 @@ app.use(
     cors({
         origin: 'http://localhost:3000',
         credentials: true,
+    }),
+)
+app.use(
+    session({
+        secret: process.env.TOKEN_SECRET,
+        resave: false,
+        saveUninitialized: false,
     }),
 )
 app.use(express.json())

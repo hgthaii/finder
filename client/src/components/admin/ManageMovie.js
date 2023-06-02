@@ -285,32 +285,32 @@ export const ModalDeleteMovie = (props) => {
 
 export const ModalAddMovie = (props) => {
     const { open, handleCloseAdd } = props
-            const [movieData, setMovieData] = useState({
-                title: 'Thái',
-                logo: 'asdasd',
-                duration: 'asdasd',
-                release_date: 'afdgfdhgf',
-                overview: 'dgsfdhg',
-                trailer: 'gjhkgjlkl',
-                video: 'gjhkgjlh;l',
-                poster_path: [{ path: 'https://image.tmdb.org/t/p/w500/rzRb63TldOKdKydCvWJM8B6EkPM.jpg' }],
-                genres: [{ name: 'Hàn Quốc' }],
-                episodes: [],
-                casts: [{ name: 'Kim Woo Bin' }],
-                program_type: [{ name: 'Gai góc' }, { name: 'Đen tối' }],
-                creators: [],
-                age_rating: '',
-                item_genre: '',
-            })
+    const [movieData, setMovieData] = useState({
+        title: 'Thái',
+        logo: 'asdasd',
+        duration: 'asdasd',
+        release_date: 'afdgfdhgf',
+        overview: 'dgsfdhg',
+        trailer: 'gjhkgjlkl',
+        video: 'gjhkgjlh;l',
+        poster_path: [{ path: 'https://image.tmdb.org/t/p/w500/rzRb63TldOKdKydCvWJM8B6EkPM.jpg' }],
+        genres: [{ name: 'Hàn Quốc' }],
+        episodes: [],
+        casts: [{ name: 'Kim Woo Bin' }],
+        program_type: [{ name: 'Gai góc' }, { name: 'Đen tối' }],
+        creators: [],
+        age_rating: '',
+        item_genre: '',
+    })
     const onAddMovie = async () => {
         try {
             const data = await axios.post('http://localhost:5000/api/v1/movies', movieData, {
                 withCredentials: true,
             })
-            console.log('data',data);
+            console.log('data', data)
             console.log('oke' + JSON.stringify(data))
         } catch (error) {
-            console.log(error);
+            console.log(error)
             // throw new Error(error)
         }
         handleCloseAdd()
