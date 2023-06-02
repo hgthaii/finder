@@ -7,7 +7,8 @@ import Modal from './Modal'
 const Banner = ({ banerModal, data, randomMovies }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle } = icons
     const [showImage, setShowImage] = useState(false)
-    const playerRef = useRef(null)
+    const imageRef = useRef(null)
+    const videoRef = useRef(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -30,14 +31,46 @@ const Banner = ({ banerModal, data, randomMovies }) => {
         },
     }
 
-    //
-    const handleVideoEnd = () => {
-        // Dừng video
-        playerRef.current.internalPlayer.pauseVideo()
-        // Xóa video
-        playerRef.current.internalPlayer.loadVideoById(null)
-        // Hiển thị hình ảnh
-        setShowImage(true)
+    // useEffect(() => {
+    //     let timeoutId
+    //     let intervalId
+
+    //     if (showImage) {
+    //         timeoutId = setTimeout(() => {
+    //             setShowImage(false)
+    //             setIsPlaying(true)
+    //         }, 5000)
+    //     } else {
+    //         intervalId = setInterval(() => {
+    //             const videoElement = videoRef.current.getInternalPlayer()
+    //             console.log(videoElement)
+    //             if (videoElement && videoElement.paused) {
+    //                 setShowImage(true)
+    //                 setIsPlaying(false)
+    //                 clearInterval(intervalId)
+    //             }
+    //         }, 1000)
+    //     }
+
+    //     return () => {
+    //         clearTimeout(timeoutId)
+    //         clearInterval(intervalId)
+    //     }
+    // }, [showImage])
+
+    // const handleVideoEnded = () => {
+    //     setShowImage(true)
+    //     setIsPlaying(false)
+    // }
+
+    const handleWrapperRef = (ref) => {
+        if (ref) {
+            const videoElement = ref.getInternalPlayer()
+
+            if (videoElement) {
+                videoElement.style.objectFit = 'cover'
+            }
+        }
     }
 
     const openModal = (movies) => {
@@ -66,7 +99,8 @@ const Banner = ({ banerModal, data, randomMovies }) => {
     }
 
     // Dữ liệu video từ MongoDB
-    const videoData = randomMovies?.video
+    // const videoData = randomMovies?.video
+    const videoData = 'https://drive.google.com/file/d/1BS784674FecwskDBKSvZId2qkoEMAU1f/view?usp=sharing'
 
     return (
         <div className="relative ">
@@ -80,15 +114,23 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                 {showImage ? (
                     <img
                         src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
+                        // ref={imageRef}
                         alt="background"
                         className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'}`}
                     />
                 ) : (
-                    <div style={{ position: 'relative', paddingTop: '56.25%' }}>
-                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                            <ReactPlayer url={videoData} style={{ objectFit: 'cover' }} width="100%" height="100%" />
-                        </div>
-                    </div>
+                    <ReactPlayer
+                        url={videoData}
+                        // ref={(player) => {
+                        //     videoRef.current = player
+                        //     handleWrapperRef(player)
+                        // }}
+                        autoPlay
+                        playing={isPlaying}
+                        width="100%"
+                        height="100vh"
+                        // onEnded={handleVideoEnded}
+                    />
                 )}
             </div>
 
@@ -114,7 +156,14 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 <div>
                                     {isFullScreen && (
                                         <div className="video-wrapper">
-                                            <ReactPlayer url={videoData} playing width="100%" height="auto" />
+                                            <ReactPlayer
+                                                url={videoData}
+                                                ref={handleWrapperRef}
+                                                autoPlay
+                                                playing
+                                                width="100%"
+                                                height="100vh"
+                                            />
                                         </div>
                                     )}
                                 </div>

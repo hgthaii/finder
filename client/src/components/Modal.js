@@ -27,7 +27,7 @@ const Modal = ({ isOpenModal, closeModal, data }) => {
             backgroundColor: 'transparent',
         },
     }
-    console.log('re-render')
+    console.log('re-render', data)
     return (
         <Modals
             isOpen={isOpenModal}
