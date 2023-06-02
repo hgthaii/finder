@@ -23,6 +23,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import { FixedSizeList } from 'react-window'
 import Typography from '@mui/material/Typography'
 
+import { useTheme } from '@mui/material/styles'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import Chip from '@mui/material/Chip'
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -69,8 +77,6 @@ const ManageMovie = () => {
         handleOpen()
 
         setMovieId(value.id)
-
-        console.log('ututut' + JSON.stringify(detail))
     }
     const columns = useMemo(
         () => [
@@ -129,18 +135,42 @@ const ManageMovie = () => {
         setOpenDelete(false)
     }
     const [movieIds, setMovieIds] = useState([])
+    // const [dataSelect, setDataSelect] = useState([])
 
     const onSelectHandle = (ids) => {
         const selectRowData = ids.map((id) => movies.find((row) => row.id === id))
         setMovieIds(selectRowData)
-        console.log('oke' + JSON.stringify(selectRowData))
+        // setDataSelect(selectRowData)
+        // console.log('oke' + JSON.stringify(selectRowData))
     }
     const [openAdd, setOpenAdd] = React.useState()
     const handleOpenAdd = () => {
         setOpenAdd(true)
+        listGenres()
     }
     const handleCloseAdd = () => {
         setOpenAdd(false)
+        setGenres([])
+    }
+    const [openUpdate, setOpenUpdate] = React.useState()
+    const handleOpenUpdate = () => {
+        setOpenUpdate(true)
+        listGenres()
+    }
+    const handleCloseUpdate = () => {
+        setOpenUpdate(false)
+        setGenres([])
+    }
+
+    const [genres, setGenres] = React.useState([])
+
+    const listGenres = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/v1/genres')
+            setGenres(res.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <div className="w-full">
@@ -153,7 +183,10 @@ const ManageMovie = () => {
                     >
                         Add movie
                     </button>
-                    <button className="bg-[#24AB62] h-10 w-[120px] mt-5 mr-5 rounded-md text-white">
+                    <button
+                        className="bg-[#24AB62] h-10 w-[120px] mt-5 mr-5 rounded-md text-white"
+                        onClick={handleOpenUpdate}
+                    >
                         Update movie
                     </button>
                     <button
@@ -163,17 +196,13 @@ const ManageMovie = () => {
                         Delete movie
                     </button>
                 </div>
-                {/* <Modal
-                    open={openAdd}
-                    onClose={handleCloseAdd}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={style}>
-                        <ModalAddMovie onClose={handleCloseAdd} />
-                    </Box>
-                </Modal> */}
-                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd} />
+                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd} genres={genres} />
+                <ModalUpdateMovie
+                    handleCloseUpdate={handleCloseUpdate}
+                    open={openUpdate}
+                    movieIds={movieIds}
+                    genres={genres}
+                />
                 <Modal
                     open={openDelete}
                     onClose={handleCloseDelete}
@@ -283,35 +312,79 @@ export const ModalDeleteMovie = (props) => {
     )
 }
 
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+}
+
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+    }
+}
 export const ModalAddMovie = (props) => {
-    const { open, handleCloseAdd } = props
-            const [movieData, setMovieData] = useState({
-                title: 'Thái',
-                logo: 'asdasd',
-                duration: 'asdasd',
-                release_date: 'afdgfdhgf',
-                overview: 'dgsfdhg',
-                trailer: 'gjhkgjlkl',
-                video: 'gjhkgjlh;l',
-                poster_path: [{ path: 'https://image.tmdb.org/t/p/w500/rzRb63TldOKdKydCvWJM8B6EkPM.jpg' }],
-                genres: [{ name: 'Hàn Quốc' }],
-                episodes: [],
-                casts: [{ name: 'Kim Woo Bin' }],
-                program_type: [{ name: 'Gai góc' }, { name: 'Đen tối' }],
-                creators: [],
-                age_rating: '',
-                item_genre: '',
-            })
+    const { open, handleCloseAdd, genres } = props
+    const [poster_pathInput, setPoster_pathInput] = useState('')
+    const [castsInput, setCastsInput] = useState('')
+    const [creatorsInput, setCreatorsInput] = useState('')
+    const [program_typeInput, setProgram_typeInput] = useState('')
+
+    const episodesData = [
+        {
+            episodes_title: '',
+            episodes_runtime: '',
+            episodes_image: '',
+            episodes_description: '',
+        },
+    ]
+
+    const [movieData, setMovieData] = useState({
+        title: '',
+        logo: '',
+        duration: '',
+        release_date: '',
+        overview: '',
+        trailer: '',
+        video: '',
+        poster_path: [],
+        genres: [],
+        episodes: [episodesData],
+        casts: [],
+        program_type: [],
+        creators: [],
+        age_rating: '',
+        item_genre: '',
+    })
     const onAddMovie = async () => {
         try {
-            const data = await axios.post('http://localhost:5000/api/v1/movies', movieData, {
+            const parsedData = {
+                ...movieData,
+                poster_path: poster_pathInput.split(',').map((path) => ({ path })),
+                genres: personName.map((name) => ({ name })),
+                casts: castsInput.split(',').map((name) => ({ name })),
+                program_type: program_typeInput.split(',').map((name) => ({ name })),
+                episodes: movieData.episodes.map((episode) => ({
+                    episode_title: episode.episode_title,
+                    episode_runtime: episode.episode_runtime,
+                    episode_image: episode.episode_image,
+                    episode_description: episode.episode_description,
+                })),
+                creators: creatorsInput.split(',').map((name) => ({ name })),
+            }
+            await axios.post('http://localhost:5000/api/v1/movies', parsedData, {
                 withCredentials: true,
             })
-            console.log('data',data);
-            console.log('oke' + JSON.stringify(data))
+            toast.success('Added movie successfully!')
         } catch (error) {
-            console.log(error);
-            // throw new Error(error)
+            console.log(error)
+            toast.error('Added movie failed!')
         }
         handleCloseAdd()
     }
@@ -321,8 +394,33 @@ export const ModalAddMovie = (props) => {
             onAddMovie()
         }
     }
+    const theme = useTheme()
+    const [personName, setPersonName] = React.useState([])
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event
+        setPersonName(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        )
+    }
+    
     return (
         <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseAdd}>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <DialogTitle>Add movie</DialogTitle>
             <section>
                 <div className="px-6 mx-auto">
@@ -426,6 +524,197 @@ export const ModalAddMovie = (props) => {
                                     required=""
                                 />
                             </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Poster path
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setPoster_pathInput(e.target.value)}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Genres
+                                </label>
+                                <FormControl sx={{ width: '100%' }}>
+                                    <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+                                    <Select
+                                        labelId="demo-multiple-chip-label"
+                                        id="demo-multiple-chip"
+                                        multiple
+                                        value={personName}
+                                        onChange={handleChange}
+                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {genres.map((x) => (
+                                            <MenuItem
+                                                key={x.name}
+                                                value={x.name}
+                                                style={getStyles(x.name, personName, theme)}
+                                            >
+                                                {x.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Episodes
+                                </label>
+                                <div className="grid grid-cols-2 gap-6 mx-4">
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episode_title"
+                                            id="episode_title"
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieData((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: prevData.episodes.map((episode, index) =>
+                                                        index === 0
+                                                            ? { ...episode, episode_title: e.target.value }
+                                                            : episode,
+                                                    ),
+                                                }))
+                                            }
+                                            placeholder="episode_title"
+                                            required=""
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Runtime
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieData((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: prevData.episodes.map((episode, index) =>
+                                                        index === 0
+                                                            ? { ...episode, episode_runtime: e.target.value }
+                                                            : episode,
+                                                    ),
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-6 mt-3 mx-4">
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieData((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: prevData.episodes.map((episode, index) =>
+                                                        index === 0
+                                                            ? { ...episode, episode_image: e.target.value }
+                                                            : episode,
+                                                    ),
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Description
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieData((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: prevData.episodes.map((episode, index) =>
+                                                        index === 0
+                                                            ? { ...episode, episode_description: e.target.value }
+                                                            : episode,
+                                                    ),
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Casts
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setCastsInput(e.target.value)}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Program type
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setProgram_typeInput(e.target.value)}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Creators
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setCreatorsInput(e.target.value)}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
                             <div className="w-full">
                                 <label htmlFor="age_rating" className="block mb-2 text-sm font-medium ">
                                     Age rating
@@ -459,27 +748,9 @@ export const ModalAddMovie = (props) => {
                             <button
                                 onClick={onAddMovie}
                                 type="button"
-                                className="text-black bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="bg-[#3778DA] text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4"
                             >
-                                Update product
-                            </button>
-                            <button
-                                type="button"
-                                className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            >
-                                <svg
-                                    className="w-5 h-5 mr-1 -ml-1"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                        clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                Delete
+                                Add
                             </button>
                         </div>
                     </form>
@@ -524,7 +795,7 @@ export const DialogMovieDetail = (props) => {
                             src="https://occ-0-325-58.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABRJaoY3PlYTejc06TYiN3vwJ4VZbZSk1wrWevgGRuy7a4fgNPn4HgH4MhEKYeCQjBJafNlOcefIdzX399Vh9hBV1kEJzNMdIsUxx.jpg?r=cbd"
                             alt="image"
                         /> */}
-                    <iframe width="580" height="345" src="https://www.youtube.com/embed/lB3SRFPYf98"></iframe>
+                    <iframe width="580" height="345" src={detail?.trailer}></iframe>
                     <label className="font-bold">
                         Title: <span className="font-normal">{detail?.title}</span>
                     </label>
@@ -604,6 +875,623 @@ export const DialogMovieDetail = (props) => {
                     </div>
                 </div>
             </DialogContent>
+        </Dialog>
+    )
+}
+
+export const ModalUpdateMovie = (props) => {
+    const { open, handleCloseUpdate, movieIds, genres } = props
+    const [poster_pathInput, setPoster_pathInput] = useState(movieIds[0]?.poster_path)
+    const [castsInput, setCastsInput] = useState('')
+    const [episodesInput, setEpisodesInput] = useState('')
+    const [creatorsInput, setCreatorsInput] = useState('')
+    const [program_typeInput, setProgram_typeInput] = useState('')
+
+    const [movieDataUpdate, setMovieDataUpdate] = useState({
+        title: '',
+        logo: '',
+        duration: '',
+        release_date: '',
+        overview: '',
+        trailer: '',
+        video: '',
+        poster_path: [],
+        genres: [],
+        episodes: [],
+        casts: [],
+        program_type: [],
+        creators: [],
+        age_rating: '',
+        item_genre: '',
+    })
+    const onUpdateMovie = async () => {
+        try {
+            const movieId = movieIds[0]?.id
+            const data = await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
+                withCredentials: true,
+            })
+            console.log('data', data)
+            console.log('oke' + JSON.stringify(data))
+        } catch (error) {
+            console.log(error)
+            // throw new Error(error)
+        }
+        handleCloseUpdate()
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            onUpdateMovie()
+        }
+    }
+    const theme = useTheme()
+    const [personName, setPersonName] = React.useState([])
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event
+        setPersonName(value)
+    }
+
+    // Biến đổi mảng genres thành một mảng các tên thể loại duy nhất
+    const genreNames = Array.from(new Set(movieIds[0]?.genres.map((genre) => genre.name)))
+
+    React.useEffect(() => {
+        // Nếu đã chọn các thể loại trước đó, sẽ đặt thể loại đã chọn này làm giá trị mặc định cho Select
+        const selectedGenres = movieIds[0]?.genres
+        if (selectedGenres && selectedGenres.length > 0) {
+            const selectedGenreNames = selectedGenres.map((genre) => genre.name)
+            setPersonName(selectedGenreNames)
+        }
+        if (movieIds && movieIds[0]) {
+            const firstMovie = movieIds[0]
+                const episodesData = firstMovie.episodes.map((episode) => ({
+                    episode_title: episode.episode_title,
+                    episode_runtime: episode.episode_runtime,
+                    episode_image: episode.episode_image,
+                    episode_description: episode.episode_description,
+                }))
+            setMovieDataUpdate((prevData) => ({
+                ...prevData,
+                title: movieIds[0].title,
+                logo: movieIds[0].logo,
+                duration: movieIds[0].duration,
+                release_date: movieIds[0].release_date,
+                overview: movieIds[0].overview,
+                trailer: movieIds[0].trailer,
+                video: movieIds[0].video,
+                age_rating: movieIds[0].age_rating,
+                item_genre: movieIds[0].item_genre,
+                poster_path: firstMovie.poster_path.map((x) => x.path),
+                genres: firstMovie.genres.map((x) => x.name),
+                casts: firstMovie.casts.map((x) => x.name),
+                program_type: firstMovie.program_type.map((x) => x.name),
+                creators: firstMovie.creators.map((x) => x.name),
+                episodes: episodesData,
+            }))
+        }
+    }, [movieIds])
+    return (
+        <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseUpdate}>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+            <DialogTitle>Update movie</DialogTitle>
+            <section>
+                <div className="px-6 mx-auto">
+                    <form action="#">
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Title
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={movieDataUpdate.title}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, title: e.target.value })}
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="overview" className="block mb-2 text-sm font-medium ">
+                                    Overview
+                                </label>
+                                <textarea
+                                    id="overview"
+                                    rows="4"
+                                    value={movieDataUpdate.overview}
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, overview: e.target.value })
+                                    }
+                                    className="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
+                                    placeholder="Enter overview..."
+                                ></textarea>
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="duration" className="block mb-2 text-sm font-medium ">
+                                    Duration
+                                </label>
+                                <input
+                                    type="text"
+                                    name="duration"
+                                    id="duration"
+                                    value={movieDataUpdate.duration}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, duration: e.target.value })
+                                    }
+                                    placeholder="Enter duration"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="release_date" className="block mb-2 text-sm font-medium ">
+                                    Release Date
+                                </label>
+                                <input
+                                    type="text"
+                                    name="release_date"
+                                    id="release_date"
+                                    value={movieDataUpdate.release_date}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, release_date: e.target.value })
+                                    }
+                                    placeholder="Release date"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="trailer" className="block mb-2 text-sm font-medium ">
+                                    Trailer
+                                </label>
+                                <input
+                                    type="text"
+                                    name="trailer"
+                                    id="trailer"
+                                    value={movieDataUpdate.trailer}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, trailer: e.target.value })
+                                    }
+                                    placeholder="Enter trailer"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="video" className="block mb-2 text-sm font-medium ">
+                                    Video
+                                </label>
+                                <input
+                                    type="text"
+                                    name="video"
+                                    id="video"
+                                    value={movieDataUpdate.video}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, video: e.target.value })}
+                                    placeholder="Enter video"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Logo
+                                </label>
+                                <input
+                                    type="text"
+                                    name="logo"
+                                    id="logo"
+                                    value={movieDataUpdate.logo}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, logo: e.target.value })}
+                                    placeholder="Enter logo"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Poster path
+                                </label>
+                                <input
+                                    type="text"
+                                    name="poster_path"
+                                    id="poster_path"
+                                    value={movieDataUpdate.poster_path.join(', ')}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate((prevData) => ({
+                                            ...prevData,
+                                            poster_path: e.target.value.split(', '),
+                                        }))
+                                    }
+                                    placeholder="Poster path"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Genres
+                                </label>
+                                <FormControl sx={{ width: '100%' }}>
+                                    <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+                                    <Select
+                                        labelId="demo-multiple-chip-label"
+                                        id="demo-multiple-chip"
+                                        multiple
+                                        value={personName}
+                                        onChange={handleChange}
+                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {genres.map((x) => (
+                                            <MenuItem
+                                                key={x.name}
+                                                value={x.name}
+                                                style={getStyles(x.name, personName, theme)}
+                                            >
+                                                {x.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Episodes
+                                </label>
+                                <div className="grid grid-cols-2 gap-6 mx-4">
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            value={movieDataUpdate.episodes[0]?.episode_title}
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieDataUpdate((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: [
+                                                        {
+                                                            episode_title: e.target.value,
+                                                            // episode_runtime: '',
+                                                            // episode_image: '',
+                                                            // episode_description: '',
+                                                        },
+                                                    ],
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Runtime
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            value={movieDataUpdate.episodes[0]?.episode_runtime}
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieDataUpdate((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: [
+                                                        {
+                                                            // episode_title: e.target.value,
+                                                            episode_runtime: e.target.value,
+                                                            // episode_image: '',
+                                                            // episode_description: '',
+                                                        },
+                                                    ],
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-6 mt-3 mx-4">
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            value={movieDataUpdate.episodes[0]?.episode_image}
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieDataUpdate((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: [
+                                                        {
+                                                            // episode_title: e.target.value,
+                                                            // episode_runtime: '',
+                                                            episode_image: e.target.value,
+                                                            // episode_description: '',
+                                                        },
+                                                    ],
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="" className="text-sm font-medium">
+                                            Description
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="episodes"
+                                            id="episodes"
+                                            value={movieDataUpdate.episodes[0]?.episode_description}
+                                            className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            onChange={(e) =>
+                                                setMovieDataUpdate((prevData) => ({
+                                                    ...prevData,
+                                                    episodes: [
+                                                        {
+                                                            // episode_title: e.target.value,
+                                                            // episode_runtime: '',
+                                                            // episode_image: '',
+                                                            episode_description: e.target.value,
+                                                        },
+                                                    ],
+                                                }))
+                                            }
+                                            placeholder="Type product name"
+                                            required=""
+                                        />
+                                    </div>
+                                </div>
+                                {/* {movieDataUpdate.episodes.map((episode, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <div>
+                                                <label htmlFor="" className="text-sm font-medium">
+                                                    Title
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name={`episodes[${index}].episode_title`}
+                                                    value={episode.episode_title}
+                                                    onChange={(e) =>
+                                                        setMovieDataUpdate((prevData) => ({
+                                                            ...prevData,
+                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
+                                                                prevIndex === index
+                                                                    ? { ...prevEpisode, episode_title: e.target.value }
+                                                                    : prevEpisode,
+                                                            ),
+                                                        }))
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="" className="text-sm font-medium">
+                                                    Runtime
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name={`episodes[${index}].episode_runtime`}
+                                                    value={episode.episode_runtime}
+                                                    onChange={(e) =>
+                                                        setMovieDataUpdate((prevData) => ({
+                                                            ...prevData,
+                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
+                                                                prevIndex === index
+                                                                    ? {
+                                                                          ...prevEpisode,
+                                                                          episode_runtime: e.target.value,
+                                                                      }
+                                                                    : prevEpisode,
+                                                            ),
+                                                        }))
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="" className="text-sm font-medium">
+                                                    Image
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name={`episodes[${index}].episode_image`}
+                                                    value={episode.episode_image}
+                                                    onChange={(e) =>
+                                                        setMovieDataUpdate((prevData) => ({
+                                                            ...prevData,
+                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
+                                                                prevIndex === index
+                                                                    ? { ...prevEpisode, episode_image: e.target.value }
+                                                                    : prevEpisode,
+                                                            ),
+                                                        }))
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="" className="text-sm font-medium">
+                                                    Description
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name={`episodes[${index}].episode_description`}
+                                                    value={episode.episode_description}
+                                                    onChange={(e) =>
+                                                        setMovieDataUpdate((prevData) => ({
+                                                            ...prevData,
+                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
+                                                                prevIndex === index
+                                                                    ? {
+                                                                          ...prevEpisode,
+                                                                          episode_description: e.target.value,
+                                                                      }
+                                                                    : prevEpisode,
+                                                            ),
+                                                        }))
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    )
+                                })} */}
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Casts
+                                </label>
+                                <input
+                                    type="text"
+                                    name="casts"
+                                    id="casts"
+                                    value={movieDataUpdate.casts.join(', ')}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate((prevData) => ({
+                                            ...prevData,
+                                            casts: e.target.value.split(', '),
+                                        }))
+                                    }
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Program type
+                                </label>
+                                <input
+                                    type="text"
+                                    name="program_type"
+                                    id="program_type"
+                                    value={movieDataUpdate.program_type.join(', ')}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate((prevData) => ({
+                                            ...prevData,
+                                            program_type: e.target.value.split(', '),
+                                        }))
+                                    }
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium ">
+                                    Creators
+                                </label>
+                                <input
+                                    type="text"
+                                    name="creators"
+                                    id="creators"
+                                    value={movieDataUpdate.creators.join(', ')}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate((prevData) => ({
+                                            ...prevData,
+                                            creators: e.target.value.split(', '),
+                                        }))
+                                    }
+                                    placeholder="Type product name"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="age_rating" className="block mb-2 text-sm font-medium ">
+                                    Age rating
+                                </label>
+                                <input
+                                    type="text"
+                                    name="age_rating"
+                                    id="age_rating"
+                                    value={movieDataUpdate.age_rating}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, age_rating: e.target.value })
+                                    }
+                                    placeholder="Enter age rating"
+                                    required=""
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="item_genre" className="block mb-2 text-sm font-medium ">
+                                    Item genre
+                                </label>
+                                <input
+                                    type="text"
+                                    name="item_genre"
+                                    id="item_genre"
+                                    value={movieDataUpdate.item_genre}
+                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    onChange={(e) =>
+                                        setMovieDataUpdate({ ...movieDataUpdate, item_genre: e.target.value })
+                                    }
+                                    placeholder="Item genes"
+                                    required=""
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <button
+                                onClick={onUpdateMovie}
+                                type="button"
+                                className="bg-[#24AB62] text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4"
+                            >
+                                Update product
+                            </button>
+                            {/* <button
+                                type="button"
+                                className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            >
+                                <svg
+                                    className="w-5 h-5 mr-1 -ml-1"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                                Delete
+                            </button> */}
+                        </div>
+                    </form>
+                </div>
+            </section>
         </Dialog>
     )
 }
