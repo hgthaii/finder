@@ -231,8 +231,6 @@ const ManageUser = () => {
                                 setIsLoading={setIsLoading}
                                 onClose={handleCloseUpdate}
                                 userIds={userIds}
-                                display={display}
-                                role={role}
                             />
                         </Box>
                     </Modal>
@@ -277,6 +275,7 @@ const ManageUser = () => {
             <div className="w-full">
                 <DataGrid
                     columns={columns}
+                    editMode="row"
                     rows={users}
                     initialState={{
                         pagination: {
@@ -451,19 +450,13 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
 }
 
 export const ModalUpdateUser = (props) => {
-    const { userIds, setIsLoading, onClose, display, role } = props
-    const [displayName, setDisplayName] = useState()
-    const [roles, setRoles] = useState('')
+    const { userIds, setIsLoading, onClose } = props
+    const [displayName, setDisplayName] = useState(userIds[0]?.displayName)
+    const [roles, setRoles] = useState(userIds[0]?.roles)
 
     const onUpdateUser = async () => {
         try {
             setIsLoading(true)
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
             const data = {
                 displayName: displayName,
                 roles: roles,
@@ -511,15 +504,15 @@ export const ModalUpdateUser = (props) => {
         }
     }
     const rol = ['user', 'admin']
+
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">Update user</h3>
                 <input
                     type="text"
-                    value={display}
                     className="w-full h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                    placeholder="Enter displayname"
+                    value={displayName}
                     onChange={onChangeDisplayName}
                     onKeyPress={handleKeyPress}
                 />
@@ -534,7 +527,7 @@ export const ModalUpdateUser = (props) => {
                     }}
                 >
                     <Select
-                        value={role}
+                        value={roles}
                         onChange={onChangeRole}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}

@@ -1,255 +1,157 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import MaterialReactTable from 'material-react-table'
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    MenuItem,
-    Stack,
-    TextField,
-    Tooltip,
-} from '@mui/material'
-import { Delete, Edit } from '@mui/icons-material'
-import { data, states } from './makeData'
-
+import React, { useEffect } from 'react'
+import axios from 'axios'
+import ReactPaginate from 'react-paginate'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 const ManageComment = () => {
-    const [createModalOpen, setCreateModalOpen] = useState(false)
-    const [tableData, setTableData] = useState(() => data)
-    const [validationErrors, setValidationErrors] = useState({})
-
-    const handleCreateNewRow = (values) => {
-        tableData.push(values)
-        setTableData([...tableData])
+    const [item, setItem] = React.useState('')
+    const [comment, setComment] = React.useState([])
+    const handleChange = (event) => {
+        setItem(event.target.value)
     }
+    const [dataMovie, setDataMovie] = React.useState([])
 
-    const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-        if (!Object.keys(validationErrors).length) {
-            tableData[row.index] = values
-            //send/receive api updates here, then refetch or update local table data for re-render
-            setTableData([...tableData])
-            exitEditingMode() //required to exit editing mode and close modal
+    useEffect(() => {
+        console.log('iui222' + JSON.stringify(item))
+
+        const getMovie = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/v1/movies', { withCredentials: true })
+                // console.log('oke ne' + JSON.stringify(res.data))
+                setDataMovie(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getMovie()
+        if (item) {
+            getComments()
+        }
+    }, [item])
+    const getComments = async () => {
+        try {
+            const movieId = item
+            const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}/comments`, {
+                withCredentials: true,
+            })
+            setComment(res.data)
+            console.log(JSON.stringify(res.data))
+        } catch (error) {
+            console.log(error)
         }
     }
-
-    const handleCancelRowEdits = () => {
-        setValidationErrors({})
+    const [currentPage, setCurrentPage] = React.useState(0)
+    const PER_PAGE = 6
+    const handlePageChange = ({ selected }) => {
+        setCurrentPage(selected)
     }
 
-    const handleDeleteRow = useCallback(
-        (row) => {
-            // if (
-            //   confirm(
-            //     `Are you sure you want to delete ${row.getValue("firstName")}`
-            //   )
-            // ) {
-            //   return;
-            // }
-            //send api delete request here, then refetch or update local table data for re-render
-            tableData.splice(row.index, 1)
-            setTableData([...tableData])
-        },
-        [tableData],
-    )
+    const offset = currentPage * PER_PAGE
+    const currentPageData = comment.slice(offset, offset + PER_PAGE)
 
-    const getCommonEditTextFieldProps = useCallback(
-        (cell) => {
-            return {
-                error: !!validationErrors[cell.id],
-                helperText: validationErrors[cell.id],
-                onBlur: (event) => {
-                    const isValid =
-                        cell.column.id === 'email'
-                            ? validateEmail(event.target.value)
-                            : cell.column.id === 'age'
-                            ? validateAge(+event.target.value)
-                            : validateRequired(event.target.value)
-                    if (!isValid) {
-                        //set validation error for cell if invalid
-                        setValidationErrors({
-                            ...validationErrors,
-                            [cell.id]: `${cell.column.columnDef.header} is required`,
-                        })
-                    } else {
-                        //remove validation error for cell if valid
-                        delete validationErrors[cell.id]
-                        setValidationErrors({
-                            ...validationErrors,
-                        })
-                    }
-                },
+    // const [userIds, setUserIds] = React.useState([])
+    // const getUserByID = async (userId) => {
+    //     try {
+    //         const res = await axios.post(`http://localhost:5000/api/v1/user/info/${userId}`, null, {
+    //             withCredentials: true,
+    //         })
+    //         console.log('oke ne' + JSON.stringify(res.data))
+    //         setUserIds(res.data)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // const getUser = (userId) => {
+    //     getUserByID(userId)
+    //     const detail = userIds.find((ad) => ad.id === userId)
+    //     return detail ? detail.displayName : ''
+    // }
+
+    const [userDetails, setUserDetails] = React.useState({})
+
+    const fetchUserDetails = async (userId) => {
+        const res = await axios.post(`http://localhost:5000/api/v1/user/info/${userId}`, null, {
+            withCredentials: true,
+        })
+        const user = res.data
+        setUserDetails((prev) => ({ ...prev, [userId]: user })) // lưu trữ thông tin người dùng mới với thuộc tính key là userId
+    }
+
+    const displayComments = () => {
+        return currentPageData.map((x, index) => {
+            const user = userDetails[x.userId]
+            const displayName = user ? user.displayName : ''
+            return (
+                <div key={index}>
+                    <label htmlFor="">
+                        {displayName}:<span> {x.content}</span>
+                    </label>
+                </div>
+            )
+        })
+    }
+
+    useEffect(() => {
+        // lấy thông tin người dùng cho từng `userId` trong `currentPageData`
+        currentPageData.forEach((x) => {
+            if (!userDetails[x.userId]) {
+                fetchUserDetails(x.userId)
             }
-        },
-        [validationErrors],
-    )
+        })
+    }, [currentPageData, userDetails]) // lưu ý sử dụng `useEffect` để gọi `fetchUserDetails` chỉ khi có `currentPageData` hoặc `userDetails` thay đổi
 
-    const columns = useMemo(
-        () => [
-            {
-                accessorKey: 'id',
-                header: 'ID',
-                enableColumnOrdering: false,
-                enableEditing: false, //disable editing on this column
-                enableSorting: false,
-                size: 80,
-            },
-            {
-                accessorKey: 'firstName',
-                header: 'First Name',
-                size: 140,
-                muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-                    ...getCommonEditTextFieldProps(cell),
-                }),
-            },
-            {
-                accessorKey: 'lastName',
-                header: 'Last Name',
-                size: 140,
-                muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-                    ...getCommonEditTextFieldProps(cell),
-                }),
-            },
-            {
-                accessorKey: 'email',
-                header: 'Email',
-                muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-                    ...getCommonEditTextFieldProps(cell),
-                    type: 'email',
-                }),
-            },
-            {
-                accessorKey: 'age',
-                header: 'Age',
-                size: 80,
-                muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-                    ...getCommonEditTextFieldProps(cell),
-                    type: 'number',
-                }),
-            },
-            {
-                accessorKey: 'state',
-                header: 'State',
-                muiTableBodyCellEditTextFieldProps: {
-                    select: true, //change to select for a dropdown
-                    children: states.map((state) => (
-                        <MenuItem key={state} value={state}>
-                            {state}
-                        </MenuItem>
-                    )),
-                },
-            },
-        ],
-        [getCommonEditTextFieldProps],
-    )
     return (
         <div className="w-full">
-            <h2 className="mb-5 text-2xl w-full">Manage comment</h2>
-            <div className="w-full">
-                <MaterialReactTable
-                    displayColumnDefOptions={{
-                        'mrt-row-actions': {
-                            muiTableHeadCellProps: {
-                                align: 'center',
-                            },
-                            size: 120,
-                        },
-                    }}
-                    columns={columns}
-                    data={tableData}
-                    editingMode="modal" //default
-                    enableColumnOrdering
-                    enableEditing
-                    onEditingRowSave={handleSaveRowEdits}
-                    onEditingRowCancel={handleCancelRowEdits}
-                    renderRowActions={({ row, table }) => (
-                        <Box sx={{ display: 'flex', gap: '1rem' }}>
-                            <Tooltip arrow placement="left" title="Edit">
-                                <IconButton onClick={() => table.setEditingRow(row)}>
-                                    <Edit />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip arrow placement="right" title="Delete">
-                                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                                    <Delete />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    )}
-                    renderTopToolbarCustomActions={() => (
-                        <Button color="secondary" onClick={() => setCreateModalOpen(true)} variant="contained">
-                            Create New Account
-                        </Button>
-                    )}
-                />
-                <CreateNewAccountModal
-                    columns={columns}
-                    open={createModalOpen}
-                    onClose={() => setCreateModalOpen(false)}
-                    onSubmit={handleCreateNewRow}
-                />
+            <h2 className="mb-5 text-2xl w-full">Movie comment details</h2>
+            <div className="grid justify-center gap-6">
+                <div className="w-full">
+                    <FormControl variant="filled" sx={{ minWidth: 500 }}>
+                        <InputLabel id="demo-simple-select-filled-label">Select a Movie</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            value={item ? item : ''}
+                            onChange={handleChange}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {dataMovie?.map((movie) => (
+                                <MenuItem key={movie.id} value={movie.id}>
+                                    {movie.title}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
+                <label htmlFor="">List comment:</label>
+                {item && comment?.length > 0 ? (
+                    <>
+                        <div className="w-full grid grid-cols-2 gap-2">{displayComments()}</div>
+                        <ReactPaginate
+                            pageCount={Math.ceil(comment.length / PER_PAGE)}
+                            onPageChange={handlePageChange}
+                            containerClassName={'pagination'}
+                            activeClassName={'active'}
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakLabel="..."
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                        />
+                    </>
+                ) : (
+                    <h2>Not found</h2>
+                )}
             </div>
         </div>
     )
 }
-
-export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
-    const [values, setValues] = useState(() =>
-        columns.reduce((acc, column) => {
-            acc[column.accessorKey ?? ''] = ''
-            return acc
-        }, {}),
-    )
-
-    const handleSubmit = () => {
-        //put your validation logic here
-        onSubmit(values)
-        onClose()
-    }
-
-    return (
-        <Dialog open={open}>
-            <DialogTitle textAlign="center">Create New Accountt</DialogTitle>
-            <DialogContent>
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <Stack
-                        sx={{
-                            width: '100%',
-                            minWidth: { xs: '300px', sm: '360px', md: '400px' },
-                            gap: '1.5rem',
-                        }}
-                    >
-                        {columns.map((column) => (
-                            <TextField
-                                key={column.accessorKey}
-                                label={column.header}
-                                name={column.accessorKey}
-                                onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-                            />
-                        ))}
-                    </Stack>
-                </form>
-            </DialogContent>
-            <DialogActions sx={{ p: '1.25rem' }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button color="secondary" onClick={handleSubmit} variant="contained">
-                    Create New Account
-                </Button>
-            </DialogActions>
-        </Dialog>
-    )
-}
-
-const validateRequired = (value) => !!value.length
-const validateEmail = (email) =>
-    !!email.length &&
-    email
-        .toLowerCase()
-        .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        )
-const validateAge = (age) => age >= 18 && age <= 50
 
 export default ManageComment
