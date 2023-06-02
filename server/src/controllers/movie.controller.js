@@ -111,14 +111,14 @@ const getMovieById = async (req, res) => {
     try {
         const { movieId } = req.params
         const movies = []
-        const getMovie = await movieModel.find()
+        const getMovie = await movieModel.find().sort('-createdAt')
         for (const movie of getMovie) {
-            if (movie._id === movieId) {
+            if (String(movie._id) === movieId) {
                 movies.push(movie)
             }
         }
         if (!getMovie) return responseHandler.notfound(res, 'Không tìm thấy phim')
-        // console.log(getMovie);
+        // console.log(movies)
         responseHandler.ok(res, movies)
     } catch (error) {
         console.log(error)
