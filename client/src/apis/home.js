@@ -12,4 +12,3 @@ export const getMovies = () =>
             reject(error)
         }
     })
-

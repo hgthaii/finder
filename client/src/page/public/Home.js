@@ -10,7 +10,7 @@ import { Section, Banner, Modal } from '../../components'
 import * as apis from '../../apis'
 
 const Home = () => {
-    const { movies, } = useSelector((state) => state.app)
+    const { movies } = useSelector((state) => state.app)
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
@@ -82,7 +82,6 @@ const Home = () => {
                     slidesToScroll: 2,
                     initialSlide: 2,
                     dots: false,
-
                 },
             },
             {
@@ -91,7 +90,6 @@ const Home = () => {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots: false,
-
                 },
             },
         ],
@@ -135,8 +133,9 @@ const Home = () => {
                     </Slider>
                 </div>
             </div>
-            <div className=""><Outlet /></div>
-
+            <div className="">
+                <Outlet />
+            </div>
         </div>
     )
 }

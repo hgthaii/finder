@@ -5,7 +5,7 @@ const initState = {
     radomMovies: [],
     searchData: [],
     genreData: [],
-    detailsMovies: []
+    detailsMovies: [],
 }
 
 const appReducer = (state = initState, action) => {

@@ -6,8 +6,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Public = () => {
-
-    // 
+    //
     return (
         <div className="flex relative flex-col bg-[#0a0a0a]  text-white min-h-screen ">
             <ToastContainer

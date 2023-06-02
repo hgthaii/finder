@@ -8,9 +8,8 @@ import { useDebounce } from '../hook'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-
 const Search = () => {
-    const { BiSearchAlt2, } = icons
+    const { BiSearchAlt2 } = icons
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
 
@@ -34,8 +33,9 @@ const Search = () => {
 
     return (
         <div
-            className={`flex  items-center  cursor-pointer ${isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
-                }`}
+            className={`flex  items-center  cursor-pointer ${
+                isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
+            }`}
         >
             <button onClick={toggleSearch} className=" mx-2 ">
                 <span>
@@ -58,7 +58,6 @@ const Search = () => {
                     )}
                 </div>
             )}
-
         </div>
     )
 }

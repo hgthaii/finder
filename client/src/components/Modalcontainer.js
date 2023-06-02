@@ -12,7 +12,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
     const { AiOutlineClose } = icons
     const navigate = useNavigate()
-    const [genre, setGenre] = useState([]);
+    const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0].id
     useEffect(() => {
         const fetchData = async () => {
@@ -107,13 +107,12 @@ const Modalcontainer = ({ data, closeModal }) => {
                     <div className="">
                         <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
                         <div className="flex flex-wrap w-full gap-3">
-                            {genre && genre.map((item) => (
-                                <div key={item.id} className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                    <Modalcard data={item} />
-                                </div>
-                            ))}
-
-
+                            {genre &&
+                                genre.map((item) => (
+                                    <div key={item.id} className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
+                                        <Modalcard data={item} />
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     {/* <div className="">
@@ -185,12 +184,9 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span> {`Phù hợp với độ tuổi từ ${data?.age_rating} trở lên`} </span>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     )
 }
 

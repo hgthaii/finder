@@ -205,7 +205,7 @@ const HomePageAdmin = () => {
     const encodedPayload = tokenParts[1]
     const decodedPayload = atob(encodedPayload)
     const payloadObj = JSON.parse(decodedPayload)
-    const name = payloadObj.infor;
+    const name = payloadObj.infor
     const handleLogout = () => {
         removeCookie('accessToken')
         removeCookie('refreshToken')
@@ -421,7 +421,6 @@ export const ModalProfile = () => {
     }
     const onChangePassword = async () => {
         try {
-
             const request = await axios.put(
                 'http://localhost:5000/api/v1/user/update-password',
                 {
