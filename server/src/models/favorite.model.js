@@ -3,34 +3,39 @@ import modelOptions from './model.options.js'
 
 export default mongoose.model(
     'Favorite',
-    mongoose.Schema(
-        {
-            userId: {
-                type: Schema.Types.ObjectId,
-                ref: 'User',
-                require: true,
-            },
-            movieId: {
-                type: String,
-                require: true,
-            },
-            title: {
-                type: String,
-                // require: true,
-            },
-            poster_path: {
-                type: String,
-                // require: true,
-            },
-            overview: {
-                type: String,
-                // require: true,
-            },
-            trailer: {
-                type: String,
-                // require: true,
-            },
+    mongoose.Schema({
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            require: true,
         },
-        modelOptions,
-    ),
+        movieId: {
+            type: String,
+            require: true,
+        },
+        title: {
+            type: String,
+            // require: true,
+        },
+        poster_path: {
+            type: String,
+            // require: true,
+        },
+        overview: {
+            type: String,
+            // require: true,
+        },
+        trailer: {
+            type: String,
+            // require: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    }),
 )

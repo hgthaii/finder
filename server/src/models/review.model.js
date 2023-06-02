@@ -3,31 +3,36 @@ import modelOptions from './model.options.js'
 
 export default mongoose.model(
     'Review',
-    mongoose.Schema(
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'User',
-                required: true,
-            },
-            content: {
-                type: String,
-                required: true,
-            },
-            mediaType: {
-                type: String,
-                enum: ['tv', 'movie'],
-                required: true,
-            },
-            mediaTitle: {
-                type: String,
-                required: true,
-            },
-            mediaPoster: {
-                type: String,
-                required: true,
-            },
+    mongoose.Schema({
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
         },
-        modelOptions,
-    ),
+        content: {
+            type: String,
+            required: true,
+        },
+        mediaType: {
+            type: String,
+            enum: ['tv', 'movie'],
+            required: true,
+        },
+        mediaTitle: {
+            type: String,
+            required: true,
+        },
+        mediaPoster: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    }),
 )

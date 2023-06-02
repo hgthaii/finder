@@ -67,9 +67,6 @@ const Banner = ({ banerModal, data, randomMovies }) => {
 
     // Dữ liệu video từ MongoDB
     const videoData = randomMovies?.video
-    // console.log(randomMovies)
-
-    console.log(videoData)
 
     return (
         <div className="relative ">
@@ -87,9 +84,11 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                         className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'}`}
                     />
                 ) : (
-                    // <div >
-                    <ReactPlayer url={videoData} playing width="100%" height="auto" />
-                    // </div>
+                    <div style={{ position: 'relative', paddingTop: '56.25%' }}>
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                            <ReactPlayer url={videoData} style={{ objectFit: 'cover' }} width="100%" height="100%" />
+                        </div>
+                    </div>
                 )}
             </div>
 
@@ -115,7 +114,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 <div>
                                     {isFullScreen && (
                                         <div className="video-wrapper">
-                                            <YouTube videoId="pQh775SP_dA" opts={opt} playing={isPlaying} />
+                                            <ReactPlayer url={videoData} playing width="100%" height="auto" />
                                         </div>
                                     )}
                                 </div>

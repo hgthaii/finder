@@ -11,6 +11,5 @@ export default mongoose.model(
                 unique: true,
             },
         },
-        modelOptions,
     ),
 )

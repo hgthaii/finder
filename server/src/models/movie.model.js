@@ -83,14 +83,14 @@ export default mongoose.model(
                     type: Number,
                     default: 0,
                 },
+                    createdAt: {
+                        type: Date,
+                        default: Date.now,
+                    },
+                    updatedAt: {
+                        type: Date,
+                        default: Date.now,
+                    },
             },
-            modelOptions,
         )
-        .index(
-            { title: 'text' },
-            {
-                language_override: 'vietnamese',
-                textIndexVersion: 3,
-            },
-        ),
 )

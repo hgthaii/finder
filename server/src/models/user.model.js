@@ -2,40 +2,45 @@ import mongoose from 'mongoose'
 import modelOptions from './model.options.js'
 import crypto from 'crypto'
 
-const userSchema = new mongoose.Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true, // Duy nhất
-        },
-        displayName: {
-            type: String,
-            required: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            select: false, // Không được lấy ra khi query
-        },
-        roles: { type: String, enum: ['user'], default: 'user' },
-        salt: {
-            type: String,
-            required: true,
-            select: false,
-        },
-        favorites: [
-            {
-                movieId: String,
-                title: String,
-                poster_path: String,
-                overview: String,
-                trailer: String,
-            },
-        ],
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true, // Duy nhất
     },
-    modelOptions,
-)
+    displayName: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+        select: false, // Không được lấy ra khi query
+    },
+    roles: { type: String, enum: ['user'], default: 'user' },
+    salt: {
+        type: String,
+        required: true,
+        select: false,
+    },
+    favorites: [
+        {
+            movieId: String,
+            title: String,
+            poster_path: String,
+            overview: String,
+            trailer: String,
+        },
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
+})
 
 userSchema.methods.setPassword = function (password) {
     // Tạo một chuỗi ngẫu nhiên

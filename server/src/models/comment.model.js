@@ -68,6 +68,5 @@ export default mongoose.model(
                 },
             ],
         },
-        modelOptions,
     ),
 )
