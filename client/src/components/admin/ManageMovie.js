@@ -330,20 +330,34 @@ function getStyles(name, personName, theme) {
     }
 }
 export const ModalAddMovie = (props) => {
-    const { open, handleCloseAdd } = props
+    const { open, handleCloseAdd, genres } = props
+    const [poster_pathInput, setPoster_pathInput] = useState('')
+    const [castsInput, setCastsInput] = useState('')
+    const [creatorsInput, setCreatorsInput] = useState('')
+    const [program_typeInput, setProgram_typeInput] = useState('')
+
+    const episodesData = [
+        {
+            episodes_title: '',
+            episodes_runtime: '',
+            episodes_image: '',
+            episodes_description: '',
+        },
+    ]
+
     const [movieData, setMovieData] = useState({
-        title: 'Thái',
-        logo: 'asdasd',
-        duration: 'asdasd',
-        release_date: 'afdgfdhgf',
-        overview: 'dgsfdhg',
-        trailer: 'gjhkgjlkl',
-        video: 'gjhkgjlh;l',
-        poster_path: [{ path: 'https://image.tmdb.org/t/p/w500/rzRb63TldOKdKydCvWJM8B6EkPM.jpg' }],
-        genres: [{ name: 'Hàn Quốc' }],
-        episodes: [],
-        casts: [{ name: 'Kim Woo Bin' }],
-        program_type: [{ name: 'Gai góc' }, { name: 'Đen tối' }],
+        title: '',
+        logo: '',
+        duration: '',
+        release_date: '',
+        overview: '',
+        trailer: '',
+        video: '',
+        poster_path: [],
+        genres: [],
+        episodes: [episodesData],
+        casts: [],
+        program_type: [],
         creators: [],
         age_rating: '',
         item_genre: '',
@@ -392,7 +406,7 @@ export const ModalAddMovie = (props) => {
             typeof value === 'string' ? value.split(',') : value,
         )
     }
-    
+
     return (
         <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseAdd}>
             <ToastContainer
@@ -931,12 +945,12 @@ export const ModalUpdateMovie = (props) => {
         }
         if (movieIds && movieIds[0]) {
             const firstMovie = movieIds[0]
-                const episodesData = firstMovie.episodes.map((episode) => ({
-                    episode_title: episode.episode_title,
-                    episode_runtime: episode.episode_runtime,
-                    episode_image: episode.episode_image,
-                    episode_description: episode.episode_description,
-                }))
+            const episodesData = firstMovie.episodes.map((episode) => ({
+                episode_title: episode.episode_title,
+                episode_runtime: episode.episode_runtime,
+                episode_image: episode.episode_image,
+                episode_description: episode.episode_description,
+            }))
             setMovieDataUpdate((prevData) => ({
                 ...prevData,
                 title: movieIds[0].title,
