@@ -352,8 +352,9 @@ export default HomePageAdmin
 
 export const ModalProfile = () => {
     const [value, setValue] = React.useState(0)
+    const [cookies] = useCookies(['accessToken', 'refreshToken'])
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
         setValue(newValue)
     }
     function formatDate(dateString) {
@@ -363,13 +364,12 @@ export const ModalProfile = () => {
         const year = `${date.getFullYear()}`
         return `${day}-${month}-${year}`
     }
-    const tokenBody = localStorage.getItem('token').split('.')[1]
+    const accessToken = cookies['accessToken']
+    const tokenParts = accessToken.split('.')
+    const encodedPayload = tokenParts[1]
+    const decodedPayload = atob(encodedPayload)
+    const parsedTokenBody = JSON.parse(decodedPayload)
 
-    // Giai ma body voi base64
-    const decodedTokenBody = atob(tokenBody)
-
-    // Giai ma cac phan tu JSON cua body
-    const parsedTokenBody = JSON.parse(decodedTokenBody)
     console.log('first' + parsedTokenBody.roles)
     const inforRole = parsedTokenBody.roles
     const infor = parsedTokenBody.infor

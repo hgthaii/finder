@@ -247,6 +247,7 @@ const ManageMovie = () => {
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
                     getRowHeight={() => 'auto'}
+                    getRowId={(row) => row._id}
                     onRowSelectionModelChange={(ids) => onSelectHandle(ids)}
                 />
             </div>

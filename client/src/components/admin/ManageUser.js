@@ -96,7 +96,7 @@ const ManageUser = () => {
                     return formattedDateString
                 },
             },
-            { field: 'id', headerName: 'Id', width: 220 },
+            { field: '_id', headerName: 'Id', width: 220 },
         ],
         [],
     )
@@ -128,7 +128,7 @@ const ManageUser = () => {
     const [role, setRole] = useState()
 
     const onSelectHandle = (ids) => {
-        const selectRowData = ids.map((id) => users.find((row) => row.id === id))
+        const selectRowData = ids.map((id) => users.find((row) => row._id === id))
         setUserIds(selectRowData)
         setDisplay(selectRowData.displayName)
         setRole(selectRowData.roles)
@@ -288,6 +288,7 @@ const ManageUser = () => {
                     loading={isLoading}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
+                    getRowId={(row) => row._id}
                     onRowSelectionModelChange={(ids) => onSelectHandle(ids)}
                 />
             </div>
@@ -309,7 +310,7 @@ export const ModalDeleteUser = (props) => {
                 },
             }
             const requests = userIds.map((userId) =>
-                axios.delete(`http://localhost:5000/api/v1/user/${userId.id}`, {
+                axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -462,7 +463,7 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`http://localhost:5000/api/v1/user/info/${userId.id}`, data, {
+                axios.put(`http://localhost:5000/api/v1/user/info/${userId._id}`, data, {
                     withCredentials: true,
                 }),
             )
