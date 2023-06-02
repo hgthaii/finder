@@ -119,7 +119,7 @@ const ManageComment = () => {
                                 <em>None</em>
                             </MenuItem>
                             {dataMovie?.map((movie) => (
-                                <MenuItem key={movie.id} value={movie.id}>
+                                <MenuItem key={movie._id} value={movie._id}>
                                     {movie.title}
                                 </MenuItem>
                             ))}

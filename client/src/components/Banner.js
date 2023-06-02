@@ -6,7 +6,7 @@ import Modal from './Modal'
 
 const Banner = ({ banerModal, data, randomMovies }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle } = icons
-    const [showImage, setShowImage] = useState(false)
+    const [showImage, setShowImage] = useState(true)
     const playerRef = useRef(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
@@ -67,7 +67,19 @@ const Banner = ({ banerModal, data, randomMovies }) => {
 
     // Dữ liệu video từ MongoDB
     const videoData = randomMovies?.video
+    const videoRef = useRef(null)
 
+    useEffect(() => {
+        let timeoutId
+        if (!showImage) {
+            videoRef.current.play()
+        } else {
+            timeoutId = setTimeout(() => {
+                setShowImage(false)
+            }, 3000)
+        }
+        return () => clearTimeout(timeoutId)
+    }, [showImage])
     return (
         <div className="relative ">
             <div>
@@ -86,7 +98,10 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                 ) : (
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                            <ReactPlayer url={videoData} style={{ objectFit: 'cover' }} width="100%" height="100%" />
+                            {/* <ReactPlayer url={videoData} style={{ objectFit: 'cover' }} width="100%" height="100%" /> */}
+                            <video width="100%" height="100%" ref={videoRef} muted>
+                                <source src={videoData} type="video/mp4" />
+                            </video>
                         </div>
                     </div>
                 )}
