@@ -67,19 +67,29 @@ const Banner = ({ banerModal, data, randomMovies }) => {
 
     // Dữ liệu video từ MongoDB
     const videoData = randomMovies?.video
-    const videoRef = useRef(null)
+    // const videoRef = useRef(null)
+    // useEffect(() => {
+    //     let timeoutId
+    //     if (!showImage) {
+    //         videoRef.current.play()
+    //     } else {
+    //         timeoutId = setTimeout(() => {
+    //             setShowImage(false)
+    //         }, 3000)
+    //     }
+    //     return () => clearTimeout(timeoutId)
+    // }, [showImage])
+    const [showVideo, setShowVideo] = useState(false)
 
     useEffect(() => {
-        let timeoutId
-        if (!showImage) {
-            videoRef.current.play()
-        } else {
-            timeoutId = setTimeout(() => {
-                setShowImage(false)
-            }, 3000)
-        }
-        return () => clearTimeout(timeoutId)
-    }, [showImage])
+        const timeout = setTimeout(() => {
+            setShowImage(false)
+            setShowVideo(true)
+        }, 3000)
+
+        // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
+        return () => clearTimeout(timeout)
+    }, [])
     return (
         <div className="relative ">
             <div>
@@ -98,10 +108,19 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                 ) : (
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                            {/* <ReactPlayer url={videoData} style={{ objectFit: 'cover' }} width="100%" height="100%" /> */}
-                            <video width="100%" height="100%" ref={videoRef} muted>
-                                <source src={videoData} type="video/mp4" />
-                            </video>
+                            <ReactPlayer
+                                url="https://streamable.com/ojpt2p"
+                                style={{ objectFit: 'cover' }}
+                                width="100%"
+                                height="100%"
+                                playing={showVideo}
+                            />
+                            {/* <video width="100%" height="100%" ref={videoRef} muted>
+                                <source
+                                    src="https://app.simplified.com/preview/ac4a4296-ad65-4ccc-9459-2de3154b0ee1"
+                                    type="video/webm"
+                                />
+                            </video> */}
                         </div>
                     </div>
                 )}
