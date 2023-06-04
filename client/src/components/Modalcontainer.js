@@ -14,7 +14,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
-    console.log(idGenre)
+    console.log(data)
     useEffect(() => {
         const fetchData = async () => {
             try {

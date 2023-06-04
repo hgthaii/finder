@@ -29,14 +29,46 @@ const Banner = ({ banerModal, data, randomMovies }) => {
         },
     }
 
-    //
-    const handleVideoEnd = () => {
-        // Dừng video
-        playerRef.current.internalPlayer.pauseVideo()
-        // Xóa video
-        playerRef.current.internalPlayer.loadVideoById(null)
-        // Hiển thị hình ảnh
-        setShowImage(true)
+    // useEffect(() => {
+    //     let timeoutId
+    //     let intervalId
+
+    //     if (showImage) {
+    //         timeoutId = setTimeout(() => {
+    //             setShowImage(false)
+    //             setIsPlaying(true)
+    //         }, 5000)
+    //     } else {
+    //         intervalId = setInterval(() => {
+    //             const videoElement = videoRef.current.getInternalPlayer()
+    //             console.log(videoElement)
+    //             if (videoElement && videoElement.paused) {
+    //                 setShowImage(true)
+    //                 setIsPlaying(false)
+    //                 clearInterval(intervalId)
+    //             }
+    //         }, 1000)
+    //     }
+
+    //     return () => {
+    //         clearTimeout(timeoutId)
+    //         clearInterval(intervalId)
+    //     }
+    // }, [showImage])
+
+    // const handleVideoEnded = () => {
+    //     setShowImage(true)
+    //     setIsPlaying(false)
+    // }
+
+    const handleWrapperRef = (ref) => {
+        if (ref) {
+            const videoElement = ref.getInternalPlayer()
+
+            if (videoElement) {
+                videoElement.style.objectFit = 'cover'
+            }
+        }
     }
 
     const opts = {
@@ -72,31 +104,34 @@ const Banner = ({ banerModal, data, randomMovies }) => {
     // }, [showImage])
     const [showVideo, setShowVideo] = useState(false)
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setShowImage(false)
-            setShowVideo(true)
-        }, 3000)
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setShowImage(false)
+    //         setShowVideo(true)
+    //     }, 3000)
 
-        // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
-        return () => clearTimeout(timeout)
-    }, [])
+    //     // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
+    //     return () => clearTimeout(timeout)
+    // }, [])
     return (
-        <div className="relative ">
-            <div>
-                {/* <img
-                    src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
-                    alt="background"
-                    className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'} `}
-                /> */}
-                <div className="bg-gradient-radial absolute top-0 bottom-0 left-0 right-0"></div>
-                {showImage ? (
+        <div className="relative">
+            {/* <img
+                src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
+                alt="background"
+                className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'} `}
+            /> */}
+            {showImage ? (
+                <div>
                     <img
                         src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
+                        // ref={imageRef}
                         alt="background"
-                        className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'}`}
+                        className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100%]'}`}
                     />
-                ) : (
+                    <div className="bg-gradient-radial absolute top-0 bottom-0 left-0 right-0 z-[1]"></div>
+                </div>
+            ) : (
+                <div className="relative">
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                             <ReactPlayer
@@ -114,17 +149,19 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                             </video> */}
                         </div>
                     </div>
-                )}
-            </div>
-
-            <div className="px-12 absolute top-0 left-0 bottom-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-transparent  text-white">
-                <div className="absolute top-[80px] pt-8 text-white">{/* phim h.hinh */}</div>
-                <div className="absolute top-[40%] w-[50%] h-1/4 ">
-                    <img src={data?.logo ? data?.logo : randomMovies?.logo} alt="movives" className=" w-full h-full" />
                 </div>
-                <div className="absolute top-[70%]">
+            )}
+            <div className="px-12 absolute top-0 left-0 bottom-0 right-0 text-white z-[2] flex justify-center items-center flex-col bg-gradient-left">
+                <div className="relative z-[100] top-2">
+                    <div>
+                        <img
+                            src={data?.logo ? data?.logo : randomMovies?.logo}
+                            alt="movives"
+                            className="w-[500px] h-[100px] object-contain object-left"
+                        />
+                    </div>
                     <div className="flex flex-col">
-                        <p className="w-[45%] text-white text-[20px] leading-5 mb-5 ellipsis3">
+                        <p className="w-[45%] text-[#F9F9F9] text-[1rem] leading-5 my-5 ellipsis3">
                             {data?.overview || randomMovies?.overview}
                         </p>
                         <div className="flex items-center">
@@ -139,7 +176,14 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 <div>
                                     {isFullScreen && (
                                         <div className="video-wrapper">
-                                            <ReactPlayer url={videoData} playing width="100%" height="auto" />
+                                            <ReactPlayer
+                                                url={videoData}
+                                                ref={handleWrapperRef}
+                                                autoPlay
+                                                playing
+                                                width="100%"
+                                                height="100vh"
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -173,6 +217,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                     </div>
                 </div>
             </div>
+            <div className="bg-gradient-top absolute top-0 bottom-0 left-0 right-0 z-[3]"></div>
         </div>
     )
 }
