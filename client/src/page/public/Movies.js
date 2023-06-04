@@ -11,9 +11,6 @@ import { useNavigate } from 'react-router-dom'
 // import { Modal } from '../public'
 const Movies = () => {
     const [randomMovies, setRandomMovies] = useState([])
-
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState(null)
     const [top10Movies, setTop10Movies] = useState(null)
 
     const navigate = useNavigate()

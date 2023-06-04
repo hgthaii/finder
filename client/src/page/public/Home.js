@@ -12,8 +12,6 @@ import * as apis from '../../apis'
 const Home = () => {
     const { movies } = useSelector((state) => state.app)
 
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState(null)
     const [top10Movies, setTop10Movies] = useState(null)
     const [randomMovies, setRandomMovies] = useState([])
 
@@ -30,8 +28,6 @@ const Home = () => {
 
         // socket.disconnect() // Ngắt kết nối khi component unmount
 
-        setSelectedProduct(movies)
-        setModalIsOpen(true)
     }
 
     useEffect(() => {
@@ -42,9 +38,6 @@ const Home = () => {
         top10Movies()
     }, [])
 
-    const closeModal = () => {
-        setModalIsOpen(false)
-    }
 
     let settings = {
         dots: false,
@@ -116,7 +109,7 @@ const Home = () => {
                     <h3 className="text-white mb-4 text-[18px]">Mới phát hành</h3>
                     <Slider {...settings}>
                         {movies?.map((item) => (
-                            <div key={item?.id}>
+                            <div key={item?._id}>
                                 <Section height={136} data={item} />
                             </div>
                         ))}
@@ -126,7 +119,7 @@ const Home = () => {
                     <h3 className="text-white mb-4 text-[18px]">Top 10 phim hay nhất</h3>
                     <Slider {...settings}>
                         {top10Movies?.map((item) => (
-                            <div key={item?.id}>
+                            <div key={item?._id}>
                                 <Section height={136} data={item} />
                             </div>
                         ))}

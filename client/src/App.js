@@ -33,7 +33,11 @@ function App() {
                     </Route>
                     <Route path="mylist" element={<Mylist />} />
                     <Route path="home-admin" element={<HomePageAdmin />} />
-                    <Route path="search" element={<Search />} />
+                    {/* <Route path="search" element={<Search />} /> */}
+                    <Route path="search" element={<Search />}>
+                        <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
+                    </Route>
+
                 </Route>
             </Routes>
         </>

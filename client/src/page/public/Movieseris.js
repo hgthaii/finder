@@ -90,7 +90,7 @@ const Movieseris = () => {
                     <h3 className="text-white mb-4 text-[18px]">Top 10 phim hay nhất</h3>
                     <Slider {...settings}>
                         {top10Movies?.map((item) => (
-                            <div key={item?.id}>
+                            <div key={item?._id}>
                                 <Section height={136} data={item} />
                             </div>
                         ))}

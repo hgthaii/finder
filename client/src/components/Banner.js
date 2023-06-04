@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef } from 'react'
 import YouTube from 'react-youtube'
 import ReactPlayer from 'react-player'
 import icons from '../ultis/icons'
-import Modal from './Modal'
+import { Link } from 'react-router-dom'
+import path from '../ultis/path'
 
 const Banner = ({ banerModal, data, randomMovies }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle } = icons
     const [showImage, setShowImage] = useState(true)
     const playerRef = useRef(null)
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [isFullScreen, setIsFullScreen] = useState(false)
     //
@@ -38,14 +37,6 @@ const Banner = ({ banerModal, data, randomMovies }) => {
         playerRef.current.internalPlayer.loadVideoById(null)
         // Hiển thị hình ảnh
         setShowImage(true)
-    }
-
-    const openModal = (movies) => {
-        setSelectedProduct(movies)
-        setModalIsOpen(true)
-    }
-    const closeModal = () => {
-        setModalIsOpen(false)
     }
 
     const opts = {
@@ -168,14 +159,14 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 </div>
                             ) : (
                                 <div>
-                                    <button
-                                        onClick={() => openModal(randomMovies)}
+
+                                    <Link to={`${path.DETAIL_MOVIES}/${randomMovies?._id}`}
                                         className=" gap-2  flex items-center justify-center rounded-md bg-transparent text-white text-center font-bold py-2 px-5 ml-2 border border-white"
                                     >
                                         <AiOutlineExclamationCircle size={30} color="white" />
                                         Thông tin khác
-                                    </button>
-                                    <Modal isOpenModal={modalIsOpen} closeModal={closeModal} data={selectedProduct} />
+                                    </Link>
+
                                 </div>
                             )}
                         </div>

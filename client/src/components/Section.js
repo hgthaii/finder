@@ -1,11 +1,11 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import path from '../ultis/path'
-const Section = ({ height, openModal, data }) => {
+const Section = ({ data }) => {
     return (
         <>
             <div className="cursor-pointer">
-                <Link to={`${path.DETAIL_MOVIES}/${data?.id}`}>
+                <Link to={`${path.DETAIL_MOVIES}/${data?._id}`}>
                     <div className="relative">
                         <img
                             src={data?.poster_path[0]?.path}
