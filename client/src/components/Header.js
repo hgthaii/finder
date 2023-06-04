@@ -66,7 +66,7 @@ const Header = () => {
     return (
         <div
             className={`flex items-center px-[48px] justify-between ${
-                isScrolled ? 'bg-[#141414] animate-header' : 'bg-transparent animate-header'
+                isScrolled ? 'bg-[#141414] animate-header' : 'bg-gradient-header animate-header'
             }`}
         >
             <div className="flex items-center">
