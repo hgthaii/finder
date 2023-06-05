@@ -5,6 +5,7 @@ const actionType = {
     TOP10: 'TOP10',
     GENRES: 'GENRES',
     DETAI_MOVIES: 'DETAI_MOVIES',
+    SEARCH_MOVIES: 'SEARCH_MOVIES',
 }
 
 export default actionType

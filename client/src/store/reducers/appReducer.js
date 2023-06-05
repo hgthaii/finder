@@ -7,7 +7,6 @@ const initState = {
     genreData: [],
     detailsMovies: [],
 }
-
 const appReducer = (state = initState, action) => {
     switch (action.type) {
         case actionType.GET_MOVIES:
