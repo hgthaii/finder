@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Link from '@mui/material/Link'
 import Avatar from '@mui/material/Avatar'
 import { DataGrid } from '@mui/x-data-grid'
@@ -30,6 +30,8 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
+import * as actions from '../../store/actions/movies'
+import actionType from '../../store/actions/actionType'
 
 const style = {
     position: 'absolute',
@@ -58,7 +60,7 @@ const ManageMovie = () => {
     const onMovieDetail = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`)
-            console.log('oke' + JSON.stringify(res.data))
+            // console.log('oke' + JSON.stringify(res.data))
             // [{Id: 1, title:"Avenger"}]
             setDetail(res.data[0])
         } catch (error) {
@@ -114,8 +116,8 @@ const ManageMovie = () => {
                     // console.log(JSON.stringify(durationArray))
                     return (
                         <span>
-                            {durationArray.map((value) => (
-                                <div>{value.name},</div>
+                            {durationArray.map((value, index) => (
+                                <div key={index}>{value.name},</div>
                             ))}
                         </span>
                     )
@@ -125,7 +127,7 @@ const ManageMovie = () => {
         ],
         [],
     )
-    const { movies } = useSelector((state) => state.app)
+    const dispatch = useDispatch()
 
     const [openDelete, setOpenDelete] = React.useState(false)
     const handleOpenDelete = () => {
@@ -135,15 +137,12 @@ const ManageMovie = () => {
         setOpenDelete(false)
     }
     const [movieIds, setMovieIds] = useState([])
-    // const [dataSelect, setDataSelect] = useState([])
 
     const onSelectHandle = (ids) => {
         const selectRowData = ids.map((id) => movies.find((row) => row.id === id))
         setMovieIds(selectRowData)
-        // setDataSelect(selectRowData)
-        // console.log('oke' + JSON.stringify(selectRowData))
     }
-    const [openAdd, setOpenAdd] = React.useState()
+    const [openAdd, setOpenAdd] = React.useState(false)
     const handleOpenAdd = () => {
         setOpenAdd(true)
         listGenres()
@@ -152,7 +151,7 @@ const ManageMovie = () => {
         setOpenAdd(false)
         setGenres([])
     }
-    const [openUpdate, setOpenUpdate] = React.useState()
+    const [openUpdate, setOpenUpdate] = React.useState(false)
     const handleOpenUpdate = () => {
         setOpenUpdate(true)
         listGenres()
@@ -170,6 +169,56 @@ const ManageMovie = () => {
             setGenres(res.data)
         } catch (error) {
             console.log(error)
+        }
+    }
+    const [searchItem, setSearchItem] = useState()
+    // const { movies } = useSelector((state) => state.app)
+
+    const onChangeMovie = (event) => {
+        const value = event.target.value
+        setSearchItem(value)
+    }
+    const [movies, setMovies] = useState([])
+    const [mainmovies, setMainMovies] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const timeLoading = () => {
+        const timer = setTimeout(() => {
+            setIsLoading(false)
+        }, 1000)
+        return () => clearTimeout(timer)
+    }
+    useEffect(() => {
+        timeLoading()
+    }, [])
+    useEffect(() => {
+        const getMovies = async () => {
+            if (!isLoading) {
+                try {
+                    const response = await axios.get('http://localhost:5000/api/v1/movies', {
+                        withCredentials: true,
+                    })
+
+                    setMovies(response.data)
+                    setMainMovies(response.data)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+        }
+        getMovies()
+    }, [isLoading])
+    const onSearchMovie = async () => {
+        try {
+            const request = await axios.get(`http://localhost:5000/api/v1/genres/media/search?search=${searchItem}`)
+            if (request) {
+                setMovies(request.data)
+            } else {
+                setMovies(mainmovies)
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error('Result not found')
+            setMovies(mainmovies)
         }
     }
     return (
@@ -196,15 +245,15 @@ const ManageMovie = () => {
                         Delete movie
                     </button>
                 </div>
-                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd} genres={genres} />
+                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd || false} genres={genres} />
                 <ModalUpdateMovie
                     handleCloseUpdate={handleCloseUpdate}
-                    open={openUpdate}
+                    open={openUpdate || false}
                     movieIds={movieIds}
                     genres={genres}
                 />
                 <Modal
-                    open={openDelete}
+                    open={openDelete || false}
                     onClose={handleCloseDelete}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
@@ -225,8 +274,12 @@ const ManageMovie = () => {
                             pr: 1,
                         }}
                         placeholder="Search movie ..."
+                        onChange={onChangeMovie}
                     />
-                    <button className="bg-[#3778DA] h-10 w-[120px] mt-5 ml-5 rounded-md text-white">
+                    <button
+                        className="bg-[#3778DA] h-10 w-[120px] mt-5 ml-5 rounded-md text-white"
+                        onClick={onSearchMovie}
+                    >
                         <SearchIcon />
                         Search
                     </button>
@@ -244,6 +297,7 @@ const ManageMovie = () => {
                     slots={{
                         loadingOverlay: LinearProgress,
                     }}
+                    loading={isLoading}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
                     getRowHeight={() => 'auto'}
@@ -251,7 +305,7 @@ const ManageMovie = () => {
                     onRowSelectionModelChange={(ids) => onSelectHandle(ids)}
                 />
             </div>
-            <DialogMovieDetail open={open} handleClose={handleClose} detail={detail} />
+            <DialogMovieDetail open={open || false} handleClose={handleClose} detail={detail} />
         </div>
     )
 }
@@ -409,7 +463,7 @@ export const ModalAddMovie = (props) => {
     }
 
     return (
-        <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseAdd}>
+        <Dialog fullWidth={true} maxWidth={'lg'} open={open || false} onClose={handleCloseAdd}>
             <ToastContainer
                 position="bottom-left"
                 autoClose={3000}
@@ -767,7 +821,7 @@ export const DialogMovieDetail = (props) => {
         const episode = detail?.episodes[index]
 
         return (
-            <ListItem style={style} components="div" disablePadding>
+            <ListItem style={style} component={"div"} disablePadding>
                 <ListItemButton>
                     <ListItemAvatar>
                         <Avatar variant="square" style={{ width: '80px', height: '80px', marginRight: '15px' }}>
@@ -788,7 +842,7 @@ export const DialogMovieDetail = (props) => {
         )
     }
     return (
-        <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleClose}>
+        <Dialog fullWidth={true} maxWidth={'lg'} open={open || false} onClose={handleClose}>
             <DialogTitle>Movie Details</DialogTitle>
             <DialogContent sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div className="grid">
@@ -835,7 +889,7 @@ export const DialogMovieDetail = (props) => {
                     </div>
                 </div>
                 <div>
-                    <label>Episodes:</label>
+                    <label className="font-bold">Episodes:</label>
                     {detail?.episodes.length > 0 ? (
                         <Box sx={{ width: '100%', height: 500, maxWidth: 550, bgcolor: 'background.paper' }}>
                             <FixedSizeList
@@ -855,8 +909,8 @@ export const DialogMovieDetail = (props) => {
                     <div>
                         <span className="font-bold">Poster: </span>
                         <div className="grid grid-cols-2 gap-4">
-                            {detail?.poster_path?.map((item) => (
-                                <img src={item.path} alt="poster" />
+                            {detail?.poster_path?.map((item, index) => (
+                                <img key={index} src={item.path} alt="poster" />
                             ))}
                         </div>
                     </div>
@@ -864,14 +918,14 @@ export const DialogMovieDetail = (props) => {
                         <span className="font-bold">Program Type: </span>
                         {detail?.program_type?.length !== 0 &&
                             detail?.program_type?.map((item, index) => (
-                                <span>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
+                                <span key={index}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
                             ))}
                     </div>
                     <div>
                         <span className="font-bold">Creators: </span>
                         {detail?.creators?.length !== 0 &&
                             detail?.creators?.map((item, index) => (
-                                <span>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
+                                <span key={index}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
                             ))}
                     </div>
                 </div>
@@ -911,8 +965,6 @@ export const ModalUpdateMovie = (props) => {
             const data = await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
                 withCredentials: true,
             })
-            console.log('data', data)
-            console.log('oke' + JSON.stringify(data))
         } catch (error) {
             console.log(error)
             // throw new Error(error)
@@ -973,7 +1025,7 @@ export const ModalUpdateMovie = (props) => {
         }
     }, [movieIds])
     return (
-        <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleCloseUpdate}>
+        <Dialog fullWidth={true} maxWidth={'lg'} open={open || false} onClose={handleCloseUpdate}>
             <ToastContainer
                 position="bottom-left"
                 autoClose={3000}

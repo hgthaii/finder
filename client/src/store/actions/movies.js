@@ -66,3 +66,7 @@ export const getDetailtMovies = (mid) => async (dispatch) => {
         })
     }
 }
+export const searchMovies = (movies) => ({
+    type: actionType.GET_MOVIES,
+    payload: movies,
+})

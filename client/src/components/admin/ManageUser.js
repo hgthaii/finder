@@ -49,11 +49,6 @@ const ManageUser = () => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    // const config = {
-                    //     headers: {
-                    //         Authorization: `Bearer ${accessToken}`,
-                    //     },
-                    // }
                     const response = await axios.get('http://localhost:5000/api/v1/user/info', {
                         withCredentials: true,
                     })
@@ -140,12 +135,7 @@ const ManageUser = () => {
 
     const onSearchUser = async () => {
         try {
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
+
             const request = await axios.post(
                 'http://localhost:5000/api/v1/user/',
                 {
@@ -162,6 +152,7 @@ const ManageUser = () => {
             }
         } catch (error) {
             console.log(error)
+            toast.error('Result not found')
             setUsers(mainusers)
         }
     }
