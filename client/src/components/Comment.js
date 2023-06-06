@@ -1,7 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+import axios from 'axios'
+
 import icons from '../ultis/icons'
 const Comment = () => {
+
     const { BsThreeDotsVertical } = icons
+    const { movieId } = useParams()
+    const [comment, setComment] = useState()
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/v1//movies/${movieId}/comments`, {
+                    withCredentials: true,
+                })
+                if (response.status === 200) {
+                    setComment(response.data)
+                }
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+
+        fetchData()
+    }, [movieId])
+    console.log(comment);
     return (
         <div className='w-full  border-b border-[#404040] py-4 my-4'>
             <div className="flex justify-between items-center mb-2">
