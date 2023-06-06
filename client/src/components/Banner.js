@@ -115,23 +115,17 @@ const Banner = ({ banerModal, data, randomMovies }) => {
     // }, [])
     return (
         <div className="relative">
-            {/* <img
-                src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
-                alt="background"
-                className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100vh]'} `}
-            /> */}
             {showImage ? (
-                <div>
+                <div className="">
                     <img
                         src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
                         // ref={imageRef}
                         alt="background"
                         className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100%]'}`}
                     />
-                    <div className="bg-gradient-radial absolute top-0 bottom-0 left-0 right-0 z-[1]"></div>
                 </div>
             ) : (
-                <div className="relative">
+                <div className="relative bg-gradient-left top-0 left-0 bottom-0 z-[6]">
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                             <ReactPlayer
@@ -141,18 +135,13 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 height="100%"
                                 playing={showVideo}
                             />
-                            {/* <video width="100%" height="100%" ref={videoRef} muted>
-                                <source
-                                    src="https://app.simplified.com/preview/ac4a4296-ad65-4ccc-9459-2de3154b0ee1"
-                                    type="video/webm"
-                                />
-                            </video> */}
                         </div>
                     </div>
                 </div>
             )}
-            <div className="px-12 absolute top-0 left-0 bottom-0 right-0 text-white z-[2] flex justify-center items-center flex-col bg-gradient-left">
-                <div className="relative z-[100] top-2">
+            <div className="px-12 absolute top-0 left-0 bottom-0 right-0 z-[2] flex justify-center items-center flex-col bg-gradient-left"></div>
+            <div className="px-12 absolute top-0 left-0 bottom-0 right-0 z-[4] flex justify-center items-center flex-col select-none">
+                <div className="pb-14">
                     <div>
                         <img
                             src={data?.logo ? data?.logo : randomMovies?.logo}
@@ -161,7 +150,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                         />
                     </div>
                     <div className="flex flex-col">
-                        <p className="w-[45%] text-[#F9F9F9] text-[1rem] leading-5 my-5 ellipsis3">
+                        <p className="w-[45%] text-[#F9F9F9] text-[1rem] font-medium leading-5 my-5 ellipsis3">
                             {data?.overview || randomMovies?.overview}
                         </p>
                         <div className="flex items-center">
@@ -203,14 +192,13 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 </div>
                             ) : (
                                 <div>
-
-                                    <Link to={`${path.DETAIL_MOVIES}/${randomMovies?._id}`}
+                                    <Link
+                                        to={`${path.DETAIL_MOVIES}/${randomMovies?._id}`}
                                         className=" gap-2  flex items-center justify-center rounded-md bg-transparent text-white text-center font-bold py-2 px-5 ml-2 border border-white"
                                     >
                                         <AiOutlineExclamationCircle size={30} color="white" />
                                         Thông tin khác
                                     </Link>
-
                                 </div>
                             )}
                         </div>

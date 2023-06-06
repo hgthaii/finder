@@ -49,8 +49,9 @@ const signup = async (req, res) => {
 
         // Thông báo tạo thành công
         responseHandler.created(res, {
-            statusCode: 201,
-            message: 'Đăng ký tài khoản thành công!'
+            access_token: token,
+            // id: user.id, // Trả về giá trị của _id của user dưới dạng String
+            // ...userWithoutId, // Kế thừa props từ _doc. _doc chứa tất cả các key value trừ _id của đối tượng
         })
     } catch (error) {
         responseHandler.error(res, 'Đăng ký không thành công!')

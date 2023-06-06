@@ -4,8 +4,8 @@ import logo from '../../src/asset/image/logo.png'
 
 const Footer = () => {
     return (
-        <div className=" bg-[#090B13] flex flex-col justify-between items-center text-white mt-[40px] p-10">
-            <div className="pt-4">
+        <div className=" bg-[#030014] flex flex-col justify-between items-center text-white pb-10">
+            <div className="">
                 <img src={logo} alt="logo" />
             </div>
             <div className="flex gap-10 pt-4">
