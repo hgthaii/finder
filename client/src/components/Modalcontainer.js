@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modalsection, Banner, Modalcard } from './'
+import { Modalsection, Banner, Modalcard, Comment } from './'
 import icons from '../ultis/icons'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
@@ -14,7 +14,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
-    console.log(data)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -31,6 +31,19 @@ const Modalcontainer = ({ data, closeModal }) => {
 
         fetchData()
     }, [idGenre])
+
+    const [comment, setComment] = useState('');
+
+    const handleInputChange = (event) => {
+        setComment(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Gửi bình luận lên server hoặc xử lý bình luận ở đây
+        console.log(comment);
+        setComment('');
+    };
 
     return (
         <div className=" bg-[#181818] text-white rounded-lg ">
@@ -116,42 +129,32 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 ))}
                         </div>
                     </div>
-                    {/* <div className="">
-                        <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Trailer & nội dung khác</h3>
-
-                        <div className="flex flex-wrap w-full gap-3 text-white ">
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                                <p className="text-center font-bold text-base">
-                                    Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                                </p>
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                                <p className="text-center font-bold text-base">
-                                    Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                                </p>
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                                <p className="text-center font-bold text-base">
-                                    Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                                </p>
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                                <p className="text-center font-bold text-base">
-                                    Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                                </p>
-                            </div>
-                            <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                                <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                                <p className="text-center font-bold text-base">
-                                    Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                                </p>
-                            </div>
+                    <div className="w-full">
+                        <div  >
+                            <form onSubmit={handleSubmit} >
+                                <textarea
+                                    placeholder="Viết bình luận của bạn..."
+                                    value={comment}
+                                    onChange={handleInputChange}
+                                    className='text-[#000]'
+                                ></textarea>
+                                <button type="submit">Gửi bình luận</button>
+                            </form>
+                            <p>
+                                <strong>In đậm: {comment}</strong>
+                            </p>
+                            <p>
+                                <em>In nghiêng: {comment}</em>
+                            </p>
                         </div>
-                    </div> */}
+                        <div>
+                            <Comment />
+                            <Comment />
+                            <Comment />
+                            <Comment />
+                            <Comment />
+                        </div>
+                    </div>
 
                     <div className="flex flex-col pb-[32px] w-full">
                         <div className="text-white mt-12 mb-5 text-2xl flex">

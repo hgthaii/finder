@@ -4,7 +4,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-import { Section, Banner, Modal } from '../../components'
+import { Section, Banner } from '../../components'
 import * as apis from '../../apis'
 
 const Movieseris = () => {
