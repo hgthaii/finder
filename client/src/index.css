@@ -137,3 +137,30 @@ html {
   transition-delay: 300ms;
   z-index: 10;
 } */
+.pagination{
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+.pagination a{
+  padding: .375rem .75rem;
+  border-radius: 2px;
+}
+.pagination .page-link{
+  display: block;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+.pagination .active .page-link {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.pagination .disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}

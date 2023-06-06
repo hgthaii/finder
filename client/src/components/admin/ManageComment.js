@@ -51,24 +51,6 @@ const ManageComment = () => {
     const offset = currentPage * PER_PAGE
     const currentPageData = comment.slice(offset, offset + PER_PAGE)
 
-    // const [userIds, setUserIds] = React.useState([])
-    // const getUserByID = async (userId) => {
-    //     try {
-    //         const res = await axios.post(`http://localhost:5000/api/v1/user/info/${userId}`, null, {
-    //             withCredentials: true,
-    //         })
-    //         console.log('oke ne' + JSON.stringify(res.data))
-    //         setUserIds(res.data)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-    // const getUser = (userId) => {
-    //     getUserByID(userId)
-    //     const detail = userIds.find((ad) => ad.id === userId)
-    //     return detail ? detail.displayName : ''
-    // }
-
     const [userDetails, setUserDetails] = React.useState({})
 
     const fetchUserDetails = async (userId) => {

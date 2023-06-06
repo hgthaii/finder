@@ -24,6 +24,7 @@ router.get('/hot-movies/top-movies', movieController.getHotMovies)
 router.get('/random/random-movies', movieController.getRandomMovies)
 
 router.get('/:movieId/comments', commentController.getAllCommentOfFilm)
+router.get('/comments/:userId', commentController.getAllCommentOfUser)
 
 router.post(
     '/comments',
