@@ -1,129 +1,127 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import { useNavigate, Outlet } from 'react-router-dom'
+import React, { useEffect, useState, useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { useSelector } from 'react-redux'
-import io from 'socket.io-client'
+import 'swiper/swiper.min.css'
+import 'swiper/swiper-bundle.min.css'
+import SwiperCore, { Navigation, Pagination } from 'swiper'
 
-import { Section, Banner, Modal } from '../../components'
+import { Section, Banner, } from '../../components'
 import * as apis from '../../apis'
+import { Outlet } from 'react-router'
+
+SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
     const { movies } = useSelector((state) => state.app)
-
     const [top10Movies, setTop10Movies] = useState(null)
     const [randomMovies, setRandomMovies] = useState([])
 
-    const openModal = (movies) => {
-        const socket = io('http://localhost:5000', { transports: ['websocket'] })
-        // Gửi sự kiện getComment
-        socket.emit('getLatestComments')
-
-        // Lắng nghe sự kiện 'latestComments' từ server và hiển thị các comment
-        socket.on('latestComments', (comments) => {
-            console.log('Sự kiện latestComments đã được kích hoạt.')
-            console.log('Dữ liệu comments:', comments)
-        })
-
-        // socket.disconnect() // Ngắt kết nối khi component unmount
-
-    }
-
     useEffect(() => {
-        const top10Movies = async () => {
-            const reponse = await apis.top10Movies()
-            setTop10Movies(reponse)
+        const fetchTop10Movies = async () => {
+            const response = await apis.top10Movies()
+            setTop10Movies(response)
         }
-        top10Movies()
+        fetchTop10Movies()
     }, [])
 
-
-    let settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 6,
-        slidesToScroll: 3,
-        initialSlide: 0,
-        draggable: false,
-        adaptiveHeight: true,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    infinite: true,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: false,
-                },
-            },
-
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    initialSlide: 2,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: false,
-                },
-            },
-        ],
-    }
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await apis.apiMoviesRandom()
                 setRandomMovies(response)
-                // Xử lý dữ liệu nhận được
             } catch (error) {
-                // Xử lý lỗi
                 console.error(error)
             }
         }
 
         fetchData()
     }, [])
+
+    const swiperParams = {
+        slidesPerView: 5,
+        slidesPerGroup: 1,
+        spaceBetween: 10,
+        initialSlide: 0,
+        autoHeight: false,
+        centeredSlides: false,
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination', // CSS selector cho phần tử hiển thị dots
+            clickable: true, // Cho phép người dùng nhấp vào dots để chuyển đến slide tương ứng
+            // dynamicBullets: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            // when window width is >= 600px
+            600: {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+                spaceBetween: 5,
+                centeredSlides: true,
+            },
+            // when window width is >= 900px
+            900: {
+                slidesPerView: 3,
+                slidesPerGroup: 3,
+                spaceBetween: 5,
+                centeredSlides: false,
+            },
+            // when window width is >= 1200px
+            1200: {
+                slidesPerView: 5,
+                slidesPerGroup: 1,
+                spaceBetween: 10,
+                centeredSlides: false,
+            },
+            // when window width is >= 1500px
+            1500: {
+                slidesPerView: 5,
+                slidesPerGroup: 5,
+                spaceBetween: 5,
+                centeredSlides: false,
+            },
+            // when window width is >= 1800px
+            1800: {
+                slidesPerView: 6,
+                slidesPerGroup: 6,
+                spaceBetween: 5,
+                centeredSlides: false,
+            },
+        },
+    }
+
     return (
-        <div className="flex flex-col w-full ">
+        <div className="">
             <Banner randomMovies={randomMovies} />
-            <div className="px-12 w-full">
-                <div className="flex flex-col my-4 ">
-                    <h3 className="text-white mb-4 text-[18px]">Mới phát hành</h3>
-                    <Slider {...settings}>
-                        {movies?.map((item) => (
-                            <div key={item?._id}>
-                                <Section height={136} data={item} />
-                            </div>
+            <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0">
+                <div className="my-4">
+                    <h3 className="text-white mb-3 text-[18px] font-bold">Mới phát hành</h3>
+                    <Swiper {...swiperParams}>
+                        {top10Movies?.map((item, index) => (
+                            <SwiperSlide key={item._id} className='swiper-scale'>
+                                <Section data={item} />
+                            </SwiperSlide>
                         ))}
-                    </Slider>
+                        <div className="swiper-button-next swiper-button-wrapper"></div>
+                        <div className="swiper-button-prev swiper-button-wrapper"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
                 </div>
-                <div className="flex flex-col my-4 ">
-                    <h3 className="text-white mb-4 text-[18px]">Top 10 phim hay nhất</h3>
-                    <Slider {...settings}>
-                        {top10Movies?.map((item) => (
-                            <div key={item?._id}>
-                                <Section height={136} data={item} />
-                            </div>
+                <div className="">
+                    <h3 className="text-white mb-4 text-[18px] font-bold">Mới phát hành</h3>
+                    <Swiper {...swiperParams}>
+                        {top10Movies?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
                         ))}
-                    </Slider>
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
                 </div>
             </div>
             <div className="">
