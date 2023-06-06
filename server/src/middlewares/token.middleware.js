@@ -125,7 +125,7 @@ const tokenGlobal = async (req, res) => {
         // Chỉ định các trường cần được trả về
         const user = await userModel.findOne({ username }).select('username password salt id')
 
-        if (!user) return responseHandler.badrequest(res, 'User không tồn tại!')
+        if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
 

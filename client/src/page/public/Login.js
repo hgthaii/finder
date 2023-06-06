@@ -23,40 +23,20 @@ const style = {
 }
 const Login = ({ onClose }) => {
     const [password, setPassword] = useState('')
-    const [validationMsg, setValidationMsg] = useState({})
+    const [validationMsg, setValidationMsg] = useState()
+    const [usernameValidationMsg, setUsernameValidationMsg] = useState()
+    const [passwordValidationMsg, setPasswordValidationMsg] = useState()
     const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken'])
 
-    // const onChangePassword = (event) => {
-    //   const value = event.target.value;
-    //   setPassword(value);
-    // };
-
-    const validateAll = () => {
-        const msg = {}
-
-        if (isEmpty(username)) {
-            msg.password = 'Vui lòng nhập tài khoản'
-        }
-        if (isEmpty(password)) {
-            msg.password = 'Vui lòng nhập mật khẩu'
-        }
-
-        setValidationMsg(msg)
-
-        if (Object.keys(msg).length > 0) return false
-
-        return true
-    }
-
     const onSubmitLogin = async () => {
-        const isValid = validateAll()
-        if (!isValid) return
+        setUsernameValidationMsg('')
+        setPasswordValidationMsg('')
+        setValidationMsg('')
         try {
             const response = await axios.post('http://localhost:5000/api/v1/user/signin', {
                 username,
                 password,
             })
-            // axios.defaults.withCredentials = true //cho phép lấy cookie từ server
 
             const handleSetTokens = () => {
                 const accessTokenExpiration = new Date()
@@ -86,8 +66,6 @@ const Login = ({ onClose }) => {
 
             // Giai ma cac phan tu JSON cua body
             const parsedTokenBody = JSON.parse(decodedTokenBody)
-            // localStorage.setItem('infor', JSON.stringify(parsedTokenBody.infor))
-            // localStorage.setItem('role', JSON.stringify(parsedTokenBody.roles))
 
             if (parsedTokenBody.roles === 'admin') {
                 toast.success('Đăng nhập thành công')
@@ -98,15 +76,34 @@ const Login = ({ onClose }) => {
                 navigate('/')
             }
         } catch (error) {
-            toast.error('Đăng nhập không thành công')
-            console.log(error)
+            if (error.response && error.response.status === 400) {
+                const errorMessage = error.response.data.message
+                const requiredMessage = error.response.data
+                if (errorMessage && (errorMessage.includes('Username') || errorMessage.includes('Tài khoản'))) {
+                    setUsernameValidationMsg(errorMessage)
+                } else if (errorMessage && (errorMessage.includes('password') || errorMessage.includes('mật khẩu'))) {
+                    setPasswordValidationMsg(errorMessage)
+                } else if (errorMessage && requiredMessage.includes('username')) {
+                    console.log('first' + requiredMessage)
+                } else {
+                    setValidationMsg('Vui lòng nhập tài khoản hoặc mật khẩu!')
+                }
+            } else {
+                toast.error('Đăng nhập không thành công')
+            }
         }
     }
     const [username, setUsername] = useState()
     const navigate = useNavigate()
     const onChangeUsername = (event) => {
+        setUsernameValidationMsg('')
         const value = event.target.value
-        setUsername(value)
+        if(value.length >= 4){
+            setUsername(value)
+        }else{
+
+            setUsernameValidationMsg("Nhập tối thiểu 4 ký tự")
+        }
     }
     const onChangePass = (event) => {
         const value = event.target.value
@@ -130,6 +127,7 @@ const Login = ({ onClose }) => {
             <img src={logo} alt="logo" />
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">ĐĂNG NHẬP</h3>
+                <p className="text-red-400 text-xs "> {validationMsg}</p>
                 <input
                     type="text"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
@@ -137,7 +135,7 @@ const Login = ({ onClose }) => {
                     onChange={onChangeUsername}
                     onKeyPress={handleKeyPress}
                 />
-                <p className="text-red-400 text-xs "> {validationMsg.email}</p>
+                <p className="text-red-400 text-xs "> {usernameValidationMsg}</p>
                 <input
                     type="password"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
@@ -145,7 +143,7 @@ const Login = ({ onClose }) => {
                     onChange={onChangePass}
                     onKeyPress={handleKeyPress}
                 />
-                <p className="text-red-400 text-xs "> {validationMsg.password}</p>
+                <p className="text-red-400 text-xs "> {passwordValidationMsg}</p>
 
                 <button
                     className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold "
