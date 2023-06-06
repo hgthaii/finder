@@ -46,7 +46,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     };
 
     return (
-        <div className="max-w-[850px] w-full bg-[#181818] text-white rounded-lg">
+        <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
             <div className="relative ">
                 <Banner banerModal data={data} />
                 <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
@@ -57,7 +57,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </button>
             </div>
 
-            <div className="px-12">
+            <div className="px-12 relative top-[-18px]">
                 <div className="flex">
                     <div className="w-[70%] flex flex-col ">
                         <div className="flex text-base mt-[18px]">
@@ -92,7 +92,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     ))}
                         </div>
                     </div>
-
                 </div>
                 <div className="">
                     {data?.episodes?.length !== 0 && (
@@ -119,29 +118,41 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="w-full mt-4">
-                    <div className='w-full bg-[#333333] p-4 rounded-lg' >
+                    <div className="w-full bg-[#333333] p-4 rounded-lg">
                         <div className="flex items-center gap-3">
-                            <img src="https://source.unsplash.com/random" alt="user" className='w-12 h-12 rounded-full ' />
+                            <img
+                                src="https://source.unsplash.com/random"
+                                alt="user"
+                                className="w-12 h-12 rounded-full "
+                            />
                             <span>Đặng Tùng</span>
                         </div>
-                        <div className='border-b border-[#BCBCBC]'>
-                            <form onSubmit={handleSubmit} >
+                        <div className="border-b border-[#BCBCBC]">
+                            <form onSubmit={handleSubmit}>
                                 <textarea
                                     placeholder="Bạn nghĩ gì về bộ phim này..."
                                     value={comment}
                                     onChange={handleInputChange}
-                                    className=' w-full bg-[#333333] outline-none pt-2 min-h-[100px]'
+                                    className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                 ></textarea>
                             </form>
                         </div>
 
-                        <div className='flex justify-between items-center mt-3'>
+                        <div className="flex justify-between items-center mt-3">
                             <div className="flex gap-2">
-                                <span className='cursor-pointer'><FaBold /></span>
-                                <span className='cursor-pointer'><FaItalic /></span>
-                                <span className='cursor-pointer'><AiOutlineLink size={20} /></span>
+                                <span className="cursor-pointer">
+                                    <FaBold />
+                                </span>
+                                <span className="cursor-pointer">
+                                    <FaItalic />
+                                </span>
+                                <span className="cursor-pointer">
+                                    <AiOutlineLink size={20} />
+                                </span>
                             </div>
-                            <button type="submit" className='w-[100px] h-[40px] text-black rounded-md bg-white '>Bình luận</button>
+                            <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white ">
+                                Bình luận
+                            </button>
                         </div>
                     </div>
                     <div>
