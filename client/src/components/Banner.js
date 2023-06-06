@@ -104,15 +104,15 @@ const Banner = ({ banerModal, data, randomMovies }) => {
     // }, [showImage])
     const [showVideo, setShowVideo] = useState(false)
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setShowImage(false)
-            setShowVideo(true)
-        }, 3000)
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setShowImage(false)
+    //         setShowVideo(true)
+    //     }, 3000)
 
-        // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
-        return () => clearTimeout(timeout)
-    }, [])
+    //     // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
+    //     return () => clearTimeout(timeout)
+    // }, [])
     return (
         <div className="relative">
             {showImage ? (

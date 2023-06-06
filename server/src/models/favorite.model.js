@@ -15,27 +15,36 @@ export default mongoose.model(
         },
         title: {
             type: String,
-            // require: true,
+            required: true,
+            unique: true,
         },
-        poster_path: {
+        logo: {
             type: String,
-            // require: true,
+            required: true,
         },
+        release_date: {
+            type: String,
+        },
+        poster_path: String,
         overview: {
             type: String,
-            // require: true,
+            required: true,
         },
         trailer: {
             type: String,
-            // require: true,
+        },
+        video: {
+            type: String,
         },
         createdAt: {
             type: Date,
             default: Date.now,
         },
+        age_rating: String,
+        item_genre: String,
         updatedAt: {
             type: Date,
             default: Date.now,
         },
-    }),
+    }, {versionKey: false,}),
 )
