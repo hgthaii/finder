@@ -9,7 +9,7 @@ const addFavorite = async (req, res) => {
         if (!movieId) return responseHandler.badrequest(res, 'Không tìm thấy phim')
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
         const userId = tokenDecoded.infor.id
-        const movie = await movieModel.findById(movieId).select('title poster_path id overview trailer')
+        const movie = await movieModel.findById(movieId).select('title logo poster_path release_date _id overview trailer video age_rating item_genre')
         if (!movie) return responseHandler.badrequest(res, 'Không tìm thấy phim')
         const isFavorite = await favoriteModel.findOne({ movieId })
         // Tìm xem movie này đã được thêm vào yêu thích chưa
@@ -21,9 +21,15 @@ const addFavorite = async (req, res) => {
         const favorite = new favoriteModel({
             ...req.body,
             title: movie.title,
+            logo: movie.logo,
+            release_date: movie.release_date,
             poster_path: movie.poster_path[1].path,
             overview: movie.overview,
             trailer: movie.trailer,
+            video: movie.video,
+            age_rating: movie.age_rating,
+            item_genre: movie.item_genre,
+            _id: movie._id,
             userId,
         })
 
