@@ -83,14 +83,20 @@ html {
   background-image: linear-gradient(to right,#030014ac,transparent 110%) !important;
 }
 
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  margin-top: 0 !important;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   font-weight: 700;
   color: #fff !important;
   position: absolute !important;
-  width: 4rem !important ;
-  height: 100% !important;
-  top: 1.3125rem !important;
+  width: 3rem !important ;
+  height: 8rem !important;
+  top: var(--swiper-navigation-top-offset,14%) !important;
   margin-left: 0 !important;
   margin-right: 0 !important
 }
@@ -102,27 +108,22 @@ html {
 }
 
 .swiper-pagination-bullet {
-  background: var(--swiper-pagination-bullet-inactive-color,#fff) !important;
+  margin: 0 1px !important;
+  background: var(--swiper-pagination-bullet-inactive-color,#ccc) !important;
   border-radius: 0 !important;
   width: 14px !important;
   height: 2px !important;
 }
 
-.swiper-pagination-bullet .swiper-pagination-bullet-active {
-  color: red !important
+.swiper{
+  padding: 0 48px !important;
 }
 
-.swiper::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  overflow: hidden !important;
+.swiper .swiper-slide {
+  overflow: visible !important;
 }
 
-.swiper-scale {
+/* .swiper-scale {
   transition: all 300ms ease-in-out;
   transform-origin: top;
   border-radius: 8px;
@@ -130,35 +131,9 @@ html {
 }
 
 .swiper-scale:hover a img {
+  transform-origin: bottom;
   transform: scale(1.5);
   transition: all 300ms ease-in-out;
   transition-delay: 300ms;
   z-index: 10;
-}
-
-/* .swiper-slide {
-  transition: all 300ms ease-in-out;
-  border-radius: 5px;
-}
-
-.swiper-slide a div img {
-  border-radius: 5px;
-  max-width: 18rem;
-  cursor: grab;
-}
-
-.swiper-slide a div img:active {
-  cursor: grabbing;
-}
-
-.swiper-slide:hover {
-  transform: scale(1.5);
-  transition: all 300ms ease-in-out;
-  transition-delay: 300ms;
-  z-index: 1;
-}
-
-.swiper-slide:hover  a div img {
-  transition-delay: 300ms;
-  box-shadow: 0 0 5px 1px rgba(0,0,0,0.5);
 } */

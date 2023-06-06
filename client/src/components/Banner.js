@@ -104,15 +104,15 @@ const Banner = ({ banerModal, data, randomMovies }) => {
     // }, [showImage])
     const [showVideo, setShowVideo] = useState(false)
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setShowImage(false)
-    //         setShowVideo(true)
-    //     }, 3000)
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShowImage(false)
+            setShowVideo(true)
+        }, 3000)
 
-    //     // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
-    //     return () => clearTimeout(timeout)
-    // }, [])
+        // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
+        return () => clearTimeout(timeout)
+    }, [])
     return (
         <div className="relative">
             {showImage ? (
@@ -125,7 +125,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                     />
                 </div>
             ) : (
-                <div className="relative bg-gradient-left top-0 left-0 bottom-0 z-[6]">
+                <div className="relative bg-gradient-left top-0 left-0 bottom-0 z-[0]">
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                             <ReactPlayer

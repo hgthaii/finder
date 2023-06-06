@@ -14,6 +14,12 @@ const Home = () => {
     const { movies } = useSelector((state) => state.app)
     const [top10Movies, setTop10Movies] = useState(null)
     const [randomMovies, setRandomMovies] = useState([])
+    const [isNextClicked, setIsNextClicked] = useState(false)
+    const prevRef = useRef(null)
+
+    const handleNextClick = () => {
+        setIsNextClicked(true)
+    }
 
     useEffect(() => {
         const fetchTop10Movies = async () => {
@@ -38,9 +44,12 @@ const Home = () => {
 
     const swiperParams = {
         slidesPerView: 5,
-        slidesPerGroup: 1,
+        slidesPerGroup: 5,
         spaceBetween: 10,
         initialSlide: 0,
+        loopPreventsSliding: true,
+        preventClicks: true,
+        speed: 1000,
         autoHeight: false,
         centeredSlides: false,
         loop: true,
@@ -71,7 +80,7 @@ const Home = () => {
             // when window width is >= 1200px
             1200: {
                 slidesPerView: 5,
-                slidesPerGroup: 1,
+                slidesPerGroup: 5,
                 spaceBetween: 10,
                 centeredSlides: false,
             },
@@ -97,28 +106,28 @@ const Home = () => {
             <Banner randomMovies={randomMovies} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0">
                 <div className="my-4">
-                    <h3 className="text-white mb-3 text-[18px] font-bold">Mới phát hành</h3>
+                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold">Mới phát hành</h3>
                     <Swiper {...swiperParams}>
-                        {top10Movies?.map((item, index) => (
-                            <SwiperSlide key={item._id} className='swiper-scale'>
+                        {movies?.map((item, index) => (
+                            <SwiperSlide key={item._id} className="swiper-scale">
                                 <Section data={item} />
                             </SwiperSlide>
                         ))}
-                        <div className="swiper-button-next swiper-button-wrapper"></div>
-                        <div className="swiper-button-prev swiper-button-wrapper"></div>
+                        <div className="swiper-button-next" onClick={handleNextClick}></div>
+                        {isNextClicked && <div className="swiper-button-prev" ref={prevRef}></div>}
                         <div className="swiper-pagination"></div> {/* Hiển thị dots */}
                     </Swiper>
                 </div>
-                <div className="">
-                    <h3 className="text-white mb-4 text-[18px] font-bold">Mới phát hành</h3>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold">Mới phát hành</h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
                         ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-button-next" onClick={handleNextClick}></div>
+                        {isNextClicked && <div className="swiper-button-prev" ref={prevRef}></div>}
                         <div className="swiper-pagination"></div> {/* Hiển thị dots */}
                     </Swiper>
                 </div>
