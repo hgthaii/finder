@@ -15,7 +15,7 @@ const Section = ({ data }) => {
             onClick={handleToggleActive}
         >
             <img
-                src={data?.poster_path[0]?.path}
+                src={data?.poster_path[0]?.path || data?.poster_path}
                 alt="movies"
                 className="w-[100%] object-cover rounded-md h-[50%]"
             />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modalsection, Banner, Modalcard } from './'
+import { Modalsection, Banner, Modalcard, Comment } from './'
 import icons from '../ultis/icons'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom'
 
 const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
-    const { AiOutlineClose } = icons
+    const { AiOutlineClose, FaBold, FaItalic, AiOutlineLink } = icons
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
-    console.log(data)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,11 +32,24 @@ const Modalcontainer = ({ data, closeModal }) => {
         fetchData()
     }, [idGenre])
 
+    const [comment, setComment] = useState('');
+
+    const handleInputChange = (event) => {
+        setComment(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Gửi bình luận lên server hoặc xử lý bình luận ở đây
+        console.log(comment);
+        setComment('');
+    };
+
     return (
         <div className="max-w-[850px] w-full bg-[#181818] text-white rounded-lg">
             <div className="relative ">
                 <Banner banerModal data={data} />
-                <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer  ">
+                <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                         {' '}
                         <AiOutlineClose size={25} color="white" />
@@ -78,19 +91,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         <span key={item._id}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
                                     ))}
                         </div>
-                        <div className=" text-white text-sm  my-[7px] mr-[7px]">
-                            <span className="text-[#777]">Thể loại: </span>
-                            {data?.genres?.map((item, index) => (
-                                <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
-                            ))}
-                        </div>
-                        <div className="text-sm text-white my-[7px] mr-[7px]">
-                            <span className="text-[#777]">Chương trình này : </span>
-                            {data?.program_type?.map((item, index) => (
-                                <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
-                            ))}
-                        </div>
                     </div>
+
                 </div>
                 <div className="">
                     {data?.episodes?.length !== 0 && (
@@ -115,43 +117,41 @@ const Modalcontainer = ({ data, closeModal }) => {
                             ))}
                     </div>
                 </div>
-                {/* <div className="">
-                    <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Trailer & nội dung khác</h3>
 
-                    <div className="flex flex-wrap w-full gap-3 text-white ">
-                        <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                            <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                            <p className="text-center font-bold text-base">
-                                Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                            </p>
+                <div className="w-full mt-4">
+                    <div className='w-full bg-[#333333] p-4 rounded-lg' >
+                        <div className="flex items-center gap-3">
+                            <img src="https://source.unsplash.com/random" alt="user" className='w-12 h-12 rounded-full ' />
+                            <span>Đặng Tùng</span>
                         </div>
-                        <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                            <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                            <p className="text-center font-bold text-base">
-                                Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                            </p>
+                        <div className='border-b border-[#BCBCBC]'>
+                            <form onSubmit={handleSubmit} >
+                                <textarea
+                                    placeholder="Bạn nghĩ gì về bộ phim này..."
+                                    value={comment}
+                                    onChange={handleInputChange}
+                                    className=' w-full bg-[#333333] outline-none pt-2 min-h-[100px]'
+                                ></textarea>
+                            </form>
                         </div>
-                        <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                            <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                            <p className="text-center font-bold text-base">
-                                Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                            </p>
-                        </div>
-                        <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                            <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                            <p className="text-center font-bold text-base">
-                                Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                            </p>
-                        </div>
-                        <div className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
-                            <img src="https://source.unsplash.com/random" alt="" className="object-cover" />
-                            <p className="text-center font-bold text-base">
-                                Mùa 2 (Teaser 2): Sweet Tooth: Cậu bé gạc nai{' '}
-                            </p>
+
+                        <div className='flex justify-between items-center mt-3'>
+                            <div className="flex gap-2">
+                                <span className='cursor-pointer'><FaBold /></span>
+                                <span className='cursor-pointer'><FaItalic /></span>
+                                <span className='cursor-pointer'><AiOutlineLink size={20} /></span>
+                            </div>
+                            <button type="submit" className='w-[100px] h-[40px] text-black rounded-md bg-white '>Bình luận</button>
                         </div>
                     </div>
-                </div> */}
-
+                    <div>
+                        <Comment />
+                        <Comment />
+                        <Comment />
+                        <Comment />
+                        <Comment />
+                    </div>
+                </div>
                 <div className="flex flex-col pb-[32px] w-full">
                     <div className="text-white mt-12 mb-5 text-2xl flex">
                         <span className="mr-2">Giới thiệu về </span>

@@ -157,7 +157,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                         <div className="flex items-center">
                             <div>
                                 <button
-                                    onClick={handleButtonClick}
+                                    // onClick={handleButtonClick}
                                     className="  flex items-center justify-center rounded-md bg-white text-black text-center font-semibold py-2 px-5 mr-2 "
                                 >
                                     <BsFillPlayFill size={35} />

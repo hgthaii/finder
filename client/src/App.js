@@ -20,20 +20,20 @@ function App() {
                 {/* <Route path="register" element={<Register />} /> */}
                 <Route path="home-admin" element={<HomePageAdmin />} />
                 <Route path="/*" element={<Public />}>
-                    {/* <Route path="" element={<Home />} /> */}
                     <Route path="" element={<Home />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
                     <Route path="movie" element={<Movies />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
-                    {/* <Route path="movieseris" element={<Movieseris />} /> */}
                     <Route path="movieseris" element={<Movieseris />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
-                    <Route path="mylist" element={<Mylist />} />
+                    <Route path="mylist" element={<Mylist />}>
+                        <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
+                    </Route>
                     <Route path="home-admin" element={<HomePageAdmin />} />
-                    {/* <Route path="search" element={<Search />} /> */}
+
                     <Route path="search" element={<Search />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
