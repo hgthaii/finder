@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { MenuItem, Menu } from '@mui/material'
+import { useCookies } from 'react-cookie'
+import axios from 'axios'
+
 import { headerMenu } from '../ultis/menu'
 import logo from '../asset/image/logo.png'
 import icons from '../ultis/icons'
@@ -13,6 +16,7 @@ import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
 import Login from '../page/public/Login'
 
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -24,14 +28,21 @@ const style = {
 }
 const Header = () => {
     const { AiFillBell, BiSearchAlt2 } = icons
+    
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
-
+    
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    
+    const [cookies] = useCookies(['accessToken', 'refreshToken'])
+    const accessToken = cookies['accessToken']
+    const tokenParts = accessToken ? accessToken.split('.') : []
+    const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
+    const checkValueStorage = parsedTokenBody.infor || {}
+    console.log(checkValueStorage)
 
-    const checkValueStorage = JSON.parse(localStorage.getItem('infor'))
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
 
@@ -42,9 +53,10 @@ const Header = () => {
     const handleCloseAnchorEl = () => {
         setAnchorEl(null)
     }
-    const handleLogout = () => {
-        localStorage.removeItem('infor')
-        localStorage.removeItem('role')
+    const handleLogout = async () => {
+        // localStorage.removeItem('infor')
+        // localStorage.removeItem('role')
+        await axios.post('http://localhost:5000/api/v1/user/signout', null ,{withCredentials: true})
         window.location.href = '/'
     }
 
@@ -90,7 +102,33 @@ const Header = () => {
                 <Search />
                 {/* <BiSearchAlt2 size={25} /> */}
                 <AiFillBell size={25} />
-                {checkValueStorage === null ? (
+                {accessToken ? (
+                    <div>
+                        <Button
+                            id="basic-button"
+                            aria-controls={openn ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={openn ? 'true' : undefined}
+                            onClick={handleClick}
+                            sx={{ color: '#02e7f5' }}
+                        >
+                            {checkValueStorage?.displayName}
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={openn}
+                            onClose={handleCloseAnchorEl}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleCloseAnchorEl}>Profile</MenuItem>
+                            <MenuItem onClick={handleCloseAnchorEl}>My account</MenuItem>
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </Menu>
+                    </div>
+                ) : (
                     <div>
                         <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
                             Đăng nhập
@@ -114,32 +152,6 @@ const Header = () => {
                                 </Box>
                             </Fade>
                         </Modal>
-                    </div>
-                ) : (
-                    <div>
-                        <Button
-                            id="basic-button"
-                            aria-controls={openn ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={openn ? 'true' : undefined}
-                            onClick={handleClick}
-                            sx={{ color: '#02e7f5' }}
-                        >
-                            {checkValueStorage.displayName}
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={openn}
-                            onClose={handleCloseAnchorEl}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleCloseAnchorEl}>Profile</MenuItem>
-                            <MenuItem onClick={handleCloseAnchorEl}>My account</MenuItem>
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                        </Menu>
                     </div>
                 )}
                 {/* <img

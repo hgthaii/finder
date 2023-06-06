@@ -206,9 +206,10 @@ const HomePageAdmin = () => {
     const decodedPayload = atob(encodedPayload)
     const payloadObj = JSON.parse(decodedPayload)
     const name = payloadObj.infor
-    const handleLogout = () => {
-        removeCookie('accessToken')
-        removeCookie('refreshToken')
+    const handleLogout = async () => {
+        // removeCookie('accessToken')
+        // removeCookie('refreshToken')
+        await axios.post('http://localhost:5000/api/v1/user/signout', null ,{withCredentials: true})
         window.location.href = '/'
     }
     const [openProfile, setOpenProfile] = React.useState(false)
@@ -354,7 +355,7 @@ export const ModalProfile = () => {
     const [value, setValue] = React.useState(0)
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
 
-    const handleChange = (newValue) => {
+    const handleChange = (event,newValue) => {
         setValue(newValue)
     }
     function formatDate(dateString) {
@@ -370,7 +371,7 @@ export const ModalProfile = () => {
     const decodedPayload = atob(encodedPayload)
     const parsedTokenBody = JSON.parse(decodedPayload)
 
-    // console.log('first' + parsedTokenBody.roles)
+    console.log('first' + JSON.stringify(parsedTokenBody.infor))
     const inforRole = parsedTokenBody.roles
     const infor = parsedTokenBody.infor
 
@@ -447,13 +448,19 @@ export const ModalProfile = () => {
                 <h3 className="text-xl font-semibold mb-4 text-center">Account Setting</h3>
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange} textColor="white" aria-label="basic tabs example">
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            indicatorColor="secondary"
+                            textColor="inherit"
+                            aria-label="basic tabs example"
+                        >
                             <Tab label="Account Information" {...a11yProps(0)} />
                             <Tab label="Change DisplayName" {...a11yProps(1)} />
                             <Tab label="Change Password" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <TabPanel value={parseInt(value)} index={0}>
                         <div className="grid grid-cols-2 gap-4">
                             <label>
                                 <strong>ID:</strong> {infor?.id}
@@ -475,7 +482,7 @@ export const ModalProfile = () => {
                             </label>
                         </div>
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    <TabPanel value={parseInt(value)} index={1}>
                         <div>
                             <label>DISPLAYNAME: </label>
                             <input
@@ -492,7 +499,7 @@ export const ModalProfile = () => {
                             CHANGE
                         </button>
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    <TabPanel value={parseInt(value)} index={2}>
                         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
                             <div className="flex flex-col text-white">
                                 <input

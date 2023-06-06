@@ -134,6 +134,7 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 width="100%"
                                 height="100%"
                                 playing={showVideo}
+                                volume="null"
                             />
                         </div>
                     </div>
