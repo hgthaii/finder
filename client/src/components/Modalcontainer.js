@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
-    const { AiOutlineClose } = icons
+    const { AiOutlineClose, FaBold, FaItalic, AiOutlineLink } = icons
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
@@ -118,8 +118,32 @@ const Modalcontainer = ({ data, closeModal }) => {
                     </div>
                 </div>
 
-                <div className="w-full">
+                <div className="w-full mt-4">
+                    <div className='w-full bg-[#333333] p-4 rounded-lg' >
+                        <div className="flex items-center gap-3">
+                            <img src="https://source.unsplash.com/random" alt="user" className='w-12 h-12 rounded-full ' />
+                            <span>Đặng Tùng</span>
+                        </div>
+                        <div className='border-b border-[#BCBCBC]'>
+                            <form onSubmit={handleSubmit} >
+                                <textarea
+                                    placeholder="Bạn nghĩ gì về bộ phim này..."
+                                    value={comment}
+                                    onChange={handleInputChange}
+                                    className=' w-full bg-[#333333] outline-none pt-2 min-h-[100px]'
+                                ></textarea>
+                            </form>
+                        </div>
 
+                        <div className='flex justify-between items-center mt-3'>
+                            <div className="flex gap-2">
+                                <span className='cursor-pointer'><FaBold /></span>
+                                <span className='cursor-pointer'><FaItalic /></span>
+                                <span className='cursor-pointer'><AiOutlineLink size={20} /></span>
+                            </div>
+                            <button type="submit" className='w-[100px] h-[40px] text-black rounded-md bg-white '>Bình luận</button>
+                        </div>
+                    </div>
                     <div>
                         <Comment />
                         <Comment />

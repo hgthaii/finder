@@ -24,13 +24,13 @@ const Modal = () => {
     }, [movieId])
     return (
         <>
-            <div className=" fixed top-0  left-0  z-50 w-full h-full overflow-auto  ">
+            {detailtMovies && <div className=" fixed top-0  left-0  z-50 w-full h-full overflow-auto  ">
                 <div className="animate-scaleUp ">
                     <div className="relative min-w-[850px] flex items-center justify-center mt-[30px] z-50  ">
                         <Modalcontainer data={detailtMovies} />
                     </div>
                 </div>
-            </div>
+            </div>}
 
         </>
     )
