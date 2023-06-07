@@ -61,7 +61,6 @@ const componentMap = {
     Account: ManageUser,
     Movie: ManageMovie,
     Comment: ManageComment,
-    Profile: ManageComment,
 }
 const drawerWidth = 240
 
@@ -291,8 +290,8 @@ const HomePageAdmin = () => {
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <MenuItem onClick={handleOpenProfile}>Account Setting</MenuItem>
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                <MenuItem onClick={handleOpenProfile}>{t('Account_setting')}</MenuItem>
+                                <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
                             </Menu>
 
                             <Modal
@@ -336,7 +335,7 @@ const HomePageAdmin = () => {
                                     >
                                         {iconList[index]}
                                     </ListItemIcon>
-                                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                    <ListItemText primary={t(text)} sx={{ opacity: open ? 1 : 0 }} />
                                 </ListItemButton>
                             </ListItem>
                         ))}

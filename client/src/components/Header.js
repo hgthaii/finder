@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { MenuItem, Menu, cardHeaderClasses } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -48,10 +48,17 @@ const Header = () => {
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
-
+    
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleOpen = () => {
+        setOpen(true)
+        navigate("/signin")
+    }
+    const handleClose = () => {
+        setOpen(false)
+        navigate('/')
+    }
 
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
     const accessToken = cookies['accessToken']
