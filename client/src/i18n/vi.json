@@ -1,5 +1,19 @@
 {
-  "Title_header": "Quản trị",
-  "ManageAccount": "Quản trị người dùng"
-
+    "Title_header": "Quản trị",
+    "Account_setting": "Quản lý tài khoản",
+    "Logout": "Đăng xuất",
+    "Account": "Người dùng",
+    "Movie": "Phim",
+    "Comment": "Bình luận",
+    "ManageAccount": "Quản trị người dùng",
+    "Add_user": "Thêm người dùng",
+    "Update_user": "Chỉnh sửa người dùng",
+    "Delete_user": "Xóa người dùng",
+    "Search_displayname": "Tìm kiếm tên hiển thị",
+    "btn_Search": "Tìm kiếm",
+    "Display_name": "Tên hiển thị",
+    "User_name": "Tên tài khoản",
+    "User_role": "Quyền người dùng",
+    "Created_at": "Ngày tạo",
+    "User_id": "Mã người dùng"
 }

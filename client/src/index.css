@@ -164,3 +164,11 @@ html {
     background-color: #fff;
     border-color: #dee2e6;
 }
+.animate-header {
+  transition: background-color 0.7s ease-in-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: background-color;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}

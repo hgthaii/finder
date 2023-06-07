@@ -65,16 +65,20 @@ const ManageUser = () => {
 
     const columns = useMemo(
         () => [
-            { field: 'displayName', headerName: 'Display Name', width: 200 },
             {
-                field: 'username',
-                headerName: 'Username',
+                field: 'displayName',
+                renderHeader: () => <p>{t('Display_name')}</p>,
                 width: 200,
             },
-            { field: 'roles', headerName: 'Role', width: 200 },
+            {
+                field: 'username',
+                renderHeader: () => <p>{t('User_name')}</p>,
+                width: 200,
+            },
+            { field: 'roles', renderHeader: () => <p>{t('User_role')}</p>, width: 200 },
             {
                 field: 'createdAt',
-                headerName: 'Created At',
+                renderHeader: () => <p>{t('Created_at')}</p>,
                 width: 250,
                 valueFormatter: (params) => {
                     // Tạo đối tượng Date từ chuỗi thời gian
@@ -91,7 +95,7 @@ const ManageUser = () => {
                     return formattedDateString
                 },
             },
-            { field: '_id', headerName: 'Id', width: 220 },
+            { field: '_id', renderHeader: () => <p>{t('User_id')}</p>, width: 220 },
         ],
         [],
     )
@@ -118,6 +122,7 @@ const ManageUser = () => {
     }
     const [userIds, setUserIds] = useState([])
     const [disable, setDisable] = useState(true)
+    const [disableUpdate, setDisableUpdate] = useState(true)
 
     const [display, setDisplay] = useState()
     const [role, setRole] = useState()
@@ -125,10 +130,20 @@ const ManageUser = () => {
     const onSelectHandle = (ids) => {
         const selectRowData = ids.map((id) => users.find((row) => row._id === id))
         setUserIds(selectRowData)
+        console.log(JSON.stringify(ids))
+
         setDisplay(selectRowData.displayName)
         setRole(selectRowData.roles)
 
-        setDisable(selectRowData.length === 0)
+        if (selectRowData.length === 1) {
+            setDisable(false) 
+            setDisableUpdate(false) 
+        } else if (selectRowData.length > 1) {
+            setDisableUpdate(true) 
+        } else {
+            setDisable(selectRowData.length === 0) 
+            setDisableUpdate(selectRowData.length === 0) 
+        }
     }
 
     const [displayName, setDisplayName] = useState()
@@ -180,26 +195,26 @@ const ManageUser = () => {
             <div className="mb-4 flex justify-between w-full">
                 <div>
                     <button
-                        className="bg-[#3778DA] h-10 w-[120px] mt-5 mr-5 rounded-md text-white"
+                        className="bg-[#3778DA] h-10 w-[170px] mt-5 mr-5 rounded-md text-white"
                         onClick={handleOpen}
                     >
-                        Add user
+                        {t('Add_user')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[120px] mt-5 mr-5 rounded-md text-white ${
-                            disable && 'opacity-50'
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
+                            disableUpdate && 'opacity-50'
                         }`}
                         onClick={handleOpenUpdate}
-                        disabled={disable}
+                        disabled={disableUpdate}
                     >
-                        Update user
+                        {t('Update_user')}
                     </button>
                     <button
-                        className={`bg-[#E14444] h-10 w-[120px] mt-5 rounded-md text-white ${disable && 'opacity-50'}`}
+                        className={`bg-[#E14444] h-10 w-[170px] mt-5 rounded-md text-white ${disable && 'opacity-50'}`}
                         onClick={handleOpenDelete}
                         disabled={disable}
                     >
-                        Delete user
+                        {t('Delete_user')}
                     </button>
                     <Modal
                         open={open}
@@ -251,7 +266,7 @@ const ManageUser = () => {
                             pl: 1,
                             pr: 1,
                         }}
-                        placeholder="Search username ..."
+                        placeholder={t('Search_displayname')}
                         onChange={onChangeDisplayName}
                     />
                     <button
@@ -259,7 +274,7 @@ const ManageUser = () => {
                         onClick={onSearchUser}
                     >
                         <SearchIcon />
-                        Search
+                        {t('btn_Search')}
                     </button>
                 </div>
             </div>
@@ -279,6 +294,7 @@ const ManageUser = () => {
                     loading={isLoading}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
+                    labelRowsPerPage={'Your text'}
                     getRowId={(row) => row._id}
                     onRowSelectionModelChange={(ids) => onSelectHandle(ids)}
                 />
@@ -465,7 +481,7 @@ export const ModalUpdateUser = (props) => {
                 return count
             }, 0)
 
-            setIsLoading(false)
+            
             return {
                 successCount: successCount,
             }
@@ -478,6 +494,7 @@ export const ModalUpdateUser = (props) => {
             const result = await onUpdateUser(userIds)
             toast.success(`Successfully edited ${result.successCount} user!`)
             onClose()
+            setIsLoading(false)
         } catch (error) {
             toast.error('User edit failed!')
         }

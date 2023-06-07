@@ -118,6 +118,7 @@ const Login = ({ onClose }) => {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => {
         setOpen(true)
+        navigate("/signup")
     }
     const handleClose = () => {
         setOpen(false)

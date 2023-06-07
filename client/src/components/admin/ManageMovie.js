@@ -138,9 +138,21 @@ const ManageMovie = () => {
     }
     const [movieIds, setMovieIds] = useState([])
 
+        const [disable, setDisable] = useState(true)
+        const [disableUpdate, setDisableUpdate] = useState(true)
     const onSelectHandle = (ids) => {
-        const selectRowData = ids.map((id) => movies.find((row) => row.id === id))
+        const selectRowData = ids.map((id) => movies.find((row) => row._id === id))
         setMovieIds(selectRowData)
+        
+                if (selectRowData.length === 1) {
+                    setDisable(false)
+                    setDisableUpdate(false)
+                } else if (selectRowData.length > 1) {
+                    setDisableUpdate(true)
+                } else {
+                    setDisable(selectRowData.length === 0)
+                    setDisableUpdate(selectRowData.length === 0)
+                }
     }
     const [openAdd, setOpenAdd] = React.useState(false)
     const handleOpenAdd = () => {
@@ -217,7 +229,7 @@ const ManageMovie = () => {
             }
         } catch (error) {
             console.log(error)
-            toast.error('Result not found')
+            // toast.error('Result not found')
             setMovies(mainmovies)
         }
     }
@@ -227,30 +239,40 @@ const ManageMovie = () => {
             <div className="mb-4 flex justify-between w-full">
                 <div>
                     <button
-                        className="bg-[#3778DA] h-10 w-[120px] mt-5 mr-5 rounded-md text-white"
+                        className="bg-[#3778DA] h-10 w-[170px] mt-5 mr-5 rounded-md text-white"
                         onClick={handleOpenAdd}
                     >
                         Add movie
                     </button>
                     <button
-                        className="bg-[#24AB62] h-10 w-[120px] mt-5 mr-5 rounded-md text-white"
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
+                            disableUpdate && 'opacity-50'
+                        }`}
                         onClick={handleOpenUpdate}
+                        disabled={disableUpdate}
                     >
                         Update movie
                     </button>
                     <button
-                        className="bg-[#E14444] h-10 w-[120px] mt-5 rounded-md text-white"
+                        className={`bg-[#E14444] h-10 w-[170px] mt-5 rounded-md text-white ${disable && 'opacity-50'}`}
                         onClick={handleOpenDelete}
+                        disabled={disable}
                     >
                         Delete movie
                     </button>
                 </div>
-                <ModalAddMovie handleCloseAdd={handleCloseAdd} open={openAdd || false} genres={genres} />
+                <ModalAddMovie
+                    handleCloseAdd={handleCloseAdd}
+                    open={openAdd || false}
+                    genres={genres}
+                    setIsLoading={setIsLoading}
+                />
                 <ModalUpdateMovie
                     handleCloseUpdate={handleCloseUpdate}
                     open={openUpdate || false}
                     movieIds={movieIds}
                     genres={genres}
+                    setIsLoading={setIsLoading}
                 />
                 <Modal
                     open={openDelete || false}
@@ -259,7 +281,7 @@ const ManageMovie = () => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={styleModalDelete}>
-                        <ModalDeleteMovie onClose={handleCloseDelete} movieIds={movieIds} />
+                        <ModalDeleteMovie onClose={handleCloseDelete} movieIds={movieIds} setIsLoading={setIsLoading} />
                     </Box>
                 </Modal>
                 <div>
@@ -313,11 +335,13 @@ const ManageMovie = () => {
 export default ManageMovie
 
 export const ModalDeleteMovie = (props) => {
-    const { movieIds, onClose } = props
-    const onDeleteMovie = async (movieIds) => {
+    const { movieIds, setIsLoading, onClose } = props
+    console.log("oke"+JSON.stringify(movieIds))
+    const onDeleteMovie = async () => {
         try {
+            setIsLoading(true)
             const requests = movieIds.map((movieId) =>
-                axios.delete(`http://localhost:5000/api/v1/movies/${movieId.id}`, {
+                axios.delete(`http://localhost:5000/api/v1/movies/${movieId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -334,6 +358,7 @@ export const ModalDeleteMovie = (props) => {
             }
         } catch (error) {
             console.log(error)
+            setIsLoading(false)
         }
     }
     const handleDeleteClick = async () => {
@@ -341,6 +366,7 @@ export const ModalDeleteMovie = (props) => {
             await onDeleteMovie(movieIds)
             toast.success('Deleted user successfully!')
             onClose()
+            setIsLoading(false)
         } catch (error) {
             toast.error('Deleted user failed!')
             onClose()
@@ -385,7 +411,7 @@ function getStyles(name, personName, theme) {
     }
 }
 export const ModalAddMovie = (props) => {
-    const { open, handleCloseAdd, genres } = props
+    const { open, handleCloseAdd, genres, setIsLoading } = props
     const [poster_pathInput, setPoster_pathInput] = useState('')
     const [castsInput, setCastsInput] = useState('')
     const [creatorsInput, setCreatorsInput] = useState('')
@@ -419,6 +445,7 @@ export const ModalAddMovie = (props) => {
     })
     const onAddMovie = async () => {
         try {
+            setIsLoading(true)
             const parsedData = {
                 ...movieData,
                 poster_path: poster_pathInput.split(',').map((path) => ({ path })),
@@ -437,9 +464,11 @@ export const ModalAddMovie = (props) => {
                 withCredentials: true,
             })
             toast.success('Added movie successfully!')
+            setIsLoading(false)
         } catch (error) {
             console.log(error)
             toast.error('Added movie failed!')
+            setIsLoading(false)
         }
         handleCloseAdd()
     }
@@ -935,12 +964,7 @@ export const DialogMovieDetail = (props) => {
 }
 
 export const ModalUpdateMovie = (props) => {
-    const { open, handleCloseUpdate, movieIds, genres } = props
-    const [poster_pathInput, setPoster_pathInput] = useState(movieIds[0]?.poster_path)
-    const [castsInput, setCastsInput] = useState('')
-    const [episodesInput, setEpisodesInput] = useState('')
-    const [creatorsInput, setCreatorsInput] = useState('')
-    const [program_typeInput, setProgram_typeInput] = useState('')
+    const { open, handleCloseUpdate, movieIds, genres, setIsLoading } = props
 
     const [movieDataUpdate, setMovieDataUpdate] = useState({
         title: '',
@@ -959,14 +983,20 @@ export const ModalUpdateMovie = (props) => {
         age_rating: '',
         item_genre: '',
     })
+    // console.log(JSON.stringify(movieIds))
     const onUpdateMovie = async () => {
         try {
-            const movieId = movieIds[0]?.id
+            setIsLoading(true)
+
+            const movieId = movieIds[0]?._id
             const data = await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
                 withCredentials: true,
             })
+            setIsLoading(false)
+
         } catch (error) {
             console.log(error)
+            setIsLoading(false)
             // throw new Error(error)
         }
         handleCloseUpdate()
@@ -1015,11 +1045,11 @@ export const ModalUpdateMovie = (props) => {
                 video: movieIds[0].video,
                 age_rating: movieIds[0].age_rating,
                 item_genre: movieIds[0].item_genre,
-                poster_path: firstMovie.poster_path.map((x) => x.path),
-                genres: firstMovie.genres.map((x) => x.name),
-                casts: firstMovie.casts.map((x) => x.name),
-                program_type: firstMovie.program_type.map((x) => x.name),
-                creators: firstMovie.creators.map((x) => x.name),
+                poster_path: firstMovie.poster_path.map((x) => ({ path: x.path })),
+                genres: firstMovie.genres.map((x) => ({ name: x.name })),
+                casts: firstMovie.casts.map((x) => ({ name: x.name })),
+                program_type: firstMovie.program_type.map((x) => ({ name: x.name })),
+                creators: firstMovie.creators.map((x) => ({ name: x.name })),
                 episodes: episodesData,
             }))
         }
@@ -1162,15 +1192,16 @@ export const ModalUpdateMovie = (props) => {
                                     type="text"
                                     name="poster_path"
                                     id="poster_path"
-                                    value={movieDataUpdate.poster_path.join(', ')}
+                                    // value={movieDataUpdate.poster_path.join(', ')}
+                                    value={movieDataUpdate.poster_path.map((item) => item.path).join(', ')}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) =>
                                         setMovieDataUpdate((prevData) => ({
                                             ...prevData,
-                                            poster_path: e.target.value.split(', '),
+                                            poster_path: e.target.value.split(', ').map((path) => ({ path })),
                                         }))
                                     }
-                                    placeholder="Poster path"
+                                    placeholder="Enter format: path1,path2,..."
                                     required=""
                                 />
                             </div>
@@ -1428,15 +1459,15 @@ export const ModalUpdateMovie = (props) => {
                                     type="text"
                                     name="casts"
                                     id="casts"
-                                    value={movieDataUpdate.casts.join(', ')}
+                                    value={movieDataUpdate.casts.map((item) => item.name).join(', ')}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) =>
                                         setMovieDataUpdate((prevData) => ({
                                             ...prevData,
-                                            casts: e.target.value.split(', '),
+                                            casts: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
-                                    placeholder="Type product name"
+                                    placeholder="Enter format: cast1,cast2,..."
                                     required=""
                                 />
                             </div>
@@ -1448,12 +1479,12 @@ export const ModalUpdateMovie = (props) => {
                                     type="text"
                                     name="program_type"
                                     id="program_type"
-                                    value={movieDataUpdate.program_type.join(', ')}
-                                    className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    value={movieDataUpdate.program_type.map((item) => item.name).join(', ')}
+                                    className="text-black bg-gray-300 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) =>
                                         setMovieDataUpdate((prevData) => ({
                                             ...prevData,
-                                            program_type: e.target.value.split(', '),
+                                            program_type: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
                                     placeholder="Type product name"
@@ -1468,15 +1499,15 @@ export const ModalUpdateMovie = (props) => {
                                     type="text"
                                     name="creators"
                                     id="creators"
-                                    value={movieDataUpdate.creators.join(', ')}
+                                    value={movieDataUpdate.creators.map((item) => item.name).join(', ')}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) =>
                                         setMovieDataUpdate((prevData) => ({
                                             ...prevData,
-                                            creators: e.target.value.split(', '),
+                                            creators: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
-                                    placeholder="Type product name"
+                                    placeholder="Enter format: creator1,creator2,..."
                                     required=""
                                 />
                             </div>
