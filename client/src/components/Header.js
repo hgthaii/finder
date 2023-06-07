@@ -231,14 +231,14 @@ export default Header
 
 export const ModalListComment = () => {
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
+    const accessToken = cookies['accessToken']
+    const tokenParts = accessToken ? accessToken.split('.') : []
+    const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
+    const checkValueStorage = parsedTokenBody.infor.id || {}
     const [reviews, setReviews] = useState([])
     useEffect(() => {
         const getReview = async () => {
-            const accessToken = cookies['accessToken']
-            const tokenParts = accessToken ? accessToken.split('.') : []
-            const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
-            const checkValueStorage = parsedTokenBody.userId || {}
-
+            
             try {
                 const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
                     withCredentials: true,
@@ -250,6 +250,7 @@ export const ModalListComment = () => {
         }
         getReview()
     },[])
+    
     const [currentPage, setCurrentPage] = React.useState(0)
     const PER_PAGE = 3
     const handlePageChange = ({ selected }) => {
@@ -272,14 +273,25 @@ export const ModalListComment = () => {
                         <p className="text-gray-500">Lượt thích: {x.likes.length}</p>
                         <p className="text-gray-500">Bình luận: {x.content}</p>
                     </div>
-                    <button className="text-white hover:bg-red-800 bg-red-700 rounded p-2 ml-24">
+                    <button className="text-white hover:bg-red-800 bg-red-700 rounded p-2 ml-24" onClick={() => onDeleteReview(x._id)}>
                         <DeleteIcon /> Xóa bình luận
                     </button>
                 </div>
             )
         })
     }
-
+    const onDeleteReview = async (reviewId) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/v1/movies/comments/${reviewId}/delete`, {withCredentials: true})
+            // gọi lại danh sách
+            const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
+                withCredentials: true,
+            })
+            setReviews(res.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const fetchMovieDetails = async (movieId) => {
         const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`, {
             withCredentials: true,

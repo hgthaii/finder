@@ -14,7 +14,6 @@ const ManageComment = () => {
     const [dataMovie, setDataMovie] = React.useState([])
 
     useEffect(() => {
-        console.log('iui222' + JSON.stringify(item))
 
         const getMovie = async () => {
             try {
@@ -37,7 +36,6 @@ const ManageComment = () => {
                 withCredentials: true,
             })
             setComment(res.data)
-            console.log(JSON.stringify(res.data))
         } catch (error) {
             console.log(error)
         }
