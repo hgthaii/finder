@@ -48,7 +48,7 @@ const Header = () => {
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
-    
+
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
@@ -110,11 +110,12 @@ const Header = () => {
     const handleCloseListComment = () => {
         setOpenListComment(false)
     }
+
+    localStorage.setItem("displayName", checkValueStorage.displayName);
     return (
         <div
-            className={`flex items-center px-[48px] justify-between ${
-                isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-            }`}
+            className={`flex items-center px-[48px] justify-between ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
+                }`}
         >
             <div className="flex items-center">
                 <div className=" ">
@@ -245,7 +246,7 @@ export const ModalListComment = () => {
     const [reviews, setReviews] = useState([])
     useEffect(() => {
         const getReview = async () => {
-            
+
             try {
                 const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
                     withCredentials: true,
@@ -256,8 +257,8 @@ export const ModalListComment = () => {
             }
         }
         getReview()
-    },[])
-    
+    }, [])
+
     const [currentPage, setCurrentPage] = React.useState(0)
     const PER_PAGE = 3
     const handlePageChange = ({ selected }) => {
@@ -270,8 +271,8 @@ export const ModalListComment = () => {
     const displayReviews = () => {
         return currentPageData.map((x, index) => {
             const movie = movieDetails[x.movieId]
-            const title = movie ? movie[0]?.title : '' 
-            const poster = movie ? movie[0]?.poster_path[0].path : '' 
+            const title = movie ? movie[0]?.title : ''
+            const poster = movie ? movie[0]?.poster_path[0].path : ''
             return (
                 <div key={index} className="flex items-center my-4">
                     <img src={poster} alt="poster" className="mr-4 w-40" />
@@ -289,7 +290,7 @@ export const ModalListComment = () => {
     }
     const onDeleteReview = async (reviewId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/v1/movies/comments/${reviewId}/delete`, {withCredentials: true})
+            await axios.delete(`http://localhost:5000/api/v1/movies/comments/${reviewId}/delete`, { withCredentials: true })
             // gọi lại danh sách
             const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
                 withCredentials: true,

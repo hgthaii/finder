@@ -16,6 +16,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const idGenre = data?.genres[0]._id
     const [comment, setComment] = useState('');
     const { movieId } = useParams()
+    const displayName = localStorage.getItem("displayName");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -144,7 +145,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 alt="user"
                                 className="w-12 h-12 rounded-full "
                             />
-                            <span>Đặng Tùng</span>
+                            <span>{displayName}</span>
                         </div>
                         <div className="border-b border-[#BCBCBC]">
                             {/* onSubmit={handleSubmit} */}

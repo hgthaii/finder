@@ -6,14 +6,13 @@ import icons from '../ultis/icons'
 const Comment = ({ data }) => {
 
     const { BsThreeDotsVertical } = icons
-
     return (
         <div className='w-full  border-b border-[#404040] py-4 my-4'>
             <div className="flex justify-between items-center mb-2">
                 <div className='flex '>
                     <img src="https://source.unsplash.com/random" alt="user" className='w-[48px] h-[48px] rounded-full mr-2 ' />
                     <div className="flex flex-col ">
-                        <span className='font-bold'>Tung</span>
+                        <span className='font-bold'>name</span>
                         <span>5 phút trước</span>
                     </div>
                 </div>
