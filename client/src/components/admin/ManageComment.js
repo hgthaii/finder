@@ -5,7 +5,12 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 const ManageComment = () => {
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+
     const [item, setItem] = React.useState('')
     const [comment, setComment] = React.useState([])
     const handleChange = (event) => {
@@ -20,6 +25,9 @@ const ManageComment = () => {
                 const res = await axios.get('http://localhost:5000/api/v1/movies', { withCredentials: true })
                 // console.log('oke ne' + JSON.stringify(res.data))
                 setDataMovie(res.data)
+                if (res.data && res.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -84,11 +92,11 @@ const ManageComment = () => {
 
     return (
         <div className="w-full">
-            <h2 className="mb-5 text-2xl w-full">Movie comment details</h2>
+            <h2 className="mb-5 text-2xl w-full">{t('ManageComment')}</h2>
             <div className="grid justify-center gap-6">
                 <div className="w-full">
                     <FormControl variant="filled" sx={{ minWidth: 500 }}>
-                        <InputLabel id="demo-simple-select-filled-label">Select a Movie</InputLabel>
+                        <InputLabel id="demo-simple-select-filled-label">{t('ManageComment_selectMovie')}</InputLabel>
                         <Select
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -96,7 +104,7 @@ const ManageComment = () => {
                             onChange={handleChange}
                         >
                             <MenuItem value="">
-                                <em>None</em>
+                                <em>{t('Movie_none')}</em>
                             </MenuItem>
                             {dataMovie?.map((movie) => (
                                 <MenuItem key={movie._id} value={movie._id}>
@@ -106,7 +114,7 @@ const ManageComment = () => {
                         </Select>
                     </FormControl>
                 </div>
-                <label htmlFor="">List comment:</label>
+                <label htmlFor="">{t('ManageComment_listMovie')}:</label>
                 {item && comment?.length > 0 ? (
                     <>
                         <div className="w-full grid grid-cols-2 gap-2">{displayComments()}</div>
@@ -127,7 +135,7 @@ const ManageComment = () => {
                         />
                     </>
                 ) : (
-                    <h2>Not found</h2>
+                    <h2>{t('Movie_notfound')}</h2>
                 )}
             </div>
         </div>
