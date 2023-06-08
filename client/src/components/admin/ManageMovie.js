@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Link from '@mui/material/Link'
 import Avatar from '@mui/material/Avatar'
 import { DataGrid } from '@mui/x-data-grid'
@@ -8,7 +8,6 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import axios from 'axios'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
@@ -30,18 +29,8 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
-import * as actions from '../../store/actions/movies'
-import actionType from '../../store/actions/actionType'
+import { useNavigate } from 'react-router-dom';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 1200,
-    // height: 600,
-    boxShadow: 24,
-}
 const styleModalDelete = {
     position: 'absolute',
     top: '50%',
@@ -52,6 +41,9 @@ const styleModalDelete = {
     boxShadow: 24,
 }
 const ManageMovie = () => {
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+
     const [detail, setDetail] = React.useState()
     const [movieId, setMovieId] = React.useState()
     React.useEffect(() => {
@@ -101,15 +93,15 @@ const ManageMovie = () => {
             },
             {
                 field: 'title',
-                headerName: 'Title',
+                renderHeader: () => <p>{t('Movie_title')}</p>,
                 width: 140,
                 renderCell: (params) => <Link onClick={() => handleClick(params)}>{params.value}</Link>,
             },
-            { field: 'duration', headerName: 'Duration', width: 100 },
-            { field: 'release_date', headerName: 'Release Date', width: 100 },
+            { field: 'duration', renderHeader: () => <p>{t('Movie_duration')}</p>, width: 100 },
+            { field: 'release_date', renderHeader: () => <p>{t('Movie_release_date')}</p>, width: 100 },
             {
                 field: 'genres',
-                headerName: 'Genres',
+                renderHeader: () => <p>{t('Movie_genres')}</p>,
                 width: 200,
                 renderCell: (params) => {
                     const durationArray = params.value
@@ -123,11 +115,10 @@ const ManageMovie = () => {
                     )
                 },
             },
-            { field: 'overview', headerName: 'Overview', width: 300 },
+            { field: 'overview', renderHeader: () => <p>{t('Movie_overview')}</p>, width: 300 },
         ],
         [],
     )
-    const dispatch = useDispatch()
 
     const [openDelete, setOpenDelete] = React.useState(false)
     const handleOpenDelete = () => {
@@ -212,6 +203,9 @@ const ManageMovie = () => {
 
                     setMovies(response.data)
                     setMainMovies(response.data)
+                    if (response.data && response.data.statusCode === 401) {
+                        navigate('/expired-token')
+                    }
                 } catch (error) {
                     console.error(error)
                 }
@@ -235,14 +229,14 @@ const ManageMovie = () => {
     }
     return (
         <div className="w-full">
-            <h2 className="text-2xl w-full">Manage movie</h2>
+            <h2 className="text-2xl w-full">{t('ManageMovie')}</h2>
             <div className="mb-4 flex justify-between w-full">
                 <div>
                     <button
                         className="bg-[#3778DA] h-10 w-[170px] mt-5 mr-5 rounded-md text-white"
                         onClick={handleOpenAdd}
                     >
-                        Add movie
+                        {t('Add_movie')}
                     </button>
                     <button
                         className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
@@ -251,14 +245,14 @@ const ManageMovie = () => {
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >
-                        Update movie
+                        {t('Update_movie')}
                     </button>
                     <button
                         className={`bg-[#E14444] h-10 w-[170px] mt-5 rounded-md text-white ${disable && 'opacity-50'}`}
                         onClick={handleOpenDelete}
                         disabled={disable}
                     >
-                        Delete movie
+                        {t('Delete_movie')}
                     </button>
                 </div>
                 <ModalAddMovie
@@ -295,7 +289,7 @@ const ManageMovie = () => {
                             pl: 1,
                             pr: 1,
                         }}
-                        placeholder="Search movie ..."
+                        placeholder={t('Search_movie')}
                         onChange={onChangeMovie}
                     />
                     <button
@@ -303,7 +297,7 @@ const ManageMovie = () => {
                         onClick={onSearchMovie}
                     >
                         <SearchIcon />
-                        Search
+                        {t('btn_Search')}
                     </button>
                 </div>
             </div>
@@ -335,6 +329,8 @@ const ManageMovie = () => {
 export default ManageMovie
 
 export const ModalDeleteMovie = (props) => {
+    const { t } = useTranslation()
+
     const { movieIds, setIsLoading, onClose } = props
     console.log("oke"+JSON.stringify(movieIds))
     const onDeleteMovie = async () => {
@@ -376,16 +372,16 @@ export const ModalDeleteMovie = (props) => {
         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col items-center justify-center text-white mt-4">
                 <ErrorOutlineIcon style={{ fontSize: 80 }} />
-                <label>Bạn có chắc muốn xóa không!</label>
+                <label>{t('Ask_Delete')}</label>
                 <div className="flex flex-col justify-center mt-6">
                     <button
                         className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold "
                         onClick={handleDeleteClick}
                     >
-                        Xác nhận
+                        {t('btn_Confirm')}
                     </button>
                     <button className="bg-[grey] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold " onClick={onClose}>
-                        Hủy
+                        {t('btn_Cancel')}
                     </button>
                 </div>
             </div>
@@ -411,6 +407,8 @@ function getStyles(name, personName, theme) {
     }
 }
 export const ModalAddMovie = (props) => {
+    const { t } = useTranslation()
+
     const { open, handleCloseAdd, genres, setIsLoading } = props
     const [poster_pathInput, setPoster_pathInput] = useState('')
     const [castsInput, setCastsInput] = useState('')
@@ -470,7 +468,7 @@ export const ModalAddMovie = (props) => {
             toast.error('Added movie failed!')
             setIsLoading(false)
         }
-        handleCloseAdd()
+        // handleCloseAdd()
     }
 
     const handleKeyPress = (e) => {
@@ -505,14 +503,14 @@ export const ModalAddMovie = (props) => {
                 pauseOnHover
                 theme="dark"
             />
-            <DialogTitle>Add movie</DialogTitle>
+            <DialogTitle>{t('Add_movie')}</DialogTitle>
             <section>
                 <div className="px-6 mx-auto">
                     <form action="#">
                         <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Title
+                                    {t('Movie_title')}<strong className="text-red-500">*</strong>
                                 </label>
                                 <input
                                     type="text"
@@ -520,13 +518,13 @@ export const ModalAddMovie = (props) => {
                                     id="name"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, title: e.target.value })}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_title')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="overview" className="block mb-2 text-sm font-medium ">
-                                    Overview
+                                    {t('Movie_overview')}
                                 </label>
                                 <textarea
                                     id="overview"
@@ -534,13 +532,12 @@ export const ModalAddMovie = (props) => {
                                     onChange={(e) => setMovieData({ ...movieData, overview: e.target.value })}
                                     value={movieData.overview}
                                     className="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
-                                    placeholder="Write a product description here..."
+                                    placeholder={t('Movie_placeholder_overview')}
                                 ></textarea>
                             </div>
-
                             <div className="w-full">
                                 <label htmlFor="duration" className="block mb-2 text-sm font-medium ">
-                                    Duration
+                                    {t('Movie_duration')}
                                 </label>
                                 <input
                                     type="text"
@@ -548,13 +545,13 @@ export const ModalAddMovie = (props) => {
                                     id="duration"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, duration: e.target.value })}
-                                    placeholder="Enter duration"
+                                    placeholder={t('Movie_placeholder_duration')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="release_date" className="block mb-2 text-sm font-medium ">
-                                    Release Date
+                                    {t('Movie_release_date')}
                                 </label>
                                 <input
                                     type="text"
@@ -562,13 +559,13 @@ export const ModalAddMovie = (props) => {
                                     id="release_date"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, release_date: e.target.value })}
-                                    placeholder="$299"
+                                    placeholder={t('Movie_placeholder_release_date')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="trailer" className="block mb-2 text-sm font-medium ">
-                                    Trailer
+                                    {t('Movie_trailer')}
                                 </label>
                                 <input
                                     type="text"
@@ -576,13 +573,13 @@ export const ModalAddMovie = (props) => {
                                     id="trailer"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, trailer: e.target.value })}
-                                    placeholder="Enter trailer"
+                                    placeholder={t('Movie_placeholder_trailer')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="video" className="block mb-2 text-sm font-medium ">
-                                    Video
+                                    {t('Movie_video')}
                                 </label>
                                 <input
                                     type="text"
@@ -590,13 +587,13 @@ export const ModalAddMovie = (props) => {
                                     id="video"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, video: e.target.value })}
-                                    placeholder="$299"
+                                    placeholder={t('Movie_placeholder_video')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Logo
+                                    {t('Movie_logo')}
                                 </label>
                                 <input
                                     type="text"
@@ -604,13 +601,13 @@ export const ModalAddMovie = (props) => {
                                     id="logo"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, logo: e.target.value })}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_logo')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Poster path
+                                    {t('Movie_poster_path')}
                                 </label>
                                 <input
                                     type="text"
@@ -618,16 +615,16 @@ export const ModalAddMovie = (props) => {
                                     id="logo"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setPoster_pathInput(e.target.value)}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_poster_path')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Genres
+                                    {t('Movie_genres')}
                                 </label>
                                 <FormControl sx={{ width: '100%' }}>
-                                    <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+                                    <InputLabel id="demo-multiple-chip-label">{t('Movie_select')}</InputLabel>
                                     <Select
                                         labelId="demo-multiple-chip-label"
                                         id="demo-multiple-chip"
@@ -658,12 +655,12 @@ export const ModalAddMovie = (props) => {
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Episodes
+                                    {t('Movie_episodes')}
                                 </label>
                                 <div className="grid grid-cols-2 gap-6 mx-4">
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Title
+                                            {t('Movie_episodes_title')}
                                         </label>
                                         <input
                                             type="text"
@@ -680,13 +677,13 @@ export const ModalAddMovie = (props) => {
                                                     ),
                                                 }))
                                             }
-                                            placeholder="episode_title"
+                                            placeholder={t('Movie_placeholder_eps_title')}
                                             required=""
                                         />
                                     </div>
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Runtime
+                                            {t('Movie_episodes_runtime')}
                                         </label>
                                         <input
                                             type="text"
@@ -703,7 +700,7 @@ export const ModalAddMovie = (props) => {
                                                     ),
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_eps_runtime')}
                                             required=""
                                         />
                                     </div>
@@ -711,7 +708,7 @@ export const ModalAddMovie = (props) => {
                                 <div className="grid grid-cols-2 gap-6 mt-3 mx-4">
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Image
+                                            {t('Movie_episodes_image')}
                                         </label>
                                         <input
                                             type="text"
@@ -728,13 +725,13 @@ export const ModalAddMovie = (props) => {
                                                     ),
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_eps_image')}
                                             required=""
                                         />
                                     </div>
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Description
+                                            {t('Movie_episodes_description')}
                                         </label>
                                         <input
                                             type="text"
@@ -751,7 +748,7 @@ export const ModalAddMovie = (props) => {
                                                     ),
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_description')}
                                             required=""
                                         />
                                     </div>
@@ -759,7 +756,7 @@ export const ModalAddMovie = (props) => {
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Casts
+                                    {t('Movie_cast')}
                                 </label>
                                 <input
                                     type="text"
@@ -767,13 +764,13 @@ export const ModalAddMovie = (props) => {
                                     id="logo"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setCastsInput(e.target.value)}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_cast')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Program type
+                                    {t('Movie_program_type')}
                                 </label>
                                 <input
                                     type="text"
@@ -781,13 +778,13 @@ export const ModalAddMovie = (props) => {
                                     id="logo"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setProgram_typeInput(e.target.value)}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_program_type')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Creators
+                                    {t('Movie_creator')}
                                 </label>
                                 <input
                                     type="text"
@@ -795,13 +792,13 @@ export const ModalAddMovie = (props) => {
                                     id="logo"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setCreatorsInput(e.target.value)}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_creator')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="age_rating" className="block mb-2 text-sm font-medium ">
-                                    Age rating
+                                    {t('Movie_age_rating')}
                                 </label>
                                 <input
                                     type="text"
@@ -809,13 +806,13 @@ export const ModalAddMovie = (props) => {
                                     id="age_rating"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, age_rating: e.target.value })}
-                                    placeholder="Enter age rating"
+                                    placeholder={t('Movie_placeholder_age_rating')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="item_genre" className="block mb-2 text-sm font-medium ">
-                                    Item genre
+                                    {t('Movie_item_genre')}
                                 </label>
                                 <input
                                     type="text"
@@ -823,7 +820,7 @@ export const ModalAddMovie = (props) => {
                                     id="item_genre"
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieData({ ...movieData, item_genre: e.target.value })}
-                                    placeholder="$299"
+                                    placeholder={t('Movie_placeholder_item_genre')}
                                     required=""
                                 />
                             </div>
@@ -834,7 +831,7 @@ export const ModalAddMovie = (props) => {
                                 type="button"
                                 className="bg-[#3778DA] text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4"
                             >
-                                Add
+                                {t('btn_Submit')}
                             </button>
                         </div>
                     </form>
@@ -845,6 +842,8 @@ export const ModalAddMovie = (props) => {
 }
 
 export const DialogMovieDetail = (props) => {
+    const { t } = useTranslation()
+
     const { open, handleClose, detail } = props
     const renderRow = ({ index, style }) => {
         const episode = detail?.episodes[index]
@@ -872,34 +871,34 @@ export const DialogMovieDetail = (props) => {
     }
     return (
         <Dialog fullWidth={true} maxWidth={'lg'} open={open || false} onClose={handleClose}>
-            <DialogTitle>Movie Details</DialogTitle>
+            <DialogTitle>{t('ManageMovie_details')}</DialogTitle>
             <DialogContent sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div className="grid">
                     {/* <img
                             src="https://occ-0-325-58.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABRJaoY3PlYTejc06TYiN3vwJ4VZbZSk1wrWevgGRuy7a4fgNPn4HgH4MhEKYeCQjBJafNlOcefIdzX399Vh9hBV1kEJzNMdIsUxx.jpg?r=cbd"
                             alt="image"
                         /> */}
-                    <iframe width="580" height="345" src={detail?.trailer}></iframe>
+                    <iframe width="580" height="345" src={detail?.trailer} title="trailer"></iframe>
                     <label className="font-bold">
-                        Title: <span className="font-normal">{detail?.title}</span>
+                        {t('Movie_title')}: <span className="font-normal">{detail?.title}</span>
                     </label>
                     <label className="font-bold">
-                        View: <span className="font-normal">{detail?.views}</span>
+                        {t('Movie_view')}: <span className="font-normal">{detail?.views}</span>
                     </label>
                     <label className="font-bold">
-                        Age: <span className="font-normal">{detail?.age_rating}</span>
+                        {t('Movie_age_rating')}: <span className="font-normal">{detail?.age_rating}</span>
                     </label>
                     <label className="font-bold">
-                        Duration: <span className="font-normal">{detail?.duration}</span>
+                        {t('Movie_duration')}: <span className="font-normal">{detail?.duration}</span>
                     </label>
                     <label className="font-bold">
-                        Release Date: <span className="font-normal">{detail?.release_date}</span>
+                        {t('Movie_release_date')}: <span className="font-normal">{detail?.release_date}</span>
                     </label>
                     <label className="font-bold">
-                        Overview: <span className="font-normal">{detail?.overview}</span>
+                        {t('Movie_overview')}: <span className="font-normal">{detail?.overview}</span>
                     </label>
                     <div>
-                        <span className="font-bold">Genres: </span>
+                        <span className="font-bold">{t('Movie_genres')}: </span>
                         {detail?.genres?.length !== 0 &&
                             detail?.genres?.map((item, index) => (
                                 <span key={index}>
@@ -908,7 +907,7 @@ export const DialogMovieDetail = (props) => {
                             ))}
                     </div>
                     <div>
-                        <span className="font-bold">Casts: </span>
+                        <span className="font-bold">{t('Movie_cast')}: </span>
                         {detail?.casts?.length !== 0 &&
                             detail?.casts?.map((item, index) => (
                                 <span key={index}>
@@ -918,7 +917,7 @@ export const DialogMovieDetail = (props) => {
                     </div>
                 </div>
                 <div>
-                    <label className="font-bold">Episodes:</label>
+                    <label className="font-bold">{t('Movie_episodes')}:</label>
                     {detail?.episodes.length > 0 ? (
                         <Box sx={{ width: '100%', height: 500, maxWidth: 550, bgcolor: 'background.paper' }}>
                             <FixedSizeList
@@ -932,11 +931,11 @@ export const DialogMovieDetail = (props) => {
                             </FixedSizeList>
                         </Box>
                     ) : (
-                        <Typography>No Episodes Available</Typography>
+                        <Typography>{t('Movie_notfound')}</Typography>
                     )}
 
                     <div>
-                        <span className="font-bold">Poster: </span>
+                        <span className="font-bold">{t('Movie_poster_path')}: </span>
                         <div className="grid grid-cols-2 gap-4">
                             {detail?.poster_path?.map((item, index) => (
                                 <img key={index} src={item.path} alt="poster" />
@@ -944,18 +943,34 @@ export const DialogMovieDetail = (props) => {
                         </div>
                     </div>
                     <div>
-                        <span className="font-bold">Program Type: </span>
-                        {detail?.program_type?.length !== 0 &&
+                        <span className="font-bold">{t('Movie_program_type')}: </span>
+                        {/* {detail?.program_type?.length !== 0 &&
                             detail?.program_type?.map((item, index) => (
-                                <span key={index}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
-                            ))}
+                                <span key={index}>{`${item.name}${
+                                    index !== detail.program_type.length - 1 ? ', ' : ''
+                                }`}</span>
+                            ))} */}
+                        {detail?.program_type?.length ? (
+                            detail?.program_type?.map((item, index) => (
+                                <span key={index}>{`${item.name}${
+                                    index !== detail.program_type.length - 1 ? ', ' : ''
+                                }`}</span>
+                            ))
+                        ) : (
+                            <span>{t('Movie_notfound')}</span>
+                        )}
                     </div>
                     <div>
-                        <span className="font-bold">Creators: </span>
-                        {detail?.creators?.length !== 0 &&
+                        <span className="font-bold">{t('Movie_creator')}: </span>
+                        {detail?.creators?.length ? (
                             detail?.creators?.map((item, index) => (
-                                <span key={index}>{`${item.name}${index < 4 ? ', ' : ''}`}</span>
-                            ))}
+                                <span key={index}>{`${item.name}${
+                                    index !== detail.creators.length - 1 ? ', ' : ''
+                                }`}</span>
+                            ))
+                        ) : (
+                            <span>{t('Movie_notfound')}</span>
+                        )}
                     </div>
                 </div>
             </DialogContent>
@@ -964,6 +979,8 @@ export const DialogMovieDetail = (props) => {
 }
 
 export const ModalUpdateMovie = (props) => {
+    const { t } = useTranslation()
+
     const { open, handleCloseUpdate, movieIds, genres, setIsLoading } = props
 
     const [movieDataUpdate, setMovieDataUpdate] = useState({
@@ -989,7 +1006,7 @@ export const ModalUpdateMovie = (props) => {
             setIsLoading(true)
 
             const movieId = movieIds[0]?._id
-            const data = await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
+            await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
                 withCredentials: true,
             })
             setIsLoading(false)
@@ -1017,7 +1034,7 @@ export const ModalUpdateMovie = (props) => {
     }
 
     // Biến đổi mảng genres thành một mảng các tên thể loại duy nhất
-    const genreNames = Array.from(new Set(movieIds[0]?.genres.map((genre) => genre.name)))
+    // const genreNames = Array.from(new Set(movieIds[0]?.genres.map((genre) => genre.name)))
 
     React.useEffect(() => {
         // Nếu đã chọn các thể loại trước đó, sẽ đặt thể loại đã chọn này làm giá trị mặc định cho Select
@@ -1068,14 +1085,14 @@ export const ModalUpdateMovie = (props) => {
                 pauseOnHover
                 theme="dark"
             />
-            <DialogTitle>Update movie</DialogTitle>
+            <DialogTitle>{t('Update_movie')}</DialogTitle>
             <section>
                 <div className="px-6 mx-auto">
                     <form action="#">
                         <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Title
+                                    {t('Movie_title')}
                                 </label>
                                 <input
                                     type="text"
@@ -1084,13 +1101,13 @@ export const ModalUpdateMovie = (props) => {
                                     value={movieDataUpdate.title}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, title: e.target.value })}
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_title')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="overview" className="block mb-2 text-sm font-medium ">
-                                    Overview
+                                    {t('Movie_overview')}
                                 </label>
                                 <textarea
                                     id="overview"
@@ -1100,12 +1117,12 @@ export const ModalUpdateMovie = (props) => {
                                         setMovieDataUpdate({ ...movieDataUpdate, overview: e.target.value })
                                     }
                                     className="text-black bg-gray-300 block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-primary-500 "
-                                    placeholder="Enter overview..."
+                                    placeholder={t('Movie_placeholder_overview')}
                                 ></textarea>
                             </div>
                             <div className="w-full">
                                 <label htmlFor="duration" className="block mb-2 text-sm font-medium ">
-                                    Duration
+                                    {t('Movie_duration')}
                                 </label>
                                 <input
                                     type="text"
@@ -1116,13 +1133,13 @@ export const ModalUpdateMovie = (props) => {
                                     onChange={(e) =>
                                         setMovieDataUpdate({ ...movieDataUpdate, duration: e.target.value })
                                     }
-                                    placeholder="Enter duration"
+                                    placeholder={t('Movie_placeholder_duration')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="release_date" className="block mb-2 text-sm font-medium ">
-                                    Release Date
+                                    {t('Movie_release_date')}
                                 </label>
                                 <input
                                     type="text"
@@ -1133,13 +1150,13 @@ export const ModalUpdateMovie = (props) => {
                                     onChange={(e) =>
                                         setMovieDataUpdate({ ...movieDataUpdate, release_date: e.target.value })
                                     }
-                                    placeholder="Release date"
+                                    placeholder={t('Movie_placeholder_release_date')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="trailer" className="block mb-2 text-sm font-medium ">
-                                    Trailer
+                                    {t('Movie_trailer')}
                                 </label>
                                 <input
                                     type="text"
@@ -1150,13 +1167,13 @@ export const ModalUpdateMovie = (props) => {
                                     onChange={(e) =>
                                         setMovieDataUpdate({ ...movieDataUpdate, trailer: e.target.value })
                                     }
-                                    placeholder="Enter trailer"
+                                    placeholder={t('Movie_placeholder_trailer')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="video" className="block mb-2 text-sm font-medium ">
-                                    Video
+                                    {t('Movie_video')}
                                 </label>
                                 <input
                                     type="text"
@@ -1165,13 +1182,13 @@ export const ModalUpdateMovie = (props) => {
                                     value={movieDataUpdate.video}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, video: e.target.value })}
-                                    placeholder="Enter video"
+                                    placeholder={t('Movie_placeholder_video')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Logo
+                                    {t('Movie_logo')}
                                 </label>
                                 <input
                                     type="text"
@@ -1180,13 +1197,13 @@ export const ModalUpdateMovie = (props) => {
                                     value={movieDataUpdate.logo}
                                     className="text-black bg-gray-300 border border-gray-300  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     onChange={(e) => setMovieDataUpdate({ ...movieDataUpdate, logo: e.target.value })}
-                                    placeholder="Enter logo"
+                                    placeholder={t('Movie_placeholder_logo')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Poster path
+                                    {t('Movie_poster_path')}
                                 </label>
                                 <input
                                     type="text"
@@ -1201,16 +1218,16 @@ export const ModalUpdateMovie = (props) => {
                                             poster_path: e.target.value.split(', ').map((path) => ({ path })),
                                         }))
                                     }
-                                    placeholder="Enter format: path1,path2,..."
+                                    placeholder={t('Movie_placeholder_poster_path')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Genres
+                                    {t('Movie_genres')}
                                 </label>
                                 <FormControl sx={{ width: '100%' }}>
-                                    <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+                                    <InputLabel id="demo-multiple-chip-label">{t('Movie_select')}</InputLabel>
                                     <Select
                                         labelId="demo-multiple-chip-label"
                                         id="demo-multiple-chip"
@@ -1241,12 +1258,12 @@ export const ModalUpdateMovie = (props) => {
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Episodes
+                                    {t('Movie_episodes')}
                                 </label>
                                 <div className="grid grid-cols-2 gap-6 mx-4">
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Title
+                                            {t('Movie_episodes_title')}
                                         </label>
                                         <input
                                             type="text"
@@ -1267,13 +1284,13 @@ export const ModalUpdateMovie = (props) => {
                                                     ],
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_eps_title')}
                                             required=""
                                         />
                                     </div>
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Runtime
+                                            {t('Movie_episodes_runtime')}
                                         </label>
                                         <input
                                             type="text"
@@ -1294,7 +1311,7 @@ export const ModalUpdateMovie = (props) => {
                                                     ],
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_eps_runtime')}
                                             required=""
                                         />
                                     </div>
@@ -1302,7 +1319,7 @@ export const ModalUpdateMovie = (props) => {
                                 <div className="grid grid-cols-2 gap-6 mt-3 mx-4">
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Image
+                                            {t('Movie_episodes_image')}
                                         </label>
                                         <input
                                             type="text"
@@ -1323,13 +1340,13 @@ export const ModalUpdateMovie = (props) => {
                                                     ],
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_eps_image')}
                                             required=""
                                         />
                                     </div>
                                     <div>
                                         <label htmlFor="" className="text-sm font-medium">
-                                            Description
+                                            {t('Movie_episodes_description')}
                                         </label>
                                         <input
                                             type="text"
@@ -1350,110 +1367,15 @@ export const ModalUpdateMovie = (props) => {
                                                     ],
                                                 }))
                                             }
-                                            placeholder="Type product name"
+                                            placeholder={t('Movie_placeholder_description')}
                                             required=""
                                         />
                                     </div>
                                 </div>
-                                {/* {movieDataUpdate.episodes.map((episode, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <div>
-                                                <label htmlFor="" className="text-sm font-medium">
-                                                    Title
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name={`episodes[${index}].episode_title`}
-                                                    value={episode.episode_title}
-                                                    onChange={(e) =>
-                                                        setMovieDataUpdate((prevData) => ({
-                                                            ...prevData,
-                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
-                                                                prevIndex === index
-                                                                    ? { ...prevEpisode, episode_title: e.target.value }
-                                                                    : prevEpisode,
-                                                            ),
-                                                        }))
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label htmlFor="" className="text-sm font-medium">
-                                                    Runtime
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name={`episodes[${index}].episode_runtime`}
-                                                    value={episode.episode_runtime}
-                                                    onChange={(e) =>
-                                                        setMovieDataUpdate((prevData) => ({
-                                                            ...prevData,
-                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
-                                                                prevIndex === index
-                                                                    ? {
-                                                                          ...prevEpisode,
-                                                                          episode_runtime: e.target.value,
-                                                                      }
-                                                                    : prevEpisode,
-                                                            ),
-                                                        }))
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label htmlFor="" className="text-sm font-medium">
-                                                    Image
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name={`episodes[${index}].episode_image`}
-                                                    value={episode.episode_image}
-                                                    onChange={(e) =>
-                                                        setMovieDataUpdate((prevData) => ({
-                                                            ...prevData,
-                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
-                                                                prevIndex === index
-                                                                    ? { ...prevEpisode, episode_image: e.target.value }
-                                                                    : prevEpisode,
-                                                            ),
-                                                        }))
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label htmlFor="" className="text-sm font-medium">
-                                                    Description
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name={`episodes[${index}].episode_description`}
-                                                    value={episode.episode_description}
-                                                    onChange={(e) =>
-                                                        setMovieDataUpdate((prevData) => ({
-                                                            ...prevData,
-                                                            episodes: prevData.episodes.map((prevEpisode, prevIndex) =>
-                                                                prevIndex === index
-                                                                    ? {
-                                                                          ...prevEpisode,
-                                                                          episode_description: e.target.value,
-                                                                      }
-                                                                    : prevEpisode,
-                                                            ),
-                                                        }))
-                                                    }
-                                                />
-                                            </div>
-                                        </div>
-                                    )
-                                })} */}
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Casts
+                                    {t('Movie_cast')}
                                 </label>
                                 <input
                                     type="text"
@@ -1467,13 +1389,13 @@ export const ModalUpdateMovie = (props) => {
                                             casts: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
-                                    placeholder="Enter format: cast1,cast2,..."
+                                    placeholder={t('Movie_placeholder_cast')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Program type
+                                    {t('Movie_program_type')}
                                 </label>
                                 <input
                                     type="text"
@@ -1487,13 +1409,13 @@ export const ModalUpdateMovie = (props) => {
                                             program_type: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
-                                    placeholder="Type product name"
+                                    placeholder={t('Movie_placeholder_program_type')}
                                     required=""
                                 />
                             </div>
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    Creators
+                                    {t('Movie_creator')}
                                 </label>
                                 <input
                                     type="text"
@@ -1507,13 +1429,13 @@ export const ModalUpdateMovie = (props) => {
                                             creators: e.target.value.split(', ').map((name) => ({ name })),
                                         }))
                                     }
-                                    placeholder="Enter format: creator1,creator2,..."
+                                    placeholder={t('Movie_placeholder_creator')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="age_rating" className="block mb-2 text-sm font-medium ">
-                                    Age rating
+                                    {t('Movie_age_rating')}
                                 </label>
                                 <input
                                     type="text"
@@ -1524,13 +1446,13 @@ export const ModalUpdateMovie = (props) => {
                                     onChange={(e) =>
                                         setMovieDataUpdate({ ...movieDataUpdate, age_rating: e.target.value })
                                     }
-                                    placeholder="Enter age rating"
+                                    placeholder={t('Movie_placeholder_age_rating')}
                                     required=""
                                 />
                             </div>
                             <div className="w-full">
                                 <label htmlFor="item_genre" className="block mb-2 text-sm font-medium ">
-                                    Item genre
+                                    {t('Movie_item_genre')}
                                 </label>
                                 <input
                                     type="text"
@@ -1541,7 +1463,7 @@ export const ModalUpdateMovie = (props) => {
                                     onChange={(e) =>
                                         setMovieDataUpdate({ ...movieDataUpdate, item_genre: e.target.value })
                                     }
-                                    placeholder="Item genes"
+                                    placeholder={t('Movie_placeholder_item_genre')}
                                     required=""
                                 />
                             </div>
@@ -1552,7 +1474,7 @@ export const ModalUpdateMovie = (props) => {
                                 type="button"
                                 className="bg-[#24AB62] text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4"
                             >
-                                Update product
+                                {t('btn_Submit')}
                             </button>
                             {/* <button
                                 type="button"

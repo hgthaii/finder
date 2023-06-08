@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuItem from '@mui/material/MenuItem'
-import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { DataGrid } from '@mui/x-data-grid'
@@ -13,6 +12,9 @@ import { Box, Modal } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
+
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -33,6 +35,9 @@ const styleModalDelete = {
 }
 
 const ManageUser = () => {
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -55,6 +60,9 @@ const ManageUser = () => {
 
                     setUsers(response.data)
                     setMainUsers(response.data)
+                    if (response.data && response.data.statusCode === 401) {
+                        navigate("/expired-token")
+                    }
                 } catch (error) {
                     console.error(error)
                 }
@@ -175,7 +183,6 @@ const ManageUser = () => {
         const value = event.target.value
         setDisplayName(value)
     }
-    const { t } = useTranslation()
 
     return (
         <div className="w-full">
@@ -306,16 +313,13 @@ const ManageUser = () => {
 export default ManageUser
 
 export const ModalDeleteUser = (props) => {
+    const { t } = useTranslation()
+
     const { userIds, setIsLoading, onClose } = props
     const onDeleteUser = async (userIds) => {
         try {
             setIsLoading(true)
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
+
             const requests = userIds.map((userId) =>
                 axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
                     withCredentials: true,
@@ -351,16 +355,16 @@ export const ModalDeleteUser = (props) => {
         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col items-center justify-center text-white mt-4">
                 <ErrorOutlineIcon style={{ fontSize: 80 }} />
-                <label>Bạn có chắc muốn xóa không!</label>
+                <label>{t('Ask_Delete')}</label>
                 <div className="flex flex-col justify-center mt-6">
                     <button
                         className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold "
                         onClick={handleDeleteClick}
                     >
-                        Xác nhận
+                        {t('btn_Confirm')}
                     </button>
                     <button className="bg-[grey] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold " onClick={onClose}>
-                        Hủy
+                        {t('btn_Cancel')}
                     </button>
                 </div>
             </div>
@@ -369,6 +373,8 @@ export const ModalDeleteUser = (props) => {
 }
 
 export const ModalAddUser = ({ onClose, setIsLoading }) => {
+    const { t } = useTranslation()
+
     const [username, setUsername] = useState()
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState()
@@ -395,18 +401,47 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
         }
         onClose()
     }
+    const [validate, setValidate] = useState({
+        username: '',
+        password: '',
+        confirmPassword: '',
+    })
+
     const onChangeUsername = (event) => {
         const value = event.target.value
-        setUsername(value)
+        if (value.length >= 4) {
+            setUsername(value)
+            setValidate({ ...validate, username: '' }) // Cập nhật lại validate.username
+        } else {
+            setValidate({ ...validate, username: 'Nhập ít nhất 4 ký tự' }) // Cập nhật lại validate.username
+        }
     }
+
     const onChangePass = (event) => {
         const value = event.target.value
-        setPassword(value)
+        if (value.length >= 4) {
+            setPassword(value)
+            setValidate({ ...validate, password: '' }) // Cập nhật lại validate.password
+        } else {
+            setValidate({ ...validate, password: 'Nhập ít nhất 4 ký tự' }) // Cập nhật lại validate.password
+        }
     }
+
     const onChangeConfirmPass = (event) => {
         const value = event.target.value
         setConfirmPassword(value)
+
+        // So sánh confirmPassword với password
+        if (value !== password) {
+            setValidate({
+                ...validate,
+                confirmPassword: 'Mật khẩu xác nhận không khớp với mật khẩu đã nhập',
+            })
+        } else {
+            setValidate({ ...validate, confirmPassword: '' })
+        }
     }
+
     const onChangeDisplayName = (event) => {
         const value = event.target.value
         setDisplayName(value)
@@ -419,18 +454,19 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
-                <h3 className="text-xl font-semibold">Add user</h3>
+                <h3 className="text-xl font-semibold">{t('Add_user')}</h3>
                 <input
                     type="text"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                    placeholder="Enter username"
+                    placeholder={t('Placeholder_username')}
                     onChange={onChangeUsername}
                     onKeyPress={handleKeyPress}
                 />
+                {validate.username && <p className="text-red-400 text-sm ">{validate.username}</p>}
                 <input
                     type="text"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                    placeholder="Enter displayname"
+                    placeholder={t('Placeholder_displayname')}
                     onChange={onChangeDisplayName}
                     onKeyPress={handleKeyPress}
                 />
@@ -438,19 +474,21 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
                 <input
                     type="password"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
-                    placeholder="Enter password"
+                    placeholder={t('Placeholder_password')}
                     onChange={onChangePass}
                     onKeyPress={handleKeyPress}
                 />
+                {validate.password && <p className="text-red-400 text-sm ">{validate.password}</p>}
                 <input
                     type="password"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                    placeholder="Enter confirm password"
+                    placeholder={t('Placeholder_confirmPassword')}
                     onChange={onChangeConfirmPass}
                     onKeyPress={handleKeyPress}
                 />
+                {validate.confirmPassword && <p className="text-red-400 text-sm ">{validate.confirmPassword}</p>}
                 <button className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold " onClick={onAddUser}>
-                    SUBMIT
+                    {t('btn_Submit')}
                 </button>
             </div>
         </div>
@@ -458,6 +496,8 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
 }
 
 export const ModalUpdateUser = (props) => {
+    const { t } = useTranslation()
+
     const { userIds, setIsLoading, onClose } = props
     const [displayName, setDisplayName] = useState(userIds[0]?.displayName)
     const [roles, setRoles] = useState(userIds[0]?.roles)
@@ -517,7 +557,7 @@ export const ModalUpdateUser = (props) => {
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
-                <h3 className="text-xl font-semibold">Update user</h3>
+                <h3 className="text-xl font-semibold">{t('Update_user')}</h3>
                 <input
                     type="text"
                     className="w-full h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
@@ -550,7 +590,7 @@ export const ModalUpdateUser = (props) => {
                     className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold "
                     onClick={handleUpdateClick}
                 >
-                    SUBMIT
+                    {t('btn_Submit')}
                 </button>
             </div>
         </div>
