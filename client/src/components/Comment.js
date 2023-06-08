@@ -3,30 +3,10 @@ import { useParams } from 'react-router'
 import axios from 'axios'
 
 import icons from '../ultis/icons'
-const Comment = () => {
+const Comment = ({ data }) => {
 
     const { BsThreeDotsVertical } = icons
-    const { movieId } = useParams()
-    const [comment, setComment] = useState()
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/api/v1//movies/${movieId}/comments`, {
-                    withCredentials: true,
-                })
-                if (response.status === 200) {
-                    setComment(response.data)
-                }
-                // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
-            }
-        }
 
-        fetchData()
-    }, [movieId])
-    console.log(comment);
     return (
         <div className='w-full  border-b border-[#404040] py-4 my-4'>
             <div className="flex justify-between items-center mb-2">
@@ -42,10 +22,7 @@ const Comment = () => {
                 </div>
             </div>
             <div className="text-[16px] mb-3">
-                <p>Bộ phim "Inception" là một tác phẩm điện ảnh đầy hấp dẫn và đặc biệt. Được đạo diễn bởi
-                    Christopher Nolan, phim mang đến một cuộc phiêu lưu tâm lý đầy bất ngờ và khám phá về giới
-                    hạn của hiện thực.
-                </p>
+                <p>{data?.content}</p>
             </div>
             <div >
                 <span className='mr-3'>Thích</span>

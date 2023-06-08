@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import * as actions from '../store/actions'
 import { useNavigate } from 'react-router-dom'
-
+import { useParams } from 'react-router-dom'
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -14,6 +14,8 @@ const Modalcontainer = ({ data, closeModal }) => {
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
+    const [comment, setComment] = useState('');
+    const { movieId } = useParams()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,18 +34,35 @@ const Modalcontainer = ({ data, closeModal }) => {
         fetchData()
     }, [idGenre])
 
-    const [comment, setComment] = useState('');
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/v1//movies/${movieId}/comments`, {
+                    withCredentials: true,
+                })
+                if (response.status === 200) {
+                    setComment(response.data)
+                }
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [movieId])
 
-    const handleInputChange = (event) => {
-        setComment(event.target.value);
-    };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Gửi bình luận lên server hoặc xử lý bình luận ở đây
-        console.log(comment);
-        setComment('');
-    };
+    // const handleInputChange = (event) => {
+    //     setComment(event.target.value);
+    // };
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     // Gửi bình luận lên server hoặc xử lý bình luận ở đây
+    //     console.log(comment);
+    //     setComment('');
+    // };
 
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
@@ -128,11 +147,12 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span>Đặng Tùng</span>
                         </div>
                         <div className="border-b border-[#BCBCBC]">
-                            <form onSubmit={handleSubmit}>
+                            {/* onSubmit={handleSubmit} */}
+                            <form >
                                 <textarea
                                     placeholder="Bạn nghĩ gì về bộ phim này..."
-                                    value={comment}
-                                    onChange={handleInputChange}
+                                    // value={comment}
+                                    // onChange={handleInputChange}
                                     className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                 ></textarea>
                             </form>
@@ -156,11 +176,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                         </div>
                     </div>
                     <div>
-                        <Comment />
-                        <Comment />
-                        <Comment />
-                        <Comment />
-                        <Comment />
+                        {comment && comment.map((item) => (
+                            <Comment data={item} key={item._id} />
+                        ))}
+
                     </div>
                 </div>
                 <div className="flex flex-col pb-[32px] w-full">
