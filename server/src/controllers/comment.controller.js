@@ -68,6 +68,23 @@ const getAllCommentOfFilm = async (req, res) => {
     }
 }
 
+const getAllCommentOfUser = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+
+        const userId = tokenDecoded.infor.id
+        if (!userId) return responseHandler.badrequest(res, 'Không tìm thấy user!')
+        const checkUser = await userModel.findById(userId)
+        if (!checkUser) return responseHandler.badrequest(res, 'Không tìm thấy user')
+
+        const getComments = await commentModel.find({ userId }).sort('-createdAt')
+        responseHandler.ok(res, getComments)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Lấy danh sách bình luận không thành công!')
+    }
+}
+
 const editComment = async (req, res) => {
     try {
         const { commentId } = req.params
@@ -535,4 +552,5 @@ export default {
     changeLikedReplyIcon,
     editReplyComment,
     deleteReplyComment,
+    getAllCommentOfUser,
 }

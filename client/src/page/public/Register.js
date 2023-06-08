@@ -46,6 +46,10 @@ const Register = ({ onClose }) => {
     const onSubmitRegister = async () => {
         const isValid = validateAll()
         if (!isValid) return
+         if (!checked) {
+             toast.error('Bạn phải đồng ý với điều khoản và điều kiện của Finder')
+             return
+         }
         try {
             const res = await axios.post('http://localhost:5000/api/v1/user/signup', {
                 username,
@@ -53,22 +57,12 @@ const Register = ({ onClose }) => {
                 confirmPassword,
                 displayName,
             })
-            // Lay body cua token
-            const tokenBody = res.data.access_token.split('.')[1]
-
-            // Giai ma body voi base64
-            const decodedTokenBody = atob(tokenBody)
-
-            // Giai ma cac phan tu JSON cua body
-            const parsedTokenBody = JSON.parse(decodedTokenBody)
-            localStorage.setItem('infor', JSON.stringify(parsedTokenBody.infor))
-            localStorage.setItem('role', JSON.stringify(parsedTokenBody.roles))
-            if (parsedTokenBody) {
+            if (res.data && res.data.statusCode === 201) {
                 onClose()
-                toast.success('Đăng ký thành công')
+                toast.success(res.data.message)
             }
         } catch (error) {
-            toast.success('Đăng ký không thành công')
+            toast.error('Đăng ký không thành công')
             console.log(error)
         }
     }
@@ -76,6 +70,10 @@ const Register = ({ onClose }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState()
     const [displayName, setDisplayName] = useState()
+    const [checked, setChecked] = useState(false)
+    const onChangeCheckbox = (event) => {
+        setChecked(event.target.checked)
+    }
     // const navigate = useNavigate();
     const onChangeUsername = (event) => {
         const value = event.target.value
@@ -115,6 +113,7 @@ const Register = ({ onClose }) => {
                         placeholder="Emai hoặc số điện thoại..."
                         onChange={onChangeUsername}
                         onKeyPress={handleKeyPress}
+                        required
                     />
                     <p className="text-red-400 text-xs "> {validationMsg.email}</p>
 
@@ -124,6 +123,7 @@ const Register = ({ onClose }) => {
                         placeholder="Nhập tên hiển thị"
                         onChange={onChangeDisplayName}
                         onKeyPress={handleKeyPress}
+                        required
                     />
 
                     <input
@@ -132,6 +132,7 @@ const Register = ({ onClose }) => {
                         placeholder="Mật khẩu"
                         onChange={onChangePass}
                         onKeyPress={handleKeyPress}
+                        required
                     />
                     <p className="text-red-400 text-xs "> {validationMsg.password}</p>
 
@@ -141,11 +142,12 @@ const Register = ({ onClose }) => {
                         placeholder="Nhập lại mật khẩu"
                         onChange={onChangeConfirmPass}
                         onKeyPress={handleKeyPress}
+                        required
                     />
                     {/* <p className="text-red-400 text-xs "> {validationMsg.password}</p> */}
 
                     <div className="mt-3 text-left">
-                        <input type="checkbox" />
+                        <input type="checkbox" checked={checked} onChange={onChangeCheckbox}/>
                         <label htmlFor="" className="text-[12px] pl-2">
                             Tôi đồng ý với điều khoản & điều kiện của Finder
                         </label>

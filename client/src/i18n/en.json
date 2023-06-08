@@ -1,4 +1,19 @@
 {
   "Title_header": "Administrator",
-  "ManageAccount": "Manage User"
+  "Account_setting": "Account Setting",
+  "Logout": "Logout",
+  "Account": "Account",
+  "Movie": "Movie",
+  "Comment": "Comment",
+  "ManageAccount": "Manage User",
+  "Add_user": "Add User",
+  "Update_user": "Update User",
+  "Delete_user": "Delete User",
+  "Search_displayname": "Search displayname",
+  "btn_Search": "Search",
+  "Display_name": "Display Name",
+  "User_name": "User Name",
+  "User_role": "Role",
+  "Created_at": "Created At",
+  "User_id": "User ID"
 }
