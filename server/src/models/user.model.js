@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String,
+        ref: 'Image'
+    },
     password: {
         type: String,
         required: true,
@@ -25,11 +29,8 @@ const userSchema = new mongoose.Schema({
     },
     favorites: [
         {
-            movieId: String,
-            title: String,
-            poster_path: String,
-            overview: String,
-            trailer: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Movie'
         },
     ],
     createdAt: {

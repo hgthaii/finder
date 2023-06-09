@@ -4,6 +4,8 @@ import refreshtokenModel from '../models/refreshtoken.model.js'
 import responseHandler from '../handlers/response.handler.js'
 import mongoose from 'mongoose'
 import tokenMiddleware from '../middlewares/token.middleware.js'
+import fs from 'fs'
+import imageModel from '../models/image.model.js'
 
 const signup = async (req, res) => {
     try {
@@ -56,8 +58,8 @@ const signup = async (req, res) => {
             message: 'Đăng ký tài khoản thành công',
         })
     } catch (error) {
-        responseHandler.error(res, 'Đăng ký không thành công!')
         console.log(error)
+        responseHandler.error(res, 'Đăng ký không thành công!')
     }
 }
 

@@ -13,9 +13,9 @@ const createComment = async (req, res) => {
 
         const userId = tokenDecoded.infor.id
         if (!userId) return responseHandler.badrequest(res, 'Không tìm thấy user!')
-        const checkUser = await userModel.findById(userId)
+        const checkUser = await userModel.findById(userId).select('displayName avatar username')
         if (!checkUser) return responseHandler.badrequest(res, 'Không tìm thấy user')
-
+        console.log(checkUser.displayName)
         const checkMovie = await movieModel.findById(movieId)
         if (!checkMovie) return responseHandler.badrequest(res, 'Không tìm thấy phim')
 
@@ -33,7 +33,11 @@ const createComment = async (req, res) => {
 
         const comment = new commentModel({
             content: content,
-            userId,
+            user: {
+                userId,
+                displayName: checkUser.displayName,
+                avatar: checkUser.avatar
+            },
             movieId,
         })
 

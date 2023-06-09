@@ -6,6 +6,8 @@ import requestHandler from '../handlers/request.handler.js'
 import userModel from '../models/user.model.js'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import authorizeMiddleware from '../middlewares/authorize.middleware.js'
+import upload from '../middlewares/file.middleware.js'
+
 const router = express.Router()
 
 router.post(
@@ -121,6 +123,8 @@ router.post(
     tokenMiddleware.verifyTokenAndRefresh,
     favoriteController.addFavorite,
 )
+
+router.get('/favorites/:movieId/check', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, favoriteController.checkFavorite)
 
 router.get(
     '/',

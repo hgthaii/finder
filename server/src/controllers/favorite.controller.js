@@ -1,41 +1,76 @@
 import responseHandler from '../handlers/response.handler.js'
 import favoriteModel from '../models/favorite.model.js'
 import movieModel from '../models/movie.model.js'
+import userModel from '../models/user.model.js'
 import tokenMiddleware from '../middlewares/token.middleware.js'
+
+const checkFavorite = async (req, res) => {
+    try {
+        const { movieId } = req.params
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const userId = tokenDecoded.infor.id
+
+        // Tìm người dùng dựa trên ID
+        const user = await userModel.findById(userId)
+        if (!user) {
+            return responseHandler.notfound(res, 'Không tìm thấy người dùng')
+        }
+
+        // Kiểm tra xem phim đã được yêu thích bởi người dùng hay chưa
+        const favorite = await favoriteModel.findOne({ userId: user._id, movieId: movieId })
+        const isFavorite = !!favorite
+        const favoriteId = favorite ? favorite._id : null
+
+        if (isFavorite) {
+            responseHandler.ok(res, {
+                isFavorite: true,
+                favoriteId: favoriteId,
+                message: 'Phim đã được yêu thích.',
+            })
+        } else {
+            responseHandler.ok(res, {
+                isFavorite: false,
+                message: 'Phim chưa được yêu thích.',
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Kiểm tra yêu thích không thành công')
+    }
+}
+
 
 const addFavorite = async (req, res) => {
     try {
         const { movieId } = req.body
-        if (!movieId) return responseHandler.badrequest(res, 'Không tìm thấy phim')
-        const tokenDecoded = tokenMiddleware.tokenDecode(req)
-        const userId = tokenDecoded.infor.id
-        const movie = await movieModel.findById(movieId).select('title logo poster_path release_date _id overview trailer video age_rating item_genre')
-        if (!movie) return responseHandler.badrequest(res, 'Không tìm thấy phim')
-        const isFavorite = await favoriteModel.findOne({ movieId })
-        // Tìm xem movie này đã được thêm vào yêu thích chưa
+        const userId = tokenMiddleware.tokenDecode(req).infor.id
 
-        // Nếu tồn tại, trả về code 200
-        if (isFavorite) return responseHandler.badrequest(res, 'Phim đã được thêm vào yêu thích trước đó')
+        const [checkUser, checkMovie] = await Promise.all([userModel.findById(userId), movieModel.findById(movieId)])
+        if (!checkUser) return responseHandler.badrequest(res, 'User không tồn tại trong hệ thống.')
+        if (!checkMovie) return responseHandler.badrequest(res, 'Phim không tồn tại trong hệ thống.')
 
-        // Nếu movie này chưa có trong danh sách yêu thích, tạo một đối tượng mới
-        const favorite = new favoriteModel({
-            ...req.body,
-            title: movie.title,
-            logo: movie.logo,
-            release_date: movie.release_date,
-            poster_path: movie.poster_path[1].path,
-            overview: movie.overview,
-            trailer: movie.trailer,
-            video: movie.video,
-            age_rating: movie.age_rating,
-            item_genre: movie.item_genre,
-            _id: movie._id,
-            userId,
+        const isFavorite = await favoriteModel.exists({ movieId: checkMovie._id, userId: checkUser._id })
+        const newFavorite = new favoriteModel({
+            userId: checkUser._id,
+            movieId: checkMovie._id,
+            title: checkMovie.title,
+            logo: checkMovie.logo,
+            release_date: checkMovie.release_date,
+            poster_path: checkMovie.poster_path[1].path,
+            overview: checkMovie.overview,
+            trailer: checkMovie.trailer,
+            video: checkMovie.video,
+            age_rating: checkMovie.age_rating,
+            item_genre: checkMovie.item_genre,
         })
-
-        await favorite.save()
-
-        return responseHandler.created(res, favorite)
+        if (isFavorite) {
+            responseHandler.badrequest(res, 'Phim đã được yêu thích trước đó.')
+        } else {
+            await newFavorite.save()
+            checkUser.favorites.push(newFavorite)
+            await checkUser.save()
+        }
+        responseHandler.created(res, newFavorite)
     } catch (error) {
         console.error(error)
         responseHandler.error(res, 'Thêm vào yêu thích không thành công')
@@ -44,20 +79,37 @@ const addFavorite = async (req, res) => {
 
 const removeFavorite = async (req, res) => {
     try {
-        const { favoriteId } = req.body
-        if (!favoriteId) return responseHandler.badrequest(res, 'Không tìm thấy phim trong hệ thống')
+        const { favoriteId, movieId } = req.body
         const userId = tokenMiddleware.tokenDecode(req).infor.id
-        const favorite = await favoriteModel.findOneAndDelete({ _id: favoriteId, userId })
-        if (!favorite) return responseHandler.notfound(res, 'Không tìm thấy phim đã yêu thích.')
 
-        // Xóa đối tượng yêu thích
+        const [checkUser, checkMovie] = await Promise.all([userModel.findById(userId), movieModel.findById(movieId)])
+        if (!checkUser) return responseHandler.badrequest(res, 'User không tồn tại trong hệ thống.')
+        if (!checkMovie) return responseHandler.badrequest(res, 'Phim không tồn tại trong hệ thống.')
+
+        const isFavorite = await favoriteModel.exists({ movieId: checkMovie._id, userId: checkUser._id })
+        if (!isFavorite) {
+            return responseHandler.badrequest(res, 'Phim chưa được yêu thích.')
+        }
+
+        // Xóa phim khỏi danh sách yêu thích của người dùng
+        const index = checkUser.favorites.indexOf(isFavorite._id)
+        console.log(index)
+        if (index > -1) {
+            checkUser.favorites.splice(index, 1)
+            await checkUser.save()
+        } else {
+            return responseHandler.badrequest(res, 'Xoá favorite user không thành công.')
+        }
+
+        await favoriteModel.findOneAndDelete({ movieId: checkMovie._id, userId: checkUser._id })
+
         responseHandler.ok(res, {
             statusCode: 200,
-            message: `Xoá phim đã yêu thích thành công!`,
+            message: 'Xóa khỏi danh sách yêu thích thành công.',
         })
     } catch (error) {
-        // console.log(error)
-        responseHandler.error(res, 'Xóa khỏi yêu thích không thành công')
+        console.error(error)
+        responseHandler.error(res, 'Xóa khỏi danh sách yêu thích không thành công.')
     }
 }
 
@@ -76,4 +128,4 @@ const getFavoritesOfUser = async (req, res) => {
     }
 }
 
-export default { addFavorite, removeFavorite, getFavoritesOfUser }
+export default { addFavorite, removeFavorite, getFavoritesOfUser, checkFavorite }
