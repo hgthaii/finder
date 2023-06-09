@@ -25,10 +25,6 @@ const Comment = ({ data }) => {
             </div>
             <div className="text-[16px] mb-3">
                 <p>{data?.content}</p>
-                {/* <p>
-                    Bộ phim "Inception" là một tác phẩm điện ảnh đầy hấp dẫn và đặc biệt. Được đạo diễn bởi Christopher
-                    Nolan, phim mang đến một cuộc phiêu lưu tâm lý đầy bất ngờ và khám phá về giới hạn của hiện thực.
-                </p> */}
             </div>
             <div className="flex items-end">
                 <figure class="image-box">

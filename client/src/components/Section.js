@@ -8,9 +8,13 @@ const Section = ({ data }) => {
     const handleToggleActive = () => {
         setIsActive(!isActive)
     }
+    let idValue = data?._id
+    if (data?.movieId) {
+        idValue = data.movieId
+    }
     return (
         <Link
-            to={`${path.DETAIL_MOVIES}/${data?._id}`}
+            to={`${path.DETAIL_MOVIES}/${idValue}`}
             className={`relative ${isActive ? 'active' : ''}`}
             onClick={handleToggleActive}
         >
