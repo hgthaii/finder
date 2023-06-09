@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import axios from 'axios'
-
+import moment from 'moment'
+import 'moment/locale/vi';
 import icons from '../ultis/icons'
-const Comment = ({ data }) => {
+const Comment = ({ displayName, pastTime, content }) => {
     const { BsThreeDotsVertical, AiTwotoneLike, AiFillDislike, AiFillHeart, FaSmileBeam, BsEmojiAngryFill } = icons
+    const [timeAgo, setTimeAgo] = useState('');
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const time = moment(pastTime).locale('vi').fromNow();
+            setTimeAgo(time);
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [pastTime]);
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
             <div className="flex justify-between items-center mb-2">
@@ -15,8 +25,8 @@ const Comment = ({ data }) => {
                         className="w-[48px] h-[48px] rounded-full mr-2 "
                     />
                     <div className="flex flex-col ">
-                        <span className="font-bold">{data?.user?.displayName}</span>
-                        <span>5 phút trước</span>
+                        <span className="font-bold">{displayName}</span>
+                        <span>{timeAgo}</span>
                     </div>
                 </div>
                 <div className="">
@@ -24,7 +34,7 @@ const Comment = ({ data }) => {
                 </div>
             </div>
             <div className="text-[16px] mb-3">
-                <p>{data?.content}</p>
+                <p>{content}</p>
             </div>
             <div className="flex items-end">
                 <figure class="image-box">

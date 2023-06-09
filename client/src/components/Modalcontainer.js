@@ -253,7 +253,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                         </div>}
                     <div>
                         {comment && comment.map((item) => (
-                            <Comment data={item} key={item._id} />
+                            <Comment displayName={item?.user?.displayName}
+                                pastTime={item?.createdAt}
+                                content={item?.content}
+                                key={item._id} />
                         ))}
 
                     </div>
