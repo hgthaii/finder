@@ -110,8 +110,7 @@ const Header = () => {
     const handleCloseListComment = () => {
         setOpenListComment(false)
     }
-
-    localStorage.setItem("displayName", checkValueStorage.displayName);
+    localStorage.setItem("displayName", checkValueStorage?.displayName);
     return (
         <div
             className={`flex items-center px-[48px] justify-between ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
