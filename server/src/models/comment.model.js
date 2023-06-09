@@ -44,6 +44,14 @@ export default mongoose.model(
                     type: Number,
                     enum: [1100, 1101, 1102, 1103, 1104, 1105], // Danh sách các mã icon đã like
                 },
+                createdAt: {
+                    type: Date,
+                    default: Date.now,
+                },
+                updatedAt: {
+                    type: Date,
+                    default: Date.now,
+                },
             },
         ],
         replies: [
@@ -79,5 +87,13 @@ export default mongoose.model(
                 },
             },
         ],
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+        },
     }),
 )
