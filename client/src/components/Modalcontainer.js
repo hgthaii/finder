@@ -6,6 +6,14 @@ import { useDispatch } from 'react-redux'
 import * as actions from '../store/actions'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import Button from '@mui/material/Button'
+import Modal from '@mui/material/Modal'
+import Fade from '@mui/material/Fade'
+import Box from '@mui/material/Box'
+import Login from '../page/public/Login'
+import Backdrop from '@mui/material/Backdrop'
+
+
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -17,6 +25,27 @@ const Modalcontainer = ({ data, closeModal }) => {
     const [comment, setComment] = useState('');
     const { movieId } = useParams()
     const displayName = localStorage.getItem("displayName");
+    const [open, setOpen] = useState(false)
+
+    const handleOpen = () => {
+        setOpen(true)
+        // navigate("/signin")
+    }
+    const handleClose = () => {
+        setOpen(false)
+        navigate('/')
+    }
+
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 900,
+        height: 550,
+        boxShadow: 24,
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -137,45 +166,74 @@ const Modalcontainer = ({ data, closeModal }) => {
                     </div>
                 </div>
 
-                <div className="w-full mt-4">
-                    <div className="w-full bg-[#333333] p-4 rounded-lg">
-                        <div className="flex items-center gap-3">
-                            <img
-                                src="https://source.unsplash.com/random"
-                                alt="user"
-                                className="w-12 h-12 rounded-full "
-                            />
-                            <span>{displayName}</span>
-                        </div>
-                        <div className="border-b border-[#BCBCBC]">
-                            {/* onSubmit={handleSubmit} */}
-                            <form >
-                                <textarea
-                                    placeholder="Bạn nghĩ gì về bộ phim này..."
-                                    // value={comment}
-                                    // onChange={handleInputChange}
-                                    className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
-                                ></textarea>
-                            </form>
+                <div className="w-full mt-4 ">
+                    {displayName === 'undefined' ?
+                        <div className='w-full flex  justify-center items-center'>
+                            <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
+                                Đăng nhập để bình luận
+                            </Button>
+                            <Modal
+                                aria-labelledby="transition-modal-title"
+                                aria-describedby="transition-modal-description"
+                                open={open}
+                                onClose={handleClose}
+                                closeAfterTransition
+                                slots={{ backdrop: Backdrop }}
+                                slotProps={{
+                                    backdrop: {
+                                        timeout: 500,
+                                    },
+                                }}
+                            >
+                                <Fade in={open}>
+                                    <Box sx={style}>
+                                        <Login onClose={handleClose} />
+                                    </Box>
+                                </Fade>
+                            </Modal>
                         </div>
 
-                        <div className="flex justify-between items-center mt-3">
-                            <div className="flex gap-2">
-                                <span className="cursor-pointer">
-                                    <FaBold />
-                                </span>
-                                <span className="cursor-pointer">
-                                    <FaItalic />
-                                </span>
-                                <span className="cursor-pointer">
-                                    <AiOutlineLink size={20} />
-                                </span>
+
+                        // <div onClick={() => navigate('/signin')} className='flex items-center justify-center cursor-pointer w-[30%] p-3 rounded-md bg-white text-black font-bold'>Đăng nhập để bình luận</div>
+
+                        : <div className="w-full bg-[#333333] p-4 rounded-lg">
+                            <div className="flex items-center gap-3">
+                                <img
+                                    src="https://source.unsplash.com/random"
+                                    alt="user"
+                                    className="w-12 h-12 rounded-full "
+                                />
+                                <span>{displayName}</span>
                             </div>
-                            <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white ">
-                                Bình luận
-                            </button>
-                        </div>
-                    </div>
+                            <div className="border-b border-[#BCBCBC]">
+                                {/* onSubmit={handleSubmit} */}
+                                <form >
+                                    <textarea
+                                        placeholder="Bạn nghĩ gì về bộ phim này..."
+                                        // value={comment}
+                                        // onChange={handleInputChange}
+                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
+                                    ></textarea>
+                                </form>
+                            </div>
+
+                            <div className="flex justify-between items-center mt-3">
+                                <div className="flex gap-2">
+                                    <span className="cursor-pointer">
+                                        <FaBold />
+                                    </span>
+                                    <span className="cursor-pointer">
+                                        <FaItalic />
+                                    </span>
+                                    <span className="cursor-pointer">
+                                        <AiOutlineLink size={20} />
+                                    </span>
+                                </div>
+                                <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white ">
+                                    Bình luận
+                                </button>
+                            </div>
+                        </div>}
                     <div>
                         {comment && comment.map((item) => (
                             <Comment data={item} key={item._id} />
