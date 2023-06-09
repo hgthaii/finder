@@ -25,10 +25,10 @@ const ManageComment = () => {
                 const res = await axios.get('http://localhost:5000/api/v1/movies', { withCredentials: true })
                 // console.log('oke ne' + JSON.stringify(res.data))
                 setDataMovie(res.data)
-                if (res.data && res.data.statusCode === 401) {
+            } catch (error) {
+                if (error.response.data && error.response.data.statusCode === 401) {
                     navigate('/expired-token')
                 }
-            } catch (error) {
                 console.log(error)
             }
         }

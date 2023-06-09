@@ -1,11 +1,8 @@
 import React from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import imgUser from '../../asset/image/user.png'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 
-import { Modal } from '@mui/material'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -24,7 +21,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <span>{children}</span>
                 </Box>
             )}
         </div>

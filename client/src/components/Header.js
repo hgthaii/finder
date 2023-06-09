@@ -33,6 +33,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import Login from '../page/public/Login'
 import ModalProfile from '../page/dashboard/ModalProfile'
+import Skeleton from '@mui/material/Skeleton'
+
 
 const style = {
     position: 'absolute',
@@ -145,9 +147,9 @@ const Header = () => {
                             aria-haspopup="true"
                             aria-expanded={openn ? 'true' : undefined}
                             onClick={handleClick}
-                            sx={{ color: '#02e7f5' }}
+                            sx={{ color: '#02e7f5', fontWeight: '500' }}
                         >
-                            {checkValueStorage?.displayName}
+                            Chào, {checkValueStorage?.displayName}
                         </Button>
                         <Menu
                             id="basic-menu"
@@ -270,8 +272,9 @@ export const ModalListComment = () => {
     const displayReviews = () => {
         return currentPageData.map((x, index) => {
             const movie = movieDetails[x.movieId]
-            const title = movie ? movie[0]?.title : ''
-            const poster = movie ? movie[0]?.poster_path[0].path : ''
+            const title = movie ? movie[0]?.title : '' 
+            const poster = movie ? movie[0]?.poster_path[0].path : '' 
+
             return (
                 <div key={index} className="flex items-center my-4">
                     <img src={poster} alt="poster" className="mr-4 w-40" />
@@ -280,7 +283,10 @@ export const ModalListComment = () => {
                         <p className="text-gray-500">Lượt thích: {x.likes.length}</p>
                         <p className="text-gray-500">Bình luận: {x.content}</p>
                     </div>
-                    <button className="text-white hover:bg-red-800 bg-red-700 rounded p-2 ml-24" onClick={() => onDeleteReview(x._id)}>
+                    <button
+                        className="text-white hover:bg-red-800 bg-red-700 rounded p-2 ml-24"
+                        onClick={() => onDeleteReview(x._id)}
+                    >
                         <DeleteIcon /> Xóa bình luận
                     </button>
                 </div>

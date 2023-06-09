@@ -1,13 +1,27 @@
-import { AiFillBell, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineClose, AiOutlineLink } from 'react-icons/ai'
+import {
+    AiFillBell,
+    AiOutlinePlus,
+    AiOutlineExclamationCircle,
+    AiOutlineClose,
+    AiOutlineLink,
+    AiFillHeart,
+    AiTwotoneLike,
+    AiFillDislike,
+} from 'react-icons/ai'
 import { BiSearchAlt2 } from 'react-icons/bi'
-import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical } from 'react-icons/bs'
+import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill } from 'react-icons/bs'
 import { SlLike } from 'react-icons/sl'
 import { GrClose } from 'react-icons/gr'
-import { FaUsers, FaItalic, FaBold } from 'react-icons/fa'
+import { FaUsers, FaItalic, FaBold, FaSmileBeam } from 'react-icons/fa'
 
 const icons = {
+    AiTwotoneLike,
+    AiFillDislike,
+    BsEmojiAngryFill,
     AiFillBell,
+    FaSmileBeam,
     BiSearchAlt2,
+    AiFillHeart,
     BsFillPlayFill,
     SlLike,
     AiOutlinePlus,
@@ -20,7 +34,6 @@ const icons = {
     FaBold,
     FaItalic,
     AiOutlineLink,
-
 }
 
 export default icons
