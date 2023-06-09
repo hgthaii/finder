@@ -124,7 +124,12 @@ router.post(
     favoriteController.addFavorite,
 )
 
-router.get('/favorites/:movieId/check', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, favoriteController.checkFavorite)
+router.get(
+    '/favorites/:movieId/check',
+    tokenMiddleware.auth,
+    tokenMiddleware.verifyTokenAndRefresh,
+    favoriteController.checkFavorite,
+)
 
 router.get(
     '/',

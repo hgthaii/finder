@@ -20,7 +20,7 @@ export default mongoose.model(
         },
         avatar: {
             data: Buffer,
-            contentType: String
+            contentType: String,
         },
         createdAt: {
             type: Date,

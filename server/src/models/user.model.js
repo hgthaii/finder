@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        ref: 'Image'
+        ref: 'Image',
     },
     password: {
         type: String,
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     favorites: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Movie'
+            ref: 'Movie',
         },
     ],
     createdAt: {

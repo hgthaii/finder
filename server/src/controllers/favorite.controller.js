@@ -39,7 +39,6 @@ const checkFavorite = async (req, res) => {
     }
 }
 
-
 const addFavorite = async (req, res) => {
     try {
         const { movieId } = req.body

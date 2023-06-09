@@ -26,7 +26,6 @@ router.post(
 
 // Gọi hàm gửi email
 
-
 router.post('/email', transportController.sendEmail)
 
 export default router

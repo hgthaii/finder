@@ -3,13 +3,11 @@ import mongoose from 'mongoose'
 
 export default mongoose.model(
     'Cast',
-    mongoose.Schema(
-        {
-            name: {
-                type: String,
-                require: true,
-                unique: true,
-            },
+    mongoose.Schema({
+        name: {
+            type: String,
+            require: true,
+            unique: true,
         },
-    ),
+    }),
 )

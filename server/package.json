@@ -7,7 +7,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install && echo 'Build completed'"
   },
   "repository": {
     "type": "git",

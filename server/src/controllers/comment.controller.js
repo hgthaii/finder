@@ -36,7 +36,7 @@ const createComment = async (req, res) => {
             user: {
                 userId,
                 displayName: checkUser.displayName,
-                avatar: checkUser.avatar
+                avatar: checkUser.avatar,
             },
             movieId,
         })
