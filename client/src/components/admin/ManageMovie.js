@@ -203,10 +203,10 @@ const ManageMovie = () => {
 
                     setMovies(response.data)
                     setMainMovies(response.data)
-                    if (response.data && response.data.statusCode === 401) {
+                } catch (error) {
+                    if (error.response.data && error.response.data.statusCode === 401) {
                         navigate('/expired-token')
                     }
-                } catch (error) {
                     console.error(error)
                 }
             }
