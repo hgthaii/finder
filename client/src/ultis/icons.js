@@ -7,6 +7,7 @@ import {
     AiFillHeart,
     AiTwotoneLike,
     AiFillDislike,
+    AiOutlineCheck
 } from 'react-icons/ai'
 import { BiSearchAlt2 } from 'react-icons/bi'
 import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill } from 'react-icons/bs'
@@ -34,6 +35,7 @@ const icons = {
     FaBold,
     FaItalic,
     AiOutlineLink,
+    AiOutlineCheck,
 }
 
 export default icons

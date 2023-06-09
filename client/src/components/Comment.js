@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import axios from 'axios'
 
 import icons from '../ultis/icons'
-const Comment = ({data}) => {
+const Comment = ({ data }) => {
     const { BsThreeDotsVertical, AiTwotoneLike, AiFillDislike, AiFillHeart, FaSmileBeam, BsEmojiAngryFill } = icons
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
@@ -15,7 +15,7 @@ const Comment = ({data}) => {
                         className="w-[48px] h-[48px] rounded-full mr-2 "
                     />
                     <div className="flex flex-col ">
-                        <span className="font-bold">name</span>
+                        <span className="font-bold">{data?.user?.displayName}</span>
                         <span>5 phút trước</span>
                     </div>
                 </div>

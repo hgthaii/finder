@@ -6,7 +6,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Section, } from '../../components'
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router-dom'
 SwiperCore.use([Navigation, Pagination])
 const Mylist = () => {
     const [favirites, setFavirites] = useState([])

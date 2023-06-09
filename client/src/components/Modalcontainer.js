@@ -26,6 +26,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const { movieId } = useParams()
     const displayName = localStorage.getItem("displayName");
     const [open, setOpen] = useState(false)
+    const [favorite, setFavorite] = useState();
 
     const handleOpen = () => {
         setOpen(true)
@@ -67,7 +68,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1//movies/${movieId}/comments`, {
+                const response = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}/comments`, {
                     withCredentials: true,
                 })
                 if (response.status === 200) {
@@ -81,7 +82,23 @@ const Modalcontainer = ({ data, closeModal }) => {
         }
         fetchData()
     }, [movieId])
-
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/v1/user/favorites/${movieId}/check`, {
+                    withCredentials: true,
+                })
+                if (response.status === 200) {
+                    setFavorite(response.data)
+                }
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [movieId])
 
     // const handleInputChange = (event) => {
     //     setComment(event.target.value);
@@ -97,7 +114,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
             <div className="relative ">
-                <Banner banerModal data={data} />
+                <Banner banerModal data={data} favorite={favorite} />
                 <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                         {' '}

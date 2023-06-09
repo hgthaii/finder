@@ -5,8 +5,8 @@ import icons from '../ultis/icons'
 import { Link } from 'react-router-dom'
 import path from '../ultis/path'
 
-const Banner = ({ banerModal, data, randomMovies }) => {
-    const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle } = icons
+const Banner = ({ banerModal, data, randomMovies, favorite }) => {
+    const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
     const playerRef = useRef(null)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -183,8 +183,8 @@ const Banner = ({ banerModal, data, randomMovies }) => {
                                 <div className="">
                                     <div className="flex text-center">
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
-                                            {' '}
-                                            <AiOutlinePlus />
+                                            {favorite?.isFavorite ? <AiOutlineCheck /> : <AiOutlinePlus />}
+
                                         </span>
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                             <SlLike />
