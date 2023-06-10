@@ -35,7 +35,7 @@ const Login = ({ onClose }) => {
         setPasswordValidationMsg('')
         setValidationMsg('')
         try {
-            const response = await axios.post(`${base_Url}/user/signin`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signin`, {
                 username,
                 password,
             })

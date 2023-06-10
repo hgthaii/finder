@@ -51,7 +51,7 @@ const ManageMovie = () => {
     }, [movieId])
     const onMovieDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`)
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}`)
             // console.log('oke' + JSON.stringify(res.data))
             // [{Id: 1, title:"Avenger"}]
             setDetail(res.data[0])
@@ -168,7 +168,7 @@ const ManageMovie = () => {
 
     const listGenres = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/genres')
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/genres`)
             setGenres(res.data)
         } catch (error) {
             console.log(error)
@@ -197,7 +197,7 @@ const ManageMovie = () => {
         const getMovies = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/v1/movies', {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies`, {
                         withCredentials: true,
                     })
 
@@ -215,7 +215,7 @@ const ManageMovie = () => {
     }, [isLoading])
     const onSearchMovie = async () => {
         try {
-            const request = await axios.get(`http://localhost:5000/api/v1/genres/media/search?search=${searchItem}`)
+            const request = await axios.get(`${process.env.REACT_APP_API_URI}/genres/media/search?search=${searchItem}`)
             if (request) {
                 setMovies(request.data)
             } else {
@@ -337,7 +337,7 @@ export const ModalDeleteMovie = (props) => {
         try {
             setIsLoading(true)
             const requests = movieIds.map((movieId) =>
-                axios.delete(`http://localhost:5000/api/v1/movies/${movieId._id}`, {
+                axios.delete(`${process.env.REACT_APP_API_URI}/movies/${movieId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -458,7 +458,7 @@ export const ModalAddMovie = (props) => {
                 })),
                 creators: creatorsInput.split(',').map((name) => ({ name })),
             }
-            await axios.post('http://localhost:5000/api/v1/movies', parsedData, {
+            await axios.post(`${process.env.REACT_APP_API_URI}/movies`, parsedData, {
                 withCredentials: true,
             })
             toast.success('Added movie successfully!')
@@ -1006,7 +1006,7 @@ export const ModalUpdateMovie = (props) => {
             setIsLoading(true)
 
             const movieId = movieIds[0]?._id
-            await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
+            await axios.put(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, movieDataUpdate, {
                 withCredentials: true,
             })
             setIsLoading(false)
