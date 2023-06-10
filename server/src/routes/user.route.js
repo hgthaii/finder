@@ -93,8 +93,8 @@ router.put(
     userController.updatePassword,
 )
 
-router.post('/', tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
-router.get('/info', tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
+router.post('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
+router.get('/info', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
 
 router.post(
     '/info/:userId',
