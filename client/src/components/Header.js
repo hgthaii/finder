@@ -79,7 +79,7 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
-        await axios.post('/user/signout', null, { withCredentials: true })
+        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, { withCredentials: true })
         window.location.href = '/'
     }
 

@@ -22,7 +22,7 @@ const ManageComment = () => {
 
         const getMovie = async () => {
             try {
-                const res = await axios.get('${process.env.REACT_APP_API_URI}/movies', { withCredentials: true })
+                const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies`, { withCredentials: true })
                 // console.log('oke ne' + JSON.stringify(res.data))
                 setDataMovie(res.data)
             } catch (error) {

@@ -37,9 +37,9 @@ const Comment = ({ displayName, pastTime, content }) => {
                 <p>{content}</p>
             </div>
             <div className="flex items-end">
-                <figure class="image-box">
-                    <span class="text-like">Thích</span>
-                    <div class="icons">
+                <figure className="image-box">
+                    <span className="text-like">Thích</span>
+                    <div className="icons">
                         <a href="#">
                             <AiTwotoneLike size={19} color="#1E1E1E" />
                         </a>

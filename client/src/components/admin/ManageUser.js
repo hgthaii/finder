@@ -62,9 +62,9 @@ const ManageUser = () => {
                     setMainUsers(response.data)
                     
                 } catch (error) {
-                    if (error.response.data && error.response.data.statusCode === 401) {
-                        navigate('/expired-token')
-                    }
+                    // if (error.response.data && error.response.data.statusCode === 401) {
+                    //     navigate('/expired-token')
+                    // }
                     console.error(error)
                 }
             }
