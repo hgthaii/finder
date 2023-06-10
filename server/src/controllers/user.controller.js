@@ -97,7 +97,7 @@ const signin = async (req, res) => {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
             domain: 'api-hgthaii.vercel.app',
-            // path: '/api/v1',
+            path: '/api/v1',
             // secure: true,
             // sameSite: true
         })
@@ -105,7 +105,7 @@ const signin = async (req, res) => {
             // httpOnly: true,
             maxAge: 3 * 60 * 60 * 1000,
             domain: 'api-hgthaii.vercel.app',
-            // path: '/api/v1',
+            path: '/api/v1',
             // secure: true,
             // sameSite: true,
         })

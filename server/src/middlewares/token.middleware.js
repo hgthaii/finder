@@ -101,6 +101,7 @@ const verifyTokenAndRefresh = async (req, res, next) => {
                     // httpOnly: true,
                     maxAge: 1 * 60 * 60 * 1000,
                     domain: 'api-hgthaii.vercel.app',
+                    path: '/api/v1',
                     // secure: true,
                     // sameSite: true,
                 })
