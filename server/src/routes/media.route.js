@@ -9,10 +9,7 @@ import transportController from '../controllers/transport.controller.js'
 // MergeParams cho phép truyền các tham số của router cha xuống router con
 const router = express.Router({ mergeParams: true })
 
-// http://localhost:5000/api/v1/movie/search?q=The%20Godfather&page=1
 router.get('/media/search', mediaController.search)
-
-// http://localhost:5000/api/v1/movie/genres
 router.get('/', mediaController.getGenres)
 router.post(
     '/genres',

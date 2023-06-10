@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useRef } from 'react'
 import YouTube from 'react-youtube'
 import ReactPlayer from 'react-player'
@@ -184,7 +185,6 @@ const Banner = ({ banerModal, data, randomMovies, favorite }) => {
                                     <div className="flex text-center">
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                             {favorite?.isFavorite ? <AiOutlineCheck /> : <AiOutlinePlus />}
-
                                         </span>
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                             <SlLike />

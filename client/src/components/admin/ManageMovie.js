@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
@@ -29,7 +30,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const styleModalDelete = {
     position: 'absolute',
@@ -51,7 +52,7 @@ const ManageMovie = () => {
     }, [movieId])
     const onMovieDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`)
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}`)
             // console.log('oke' + JSON.stringify(res.data))
             // [{Id: 1, title:"Avenger"}]
             setDetail(res.data[0])
@@ -129,21 +130,21 @@ const ManageMovie = () => {
     }
     const [movieIds, setMovieIds] = useState([])
 
-        const [disable, setDisable] = useState(true)
-        const [disableUpdate, setDisableUpdate] = useState(true)
+    const [disable, setDisable] = useState(true)
+    const [disableUpdate, setDisableUpdate] = useState(true)
     const onSelectHandle = (ids) => {
         const selectRowData = ids.map((id) => movies.find((row) => row._id === id))
         setMovieIds(selectRowData)
-        
-                if (selectRowData.length === 1) {
-                    setDisable(false)
-                    setDisableUpdate(false)
-                } else if (selectRowData.length > 1) {
-                    setDisableUpdate(true)
-                } else {
-                    setDisable(selectRowData.length === 0)
-                    setDisableUpdate(selectRowData.length === 0)
-                }
+
+        if (selectRowData.length === 1) {
+            setDisable(false)
+            setDisableUpdate(false)
+        } else if (selectRowData.length > 1) {
+            setDisableUpdate(true)
+        } else {
+            setDisable(selectRowData.length === 0)
+            setDisableUpdate(selectRowData.length === 0)
+        }
     }
     const [openAdd, setOpenAdd] = React.useState(false)
     const handleOpenAdd = () => {
@@ -168,7 +169,7 @@ const ManageMovie = () => {
 
     const listGenres = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/genres')
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/genres`)
             setGenres(res.data)
         } catch (error) {
             console.log(error)
@@ -197,7 +198,7 @@ const ManageMovie = () => {
         const getMovies = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/v1/movies', {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies`, {
                         withCredentials: true,
                     })
 
@@ -215,7 +216,7 @@ const ManageMovie = () => {
     }, [isLoading])
     const onSearchMovie = async () => {
         try {
-            const request = await axios.get(`http://localhost:5000/api/v1/genres/media/search?search=${searchItem}`)
+            const request = await axios.get(`${process.env.REACT_APP_API_URI}/genres/media/search?search=${searchItem}`)
             if (request) {
                 setMovies(request.data)
             } else {
@@ -332,12 +333,12 @@ export const ModalDeleteMovie = (props) => {
     const { t } = useTranslation()
 
     const { movieIds, setIsLoading, onClose } = props
-    console.log("oke"+JSON.stringify(movieIds))
+    console.log('oke' + JSON.stringify(movieIds))
     const onDeleteMovie = async () => {
         try {
             setIsLoading(true)
             const requests = movieIds.map((movieId) =>
-                axios.delete(`http://localhost:5000/api/v1/movies/${movieId._id}`, {
+                axios.delete(`${process.env.REACT_APP_API_URI}/movies/${movieId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -458,7 +459,7 @@ export const ModalAddMovie = (props) => {
                 })),
                 creators: creatorsInput.split(',').map((name) => ({ name })),
             }
-            await axios.post('http://localhost:5000/api/v1/movies', parsedData, {
+            await axios.post(`${process.env.REACT_APP_API_URI}/movies`, parsedData, {
                 withCredentials: true,
             })
             toast.success('Added movie successfully!')
@@ -510,7 +511,8 @@ export const ModalAddMovie = (props) => {
                         <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    {t('Movie_title')}<strong className="text-red-500">*</strong>
+                                    {t('Movie_title')}
+                                    <strong className="text-red-500">*</strong>
                                 </label>
                                 <input
                                     type="text"
@@ -849,7 +851,7 @@ export const DialogMovieDetail = (props) => {
         const episode = detail?.episodes[index]
 
         return (
-            <ListItem style={style} component={"div"} disablePadding>
+            <ListItem style={style} component={'div'} disablePadding>
                 <ListItemButton>
                     <ListItemAvatar>
                         <Avatar variant="square" style={{ width: '80px', height: '80px', marginRight: '15px' }}>
@@ -1006,11 +1008,10 @@ export const ModalUpdateMovie = (props) => {
             setIsLoading(true)
 
             const movieId = movieIds[0]?._id
-            await axios.put(`http://localhost:5000/api/v1/movies/${movieId}`, movieDataUpdate, {
+            await axios.put(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, movieDataUpdate, {
                 withCredentials: true,
             })
             setIsLoading(false)
-
         } catch (error) {
             console.log(error)
             setIsLoading(false)

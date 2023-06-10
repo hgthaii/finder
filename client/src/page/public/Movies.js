@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useSelector } from 'react'
 
 import * as apis from '../../apis'
@@ -10,10 +11,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 SwiperCore.use([Navigation, Pagination])
 const Movies = () => {
-
     const [randomMovies, setRandomMovies] = useState([])
     const [top10Movies, setTop10Movies] = useState(null)
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +36,6 @@ const Movies = () => {
         }
         top10Movies()
     }, [])
-
 
     const swiperParams = {
         slidesPerView: 5,
@@ -101,7 +99,7 @@ const Movies = () => {
             <div className="pl-12 w-full">
                 <Swiper {...swiperParams}>
                     {top10Movies?.map((item, index) => (
-                        <SwiperSlide key={item._id} className='swiper-scale'>
+                        <SwiperSlide key={item._id} className="swiper-scale">
                             <Section data={item} />
                         </SwiperSlide>
                     ))}

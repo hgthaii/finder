@@ -9,7 +9,7 @@ const Modal = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`)
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}`)
                 if (response.status === 200) {
                     setDetailMovie(response.data?.[0])
                 }

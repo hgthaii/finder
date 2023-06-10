@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import { Home, Public, Movies, Movieseris, Mylist, Search, Modal, NotFound, Login, Register } from './page/public'

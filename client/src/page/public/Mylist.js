@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useCookies } from 'react'
+/* eslint-disable */
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { Section, } from '../../components'
+import { Section } from '../../components'
 import { Outlet } from 'react-router-dom'
 SwiperCore.use([Navigation, Pagination])
 const Mylist = () => {
@@ -13,15 +14,16 @@ const Mylist = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get('http://localhost:5000/api/v1/user/favorites', {
-                withCredentials: true,
-            })
-                .then(response => {
-                    setFavirites(response.data);
+            axios
+                .get(`${process.env.REACT_APP_API_URI}/user/favorites`, {
+                    withCredentials: true,
                 })
-                .catch(error => {
-                    console.error(error);
-                });
+                .then((response) => {
+                    setFavirites(response.data)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
         }
 
         fetchData()
@@ -82,26 +84,28 @@ const Mylist = () => {
             },
         },
     }
-    return <div className=" mt-[100px]">
-        <div>
-            <h3 className="pl-12 text-white mb-3 text-[18px] font-bold">Danh sách của tôi</h3>
-            <div className='pl-12 w-full'>
-                <Swiper {...swiperParams}>
-                    {favirites?.map((item, index) => (
-                        <SwiperSlide key={item._id} className='swiper-scale'>
-                            <Section data={item} />
-                        </SwiperSlide>
-                    ))}
-                    <div className="swiper-button-next swiper-button-wrapper"></div>
-                    <div className="swiper-button-prev swiper-button-wrapper"></div>
-                    <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                </Swiper>
+    return (
+        <div className=" mt-[100px]">
+            <div>
+                <h3 className="pl-12 text-white mb-3 text-[18px] font-bold">Danh sách của tôi</h3>
+                <div className="pl-12 w-full">
+                    <Swiper {...swiperParams}>
+                        {favirites?.map((item, index) => (
+                            <SwiperSlide key={item._id} className="swiper-scale">
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next swiper-button-wrapper"></div>
+                        <div className="swiper-button-prev swiper-button-wrapper"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+            </div>
+            <div>
+                <Outlet />
             </div>
         </div>
-        <div >
-            <Outlet />
-        </div>
-    </div>
+    )
 }
 
 export default Mylist

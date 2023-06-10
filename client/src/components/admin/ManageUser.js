@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuItem from '@mui/material/MenuItem'
@@ -13,7 +14,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
-
 
 const style = {
     position: 'absolute',
@@ -41,26 +41,23 @@ const ManageUser = () => {
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const timeLoading = () => {
+    useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false)
         }, 1000)
         return () => clearTimeout(timer)
-    }
-    useEffect(() => {
-        timeLoading()
     }, [])
+
     useEffect(() => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/v1/user/info', {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
                     })
-
+                    console.log(response)
                     setUsers(response.data)
                     setMainUsers(response.data)
-                    
                 } catch (error) {
                     if (error.response.data && error.response.data.statusCode === 401) {
                         navigate('/expired-token')
@@ -145,13 +142,13 @@ const ManageUser = () => {
         setRole(selectRowData.roles)
 
         if (selectRowData.length === 1) {
-            setDisable(false) 
-            setDisableUpdate(false) 
+            setDisable(false)
+            setDisableUpdate(false)
         } else if (selectRowData.length > 1) {
-            setDisableUpdate(true) 
+            setDisableUpdate(true)
         } else {
-            setDisable(selectRowData.length === 0) 
-            setDisableUpdate(selectRowData.length === 0) 
+            setDisable(selectRowData.length === 0)
+            setDisableUpdate(selectRowData.length === 0)
         }
     }
 
@@ -159,9 +156,8 @@ const ManageUser = () => {
 
     const onSearchUser = async () => {
         try {
-
             const request = await axios.post(
-                'http://localhost:5000/api/v1/user/',
+                `${process.env.REACT_APP_API_URI}/user/`,
                 {
                     displayName,
                 },
@@ -322,7 +318,7 @@ export const ModalDeleteUser = (props) => {
             setIsLoading(true)
 
             const requests = userIds.map((userId) =>
-                axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
+                axios.delete(`${process.env.REACT_APP_API_URI}/user/${userId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -384,7 +380,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     const onAddUser = async () => {
         try {
             setIsLoading(true)
-            await axios.post('http://localhost:5000/api/v1/user/signup', {
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signup`, {
                 username,
                 password,
                 confirmPassword,
@@ -511,7 +507,7 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`http://localhost:5000/api/v1/user/info/${userId._id}`, data, {
+                axios.put(`${process.env.REACT_APP_API_URI}/user/info/${userId._id}`, data, {
                     withCredentials: true,
                 }),
             )
@@ -522,7 +518,6 @@ export const ModalUpdateUser = (props) => {
                 return count
             }, 0)
 
-            
             return {
                 successCount: successCount,
             }

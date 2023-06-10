@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, memo } from 'react'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
