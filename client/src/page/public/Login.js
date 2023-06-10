@@ -12,6 +12,8 @@ import Register from './Register'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+const base_Url = 'https://api-flame-gamma.vercel.app/api/v1'
+// const base_Url = 'http://localhost:5000/api/v1'
 const style = {
     position: 'absolute',
     top: '50%',
@@ -33,7 +35,7 @@ const Login = ({ onClose }) => {
         setPasswordValidationMsg('')
         setValidationMsg('')
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/user/signin', {
+            const response = await axios.post(`${base_Url}/user/signin`, {
                 username,
                 password,
             })
@@ -45,11 +47,13 @@ const Login = ({ onClose }) => {
                 refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 24) // Hết hạn sau 24 giờ
 
                 const accessTokenOptions = {
+                    httpOnly: true,
                     path: '/',
                     expires: accessTokenExpiration,
                 }
 
                 const refreshTokenOptions = {
+                    httpOnly: true,
                     path: '/',
                     expires: refreshTokenExpiration,
                 }

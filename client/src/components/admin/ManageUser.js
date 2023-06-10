@@ -14,7 +14,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 
-
+const base_Url = 'https://api-flame-gamma.vercel.app/api/v1'
+// const base_Url = 'http://localhost:5000/api/v1'
 const style = {
     position: 'absolute',
     top: '50%',
@@ -54,7 +55,7 @@ const ManageUser = () => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/v1/user/info', {
+                    const response = await axios.get(`${base_Url}/user/info`, {
                         withCredentials: true,
                     })
 
@@ -161,7 +162,7 @@ const ManageUser = () => {
         try {
 
             const request = await axios.post(
-                'http://localhost:5000/api/v1/user/',
+                `${base_Url}/user/`,
                 {
                     displayName,
                 },
@@ -322,7 +323,7 @@ export const ModalDeleteUser = (props) => {
             setIsLoading(true)
 
             const requests = userIds.map((userId) =>
-                axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
+                axios.delete(`${base_Url}/user/${userId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -384,7 +385,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     const onAddUser = async () => {
         try {
             setIsLoading(true)
-            await axios.post('http://localhost:5000/api/v1/user/signup', {
+            await axios.post(`${base_Url}/user/signup`, {
                 username,
                 password,
                 confirmPassword,
@@ -511,7 +512,7 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`http://localhost:5000/api/v1/user/info/${userId._id}`, data, {
+                axios.put(`${base_Url}/user/info/${userId._id}`, data, {
                     withCredentials: true,
                 }),
             )
