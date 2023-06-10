@@ -208,8 +208,8 @@ const HomePageAdmin = () => {
     const payloadObj = JSON.parse(decodedPayload)
     const name = payloadObj.infor
     const handleLogout = async () => {
-        removeCookie('accessToken')
-        removeCookie('refreshToken')
+        // removeCookie('accessToken')
+        // removeCookie('refreshToken')
         await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
         window.location.href = '/'
     }
