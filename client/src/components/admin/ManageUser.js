@@ -54,10 +54,10 @@ const ManageUser = () => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, null, {
                         withCredentials: true,
                     })
-
+                    console.log(response);
                     setUsers(response.data)
                     setMainUsers(response.data)
                     

@@ -94,7 +94,7 @@ router.put(
 )
 
 router.post('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
-router.get('/info', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
+router.get('/info', tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
 
 router.post(
     '/info/:userId',
