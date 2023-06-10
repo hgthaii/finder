@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
@@ -29,7 +30,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const styleModalDelete = {
     position: 'absolute',
@@ -129,21 +130,21 @@ const ManageMovie = () => {
     }
     const [movieIds, setMovieIds] = useState([])
 
-        const [disable, setDisable] = useState(true)
-        const [disableUpdate, setDisableUpdate] = useState(true)
+    const [disable, setDisable] = useState(true)
+    const [disableUpdate, setDisableUpdate] = useState(true)
     const onSelectHandle = (ids) => {
         const selectRowData = ids.map((id) => movies.find((row) => row._id === id))
         setMovieIds(selectRowData)
-        
-                if (selectRowData.length === 1) {
-                    setDisable(false)
-                    setDisableUpdate(false)
-                } else if (selectRowData.length > 1) {
-                    setDisableUpdate(true)
-                } else {
-                    setDisable(selectRowData.length === 0)
-                    setDisableUpdate(selectRowData.length === 0)
-                }
+
+        if (selectRowData.length === 1) {
+            setDisable(false)
+            setDisableUpdate(false)
+        } else if (selectRowData.length > 1) {
+            setDisableUpdate(true)
+        } else {
+            setDisable(selectRowData.length === 0)
+            setDisableUpdate(selectRowData.length === 0)
+        }
     }
     const [openAdd, setOpenAdd] = React.useState(false)
     const handleOpenAdd = () => {
@@ -332,7 +333,7 @@ export const ModalDeleteMovie = (props) => {
     const { t } = useTranslation()
 
     const { movieIds, setIsLoading, onClose } = props
-    console.log("oke"+JSON.stringify(movieIds))
+    console.log('oke' + JSON.stringify(movieIds))
     const onDeleteMovie = async () => {
         try {
             setIsLoading(true)
@@ -510,7 +511,8 @@ export const ModalAddMovie = (props) => {
                         <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                             <div className="sm:col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-                                    {t('Movie_title')}<strong className="text-red-500">*</strong>
+                                    {t('Movie_title')}
+                                    <strong className="text-red-500">*</strong>
                                 </label>
                                 <input
                                     type="text"
@@ -849,7 +851,7 @@ export const DialogMovieDetail = (props) => {
         const episode = detail?.episodes[index]
 
         return (
-            <ListItem style={style} component={"div"} disablePadding>
+            <ListItem style={style} component={'div'} disablePadding>
                 <ListItemButton>
                     <ListItemAvatar>
                         <Avatar variant="square" style={{ width: '80px', height: '80px', marginRight: '15px' }}>
@@ -1010,7 +1012,6 @@ export const ModalUpdateMovie = (props) => {
                 withCredentials: true,
             })
             setIsLoading(false)
-
         } catch (error) {
             console.log(error)
             setIsLoading(false)

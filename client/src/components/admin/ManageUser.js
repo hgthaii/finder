@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuItem from '@mui/material/MenuItem'
@@ -13,7 +14,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
-
 
 const style = {
     position: 'absolute',
@@ -36,7 +36,7 @@ const styleModalDelete = {
 
 const ManageUser = () => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
@@ -57,14 +57,13 @@ const ManageUser = () => {
                     const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, null, {
                         withCredentials: true,
                     })
-                    console.log(response);
+                    console.log(response)
                     setUsers(response.data)
                     setMainUsers(response.data)
-                    
                 } catch (error) {
-                    // if (error.response.data && error.response.data.statusCode === 401) {
-                    //     navigate('/expired-token')
-                    // }
+                    if (error.response.data && error.response.data.statusCode === 401) {
+                        navigate('/expired-token')
+                    }
                     console.error(error)
                 }
             }
@@ -145,13 +144,13 @@ const ManageUser = () => {
         setRole(selectRowData.roles)
 
         if (selectRowData.length === 1) {
-            setDisable(false) 
-            setDisableUpdate(false) 
+            setDisable(false)
+            setDisableUpdate(false)
         } else if (selectRowData.length > 1) {
-            setDisableUpdate(true) 
+            setDisableUpdate(true)
         } else {
-            setDisable(selectRowData.length === 0) 
-            setDisableUpdate(selectRowData.length === 0) 
+            setDisable(selectRowData.length === 0)
+            setDisableUpdate(selectRowData.length === 0)
         }
     }
 
@@ -159,7 +158,6 @@ const ManageUser = () => {
 
     const onSearchUser = async () => {
         try {
-
             const request = await axios.post(
                 `${process.env.REACT_APP_API_URI}/user/`,
                 {
@@ -522,7 +520,6 @@ export const ModalUpdateUser = (props) => {
                 return count
             }, 0)
 
-            
             return {
                 successCount: successCount,
             }

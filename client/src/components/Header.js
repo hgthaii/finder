@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { MenuItem, Menu, cardHeaderClasses } from '@mui/material'
@@ -35,7 +36,6 @@ import Login from '../page/public/Login'
 import ModalProfile from '../page/dashboard/ModalProfile'
 import Skeleton from '@mui/material/Skeleton'
 
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -55,7 +55,7 @@ const Header = () => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(true)
-        navigate("/signin")
+        navigate('/signin')
     }
     const handleClose = () => {
         setOpen(false)
@@ -79,7 +79,7 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
-        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, { withCredentials: true })
+        await axios.post('http://localhost:5000/api/v1/user/signout', null, { withCredentials: true })
         window.location.href = '/'
     }
 
@@ -112,11 +112,12 @@ const Header = () => {
     const handleCloseListComment = () => {
         setOpenListComment(false)
     }
-    localStorage.setItem("displayName", checkValueStorage?.displayName);
+    localStorage.setItem('displayName', checkValueStorage?.displayName)
     return (
         <div
-            className={`flex items-center px-[48px] justify-between ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-                }`}
+            className={`flex items-center px-[48px] justify-between ${
+                isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
+            }`}
         >
             <div className="flex items-center">
                 <div className=" ">
@@ -247,9 +248,8 @@ export const ModalListComment = () => {
     const [reviews, setReviews] = useState([])
     useEffect(() => {
         const getReview = async () => {
-
             try {
-                const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
+                const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
                     withCredentials: true,
                 })
                 setReviews(res.data)
@@ -272,8 +272,8 @@ export const ModalListComment = () => {
     const displayReviews = () => {
         return currentPageData.map((x, index) => {
             const movie = movieDetails[x.movieId]
-            const title = movie ? movie[0]?.title : '' 
-            const poster = movie ? movie[0]?.poster_path[0].path : '' 
+            const title = movie ? movie[0]?.title : ''
+            const poster = movie ? movie[0]?.poster_path[0].path : ''
 
             return (
                 <div key={index} className="flex items-center my-4">
@@ -295,9 +295,11 @@ export const ModalListComment = () => {
     }
     const onDeleteReview = async (reviewId) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${reviewId}/delete`, { withCredentials: true })
+            await axios.delete(`http://localhost:5000/api/v1/movies/comments/${reviewId}/delete`, {
+                withCredentials: true,
+            })
             // gọi lại danh sách
-            const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
+            const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
                 withCredentials: true,
             })
             setReviews(res.data)
@@ -306,7 +308,7 @@ export const ModalListComment = () => {
         }
     }
     const fetchMovieDetails = async (movieId) => {
-        const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, {
+        const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`, {
             withCredentials: true,
         })
         const movie = res.data

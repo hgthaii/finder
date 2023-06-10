@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../translation/i18n'
@@ -35,11 +36,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import imgUser from '../../asset/image/user.png'
 import { Modal } from '@mui/material'
 import PropTypes from 'prop-types'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
+// import Tabs from '@mui/material/Tabs'
+// import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import ModalProfile from './ModalProfile';
+import ModalProfile from './ModalProfile'
 
 const style = {
     position: 'absolute',
@@ -350,4 +351,3 @@ const HomePageAdmin = () => {
 }
 
 export default HomePageAdmin
-
