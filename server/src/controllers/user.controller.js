@@ -96,7 +96,7 @@ const signin = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
-            domain: ['localhost', 'api-hgthaii.vercel.app', 'api-flame-gamma.vercel.app', 'api-1p6vh5nm2-hgthaii.vercel.app'],
+            domain: 'api-hgthaii.vercel.app',
             // path: '/api/v1',
             // secure: true,
             // sameSite: true
@@ -104,7 +104,7 @@ const signin = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
             maxAge: 3 * 60 * 60 * 1000,
-            domain: ['localhost', 'api-hgthaii.vercel.app', 'api-flame-gamma.vercel.app', 'api-1p6vh5nm2-hgthaii.vercel.app'],
+            domain: 'api-hgthaii.vercel.app',
             // path: '/api/v1',
             // secure: true,
             // sameSite: true,

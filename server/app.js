@@ -14,10 +14,9 @@
     app.use(
         cors({
             origin: [
-                'http://localhost:3000',
-                'https://api-flame-gamma.vercel.app',
-                'https://api-1p6vh5nm2-hgthaii.vercel.app',
                 'https://api-hgthaii.vercel.app',
+                'https://api-flame-gamma.vercel.app',
+                'http://localhost:3000',
             ],
             credentials: true,
         }),
