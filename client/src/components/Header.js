@@ -62,7 +62,7 @@ const Header = () => {
         navigate('/')
     }
 
-    const [cookies] = useCookies(['accessToken', 'refreshToken'])
+    const [cookies, setCookies, removeCookies] = useCookies(['accessToken', 'refreshToken'])
     const accessToken = cookies['accessToken']
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
@@ -79,7 +79,10 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
-        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
+        const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
+        console.log(response)
+        removeCookies('accessToken')
+        removeCookies('refreshToken')
         window.location.href = '/'
     }
 
