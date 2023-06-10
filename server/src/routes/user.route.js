@@ -1,11 +1,12 @@
 import express from 'express'
 import { body } from 'express-validator'
-import tokenMiddleware from '../middlewares/token.middleware.js'
 import userController from '../controllers/user.controller.js'
 import favoriteController from '../controllers/favorite.controller.js'
 import requestHandler from '../handlers/request.handler.js'
 import userModel from '../models/user.model.js'
+import tokenMiddleware from '../middlewares/token.middleware.js'
 import authorizeMiddleware from '../middlewares/authorize.middleware.js'
+// import upload from '../middlewares/file.middleware.js'
 
 const router = express.Router()
 
@@ -91,7 +92,7 @@ router.put(
     tokenMiddleware.verifyTokenAndRefresh,
     userController.updatePassword,
 )
-// 
+
 router.post('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
 router.get('/info', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
 
