@@ -91,7 +91,7 @@ router.put(
     tokenMiddleware.verifyTokenAndRefresh,
     userController.updatePassword,
 )
-
+// 
 router.post('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
 router.get('/info', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
 
