@@ -36,7 +36,7 @@ const styleModalDelete = {
 
 const ManageUser = () => {
     const { t } = useTranslation()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])

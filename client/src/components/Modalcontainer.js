@@ -50,7 +50,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/movies/genre/${idGenre}`)
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`)
                 if (response.status === 200) {
                     setGenre(response.data)
                 }
@@ -67,7 +67,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}/comments`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/comments`, {
                     withCredentials: true,
                 })
                 if (response.status === 200) {
@@ -84,7 +84,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/user/favorites/${movieId}/check`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/favorites/${movieId}/check`, {
                     withCredentials: true,
                 })
                 if (response.status === 200) {

@@ -79,7 +79,7 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
-        await axios.post('http://localhost:5000/api/v1/user/signout', null, { withCredentials: true })
+        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
         window.location.href = '/'
     }
 
@@ -249,7 +249,7 @@ export const ModalListComment = () => {
     useEffect(() => {
         const getReview = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
+                const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
                     withCredentials: true,
                 })
                 setReviews(res.data)
@@ -295,11 +295,11 @@ export const ModalListComment = () => {
     }
     const onDeleteReview = async (reviewId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/v1/movies/comments/${reviewId}/delete`, {
+            await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${reviewId}/delete`, {
                 withCredentials: true,
             })
             // gọi lại danh sách
-            const res = await axios.get(`http://localhost:5000/api/v1/movies/comments/${checkValueStorage}`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
                 withCredentials: true,
             })
             setReviews(res.data)
@@ -308,7 +308,7 @@ export const ModalListComment = () => {
         }
     }
     const fetchMovieDetails = async (movieId) => {
-        const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, {
             withCredentials: true,
         })
         const movie = res.data
