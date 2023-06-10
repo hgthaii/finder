@@ -33,7 +33,7 @@ const Login = ({ onClose }) => {
         setPasswordValidationMsg('')
         setValidationMsg('')
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/user/signin', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signin`, {
                 username,
                 password,
             })

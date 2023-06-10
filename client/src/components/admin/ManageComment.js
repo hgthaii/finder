@@ -22,7 +22,7 @@ const ManageComment = () => {
 
         const getMovie = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/v1/movies', { withCredentials: true })
+                const res = await axios.get('${process.env.REACT_APP_API_URI}/movies', { withCredentials: true })
                 // console.log('oke ne' + JSON.stringify(res.data))
                 setDataMovie(res.data)
             } catch (error) {
@@ -40,7 +40,7 @@ const ManageComment = () => {
     const getComments = async () => {
         try {
             const movieId = item
-            const res = await axios.get(`http://localhost:5000/api/v1/movies/${movieId}/comments`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/comments`, {
                 withCredentials: true,
             })
             setComment(res.data)
@@ -60,7 +60,7 @@ const ManageComment = () => {
     const [userDetails, setUserDetails] = React.useState({})
 
     const fetchUserDetails = async (userId) => {
-        const res = await axios.post(`http://localhost:5000/api/v1/user/info/${userId}`, null, {
+        const res = await axios.post(`${process.env.REACT_APP_API_URI}/user/info/${userId}`, null, {
             withCredentials: true,
         })
         const user = res.data

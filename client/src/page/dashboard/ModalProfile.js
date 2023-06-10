@@ -75,7 +75,7 @@ const ModalProfile = () => {
     const onChangeDisplayName = async () => {
         try {
             const request = await axios.put(
-                'http://localhost:5000/api/v1/user/update-profile',
+                `${process.env.REACT_APP_API_URI}/user/update-profile`,
                 { displayName },
                 {
                     withCredentials: true,
@@ -112,7 +112,7 @@ const ModalProfile = () => {
     const onChangePassword = async () => {
         try {
             const request = await axios.put(
-                'http://localhost:5000/api/v1/user/update-password',
+                `${process.env.REACT_APP_API_URI}/user/update-password`,
                 {
                     password,
                     newPassword,

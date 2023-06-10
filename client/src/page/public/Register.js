@@ -51,7 +51,7 @@ const Register = ({ onClose }) => {
              return
          }
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/signup', {
+            const res = await axios.post(`${process.env.REACT_APP_API_URI}/user/signup`, {
                 username,
                 password,
                 confirmPassword,

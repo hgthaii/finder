@@ -13,15 +13,16 @@ const Mylist = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get('http://localhost:5000/api/v1/user/favorites', {
-                withCredentials: true,
-            })
-                .then(response => {
-                    setFavirites(response.data);
+            axios
+                .get(`${process.env.REACT_APP_API_URI}/user/favorites`, {
+                    withCredentials: true,
                 })
-                .catch(error => {
-                    console.error(error);
-                });
+                .then((response) => {
+                    setFavirites(response.data)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
         }
 
         fetchData()

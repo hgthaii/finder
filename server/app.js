@@ -13,7 +13,12 @@ const app = express()
 // middleware
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: [
+            'http://localhost:3000',
+            'https://api-flame-gamma.vercel.app/',
+            'https://api-1p6vh5nm2-hgthaii.vercel.app',
+            'https://api-hgthaii.vercel.app/',
+        ],
         credentials: true,
     }),
 )
@@ -64,7 +69,7 @@ mongoose.connect(process.env.MONGODB_URL, {
     .then(() => {
         console.log('MongoDB is connected!')
         server.listen(port, () => {
-            console.log(`Server is running at http://localhost:${port}`)
+            console.log(`Server is running on ${process.env.REACT_APP_API_URI} at ${port}`)
         })
     })
     .catch((error) => {

@@ -54,7 +54,7 @@ const ManageUser = () => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/v1/user/info', {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
                     })
 
@@ -161,7 +161,7 @@ const ManageUser = () => {
         try {
 
             const request = await axios.post(
-                'http://localhost:5000/api/v1/user/',
+                `${process.env.REACT_APP_API_URI}/user/`,
                 {
                     displayName,
                 },
@@ -322,7 +322,7 @@ export const ModalDeleteUser = (props) => {
             setIsLoading(true)
 
             const requests = userIds.map((userId) =>
-                axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
+                axios.delete(`${process.env.REACT_APP_API_URI}/user/${userId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -384,7 +384,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     const onAddUser = async () => {
         try {
             setIsLoading(true)
-            await axios.post('http://localhost:5000/api/v1/user/signup', {
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signup`, {
                 username,
                 password,
                 confirmPassword,
@@ -511,7 +511,7 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`http://localhost:5000/api/v1/user/info/${userId._id}`, data, {
+                axios.put(`${process.env.REACT_APP_API_URI}/user/info/${userId._id}`, data, {
                     withCredentials: true,
                 }),
             )

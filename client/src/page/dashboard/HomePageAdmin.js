@@ -209,7 +209,7 @@ const HomePageAdmin = () => {
     const handleLogout = async () => {
         // removeCookie('accessToken')
         // removeCookie('refreshToken')
-        await axios.post('http://localhost:5000/api/v1/user/signout', null ,{withCredentials: true})
+        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
         window.location.href = '/'
     }
     const [openProfile, setOpenProfile] = React.useState(false)

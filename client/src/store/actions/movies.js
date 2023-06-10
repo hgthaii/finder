@@ -3,7 +3,7 @@ import * as apis from '../../apis'
 import axios from 'axios'
 export const search = (keyword) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/genres/media/search?search=${keyword}`)
+        const response = await axios.get(`${process.env.REACT_APP_API_URI}/genres/media/search?search=${keyword}`)
         if (response.status === 200) {
             dispatch({
                 type: actionType.SEARCH,
@@ -25,7 +25,7 @@ export const search = (keyword) => async (dispatch) => {
 
 export const getGenres = (idGenre) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/movies/genre/${idGenre}`)
+        const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`)
         if (response.status === 200) {
             dispatch({
                 type: actionType.GENRES,
@@ -47,7 +47,7 @@ export const getGenres = (idGenre) => async (dispatch) => {
 
 export const getDetailtMovies = (mid) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/movies/${mid}`)
+        const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${mid}`)
         if (response.status === 200) {
             dispatch({
                 type: actionType.DETAI_MOVIES,
