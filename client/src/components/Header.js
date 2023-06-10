@@ -79,8 +79,8 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
+        console.log(accessToken)
         const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
-        console.log(response)
         removeCookies('accessToken')
         removeCookies('refreshToken')
         window.location.href = '/'

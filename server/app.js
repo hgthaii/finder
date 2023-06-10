@@ -11,13 +11,10 @@
     const app = express()
 
     // middleware
+    app.use(cookieParser())
     app.use(
         cors({
-            origin: [
-                'https://api-hgthaii.vercel.app',
-                'https://api-flame-gamma.vercel.app',
-                'http://localhost:3000',
-            ],
+            origin: true,
             credentials: true,
         }),
     )
@@ -30,7 +27,6 @@
     )
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
-    app.use(cookieParser())
 
     app.use("/api/v1", routes)
 
