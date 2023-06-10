@@ -41,20 +41,18 @@ const ManageUser = () => {
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const timeLoading = () => {
+    useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false)
         }, 1000)
         return () => clearTimeout(timer)
-    }
-    useEffect(() => {
-        timeLoading()
     }, [])
+
     useEffect(() => {
         const getUser = async () => {
             if (!isLoading) {
                 try {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, null, {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
                     })
                     console.log(response)
