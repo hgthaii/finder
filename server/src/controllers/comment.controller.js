@@ -15,7 +15,6 @@ const createComment = async (req, res) => {
         if (!userId) return responseHandler.badrequest(res, 'Không tìm thấy user!')
         const checkUser = await userModel.findById(userId).select('displayName avatar username')
         if (!checkUser) return responseHandler.badrequest(res, 'Không tìm thấy user')
-        console.log(checkUser.displayName)
         const checkMovie = await movieModel.findById(movieId)
         if (!checkMovie) return responseHandler.badrequest(res, 'Không tìm thấy phim')
 

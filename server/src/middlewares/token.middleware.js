@@ -6,7 +6,7 @@ import jsonwebtoken from 'jsonwebtoken'
 const tokenDecode = (req) => {
     try {
         const { accessToken } = req.cookies
-        console.log('accessToken: ', accessToken)
+        // console.log('accessToken: ', accessToken)
         if (accessToken) {
             // Xác thực token
             return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
@@ -21,7 +21,7 @@ const tokenDecode = (req) => {
 const auth = async (req, res, next) => {
     // Lấy token đã giải mã
     const tokenDecoded = tokenDecode(req)
-    console.log('tokenDecoded:', tokenDecoded)
+    // console.log('tokenDecoded:', tokenDecoded)
     // Nếu không có token sẽ trả lỗi 401
     if (!tokenDecoded) return responseHandler.unauthorize(res, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
 

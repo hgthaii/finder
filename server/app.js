@@ -1,5 +1,5 @@
 import express from "express"
-// import session from 'express-session'
+import session from 'express-session'
 import mongoose from "mongoose"
 import http from "http"
 import cors from "cors"
@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser"
 import "dotenv/config"
 import routes from "./src/routes/index.js"
 import { Server } from 'socket.io'
-import Redis from 'redis'
+import { getCookieMiddleware } from './src/middlewares/redis.middleware.js'
 
 const app = express()
 
@@ -37,6 +37,12 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+app.use((req, res, next) => {
+    redisClient.set(`session:${req.sessionID}`, JSON.stringify(req.session), 'EX', 3600, (err) => {
+        if (err) return console.error('Lỗi ghi cookies vào Redis: ', err)
+    })
+    next()
+})
 app.use("/api/v1", routes)
 
 const server = http.createServer(app)
