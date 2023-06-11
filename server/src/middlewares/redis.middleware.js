@@ -3,7 +3,7 @@ import redis from 'redis'
 const client = redis.createClient({
     url: 'redis://localhost:6379'
 })
-
+await client.connect()
 // Middleware Redis để lấy cookie và truyền cho client
 const getCookieMiddleware = (req, res, next) => {
     // Lấy cookie từ request
@@ -20,5 +20,7 @@ const getCookieMiddleware = (req, res, next) => {
     // Chuyển tiếp yêu cầu tới middleware tiếp theo
     next()
 };
+
+await client.disconnect()
 
 export default { getCookieMiddleware }
