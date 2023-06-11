@@ -23,10 +23,13 @@ export default function (app) {
         }),
     )
     app.use(
-        '/socket.io',
+        '/api',
         createProxyMiddleware({
-            target: 'https://api-1p6vh5nm2-hgthaii.vercel.app',
-            ws: true,
+            target: 'https://api-hgthaii.vercel.app',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api': '/api/v1', // Thay đổi đường dẫn yêu cầu từ /api thành /api/v1
+            },
         }),
     )
 }

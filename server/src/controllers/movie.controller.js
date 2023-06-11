@@ -38,8 +38,6 @@ const createMovie = async (req, res) => {
 
         const names = genreParse.map((genre) => genre.name)
 
-        console.log(names)
-
         const getName = await Promise.all(
             names.map(async (name) => {
                 const checkName = await genreModel.findOne({ name }).lean()
@@ -140,7 +138,6 @@ const searchMovieByGenre = async (req, res) => {
             return responseHandler.badrequest(res, 'Tên thể loại không hợp lệ')
         }
         const checkGenre = await movieModel.find({ genres: [{ name: genreName }] })
-        console.log(checkGenre)
         if (!checkGenre) {
             return responseHandler.badrequest(res, 'Không tìm thấy phim.')
         }
