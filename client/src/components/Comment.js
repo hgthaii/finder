@@ -13,7 +13,7 @@ const Comment = ({ displayName, pastTime, content }) => {
         const interval = setInterval(() => {
             const time = moment(pastTime).locale('vi').fromNow()
             setTimeAgo(time)
-        }, 1000)
+        }, 60000)
         return () => clearInterval(interval)
     }, [pastTime])
     return (

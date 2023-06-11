@@ -30,11 +30,9 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     const handleOpen = () => {
         setOpen(true)
-        // navigate("/signin")
     }
     const handleClose = () => {
         setOpen(false)
-        navigate('/')
     }
 
     const style = {
@@ -48,7 +46,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
+        const getGenreById = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`)
                 if (response.status === 200) {
@@ -61,43 +59,72 @@ const Modalcontainer = ({ data, closeModal }) => {
             }
         }
 
-        fetchData()
+        getGenreById()
     }, [idGenre])
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/comments`, {
-                    withCredentials: true,
-                })
-                if (response.status === 200) {
-                    setComment(response.data)
-                }
-                // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
+
+    const checkFavoriteById = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/favorites/${movieId}/check`, {
+                withCredentials: true,
+            })
+            if (response.status === 200) {
+                setFavorite(response.data)
             }
+            // Xử lý dữ liệu nhận được
+        } catch (error) {
+            // Xử lý lỗi
+            console.error(error)
         }
-        fetchData()
-    }, [movieId])
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/favorites/${movieId}/check`, {
-                    withCredentials: true,
-                })
-                if (response.status === 200) {
-                    setFavorite(response.data)
-                }
-                // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
+    }
+
+    const getCommentById = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/comments`, {
+                withCredentials: true,
+            })
+            if (response.status === 200) {
+                setComment(response.data)
             }
+            // Xử lý dữ liệu nhận được
+        } catch (error) {
+            // Xử lý lỗi
+            console.error(error)
         }
-        fetchData()
+    }
+    useEffect(() => {
+        getCommentById()
+        checkFavoriteById()
     }, [movieId])
+
+    const handlePostFav = async () => {
+        await axios.post(`${process.env.REACT_APP_API_URI}/user/favorites`, { movieId: movieId }, {
+            withCredentials: true,
+        })
+            .then(response => {
+                console.log('Phần tử đã được thêm vào danh sách yêu thích');
+            })
+            .catch(error => {
+                console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error);
+            });
+
+        checkFavoriteById()
+    }
+
+    const handleDeleteFav = async () => {
+        await axios.delete(`${process.env.REACT_APP_API_URI}/user/favorites/del-favorite`, {
+            data: { movieId: movieId },
+            withCredentials: true
+        })
+            .then(response => {
+                console.log('Phần tử đã được xóa khỏi danh sách yêu thích');
+            })
+            .catch(error => {
+                console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error);
+            });
+
+        checkFavoriteById()
+    }
 
     // const handleInputChange = (event) => {
     //     setComment(event.target.value);
@@ -113,7 +140,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
             <div className="relative ">
-                <Banner banerModal data={data} favorite={favorite} />
+                <Banner banerModal data={data} favorite={favorite} handleDeleteFav={handleDeleteFav} handlePostFav={handlePostFav} />
                 <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                         {' '}
@@ -261,6 +288,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     pastTime={item?.createdAt}
                                     content={item?.content}
                                     key={item._id}
+
                                 />
                             ))}
                     </div>
