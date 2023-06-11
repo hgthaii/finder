@@ -21,7 +21,7 @@ const tokenDecode = (req) => {
 const auth = async (req, res, next) => {
     // Lấy token đã giải mã
     const tokenDecoded = tokenDecode(req)
-    console.log(tokenDecoded);
+    console.log('tokenDecoded:', tokenDecoded)
     // Nếu không có token sẽ trả lỗi 401
     if (!tokenDecoded) return responseHandler.unauthorize(res, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
 
@@ -63,7 +63,10 @@ const verifyTokenAndRefresh = async (req, res, next) => {
                 await refreshtokenModel.findOneAndDelete({ token: refreshToken })
                 // Xóa cookie refresh token từ client
                 res.clearCookie('refreshToken')
-                return responseHandler.unauthorize(res, 'Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại! refreshtoken')
+                return responseHandler.unauthorize(
+                    res,
+                    'Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại! refreshtoken',
+                )
             }
 
             // if (!refreshToken) return responseHandler.unauthorize(res, 'Token không hợp lệ!')

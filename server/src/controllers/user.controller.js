@@ -96,16 +96,16 @@ const signin = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
-            domain: 'api-hgthaii.vercel.app',
-            path: '/api/v1',
+            domain: 'localhost',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true
         })
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
             maxAge: 3 * 60 * 60 * 1000,
-            domain: 'api-hgthaii.vercel.app',
-            path: '/api/v1',
+            domain: 'localhost',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true,
         })
@@ -140,8 +140,6 @@ const signout = async (req, res) => {
     try {
         const { refreshToken } = req.cookies
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
-
-        console.log(refreshToken)
 
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken')
@@ -189,7 +187,7 @@ const getInfo = async (req, res) => {
     try {
         const user = await userModel.find({ roles: 'user' })
         if (!user) return responseHandler.notfound(res)
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
 
         responseHandler.ok(res, user)
     } catch {

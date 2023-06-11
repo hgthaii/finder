@@ -72,7 +72,6 @@ const Header = () => {
         navigate('/')
     }
 
-    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
     }
@@ -93,7 +92,7 @@ const Header = () => {
             removeCookie('refreshToken')
             window.location.href = '/'
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     }
 
