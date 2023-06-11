@@ -47,6 +47,16 @@ const style = {
 }
 const Header = () => {
     const { AiFillBell, BiSearchAlt2 } = icons
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const accessToken = cookies['accessToken']
+    const tokenParts = accessToken ? accessToken.split('.') : []
+    const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
+    const checkValueStorage = parsedTokenBody.infor || {}
+
+    const [anchorEl, setAnchorEl] = useState(null)
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    const openn = Boolean(anchorEl)
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
@@ -62,16 +72,7 @@ const Header = () => {
         navigate('/')
     }
 
-    const [cookies, setCookies, removeCookies] = useCookies(['accessToken', 'refreshToken'])
-    const accessToken = cookies['accessToken']
-    const tokenParts = accessToken ? accessToken.split('.') : []
-    const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
-    const checkValueStorage = parsedTokenBody.infor || {}
-
-    const [anchorEl, setAnchorEl] = useState(null)
-    const [isScrolled, setIsScrolled] = useState(false)
-
-    const openn = Boolean(anchorEl)
+    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
     }
@@ -79,11 +80,21 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = async () => {
-        console.log(accessToken)
-        const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
-        removeCookies('accessToken')
-        removeCookies('refreshToken')
-        window.location.href = '/'
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Gửi token trong header Authorization
+                },
+                withCredentials: true,
+            }
+
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
+            window.location.href = '/'
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {

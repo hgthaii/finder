@@ -10,7 +10,11 @@
 
     const app = express()
     
-    const whitelist = ['http://localhost:3000', 'https://api-hgthaii.vercel.app']
+    const whitelist = [
+        'http://localhost:3000',
+        'https://api-hgthaii.vercel.app/api/v1',
+        'https://api-hgthaii.vercel.app',
+    ]
     const corsOptions = {
         credentials: true,
         origin: (origin, callback) => {
