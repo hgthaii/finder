@@ -6,12 +6,10 @@ import icons from '../ultis/icons'
 import { Link, useParams } from 'react-router-dom'
 import path from '../ultis/path'
 import axios from 'axios';
-const Banner = ({ banerModal, data, randomMovies, favorite }) => {
+const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handleDeleteFav }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
     const [isFullScreen, setIsFullScreen] = useState(false)
-    const { movieId } = useParams()
-    console.log(movieId);
 
     const handleWrapperRef = (ref) => {
         if (ref) {
@@ -22,30 +20,6 @@ const Banner = ({ banerModal, data, randomMovies, favorite }) => {
             }
         }
     }
-    const handlePostFav = async () => {
-        await axios.post(`${process.env.REACT_APP_API_URI}/user/favorites`, { movieId: movieId }, {
-            withCredentials: true,
-        })
-            .then(response => {
-                console.log('Phần tử đã được thêm vào danh sách yêu thích');
-            })
-            .catch(error => {
-                console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error);
-            });
-    }
-
-    const handleDeleteFav = async () => {
-        await axios.delete(`${process.env.REACT_APP_API_URI}/user/favorites${movieId}`, {
-            withCredentials: true,
-        })
-            .then(response => {
-                console.log('Phần tử đã được xóa khỏi danh sách yêu thích');
-            })
-            .catch(error => {
-                console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error);
-            });
-    }
-
 
     // Dữ liệu video từ MongoDB
     const videoData = randomMovies?.video

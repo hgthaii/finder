@@ -96,16 +96,16 @@ const signin = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
-            domain: 'api-hgthaii.vercel.app',
-            path: '/api/v1',
+            domain: 'localhost',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true
         })
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
             maxAge: 3 * 60 * 60 * 1000,
-            domain: 'api-hgthaii.vercel.app',
-            path: '/api/v1',
+            domain: 'localhost',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true,
         })

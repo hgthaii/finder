@@ -20,7 +20,7 @@ const tokenDecode = (req) => {
 const auth = async (req, res, next) => {
     // Lấy token đã giải mã
     const tokenDecoded = tokenDecode(req)
-    // console.log(tokenDecoded);
+    console.log(tokenDecoded);
     // Nếu không có token sẽ trả lỗi 401
     if (!tokenDecoded) return responseHandler.unauthorize(res, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
 
