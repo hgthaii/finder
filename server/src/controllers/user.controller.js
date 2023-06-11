@@ -97,7 +97,7 @@ const signin = async (req, res) => {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
             domain: 'api-hgthaii.vercel.app',
-            // path: '/api/v1',
+            path: '/api/v1',
             // secure: true,
             // sameSite: true
         })
@@ -105,7 +105,7 @@ const signin = async (req, res) => {
             // httpOnly: true,
             maxAge: 3 * 60 * 60 * 1000,
             domain: 'api-hgthaii.vercel.app',
-            // path: '/api/v1',
+            path: '/api/v1',
             // secure: true,
             // sameSite: true,
         })
@@ -186,7 +186,7 @@ const getInfo = async (req, res) => {
     try {
         const user = await userModel.find({ roles: 'user' })
         if (!user) return responseHandler.notfound(res)
-        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
 
         responseHandler.ok(res, user)
     } catch {

@@ -1,8 +1,6 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
@@ -100,7 +98,7 @@ const Movieseris = () => {
             <div className="pl-12 w-full">
                 <Swiper {...swiperParams}>
                     {top10Movies?.map((item, index) => (
-                        <SwiperSlide key={item._id} className='swiper-scale'>
+                        <SwiperSlide key={item._id} className="swiper-scale">
                             <Section data={item} />
                         </SwiperSlide>
                     ))}

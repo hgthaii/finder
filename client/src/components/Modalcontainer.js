@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { Modalsection, Banner, Modalcard, Comment } from './'
 import icons from '../ultis/icons'
@@ -13,7 +14,6 @@ import Box from '@mui/material/Box'
 import Login from '../page/public/Login'
 import Backdrop from '@mui/material/Backdrop'
 
-
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -22,11 +22,11 @@ const Modalcontainer = ({ data, closeModal }) => {
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState('')
     const { movieId } = useParams()
-    const displayName = localStorage.getItem("displayName");
+    const displayName = localStorage.getItem('displayName')
     const [open, setOpen] = useState(false)
-    const [favorite, setFavorite] = useState();
+    const [favorite, setFavorite] = useState()
 
     const handleOpen = () => {
         setOpen(true)
@@ -36,7 +36,6 @@ const Modalcontainer = ({ data, closeModal }) => {
         setOpen(false)
         navigate('/')
     }
-
 
     const style = {
         position: 'absolute',
@@ -184,9 +183,12 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="w-full mt-4 ">
-                    {displayName === 'undefined' ?
-                        <div className='w-full flex  justify-center items-center'>
-                            <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
+                    {displayName === 'undefined' ? (
+                        <div className="w-full flex  justify-center items-center">
+                            <Button
+                                onClick={handleOpen}
+                                sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
+                            >
                                 Đăng nhập để bình luận
                             </Button>
                             <Modal
@@ -209,11 +211,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 </Fade>
                             </Modal>
                         </div>
-
-
+                    ) : (
                         // <div onClick={() => navigate('/signin')} className='flex items-center justify-center cursor-pointer w-[30%] p-3 rounded-md bg-white text-black font-bold'>Đăng nhập để bình luận</div>
 
-                        : <div className="w-full bg-[#333333] p-4 rounded-lg">
+                        <div className="w-full bg-[#333333] p-4 rounded-lg">
                             <div className="flex items-center gap-3">
                                 <img
                                     src="https://source.unsplash.com/random"
@@ -224,7 +225,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </div>
                             <div className="border-b border-[#BCBCBC]">
                                 {/* onSubmit={handleSubmit} */}
-                                <form >
+                                <form>
                                     <textarea
                                         placeholder="Bạn nghĩ gì về bộ phim này..."
                                         // value={comment}
@@ -250,15 +251,18 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     Bình luận
                                 </button>
                             </div>
-                        </div>}
+                        </div>
+                    )}
                     <div>
-                        {comment && comment.map((item) => (
-                            <Comment displayName={item?.user?.displayName}
-                                pastTime={item?.createdAt}
-                                content={item?.content}
-                                key={item._id} />
-                        ))}
-
+                        {comment &&
+                            comment.map((item) => (
+                                <Comment
+                                    displayName={item?.user?.displayName}
+                                    pastTime={item?.createdAt}
+                                    content={item?.content}
+                                    key={item._id}
+                                />
+                            ))}
                     </div>
                 </div>
                 <div className="flex flex-col pb-[32px] w-full">

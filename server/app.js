@@ -9,18 +9,21 @@
     import {Server} from 'socket.io'
 
     const app = express()
-
+    
+    const whitelist = ['http://localhost:3000', 'https://api-hgthaii.vercel.app']
+    const corsOptions = {
+        credentials: true,
+        origin: (origin, callback) => {
+                if (!origin || whitelist.indexOf(origin) !== -1) {
+                    callback(null, true)
+                } else {
+                    callback(new Error('Not allowed by CORS'))
+                }
+            }
+    }
     // middleware
-    app.use(
-        cors({
-            origin: [
-                'https://api-hgthaii.vercel.app',
-                'https://api-flame-gamma.vercel.app',
-                'http://localhost:3000',
-            ],
-            credentials: true,
-        }),
-    )
+    app.use(cookieParser())
+    app.use(cors(corsOptions))
     app.use(
         session({
             secret: process.env.TOKEN_SECRET,
@@ -30,7 +33,6 @@
     )
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
-    app.use(cookieParser())
 
     app.use("/api/v1", routes)
 

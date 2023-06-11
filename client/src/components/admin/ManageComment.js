@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate'
@@ -5,8 +6,8 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 const ManageComment = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
@@ -19,7 +20,6 @@ const ManageComment = () => {
     const [dataMovie, setDataMovie] = React.useState([])
 
     useEffect(() => {
-
         const getMovie = async () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies`, { withCredentials: true })

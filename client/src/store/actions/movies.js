@@ -1,3 +1,4 @@
+/* eslint-disable */
 import actionType from './actionType'
 import * as apis from '../../apis'
 import axios from 'axios'

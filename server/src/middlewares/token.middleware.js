@@ -62,7 +62,7 @@ const verifyTokenAndRefresh = async (req, res, next) => {
                 await refreshtokenModel.findOneAndDelete({ token: refreshToken })
                 // Xóa cookie refresh token từ client
                 res.clearCookie('refreshToken')
-                return responseHandler.unauthorize(res, 'Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại!')
+                return responseHandler.unauthorize(res, 'Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại! refreshtoken')
             }
 
             // if (!refreshToken) return responseHandler.unauthorize(res, 'Token không hợp lệ!')
@@ -98,8 +98,10 @@ const verifyTokenAndRefresh = async (req, res, next) => {
                 })
 
                 res.cookie('accessToken', newAccessToken, {
-                    httpOnly: true,
+                    // httpOnly: true,
                     maxAge: 1 * 60 * 60 * 1000,
+                    domain: 'api-hgthaii.vercel.app',
+                    path: '/api/v1',
                     // secure: true,
                     // sameSite: true,
                 })

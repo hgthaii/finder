@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -102,11 +103,10 @@ const Login = ({ onClose }) => {
     const onChangeUsername = (event) => {
         setUsernameValidationMsg('')
         const value = event.target.value
-        if(value.length >= 4){
+        if (value.length >= 4) {
             setUsername(value)
-        }else{
-
-            setUsernameValidationMsg("Nhập tối thiểu 4 ký tự")
+        } else {
+            setUsernameValidationMsg('Nhập tối thiểu 4 ký tự')
         }
     }
     const onChangePass = (event) => {
@@ -122,7 +122,7 @@ const Login = ({ onClose }) => {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => {
         setOpen(true)
-        navigate("/signup")
+        navigate('/signup')
     }
     const handleClose = () => {
         setOpen(false)

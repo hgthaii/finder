@@ -1,20 +1,21 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import axios from 'axios'
 import moment from 'moment'
-import 'moment/locale/vi';
+import 'moment/locale/vi'
 import icons from '../ultis/icons'
 const Comment = ({ displayName, pastTime, content }) => {
     const { BsThreeDotsVertical, AiTwotoneLike, AiFillDislike, AiFillHeart, FaSmileBeam, BsEmojiAngryFill } = icons
-    const [timeAgo, setTimeAgo] = useState('');
+    const [timeAgo, setTimeAgo] = useState('')
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const time = moment(pastTime).locale('vi').fromNow();
-            setTimeAgo(time);
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [pastTime]);
+            const time = moment(pastTime).locale('vi').fromNow()
+            setTimeAgo(time)
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [pastTime])
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
             <div className="flex justify-between items-center mb-2">
