@@ -141,9 +141,7 @@ const signout = async (req, res) => {
         const { refreshToken } = req.cookies
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
 
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-        res.setHeader('Access-Control-Allow-Credentials', 'true')
-        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+        console.log(refreshToken)
 
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken')
