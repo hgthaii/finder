@@ -5,7 +5,7 @@ import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 
-import { Section, Banner, } from '../../components'
+import { Section, Banner } from '../../components'
 import * as apis from '../../apis'
 import { Outlet } from 'react-router'
 

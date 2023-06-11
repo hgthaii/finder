@@ -208,10 +208,21 @@ const HomePageAdmin = () => {
     const payloadObj = JSON.parse(decodedPayload)
     const name = payloadObj.infor
     const handleLogout = async () => {
-        // removeCookie('accessToken')
-        // removeCookie('refreshToken')
-        await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, { withCredentials: true })
-        window.location.href = '/'
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Gửi token trong header Authorization
+                },
+                withCredentials: true,
+            }
+
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
+            window.location.href = '/'
+        } catch (error) {
+            console.log(error)
+        }
     }
     const [openProfile, setOpenProfile] = React.useState(false)
     const handleOpenProfile = () => {

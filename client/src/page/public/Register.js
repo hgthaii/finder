@@ -46,10 +46,10 @@ const Register = ({ onClose }) => {
     const onSubmitRegister = async () => {
         const isValid = validateAll()
         if (!isValid) return
-         if (!checked) {
-             toast.error('Bạn phải đồng ý với điều khoản và điều kiện của Finder')
-             return
-         }
+        if (!checked) {
+            toast.error('Bạn phải đồng ý với điều khoản và điều kiện của Finder')
+            return
+        }
         try {
             const res = await axios.post(`${process.env.REACT_APP_API_URI}/user/signup`, {
                 username,
@@ -147,7 +147,7 @@ const Register = ({ onClose }) => {
                     {/* <p className="text-red-400 text-xs "> {validationMsg.password}</p> */}
 
                     <div className="mt-3 text-left">
-                        <input type="checkbox" checked={checked} onChange={onChangeCheckbox}/>
+                        <input type="checkbox" checked={checked} onChange={onChangeCheckbox} />
                         <label htmlFor="" className="text-[12px] pl-2">
                             Tôi đồng ý với điều khoản & điều kiện của Finder
                         </label>

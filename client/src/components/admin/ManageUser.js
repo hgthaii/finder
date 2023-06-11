@@ -56,7 +56,6 @@ const ManageUser = () => {
                     const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
                     })
-                    console.log(response)
                     setUsers(response.data)
                     setMainUsers(response.data)
                 } catch (error) {
