@@ -6,7 +6,7 @@ import requestHandler from '../handlers/request.handler.js'
 import userModel from '../models/user.model.js'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import authorizeMiddleware from '../middlewares/authorize.middleware.js'
-import redisMiddleware from '../middlewares/redis.middleware.js'
+// import redisMiddleware from '../middlewares/redis.middleware.js'
 
 const router = express.Router()
 
@@ -60,7 +60,7 @@ router.post(
         .withMessage('password is required')
         .isLength({ min: 4 })
         .withMessage('password minimum 4 characters'),
-    redisMiddleware.getCookieMiddleware,
+    // redisMiddleware.getCookieMiddleware,
     requestHandler.validate,
     userController.signin,
 )

@@ -23,15 +23,21 @@ const Modalcontainer = ({ data, closeModal }) => {
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
     const [comment, setComment] = useState('')
-    const [commentValue, setCommentValue] = useState('')
     const { movieId } = useParams()
     const displayName = localStorage.getItem('displayName')
+    const userId = localStorage.getItem('userId')
     const [open, setOpen] = useState(false)
     const [favorite, setFavorite] = useState()
+    // const [commentValue, setCommentValue] = useState('')
+    const [postComment, setPostComment] = useState({
+        content: '',
+    })
 
+    // đóng mở modal login
     const handleOpen = () => {
         setOpen(true)
     }
+    // đóng mở modal login
     const handleClose = () => {
         setOpen(false)
     }
@@ -93,6 +99,7 @@ const Modalcontainer = ({ data, closeModal }) => {
             console.error(error)
         }
     }
+
     useEffect(() => {
         getCommentById()
         checkFavoriteById()
@@ -103,7 +110,7 @@ const Modalcontainer = ({ data, closeModal }) => {
             withCredentials: true,
         })
             .then(response => {
-                console.log('Phần tử đã được thêm vào danh sách yêu thích');
+
             })
             .catch(error => {
                 console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error);
@@ -118,7 +125,7 @@ const Modalcontainer = ({ data, closeModal }) => {
             withCredentials: true
         })
             .then(response => {
-                console.log('Phần tử đã được xóa khỏi danh sách yêu thích');
+
             })
             .catch(error => {
                 console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error);
@@ -127,16 +134,39 @@ const Modalcontainer = ({ data, closeModal }) => {
         checkFavoriteById()
     }
 
+    const handleComment = async () => {
+        // Gửi bình luận lên server 
+        await axios.post(`${process.env.REACT_APP_API_URI}/movies/comments/`, {
+            ...postComment,
+            movieId: movieId,
+            userId: userId
+        }, {
+            withCredentials: true,
+        })
+            .then(response => {
+
+            })
+            .catch(error => {
+                console.error('Lỗi khi bình luận', error);
+            });
+    }
+
     const handleInputChange = (event) => {
-        setCommentValue(event.target.value);
+        setPostComment({
+            content: event.target.value,
+        });
     };
 
     const handleSubmit = (event) => {
+        handleComment()
+        getCommentById()
+        setPostComment({
+            content: '',
+        });
         event.preventDefault();
-        // Gửi bình luận lên server hoặc xử lý bình luận ở đây
-        console.log(commentValue);
-        setCommentValue('');
     };
+
+
 
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
@@ -253,11 +283,11 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </div>
 
 
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} >
                                 <div className="border-b border-[#BCBCBC]">
                                     <textarea
                                         placeholder="Bạn nghĩ gì về bộ phim này..."
-                                        value={commentValue}
+                                        value={postComment.content}
                                         onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                     ></textarea>
@@ -292,7 +322,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     pastTime={item?.createdAt}
                                     content={item?.content}
                                     key={item._id}
-
+                                    commentId={item._id}
                                 />
                             ))}
                     </div>
