@@ -140,6 +140,7 @@ const signout = async (req, res) => {
     try {
         const { refreshToken } = req.cookies
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
+
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken')
         await refreshtokenModel.findOneAndDelete({ token: refreshToken })
@@ -186,7 +187,7 @@ const getInfo = async (req, res) => {
     try {
         const user = await userModel.find({ roles: 'user' })
         if (!user) return responseHandler.notfound(res)
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
 
         responseHandler.ok(res, user)
     } catch {
