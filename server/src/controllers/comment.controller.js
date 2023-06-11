@@ -152,7 +152,7 @@ const deleteComment = async (req, res) => {
             return responseHandler.badrequest(res, 'Bình luận không tồn tại!')
         }
 
-        if (checkComment.userId.toString() !== userId) {
+        if (checkComment.user.userId !== userId) {
             return responseHandler.badrequest(res, 'Bạn không có quyền xoá bình luận này!')
         }
 
