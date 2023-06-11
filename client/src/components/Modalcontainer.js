@@ -23,6 +23,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
     const [comment, setComment] = useState('')
+    const [commentValue, setCommentValue] = useState('')
     const { movieId } = useParams()
     const displayName = localStorage.getItem('displayName')
     const [open, setOpen] = useState(false)
@@ -126,16 +127,16 @@ const Modalcontainer = ({ data, closeModal }) => {
         checkFavoriteById()
     }
 
-    // const handleInputChange = (event) => {
-    //     setComment(event.target.value);
-    // };
+    const handleInputChange = (event) => {
+        setCommentValue(event.target.value);
+    };
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     // Gửi bình luận lên server hoặc xử lý bình luận ở đây
-    //     console.log(comment);
-    //     setComment('');
-    // };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Gửi bình luận lên server hoặc xử lý bình luận ở đây
+        console.log(commentValue);
+        setCommentValue('');
+    };
 
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
@@ -239,7 +240,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-                        // <div onClick={() => navigate('/signin')} className='flex items-center justify-center cursor-pointer w-[30%] p-3 rounded-md bg-white text-black font-bold'>Đăng nhập để bình luận</div>
+
 
                         <div className="w-full bg-[#333333] p-4 rounded-lg">
                             <div className="flex items-center gap-3">
@@ -250,17 +251,22 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 />
                                 <span>{displayName}</span>
                             </div>
-                            <div className="border-b border-[#BCBCBC]">
-                                {/* onSubmit={handleSubmit} */}
-                                <form>
+
+
+                            <form onSubmit={handleSubmit}>
+                                <div className="border-b border-[#BCBCBC]">
                                     <textarea
                                         placeholder="Bạn nghĩ gì về bộ phim này..."
-                                        // value={comment}
-                                        // onChange={handleInputChange}
+                                        value={commentValue}
+                                        onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                     ></textarea>
-                                </form>
-                            </div>
+                                </div>
+
+                                <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white  my-2 float-right">
+                                    Bình luận
+                                </button>
+                            </form>
 
                             <div className="flex justify-between items-center mt-3">
                                 <div className="flex gap-2">
@@ -274,9 +280,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         <AiOutlineLink size={20} />
                                     </span>
                                 </div>
-                                <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white ">
-                                    Bình luận
-                                </button>
+
                             </div>
                         </div>
                     )}
