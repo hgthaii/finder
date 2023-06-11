@@ -9,15 +9,21 @@
     import {Server} from 'socket.io'
 
     const app = express()
-
+    
+    const whitelist = ['http://localhost:3000', 'https://api-hgthaii.vercel.app']
+    const corsOptions = {
+        credentials: true,
+        origin: (origin, callback) => {
+                if (!origin || whitelist.indexOf(origin) !== -1) {
+                    callback(null, true)
+                } else {
+                    callback(new Error('Not allowed by CORS'))
+                }
+            }
+    }
     // middleware
     app.use(cookieParser())
-    app.use(
-        cors({
-            origin: true,
-            credentials: true,
-        }),
-    )
+    app.use(cors(corsOptions))
     app.use(
         session({
             secret: process.env.TOKEN_SECRET,
