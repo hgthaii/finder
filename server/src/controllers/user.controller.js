@@ -4,8 +4,7 @@ import refreshtokenModel from '../models/refreshtoken.model.js'
 import responseHandler from '../handlers/response.handler.js'
 import mongoose from 'mongoose'
 import tokenMiddleware from '../middlewares/token.middleware.js'
-import fs from 'fs'
-import imageModel from '../models/image.model.js'
+// import cookieMiddleware from '../middlewares/cookie.middleware.js'
 
 const signup = async (req, res) => {
     try {
@@ -63,7 +62,7 @@ const signup = async (req, res) => {
     }
 }
 
-const signin = async (req, res) => {
+const signin = async (req, res, next) => {
     try {
         const { username, password } = req.body
 
@@ -93,6 +92,10 @@ const signin = async (req, res) => {
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
             expiresIn: '3h',
         })
+
+        const cookiesData = { accessToken, refreshToken }
+        req.cookiesData = cookiesData
+
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
@@ -117,14 +120,14 @@ const signin = async (req, res) => {
         // console.log(refreshTokenDoc)
         await refreshTokenDoc.save()
 
+        // cookieMiddleware.saveCookieMiddleware(req, res, next)
+        
         // Gỡ pass và hash ra khỏi response
         user.password = undefined
         user.salt = undefined
 
         // Gắn đối tượng user đã xác thực vào req object
         req.user = user
-
-        // const { _id, ...userWithoutId } = user._doc;
 
         responseHandler.created(res, {
             access_token: accessToken,
