@@ -210,9 +210,6 @@ const HomePageAdmin = () => {
     const handleLogout = async () => {
         try {
             const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`, // Gửi token trong header Authorization
-                },
                 withCredentials: true,
             }
 

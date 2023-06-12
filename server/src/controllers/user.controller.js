@@ -90,7 +90,7 @@ const signin = async (req, res, next) => {
         })
 
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '3h',
+            expiresIn: '24h',
         })
 
         const cookiesData = { accessToken, refreshToken }
@@ -99,16 +99,18 @@ const signin = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
-            domain: 'finder-api.onrender.com',
-            path: '/api/v1',
+            domain: 'localhost',
+            // domain: 'finder-api.onrender.com',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true
         })
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
-            maxAge: 3 * 60 * 60 * 1000,
-            domain: 'finder-api.onrender.com',
-            path: '/api/v1',
+            maxAge: 24 * 60 * 60 * 1000,
+            domain: 'localhost',
+            // domain: 'finder-api.onrender.com',
+            // path: '/api/v1',
             // secure: true,
             // sameSite: true,
         })
