@@ -57,38 +57,18 @@ const ManageComment = () => {
     const offset = currentPage * PER_PAGE
     const currentPageData = comment.slice(offset, offset + PER_PAGE)
 
-    const [userDetails, setUserDetails] = React.useState({})
-
-    const fetchUserDetails = async (userId) => {
-        const res = await axios.post(`${process.env.REACT_APP_API_URI}/user/info/${userId}`, null, {
-            withCredentials: true,
-        })
-        const user = res.data
-        setUserDetails((prev) => ({ ...prev, [userId]: user })) // lưu trữ thông tin người dùng mới với thuộc tính key là userId
-    }
 
     const displayComments = () => {
         return currentPageData.map((x, index) => {
-            const user = userDetails[x.userId]
-            const displayName = user ? user.displayName : ''
             return (
                 <div key={index}>
                     <label htmlFor="">
-                        {displayName}:<span> {x.content}</span>
+                        {x.user.displayName}:<span> {x.content}</span>
                     </label>
                 </div>
             )
         })
     }
-
-    useEffect(() => {
-        // lấy thông tin người dùng cho từng `userId` trong `currentPageData`
-        currentPageData.forEach((x) => {
-            if (!userDetails[x.userId]) {
-                fetchUserDetails(x.userId)
-            }
-        })
-    }, [currentPageData, userDetails]) // lưu ý sử dụng `useEffect` để gọi `fetchUserDetails` chỉ khi có `currentPageData` hoặc `userDetails` thay đổi
 
     return (
         <div className="w-full">

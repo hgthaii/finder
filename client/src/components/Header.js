@@ -126,11 +126,11 @@ const Header = () => {
         setOpenListComment(false)
     }
     localStorage.setItem('displayName', checkValueStorage?.displayName)
+    localStorage.setItem('userId', checkValueStorage.id)
     return (
         <div
-            className={`flex items-center px-[48px] justify-between ${
-                isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-            }`}
+            className={`flex items-center px-[48px] justify-between ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
+                }`}
         >
             <div className="flex items-center">
                 <div className=" ">
