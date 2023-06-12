@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -156,7 +157,7 @@ const ManageUser = () => {
     const onSearchUser = async () => {
         try {
             const request = await axios.post(
-                `${process.env.REACT_APP_API_URI}/user/`,
+                'http://localhost:5000/api/v1/user/',
                 {
                     displayName,
                 },
@@ -317,7 +318,7 @@ export const ModalDeleteUser = (props) => {
             setIsLoading(true)
 
             const requests = userIds.map((userId) =>
-                axios.delete(`${process.env.REACT_APP_API_URI}/user/${userId._id}`, {
+                axios.delete(`http://localhost:5000/api/v1/user/${userId._id}`, {
                     withCredentials: true,
                 }),
             )
@@ -379,7 +380,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     const onAddUser = async () => {
         try {
             setIsLoading(true)
-            await axios.post(`${process.env.REACT_APP_API_URI}/user/signup`, {
+            await axios.post('http://localhost:5000/api/v1/user/signup', {
                 username,
                 password,
                 confirmPassword,
@@ -506,7 +507,7 @@ export const ModalUpdateUser = (props) => {
                 roles: roles,
             }
             const requests = userIds.map((userId) =>
-                axios.put(`${process.env.REACT_APP_API_URI}/user/info/${userId._id}`, data, {
+                axios.put(`http://localhost:5000/api/v1/user/info/${userId._id}`, data, {
                     withCredentials: true,
                 }),
             )
@@ -516,6 +517,7 @@ export const ModalUpdateUser = (props) => {
                 if (response.status === 200) return count + 1
                 return count
             }, 0)
+
 
             return {
                 successCount: successCount,

@@ -80,7 +80,7 @@ const getAllCommentOfUser = async (req, res) => {
         const checkUser = await userModel.findById(userId)
         if (!checkUser) return responseHandler.badrequest(res, 'Không tìm thấy user')
 
-        const getComments = await commentModel.find({ userId }).sort('-createdAt')
+        const getComments = await commentModel.find({ 'user.userId': userId }).sort('-createdAt')
         responseHandler.ok(res, getComments)
     } catch (error) {
         console.log(error)
