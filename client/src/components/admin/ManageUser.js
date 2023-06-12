@@ -14,6 +14,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 
 const style = {
@@ -42,6 +43,7 @@ const ManageUser = () => {
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [cookie] = useCookies(['accessToken', 'refreshToken'])
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false)
@@ -51,10 +53,14 @@ const ManageUser = () => {
 
     useEffect(() => {
         const getUser = async () => {
+            const accessToken = cookie['accessToken']
             if (!isLoading) {
                 try {
                     const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
+                        headers: {
+                            'Set-cookie': `${accessToken}`,
+                        },
                     })
                     setUsers(response.data)
                     setMainUsers(response.data)
