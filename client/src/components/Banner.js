@@ -3,64 +3,13 @@ import React, { useEffect, useState, useRef } from 'react'
 import YouTube from 'react-youtube'
 import ReactPlayer from 'react-player'
 import icons from '../ultis/icons'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import path from '../ultis/path'
-
-const Banner = ({ banerModal, data, randomMovies, favorite }) => {
+import axios from 'axios';
+const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handleDeleteFav }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
-    const playerRef = useRef(null)
-    const [isPlaying, setIsPlaying] = useState(false)
     const [isFullScreen, setIsFullScreen] = useState(false)
-    //
-    const handlePlayFullScreen = () => {
-        setIsPlaying(true)
-        setIsFullScreen(true)
-    }
-
-    const handlePause = () => {
-        setIsPlaying(false)
-    }
-
-    const opt = {
-        width: '100%',
-        height: '100%',
-        playerVars: {
-            autoplay: 1,
-        },
-    }
-
-    // useEffect(() => {
-    //     let timeoutId
-    //     let intervalId
-
-    //     if (showImage) {
-    //         timeoutId = setTimeout(() => {
-    //             setShowImage(false)
-    //             setIsPlaying(true)
-    //         }, 5000)
-    //     } else {
-    //         intervalId = setInterval(() => {
-    //             const videoElement = videoRef.current.getInternalPlayer()
-    //             console.log(videoElement)
-    //             if (videoElement && videoElement.paused) {
-    //                 setShowImage(true)
-    //                 setIsPlaying(false)
-    //                 clearInterval(intervalId)
-    //             }
-    //         }, 1000)
-    //     }
-
-    //     return () => {
-    //         clearTimeout(timeoutId)
-    //         clearInterval(intervalId)
-    //     }
-    // }, [showImage])
-
-    // const handleVideoEnded = () => {
-    //     setShowImage(true)
-    //     setIsPlaying(false)
-    // }
 
     const handleWrapperRef = (ref) => {
         if (ref) {
@@ -70,23 +19,6 @@ const Banner = ({ banerModal, data, randomMovies, favorite }) => {
                 videoElement.style.objectFit = 'cover'
             }
         }
-    }
-
-    const opts = {
-        height: '600',
-        width: '100%',
-        host: 'https://www.youtube.com',
-        playerVars: {
-            autoplay: 1,
-            controls: 0,
-            autohide: 1,
-            wmode: 'opaque',
-            origin: 'https://localhost:3000',
-        },
-    }
-
-    const handleButtonClick = () => {
-        setIsFullScreen(true)
     }
 
     // Dữ liệu video từ MongoDB
@@ -183,9 +115,13 @@ const Banner = ({ banerModal, data, randomMovies, favorite }) => {
                             {banerModal ? (
                                 <div className="">
                                     <div className="flex text-center">
-                                        <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
-                                            {favorite?.isFavorite ? <AiOutlineCheck /> : <AiOutlinePlus />}
-                                        </span>
+                                        {favorite?.isFavorite ?
+                                            <span onClick={handleDeleteFav} className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
+                                                <AiOutlineCheck />
+                                            </span> :
+                                            <span onClick={handlePostFav} className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
+                                                <AiOutlinePlus />
+                                            </span>}
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                             <SlLike />
                                         </span>
