@@ -42,18 +42,18 @@ const Login = ({ onClose }) => {
             const handleSetTokens = () => {
                 const accessTokenOptions = {
                     // httpOnly: true,
-                    maxAge: 1 * 60 * 60 * 1000,
+                    expires: 1 * 60 * 60 * 1000,
                     domain: 'finder-api.onrender.com',
-                    path: '/api/v1',
+                    path: '/',
                     // secure: true,
                     // sameSite: true
                 }
 
                 const refreshTokenOptions = {
                     // httpOnly: true,
-                    maxAge: 3 * 60 * 60 * 1000,
+                    expires: 3 * 60 * 60 * 1000,
                     domain: 'finder-api.onrender.com',
-                    path: '/api/v1',
+                    path: '/',
                     // secure: true,
                     // sameSite: true,
                 }
