@@ -12,6 +12,7 @@ const app = express()
 
 const whitelist = [
     'http://localhost:3000',
+    'http://localhost:88',
 ]
 const corsOptions = {
     credentials: true,

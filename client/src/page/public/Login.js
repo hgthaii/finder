@@ -44,7 +44,7 @@ const Login = ({ onClose }) => {
                     // httpOnly: true,
                     expires: 1 * 60 * 60 * 1000,
                     domain: 'finder-api.onrender.com',
-                    path: '/',
+                    path: '/api/v1',
                     // secure: true,
                     // sameSite: true
                 }
@@ -53,7 +53,7 @@ const Login = ({ onClose }) => {
                     // httpOnly: true,
                     expires: 3 * 60 * 60 * 1000,
                     domain: 'finder-api.onrender.com',
-                    path: '/',
+                    path: '/api/v1',
                     // secure: true,
                     // sameSite: true,
                 }
