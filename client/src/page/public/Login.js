@@ -40,19 +40,22 @@ const Login = ({ onClose }) => {
             })
 
             const handleSetTokens = () => {
-                const accessTokenExpiration = new Date()
-                accessTokenExpiration.setHours(accessTokenExpiration.getHours() + 1) // Hết hạn sau 1 giờ
-                const refreshTokenExpiration = new Date()
-                refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 24) // Hết hạn sau 24 giờ
-
                 const accessTokenOptions = {
-                    path: '/',
-                    expires: accessTokenExpiration,
+                    // httpOnly: true,
+                    maxAge: 1 * 60 * 60 * 1000,
+                    domain: 'finder-api.onrender.com',
+                    path: '/api/v1',
+                    // secure: true,
+                    // sameSite: true
                 }
 
                 const refreshTokenOptions = {
-                    path: '/',
-                    expires: refreshTokenExpiration,
+                    // httpOnly: true,
+                    maxAge: 3 * 60 * 60 * 1000,
+                    domain: 'finder-api.onrender.com',
+                    path: '/api/v1',
+                    // secure: true,
+                    // sameSite: true,
                 }
 
                 setCookie('accessToken', response.data.access_token, accessTokenOptions)
