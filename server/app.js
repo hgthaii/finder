@@ -25,7 +25,7 @@ const corsOptions = {
         }
 }
 // middleware
-app.use(cors(corsOptions))
+app.use(cors())
 // app.use(
 //     session({
 //         secret: process.env.TOKEN_SECRET,
