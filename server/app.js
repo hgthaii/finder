@@ -32,7 +32,6 @@ const corsOptions = {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.cookieParser())
 app.use(cors(corsOptions))
 
 app.use("/api/v1", routes)
@@ -90,6 +89,7 @@ mongoose.connect(process.env.MONGODB_URL, {
         server.listen(port, (req, res) => {
             const cookies = parseCookies(req)
             res.send(JSON.stringify(cookies))
+            console.log(cookies);
             console.log(`Server is running on ${port}`)
         })
     })
