@@ -22,7 +22,6 @@ const corsOptions = {
         }
 }
 // middleware
-app.use(cors(corsOptions))
 // app.use(
 //     session({
 //         secret: process.env.TOKEN_SECRET,
@@ -33,6 +32,7 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(cors(corsOptions))
 
 app.use("/api/v1", routes)
 
@@ -69,8 +69,9 @@ mongoose.connect(process.env.MONGODB_URL, {
 })
     .then(() => {
         console.log('MongoDB is connected!')
+        const {address} = server.address()
         server.listen(port, () => {
-            console.log(`Server is running on ${process.env.BASE_URL} at ${port}`)
+            console.log(`Server is running on ${address}:${port}`)
         })
     })
     .catch((error) => {
