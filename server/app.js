@@ -63,33 +63,13 @@ io.on(
     }
 )
 
-function parseCookies(request) {
-    const list = {}
-    const cookieHeader = request.headers?.cookie
-    if (!cookieHeader) return list
-
-    cookieHeader.split(`;`).forEach(function (cookie) {
-        let [name, ...rest] = cookie.split(`=`)
-        name = name?.trim()
-        if (!name) return
-        const value = rest.join(`=`).trim()
-        if (!value) return
-        list[name] = decodeURIComponent(value)
-    })
-
-    return list
-}
-
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
     .then(() => {
         console.log('MongoDB is connected!')
-        server.listen(port, (req, res) => {
-            const cookies = parseCookies(req)
-            res.send(JSON.stringify(cookies))
-            console.log(cookies);
+        server.listen(port, () => {
             console.log(`Server is running on ${port}`)
         })
     })

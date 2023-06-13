@@ -100,8 +100,8 @@ const signin = async (req, res, next) => {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
             // domain: 'localhost',
-            domain: 'api-41z0.onrender.com',
-            // path: '/api/v1',
+            // domain: 'api-41z0.onrender.com',
+            path: '/',
             // secure: true,
             // sameSite: true
         })
@@ -109,8 +109,8 @@ const signin = async (req, res, next) => {
             // httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
             // domain: 'localhost',
-            domain: 'api-41z0.onrender.com',
-            // path: '/api/v1',
+            // domain: 'api-41z0.onrender.com',
+            path: '/',
             // secure: true,
             // sameSite: true,
         })
