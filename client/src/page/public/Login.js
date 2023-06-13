@@ -70,7 +70,8 @@ const Login = ({ onClose }) => {
 
             if (parsedTokenBody.roles === 'admin') {
                 toast.success('Đăng nhập thành công')
-                navigate('/home-admin')
+                navigate('/')
+                // navigate('/home-admin')
             } else if (parsedTokenBody.roles === 'user') {
                 toast.success('Đăng nhập thành công')
                 onClose()

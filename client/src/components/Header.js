@@ -7,6 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ReviewsIcon from '@mui/icons-material/Reviews'
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
 
@@ -52,6 +53,7 @@ const Header = () => {
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const checkValueStorage = parsedTokenBody.infor || {}
+    console.log('OKE222' + JSON.stringify(parsedTokenBody.roles))
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -127,10 +129,15 @@ const Header = () => {
     }
     localStorage.setItem('displayName', checkValueStorage?.displayName)
     localStorage.setItem('userId', checkValueStorage.id)
+
+    const openPageAdmin = () => {
+        navigate('/home-admin')
+    }
     return (
         <div
-            className={`flex items-center px-[48px] justify-between ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-                }`}
+            className={`flex items-center px-[48px] justify-between ${
+                isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
+            }`}
         >
             <div className="flex items-center">
                 <div className=" ">
@@ -174,24 +181,55 @@ const Header = () => {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleOpenProfile}>
-                                <ListItemIcon>
-                                    <ManageAccountsIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Quản lý tài khoản</ListItemText>
-                            </MenuItem>
-                            <MenuItem onClick={handleOpenListComment}>
-                                <ListItemIcon>
-                                    <ReviewsIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Bình luận của bạn</ListItemText>
-                            </MenuItem>
-                            <MenuItem onClick={handleLogout}>
-                                <ListItemIcon>
-                                    <MeetingRoomIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Đăng xuất</ListItemText>
-                            </MenuItem>
+                            {parsedTokenBody.roles === 'admin' ? (
+                                <>
+                                    <MenuItem onClick={openPageAdmin}>
+                                        <ListItemIcon>
+                                            <AdminPanelSettingsIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Trang quản trị</ListItemText>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleOpenProfile}>
+                                        <ListItemIcon>
+                                            <ManageAccountsIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Quản lý tài khoản</ListItemText>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleOpenListComment}>
+                                        <ListItemIcon>
+                                            <ReviewsIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Bình luận của bạn</ListItemText>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        <ListItemIcon>
+                                            <MeetingRoomIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Đăng xuất</ListItemText>
+                                    </MenuItem>
+                                </>
+                            ) : (
+                                <>
+                                    <MenuItem onClick={handleOpenProfile}>
+                                        <ListItemIcon>
+                                            <ManageAccountsIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Quản lý tài khoản</ListItemText>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleOpenListComment}>
+                                        <ListItemIcon>
+                                            <ReviewsIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Bình luận của bạn</ListItemText>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        <ListItemIcon>
+                                            <MeetingRoomIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText>Đăng xuất</ListItemText>
+                                    </MenuItem>
+                                </>
+                            )}
                         </Menu>
                         <Modal
                             open={openProfile}
