@@ -5,7 +5,7 @@ import jsonwebtoken from 'jsonwebtoken'
 
 const tokenDecode = (req) => {
     try {
-        const { accessToken } = req.headers.cookie.split(';')[0].split('=')[1]
+        const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
         console.log(req.headers.cookie.split(';')[0].split('=')[1]);
         if (accessToken) {
             // Xác thực token
