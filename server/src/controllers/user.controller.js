@@ -62,14 +62,14 @@ const signup = async (req, res) => {
     }
 }
 
-const signin = async (req, res, next) => {
+const signin = async (req, res) => {
     try {
         const { username, password } = req.body
 
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
-            .select('username password salt id displayName roles createdAt updatedAt')
+            .select('username id displayName roles createdAt updatedAt')
         if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
@@ -86,7 +86,7 @@ const signin = async (req, res, next) => {
         }
 
         const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '1h',
+            expiresIn: '2h',
         })
 
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
@@ -98,7 +98,7 @@ const signin = async (req, res, next) => {
 
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
-            maxAge: 1 * 60 * 60 * 1000,
+            // maxAge: 2 * 60 * 60 * 1000,
             // domain: 'localhost',
             // domain: 'api-41z0.onrender.com',
             path: '/',
@@ -107,7 +107,7 @@ const signin = async (req, res, next) => {
         })
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
+            // maxAge: 24 * 60 * 60 * 1000,
             // domain: 'localhost',
             // domain: 'api-41z0.onrender.com',
             path: '/',
@@ -116,7 +116,7 @@ const signin = async (req, res, next) => {
         })
         const refreshTokenDoc = new refreshtokenModel({
             token: refreshToken,
-            expiryDate: 3 * 60 * 60 * 1000,
+            expiryDate: 24 * 60 * 60 * 1000,
             user: user.id,
         })
         // console.log(refreshTokenDoc)
