@@ -99,8 +99,8 @@ const signin = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 1 * 60 * 60 * 1000,
-            domain: 'localhost',
-            // domain: 'finder-api.onrender.com',
+            // domain: 'localhost',
+            domain: 'finder-api.onrender.com',
             // path: '/api/v1',
             // secure: true,
             // sameSite: true
@@ -108,8 +108,8 @@ const signin = async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
-            domain: 'localhost',
-            // domain: 'finder-api.onrender.com',
+            // domain: 'localhost',
+            domain: 'finder-api.onrender.com',
             // path: '/api/v1',
             // secure: true,
             // sameSite: true,

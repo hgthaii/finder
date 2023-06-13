@@ -8,4 +8,11 @@ export default function (app) {
             ws: true,
         }),
     )
+    app.use(
+        '/api/v1',
+        createProxyMiddleware({
+            target: 'https://finder-api.onrender.com/',
+            ws: true,
+        }),
+    )
 }
