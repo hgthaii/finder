@@ -10,10 +10,7 @@ import { Server } from 'socket.io'
 
 const app = express()
 
-const whitelist = [
-    'http://localhost:3000',
-    'http://localhost:88',
-]
+const whitelist = ['http://localhost:3000', 'http://localhost:88', 'https://finder-api.onrender.com']
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
@@ -25,7 +22,7 @@ const corsOptions = {
         }
 }
 // middleware
-app.use(cors())
+app.use(cors(corsOptions))
 // app.use(
 //     session({
 //         secret: process.env.TOKEN_SECRET,
