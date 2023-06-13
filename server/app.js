@@ -10,7 +10,7 @@ import { Server } from 'socket.io'
 
 const app = express()
 
-const whitelist = ['http://localhost:3000', 'http://localhost:88', 'https://finder-client-taupe.vercel.app']
+const whitelist = ['http://localhost:3000', 'http://localhost:88', 'https://finder-client-zeta.vercel.app']
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
