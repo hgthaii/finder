@@ -26,8 +26,12 @@ function App() {
         <>
             {isTokenExpired && <Navigate to="/" replace={true} />}
             <Routes>
-                <Route path="home-admin" element={currentRole !== 'admin' ? <NotFound /> : <HomePageAdmin />} />
-                <Route path="*" element={<NotFound />} />
+                <Route
+                    path="home-admin"
+                    element={
+                        currentRole && currentRole === 'admin' ? <HomePageAdmin /> : <Navigate to="/" replace={true} />
+                    }
+                />
                 <Route path="/" element={<Public />}>
                     <Route path="/" element={<Home />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
@@ -47,6 +51,7 @@ function App() {
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     )
