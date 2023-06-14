@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser"
 import "dotenv/config"
 import routes from "./src/routes/index.js"
 import { Server } from 'socket.io'
-import axios from 'axios'
 
 const app = express()
 
@@ -28,29 +27,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use("/api/v1", routes)
-app.all('/api/v1/*', async (req, res) => {
-    const { method, originalUrl, body, cookies } = req
-    const apiUrl = `https://finder-sooty.vercel.app${originalUrl}`
-    try {
-        const response = await axios({
-            method,
-            url: apiUrl,
-            data: body,
-            headers: {
-                Cookie: Object.keys(cookies)
-                    .map((key) => `${key}=${cookies[key]}`)
-                    .join('; '),
-            },
-        })
-        res.status(response.status).send(response.data)
-    } catch (error) {
-        if (error.response) {
-            res.status(error.response.status).send(error.response.data)
-        } else {
-            res.status(500).send('Internal Server Error')
-        }
-    }
-})
 
 const server = http.createServer(app)
 const io = new Server(server)
