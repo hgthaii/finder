@@ -3,9 +3,12 @@ import React, { useEffect, useState, useRef } from 'react'
 import YouTube from 'react-youtube'
 import ReactPlayer from 'react-player'
 import icons from '../ultis/icons'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress'
+
 import path from '../ultis/path'
-import axios from 'axios';
+import axios from 'axios'
+import Video from './Video'
 const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handleDeleteFav }) => {
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
@@ -26,26 +29,37 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
     // const videoRef = useRef(null)
     // useEffect(() => {
     //     let timeoutId
-    //     if (!showImage) {
-    //         videoRef.current.play()
-    //     } else {
-    //         timeoutId = setTimeout(() => {
-    //             setShowImage(false)
-    //         }, 3000)
-    //     }
+    //     timeoutId = setTimeout(() => {
+    //         setShowImage(false)
+    //     }, 3000)
     //     return () => clearTimeout(timeoutId)
     // }, [showImage])
     const [showVideo, setShowVideo] = useState(false)
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setShowImage(false)
-    //         setShowVideo(true)
-    //     }, 3000)
+    useEffect(() => {
+        let timeout = null
+        const currentPath = window.location.pathname
+        // Kiểm tra xem props videoData có chứa chuỗi "movie/movieId" hay không.
+        const isMoviePath = currentPath.includes('/movie/647')
 
-    //     // Xóa timeout khi component unmount hoặc khi state `showVideo` thay đổi
-    //     return () => clearTimeout(timeout)
-    // }, [])
+        // Chạy timeout nếu đường dẫn là movie path
+        if (isMoviePath) {
+            timeout = setTimeout(() => {
+                setShowImage(false)
+                setShowVideo(true)
+            }, 3000)
+        }
+    }, [])
+
+    const navigate = useNavigate()
+    
+    const onClickVideo = () => {
+            let idValue = data?._id
+            if (randomMovies) {
+                idValue = randomMovies?._id
+            }
+        navigate(`/video/${idValue}`)
+    }
     return (
         <div className="relative">
             {showImage ? (
@@ -67,7 +81,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                 width="100%"
                                 height="100%"
                                 playing={showVideo}
-                                volume="null"
+                                volume={0}
                             />
                         </div>
                     </div>
@@ -91,6 +105,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                             <div>
                                 <button
                                     // onClick={handleButtonClick}
+                                    onClick={onClickVideo}
                                     className="  flex items-center justify-center rounded-md bg-white text-black text-center font-semibold py-2 px-5 mr-2 "
                                 >
                                     <BsFillPlayFill size={35} />
@@ -98,30 +113,38 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                 </button>
                                 <div>
                                     {isFullScreen && (
-                                        <div className="video-wrapper">
-                                            <ReactPlayer
-                                                url={videoData}
-                                                ref={handleWrapperRef}
-                                                autoPlay
-                                                playing
-                                                width="100%"
-                                                height="100vh"
-                                            />
-                                        </div>
-                                    )}
+                                            <div className="video-wrapper">
+                                                <ReactPlayer
+                                                    url={videoData}
+                                                    ref={handleWrapperRef}
+                                                    autoPlay
+                                                    playing
+                                                    width="100%"
+                                                    height="100vh"
+                                                />
+                                            </div>
+                                        )}
                                 </div>
                             </div>
 
                             {banerModal ? (
                                 <div className="">
                                     <div className="flex text-center">
-                                        {favorite?.isFavorite ?
-                                            <span onClick={handleDeleteFav} className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
+                                        {favorite?.isFavorite ? (
+                                            <span
+                                                onClick={handleDeleteFav}
+                                                className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer "
+                                            >
                                                 <AiOutlineCheck />
-                                            </span> :
-                                            <span onClick={handlePostFav} className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
+                                            </span>
+                                        ) : (
+                                            <span
+                                                onClick={handlePostFav}
+                                                className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer "
+                                            >
                                                 <AiOutlinePlus />
-                                            </span>}
+                                            </span>
+                                        )}
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                             <SlLike />
                                         </span>

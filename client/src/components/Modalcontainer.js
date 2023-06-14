@@ -13,7 +13,8 @@ import Fade from '@mui/material/Fade'
 import Box from '@mui/material/Box'
 import Login from '../page/public/Login'
 import Backdrop from '@mui/material/Backdrop'
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -167,11 +168,18 @@ const Modalcontainer = ({ data, closeModal }) => {
     };
 
 
-
+    const [showAllEpisodes, setShowAllEpisodes] = useState(false)
+    const limit = showAllEpisodes ? data?.episodes?.length : 5
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
             <div className="relative ">
-                <Banner banerModal data={data} favorite={favorite} handleDeleteFav={handleDeleteFav} handlePostFav={handlePostFav} />
+                <Banner
+                    banerModal
+                    data={data}
+                    favorite={favorite}
+                    handleDeleteFav={handleDeleteFav}
+                    handlePostFav={handlePostFav}
+                />
                 <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                         {' '}
@@ -216,23 +224,33 @@ const Modalcontainer = ({ data, closeModal }) => {
                         </div>
                     </div>
                 </div>
-                <div className="">
+                <div className="episodes-gradient">
                     {data?.episodes?.length !== 0 && (
                         <div className="flex items-center justify-between mt-[31px] mb-[16px] font-bold">
                             <h3 className="w-[70%] text-white text-2xl">Tập </h3>
                             <span className="w-[30%] text-white text-lg text-right">{data?.duration}</span>
                         </div>
                     )}
-                    {data?.episodes?.map((item, index) => (
+                    {data?.episodes?.slice(0, limit).map((item, index) => (
                         <Modalsection episodes={item} key={item?._id} index={index} />
                     ))}
+                    {!showAllEpisodes && data?.episodes?.length > 5 && (
+                        <button className="show-more-button" onClick={() => setShowAllEpisodes(true)}>
+                            <ExpandMoreIcon fontSize="large" />
+                        </button>
+                    )}
+                    {showAllEpisodes && (
+                        <button className="show-more-button" onClick={() => setShowAllEpisodes(false)}>
+                            <ExpandLessIcon fontSize="large" />
+                        </button>
+                    )}
                 </div>
 
                 <div className="">
                     <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
                     <div className="flex flex-wrap w-full gap-3">
                         {genre &&
-                            genre.map((item) => (
+                            genre?.slice(0, 8).map((item) => (
                                 <div key={item._id} className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
                                     <Modalcard data={item} />
                                 </div>
@@ -270,8 +288,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-
-
                         <div className="w-full bg-[#333333] p-4 rounded-lg">
                             <div className="flex items-center gap-3">
                                 <img
@@ -282,8 +298,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 <span>{displayName}</span>
                             </div>
 
-
-                            <form onSubmit={handleSubmit} >
+                            <form onSubmit={handleSubmit}>
                                 <div className="border-b border-[#BCBCBC]">
                                     <textarea
                                         placeholder="Bạn nghĩ gì về bộ phim này..."
@@ -293,7 +308,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     ></textarea>
                                 </div>
 
-                                <button type="submit" className="w-[100px] h-[40px] text-black rounded-md bg-white  my-2 float-right">
+                                <button
+                                    type="submit"
+                                    className="w-[100px] h-[40px] text-black rounded-md bg-white  my-2 float-right"
+                                >
                                     Bình luận
                                 </button>
                             </form>
@@ -310,7 +328,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         <AiOutlineLink size={20} />
                                     </span>
                                 </div>
-
                             </div>
                         </div>
                     )}

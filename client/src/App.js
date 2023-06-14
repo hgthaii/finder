@@ -7,6 +7,7 @@ import * as action from './store/actions'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import path from './ultis/path'
+import Video from './components/Video';
 
 function App() {
     const dispatch = useDispatch()
@@ -32,6 +33,7 @@ function App() {
                         currentRole && currentRole === 'admin' ? <HomePageAdmin /> : <Navigate to="/" replace={true} />
                     }
                 />
+                <Route path={path.VIDEO_MOVIES__ID} element={<Video />} />
                 <Route path="/" element={<Public />}>
                     <Route path="/" element={<Home />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
