@@ -3,7 +3,7 @@ import userModel from '../models/user.model.js'
 import commentModel from '../models/comment.model.js'
 import responseHandler from '../handlers/response.handler.js'
 import movieModel from '../models/movie.model.js'
-import { io } from '../../app.js'
+import { io } from '../../index.js'
 
 const createComment = async (req, res) => {
     try {
