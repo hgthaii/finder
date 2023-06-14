@@ -211,6 +211,10 @@ const HomePageAdmin = () => {
         try {
             const config = {
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             }
 
             await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)

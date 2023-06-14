@@ -340,6 +340,10 @@ export const ModalDeleteMovie = (props) => {
             const requests = movieIds.map((movieId) =>
                 axios.delete(`${process.env.REACT_APP_API_URI}/movies/${movieId._id}`, {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 }),
             )
 
@@ -461,6 +465,10 @@ export const ModalAddMovie = (props) => {
             }
             await axios.post(`${process.env.REACT_APP_API_URI}/movies`, parsedData, {
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             toast.success('Added movie successfully!')
             setIsLoading(false)
@@ -1009,8 +1017,12 @@ export const ModalUpdateMovie = (props) => {
 
             const movieId = movieIds[0]?._id
             await axios.put(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, movieDataUpdate, {
-                withCredentials: true,
-            })
+                        withCredentials: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                        },
+                    })
             setIsLoading(false)
         } catch (error) {
             console.log(error)
