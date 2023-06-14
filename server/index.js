@@ -10,7 +10,7 @@ import { Server } from 'socket.io'
 
 const app = express()
 
-const whitelist = ['http://localhost:3000', 'http://localhost:88', 'https://finder-client-zeta.vercel.app']
+const whitelist = ['*']
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
@@ -21,14 +21,25 @@ const corsOptions = {
             }
         }
 }
-// middleware
-// app.use(
-//     session({
-//         secret: process.env.TOKEN_SECRET,
-//         resave: false,
-//         saveUninitialized: false,
-//     }),
-// )
+app.use((req, res, next) => {
+    const origin = req.get('referer')
+    const isWhitelisted = whitelist.find((w) => origin && origin.includes(w))
+    if (isWhitelisted) {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization')
+        res.setHeader('Access-Control-Allow-Credentials', true)
+    }
+    // Pass to next layer of middleware
+    if (req.method === 'OPTIONS') res.sendStatus(200)
+    else next()
+})
+
+const setContext = (req, res, next) => {
+    if (!req.context) req.context = {}
+    next()
+}
+app.use(setContext)
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
