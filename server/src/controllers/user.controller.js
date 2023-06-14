@@ -101,7 +101,7 @@ const signin = async (req, res) => {
             maxAge: 2 * 60 * 60 * 1000,
             // domain: 'api-41z0.onrender.com',
             // secure: true,
-            sameSite: 'none'
+            sameSite: 'none',
         })
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -116,7 +116,7 @@ const signin = async (req, res) => {
         })
         // console.log(refreshTokenDoc)
         await refreshTokenDoc.save()
-        
+
         // Gỡ pass và hash ra khỏi response
         user.password = undefined
         user.salt = undefined

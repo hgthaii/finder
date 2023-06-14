@@ -29,7 +29,7 @@ router.get('/comments/:userId', commentController.getAllCommentOfUser)
 router.post(
     '/comments',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     rateLimitMiddleware(windowMs, maxRequests),
     commentController.createComment,
 )
@@ -37,84 +37,84 @@ router.post(
 router.put(
     '/comments/:commentId/like',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.likeComment,
 )
 
 router.put(
     '/comments/:commentId/like/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.likeReplyComment,
 )
 
 router.put(
     '/comments/:commentId/unlike',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.unlikeComment,
 )
 
 router.put(
     '/comments/:commentId/unlike/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.unlikeReplyComment,
 )
 
 router.put(
     '/comments/:commentId/change-liked',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.changeLikedIcon,
 )
 
 router.put(
     '/comments/:commentId/change-liked/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.changeLikedReplyIcon,
 )
 
 router.post(
     '/comments/:commentId/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.replyToComment,
 )
 
 router.put(
     '/comments/:commentId/edit',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.editComment,
 )
 
 router.put(
     '/comments/:commentId/edit/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.editReplyComment,
 )
 
 router.delete(
     '/comments/:commentId/delete',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.deleteComment,
 )
 
 router.delete(
     '/comments/:commentId/delete/:replyId/reply',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     commentController.deleteReplyComment,
 )
 
 router.put(
     '/:movieId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     movieController.updateMovie,
 )
@@ -141,7 +141,7 @@ router.post(
     // body('creators').exists().withMessage('creators is required'),
     body('item_genre').exists().withMessage('item_genre is required'),
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     requestHandler.validate,
     movieController.createMovie,
@@ -152,7 +152,7 @@ router.get('/:movieId/episodes', movieController.episodeList)
 router.delete(
     '/:filmId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     movieController.deleteMovie,
 )

@@ -10,7 +10,13 @@ import { Server } from 'socket.io'
 
 const app = express()
 
-const whitelist = ['https://finder-client-zeta.vercel.app', 'http://localhost:3000', 'https://finder-sooty.vercel.app']
+const whitelist = [
+    'https://finder-client-zeta.vercel.app',
+    'http://localhost:3000',
+    'https://finder-sooty.vercel.app',
+    'https://vnpay-gpw7.onrender.com',
+    'https://sandbox.vnpayment.vn',
+]
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
@@ -21,7 +27,12 @@ const corsOptions = {
             }
         }
 }
-
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE')
+    res.setHeader('Access-Control-Allow-Methods', 'Content-Type', 'Authorization')
+    next()
+})
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())

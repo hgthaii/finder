@@ -88,17 +88,17 @@ router.put(
             return true
         }),
     requestHandler.validate,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     userController.updatePassword,
 )
 
-router.post('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.findUserByDisplayName)
-router.get('/info', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, userController.getInfo)
+router.post('/', tokenMiddleware.auth, userController.findUserByDisplayName)
+router.get('/info', tokenMiddleware.auth, userController.getInfo)
 
 router.post(
     '/info/:userId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     userController.getUserById,
 )
@@ -106,7 +106,7 @@ router.post(
 router.get(
     '/favorites',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     favoriteController.getFavoritesOfUser,
 )
 
@@ -119,21 +119,21 @@ router.post(
         .withMessage('movieId can not be empty'),
     tokenMiddleware.auth,
     requestHandler.validate,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     favoriteController.addFavorite,
 )
 
 router.get(
     '/favorites/:movieId/check',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     favoriteController.checkFavorite,
 )
 
 router.get(
     '/',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     userController.getUserByUsername,
 )
@@ -146,14 +146,14 @@ router.put(
         .isLength({ min: 4 })
         .withMessage('displayName minimum 4 characters'),
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     userController.updateUserByUser,
 )
 
 router.put(
     '/info/:userId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     userController.updateUserByAdmin,
 )
@@ -161,7 +161,7 @@ router.put(
 router.delete(
     '/:userId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     userController.deleteUserById,
 )
@@ -169,7 +169,7 @@ router.delete(
 router.delete(
     '/favorites/del-favorite',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     favoriteController.removeFavorite,
 )
 

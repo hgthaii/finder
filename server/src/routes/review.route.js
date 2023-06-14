@@ -7,7 +7,7 @@ import requestHandler from '../handlers/request.handler.js'
 
 const router = express.Router({ mergeParams: true })
 
-router.get('/', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, reviewController.getReviewsOfUser)
+router.get('/', tokenMiddleware.auth, reviewController.getReviewsOfUser)
 
 router.post(
     '/',
@@ -31,10 +31,10 @@ router.post(
     body('mediaPoster').exists().withMessage('mediaPoster is required'),
     body('mediaRate').exists().withMessage('mediaRate is required'),
     requestHandler.validate,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     reviewController.create,
 )
 
-router.delete('/:reviewId', tokenMiddleware.auth, tokenMiddleware.verifyTokenAndRefresh, reviewController.remove)
+router.delete('/:reviewId', tokenMiddleware.auth, reviewController.remove)
 
 export default router

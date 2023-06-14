@@ -34,7 +34,7 @@ router.post(
         .isLength({ min: 1 })
         .withMessage('Độ dài tối thiểu là 1 ký tự'),
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     requestHandler.validate,
     castController.addCast,
@@ -43,7 +43,7 @@ router.post(
 router.delete(
     '/:castId',
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     castController.removeCast,
 )

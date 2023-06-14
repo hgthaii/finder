@@ -38,7 +38,8 @@ const isRefreshTokenExpired = (refreshToken) => {
 }
 
 const verifyTokenAndRefresh = async (req, res, next) => {
-    const { accessToken, refreshToken } = req.headers['authorization'].split(' ')[1].split('.')[1]
+    const refreshToken = req.headers['authorization'].split(' ')[1].split('.')[1]
+    const accessToken = req.headers['authorization'].split(' ')[1].split('.')[1]
     try {
         // Kiểm tra tính hợp lệ của access token
         const decoded = jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)

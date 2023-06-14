@@ -15,7 +15,7 @@ router.post(
     '/genres',
     body('name').exists().withMessage('name is required').isLength({ min: 1 }).withMessage('name minimum 1 character'),
     tokenMiddleware.auth,
-    tokenMiddleware.verifyTokenAndRefresh,
+
     authorizeMiddleware.allowAdminOnly,
     requestHandler.validate,
     mediaController.addGenres,
