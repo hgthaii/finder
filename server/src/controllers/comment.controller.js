@@ -3,7 +3,7 @@ import userModel from '../models/user.model.js'
 import commentModel from '../models/comment.model.js'
 import responseHandler from '../handlers/response.handler.js'
 import movieModel from '../models/movie.model.js'
-import { io } from '../../index.js'
+// import { io } from '../../index.js'
 
 const createComment = async (req, res) => {
     try {
@@ -60,10 +60,10 @@ const getAllCommentOfFilm = async (req, res) => {
         if (!checkMovie) return responseHandler.badrequest(res, 'Phim không tồn tại!')
 
         const getComment = await commentModel.find({ movieId }).sort('-createdAt')
-        io.on('connection', (socket) => {
-            console.log('getAllCommentOfFilm đã kết nối')
-            socket.emit('latestComments', getComment)
-        })
+        // io.on('connection', (socket) => {
+        //     console.log('getAllCommentOfFilm đã kết nối')
+        //     socket.emit('latestComments', getComment)
+        // })
         responseHandler.ok(res, getComment)
     } catch (error) {
         console.log(error)

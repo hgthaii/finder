@@ -93,5 +93,3 @@ mongoose.connect(process.env.MONGODB_URL, {
         console.error("Error connecting to MongoDB:", error)
         process.exit(1)
     })
-
-export default {io}
