@@ -10,7 +10,6 @@ import { Server } from 'socket.io'
 import axios from 'axios'
 
 const app = express()
-app.use(cookieParser())
 
 const whitelist = ['https://finder-client-zeta.vercel.app', 'http://localhost:3000']
 const corsOptions = {
@@ -24,6 +23,10 @@ const corsOptions = {
         }
 }
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(cors(corsOptions))
 app.all('/api/v1/*', async (req, res) => {
     const { method, originalUrl, body, cookies } = req
     const apiUrl = `https://finder-sooty.vercel.app${originalUrl}`
@@ -47,11 +50,6 @@ app.all('/api/v1/*', async (req, res) => {
         }
     }
 })
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(cors(corsOptions))
-
 app.use("/api/v1", routes)
 
 const server = http.createServer(app)
