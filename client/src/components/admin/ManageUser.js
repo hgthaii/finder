@@ -170,6 +170,10 @@ const ManageUser = () => {
                 },
                 {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 },
             )
             if (request) {
@@ -327,6 +331,10 @@ export const ModalDeleteUser = (props) => {
             const requests = userIds.map((userId) =>
                 axios.delete(`${process.env.REACT_APP_API_URI}/user/${userId._id}`, {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 }),
             )
 
@@ -515,8 +523,12 @@ export const ModalUpdateUser = (props) => {
             }
             const requests = userIds.map((userId) =>
                 axios.put(`${process.env.REACT_APP_API_URI}/user/info/${userId._id}`, data, {
-                    withCredentials: true,
-                }),
+                        withCredentials: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                        },
+                    }),
             )
             const responses = await Promise.all(requests)
 
