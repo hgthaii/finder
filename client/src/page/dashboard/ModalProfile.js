@@ -8,7 +8,6 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import VNPay from '../public/Vnpay.jsx'
 function TabPanel(props) {
     const { children, value, index, ...other } = props
 
