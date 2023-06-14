@@ -271,3 +271,15 @@ html {
   -webkit-transition-delay: 0.4s;
   transition-delay: 0.4s;
 }
+.show-more-button,
+.show-less-button {
+   background-color: transparent;
+   width: 100%;
+   border: none;
+   cursor: pointer;
+   transition: all 0.3s ease-in-out;
+}
+.episodes-gradient{
+background: linear-gradient(180deg, rgba(3,0,20,0.87718837535014) 0%, rgba(3,0,20,0) 75%, rgba(141,141,141,0.1881127450980392) 100%);
+}
+

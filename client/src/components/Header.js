@@ -53,7 +53,6 @@ const Header = () => {
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const checkValueStorage = parsedTokenBody.infor || {}
-    console.log('OKE222' + JSON.stringify(parsedTokenBody.roles))
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
