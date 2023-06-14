@@ -11,9 +11,9 @@ import { Server } from 'socket.io'
 const app = express()
 
 const whitelist = [
-    'https://finder-client-zeta.vercel.app',
+    'https://finder-client-hgthaii.vercel.app',
     'http://localhost:3000',
-    'https://finder-sooty.vercel.app',
+    'https://finder-api-hgthaii.vercel.app',
     'https://vnpay-gpw7.onrender.com',
     'https://sandbox.vnpayment.vn',
 ]
