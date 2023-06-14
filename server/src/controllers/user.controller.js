@@ -99,7 +99,7 @@ const signin = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
             maxAge: 2 * 60 * 60 * 1000,
-            domain: 'localhost',
+            domain: 'vercel.app',
             // domain: 'api-41z0.onrender.com',
             path: '/',
             // secure: true,
@@ -108,7 +108,7 @@ const signin = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
-            domain: 'localhost',
+            domain: 'vercel.app',
             // domain: 'api-41z0.onrender.com',
             path: '/',
             // secure: true,
