@@ -69,7 +69,7 @@ const signin = async (req, res) => {
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
-            .select('username id displayName roles createdAt updatedAt')
+            .select('username id salt displayName roles createdAt updatedAt')
         if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
