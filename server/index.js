@@ -17,6 +17,7 @@ const whitelist = [
     'https://vnpay-gpw7.onrender.com',
     'https://sandbox.vnpayment.vn',
 ]
+
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
