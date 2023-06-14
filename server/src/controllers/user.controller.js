@@ -97,22 +97,17 @@ const signin = async (req, res) => {
         req.cookiesData = cookiesData
 
         res.cookie('accessToken', accessToken, {
-            // httpOnly: true,
+            httpOnly: true,
             maxAge: 2 * 60 * 60 * 1000,
-            domain: 'https://finder-sooty.vercel.app',
             // domain: 'api-41z0.onrender.com',
-            path: '/api/v1',
             // secure: true,
-            // sameSite: true
+            sameSite: 'none'
         })
         res.cookie('refreshToken', refreshToken, {
-            // httpOnly: true,
+            httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
-            domain: 'https://finder-sooty.vercel.app',
             // domain: 'api-41z0.onrender.com',
-            path: '/api/v1',
-            // secure: true,
-            // sameSite: true,
+            sameSite: 'none',
         })
         const refreshTokenDoc = new refreshtokenModel({
             token: refreshToken,
