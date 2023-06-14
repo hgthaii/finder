@@ -44,23 +44,19 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.methods.setPassword = function (password) {
-    try {
-        // Tạo một chuỗi ngẫu nhiên
-        this.salt = crypto.randomBytes(16).toString('hex')
+    // Tạo một chuỗi ngẫu nhiên
+    this.salt = crypto.randomBytes(16).toString('hex')
 
-        // Băm mật khẩu
-        this.password = crypto
-            .pbkdf2Sync(
-                password, // Mật khẩu người dùng
-                this.salt,
-                1000, // Số lần lặp
-                64, // Độ dài kết quả băm
-                'sha512', // Thuật toán để băm
-            )
-            .toString('hex')
-    } catch (error) {
-        console.error('Lỗi khi generating salt:', error)
-    }
+    // Băm mật khẩu
+    this.password = crypto
+        .pbkdf2Sync(
+            password, // Mật khẩu người dùng
+            this.salt,
+            1000, // Số lần lặp
+            64, // Độ dài kết quả băm
+            'sha512', // Thuật toán để băm
+        )
+        .toString('hex')
 }
 
 // Kiểm tra mật khẩu đã nhập có match với DB

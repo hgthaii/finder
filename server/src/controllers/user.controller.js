@@ -69,7 +69,7 @@ const signin = async (req, res) => {
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
-            .select('username id salt displayName roles createdAt updatedAt')
+            .select('username id salt password displayName roles createdAt updatedAt')
         if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
@@ -98,8 +98,8 @@ const signin = async (req, res) => {
 
         res.cookie('accessToken', accessToken, {
             // httpOnly: true,
-            // maxAge: 2 * 60 * 60 * 1000,
-            // domain: 'localhost',
+            maxAge: 2 * 60 * 60 * 1000,
+            domain: 'localhost',
             // domain: 'api-41z0.onrender.com',
             path: '/',
             // secure: true,
@@ -107,8 +107,8 @@ const signin = async (req, res) => {
         })
         res.cookie('refreshToken', refreshToken, {
             // httpOnly: true,
-            // maxAge: 24 * 60 * 60 * 1000,
-            // domain: 'localhost',
+            maxAge: 24 * 60 * 60 * 1000,
+            domain: 'localhost',
             // domain: 'api-41z0.onrender.com',
             path: '/',
             // secure: true,

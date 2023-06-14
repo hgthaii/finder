@@ -10,11 +10,11 @@ import reduxConfig from './redux'
 const store = reduxConfig()
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-        <CookiesProvider>
     <BrowserRouter>
+        <CookiesProvider>
             <Provider store={store}>
                 <App />
             </Provider>
-    </BrowserRouter>
         </CookiesProvider>
+    </BrowserRouter>
 )

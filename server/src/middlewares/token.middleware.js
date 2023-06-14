@@ -5,9 +5,8 @@ import jsonwebtoken from 'jsonwebtoken'
 
 const tokenDecode = (req) => {
     try {
-        req.headers['cookie'] = 'accessToken'
-        const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
-        console.log(req.headers.cookie.split(';')[0].split('=')[1]);
+        const { accessToken } = req.cookies
+        console.log(accessToken)
         if (accessToken) {
             // Xác thực token
             return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
