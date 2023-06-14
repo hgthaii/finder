@@ -53,7 +53,7 @@ app.all('/api/v1/*', async (req, res) => {
 app.use("/api/v1", routes)
 
 const server = http.createServer(app)
-export const io = new Server(server)
+const io = new Server(server)
 const port = process.env.PORT || 5000
 
 io.use((socket, next) => {
@@ -93,3 +93,5 @@ mongoose.connect(process.env.MONGODB_URL, {
         console.error("Error connecting to MongoDB:", error)
         process.exit(1)
     })
+
+export default {io}
