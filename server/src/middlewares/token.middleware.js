@@ -7,10 +7,7 @@ const tokenDecode = (req) => {
     try {
         const { accessToken } = req.cookies
         console.log(req)
-        if (accessToken) {
-            // Xác thực token
-            return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
-        }
+        if (accessToken) return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
 
         return false
     } catch (error) {
