@@ -16,7 +16,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -62,7 +61,7 @@ const ManageUser = () => {
                             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                         },
                     })
-                    console.log(response);
+                    console.log(response)
                     setUsers(response.data)
                     setMainUsers(response.data)
                 } catch (error) {
@@ -523,12 +522,12 @@ export const ModalUpdateUser = (props) => {
             }
             const requests = userIds.map((userId) =>
                 axios.put(`${process.env.REACT_APP_API_URI}/user/info/${userId._id}`, data, {
-                        withCredentials: true,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                        },
-                    }),
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                }),
             )
             const responses = await Promise.all(requests)
 
@@ -536,7 +535,6 @@ export const ModalUpdateUser = (props) => {
                 if (response.status === 200) return count + 1
                 return count
             }, 0)
-
 
             return {
                 successCount: successCount,

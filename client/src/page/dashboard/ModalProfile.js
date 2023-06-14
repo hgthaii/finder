@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
+import VNPay from '../public/Vnpay.jsx'
 function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -113,6 +114,25 @@ const ModalProfile = () => {
         const value = event.target.value
         setConfirmNewPassword(value)
     }
+    const payment = async () => {
+        try {
+            const request = await axios.post(`https://payment-vnpay.onrender.com/order/create_payment_url`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Access-Control-Allow-Origin': '*',
+                },
+            })
+            toast.success(request.data.message)
+        } catch (error) {
+            if (error.response) {
+                toast.error(error.response.data.message)
+            } else {
+                console.log(error)
+            }
+        }
+    }
     const onChangePassword = async () => {
         try {
             const request = await axios.put(
@@ -177,6 +197,12 @@ const ModalProfile = () => {
                             <label>
                                 <strong>UPDATED-AT:</strong> {formattedDateUpdated}
                             </label>
+                            <button
+                                onClick={payment}
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out"
+                            >
+                                Nạp lần đầu
+                            </button>
                         </div>
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>

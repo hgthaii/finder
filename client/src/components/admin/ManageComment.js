@@ -57,7 +57,6 @@ const ManageComment = () => {
     const offset = currentPage * PER_PAGE
     const currentPageData = comment.slice(offset, offset + PER_PAGE)
 
-
     const displayComments = () => {
         return currentPageData.map((x, index) => {
             return (

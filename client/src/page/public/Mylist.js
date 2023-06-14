@@ -86,7 +86,7 @@ const Mylist = () => {
     }
     return (
         <div className=" mt-[100px]">
-            {favorites.length !== 0 &&
+            {favorites.length !== 0 && (
                 <div>
                     <h3 className="pl-12 text-white mb-3 text-[18px] font-bold">Danh sách của tôi</h3>
                     <div className="pl-12 w-full">
@@ -102,7 +102,7 @@ const Mylist = () => {
                         </Swiper>
                     </div>
                 </div>
-            }
+            )}
             <div>
                 <Outlet />
             </div>

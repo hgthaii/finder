@@ -7,12 +7,12 @@ const styles = {
     paddingBottom: '56.250%',
 }
 const styless = {
-    width:"100%",
-    height:"100%",
-    position:"absolute",
-    left:"0px",
-    top:"0px",
-    overflow:"hidden"
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: '0px',
+    top: '0px',
+    overflow: 'hidden',
 }
 const Video = () => {
     const [isLoading, setIsLoading] = useState(false)

@@ -1017,12 +1017,12 @@ export const ModalUpdateMovie = (props) => {
 
             const movieId = movieIds[0]?._id
             await axios.put(`${process.env.REACT_APP_API_URI}/movies/${movieId}`, movieDataUpdate, {
-                        withCredentials: true,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                        },
-                    })
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
             setIsLoading(false)
         } catch (error) {
             console.log(error)

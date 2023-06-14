@@ -7,7 +7,7 @@ import * as action from './store/actions'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import path from './ultis/path'
-import Video from './components/Video';
+import Video from './components/Video'
 
 function App() {
     const dispatch = useDispatch()

@@ -6,7 +6,7 @@ import moment from 'moment'
 import 'moment/locale/vi'
 import icons from '../ultis/icons'
 import Button from '@mui/material/Button'
-import { MenuItem, Menu, } from '@mui/material'
+import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 
 const Comment = ({ displayName, pastTime, content, commentId }) => {
@@ -30,16 +30,16 @@ const Comment = ({ displayName, pastTime, content, commentId }) => {
         setAnchorEl(null)
     }
     const handleDeleteComment = async () => {
-
-        await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/delete`, {
-            withCredentials: true
-        })
-            .then(response => {
-                console.log('xoa comment thanh cong');
+        await axios
+            .delete(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/delete`, {
+                withCredentials: true,
             })
-            .catch(error => {
-                console.error('Lỗi khi xóa comment', error);
-            });
+            .then((response) => {
+                console.log('xoa comment thanh cong')
+            })
+            .catch((error) => {
+                console.error('Lỗi khi xóa comment', error)
+            })
     }
 
     return (
@@ -76,12 +76,10 @@ const Comment = ({ displayName, pastTime, content, commentId }) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-
-                        <MenuItem onClick={handleDeleteComment} >
+                        <MenuItem onClick={handleDeleteComment}>
                             <ListItemText>Xóa bình luận</ListItemText>
                         </MenuItem>
                     </Menu>
-
                 </div>
             </div>
             <div className="text-[16px] mb-3">

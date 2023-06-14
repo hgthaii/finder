@@ -70,7 +70,6 @@ const Modalcontainer = ({ data, closeModal }) => {
         getGenreById()
     }, [idGenre])
 
-
     const checkFavoriteById = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/favorites/${movieId}/check`, {
@@ -107,66 +106,70 @@ const Modalcontainer = ({ data, closeModal }) => {
     }, [movieId])
 
     const handlePostFav = async () => {
-        await axios.post(`${process.env.REACT_APP_API_URI}/user/favorites`, { movieId: movieId }, {
-            withCredentials: true,
-        })
-            .then(response => {
-
+        await axios
+            .post(
+                `${process.env.REACT_APP_API_URI}/user/favorites`,
+                { movieId: movieId },
+                {
+                    withCredentials: true,
+                },
+            )
+            .then((response) => {})
+            .catch((error) => {
+                console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error)
             })
-            .catch(error => {
-                console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error);
-            });
 
         checkFavoriteById()
     }
 
     const handleDeleteFav = async () => {
-        await axios.delete(`${process.env.REACT_APP_API_URI}/user/favorites/del-favorite`, {
-            data: { movieId: movieId },
-            withCredentials: true
-        })
-            .then(response => {
-
+        await axios
+            .delete(`${process.env.REACT_APP_API_URI}/user/favorites/del-favorite`, {
+                data: { movieId: movieId },
+                withCredentials: true,
             })
-            .catch(error => {
-                console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error);
-            });
+            .then((response) => {})
+            .catch((error) => {
+                console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error)
+            })
 
         checkFavoriteById()
     }
 
     const handleComment = async () => {
-        // Gửi bình luận lên server 
-        await axios.post(`${process.env.REACT_APP_API_URI}/movies/comments/`, {
-            ...postComment,
-            movieId: movieId,
-            userId: userId
-        }, {
-            withCredentials: true,
-        })
-            .then(response => {
-
+        // Gửi bình luận lên server
+        await axios
+            .post(
+                `${process.env.REACT_APP_API_URI}/movies/comments/`,
+                {
+                    ...postComment,
+                    movieId: movieId,
+                    userId: userId,
+                },
+                {
+                    withCredentials: true,
+                },
+            )
+            .then((response) => {})
+            .catch((error) => {
+                console.error('Lỗi khi bình luận', error)
             })
-            .catch(error => {
-                console.error('Lỗi khi bình luận', error);
-            });
     }
 
     const handleInputChange = (event) => {
         setPostComment({
             content: event.target.value,
-        });
-    };
+        })
+    }
 
     const handleSubmit = (event) => {
         handleComment()
         getCommentById()
         setPostComment({
             content: '',
-        });
-        event.preventDefault();
-    };
-
+        })
+        event.preventDefault()
+    }
 
     const [showAllEpisodes, setShowAllEpisodes] = useState(false)
     const limit = showAllEpisodes ? data?.episodes?.length : 5

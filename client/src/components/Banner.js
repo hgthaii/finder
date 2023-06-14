@@ -52,12 +52,12 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
     }, [])
 
     const navigate = useNavigate()
-    
+
     const onClickVideo = () => {
-            let idValue = data?._id
-            if (randomMovies) {
-                idValue = randomMovies?._id
-            }
+        let idValue = data?._id
+        if (randomMovies) {
+            idValue = randomMovies?._id
+        }
         navigate(`/video/${idValue}`)
     }
     return (
@@ -113,17 +113,17 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                 </button>
                                 <div>
                                     {isFullScreen && (
-                                            <div className="video-wrapper">
-                                                <ReactPlayer
-                                                    url={videoData}
-                                                    ref={handleWrapperRef}
-                                                    autoPlay
-                                                    playing
-                                                    width="100%"
-                                                    height="100vh"
-                                                />
-                                            </div>
-                                        )}
+                                        <div className="video-wrapper">
+                                            <ReactPlayer
+                                                url={videoData}
+                                                ref={handleWrapperRef}
+                                                autoPlay
+                                                playing
+                                                width="100%"
+                                                height="100vh"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
