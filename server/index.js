@@ -27,6 +27,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors(corsOptions))
+app.use("/api/v1", routes)
 app.all('/api/v1/*', async (req, res) => {
     const { method, originalUrl, body, cookies } = req
     const apiUrl = `https://finder-sooty.vercel.app${originalUrl}`
@@ -50,7 +51,6 @@ app.all('/api/v1/*', async (req, res) => {
         }
     }
 })
-app.use("/api/v1", routes)
 
 const server = http.createServer(app)
 const io = new Server(server)
