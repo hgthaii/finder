@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const app = express()
 
-const whitelist = ['https://finder-client-zeta.vercel.app', 'http://localhost:3000']
+const whitelist = ['https://finder-client-zeta.vercel.app', 'http://localhost:3000', 'https://finder-sooty.vercel.app']
 const corsOptions = {
     credentials: true,
     origin: (origin, callback) => {
