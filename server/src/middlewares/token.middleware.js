@@ -6,9 +6,11 @@ import jsonwebtoken from 'jsonwebtoken'
 const tokenDecode = (req) => {
     try {
         // const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
-        const accessToken = req.headers['authorization'].split(' ')[1]
-        console.log(accessToken)
-        if (accessToken) return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
+        const accessToken = req.headers['authorization']
+        if (accessToken) {
+            const token = accessToken.split(' ')[1]
+            return jsonwebtoken.verify(token, process.env.TOKEN_SECRET)
+        }
 
         return false
     } catch (error) {
@@ -36,7 +38,7 @@ const isRefreshTokenExpired = (refreshToken) => {
 }
 
 const verifyTokenAndRefresh = async (req, res, next) => {
-    const { accessToken, refreshToken } = req.cookies
+    const { accessToken, refreshToken } = req.headers['authorization'].split(' ')[1].split('.')[1]
     try {
         // Kiểm tra tính hợp lệ của access token
         const decoded = jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
