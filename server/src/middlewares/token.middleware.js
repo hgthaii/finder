@@ -5,8 +5,8 @@ import jsonwebtoken from 'jsonwebtoken'
 
 const tokenDecode = (req) => {
     try {
-        const { accessToken } = req.cookies
-        console.log(req)
+        const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
+        console.log(req.headers.cookie.split(';')[0].split('=')[1])
         if (accessToken) return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
 
         return false
@@ -16,22 +16,12 @@ const tokenDecode = (req) => {
 }
 
 const auth = async (req, res, next) => {
-    // Lấy token đã giải mã
     const tokenDecoded = tokenDecode(req)
-    // console.log('tokenDecoded:', tokenDecoded)
-    // Nếu không có token sẽ trả lỗi 401
+    console.log('tokenDecoded:', tokenDecoded)
     if (!tokenDecoded) return responseHandler.unauthorize(res, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
-
-    // Tìm user trong MongoDB
     const user = await userModel.findById(tokenDecoded.infor.id)
-
-    // Nếu không có trả lỗi 401
     if (!user) return responseHandler.unauthorize(res, 'Không tìm thấy user')
-
-    // Gán user trong request = user trong MongoDB
     req.user = user
-
-    // Chuyển request đến middleware kế tiếp
     next()
 }
 
