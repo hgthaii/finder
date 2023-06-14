@@ -5,8 +5,9 @@ import jsonwebtoken from 'jsonwebtoken'
 
 const tokenDecode = (req) => {
     try {
-        const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
-        console.log(req.headers.cookie.split(';')[0].split('=')[1])
+        // const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
+        const accessToken = req.headers['authorization'].split(' ')[1]
+        console.log(accessToken)
         if (accessToken) return jsonwebtoken.verify(accessToken, process.env.TOKEN_SECRET)
 
         return false

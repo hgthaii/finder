@@ -116,8 +116,6 @@ const signin = async (req, res) => {
         })
         // console.log(refreshTokenDoc)
         await refreshTokenDoc.save()
-
-        // cookieMiddleware.saveCookieMiddleware(req, res, next)
         
         // Gỡ pass và hash ra khỏi response
         user.password = undefined

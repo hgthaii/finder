@@ -57,7 +57,12 @@ const ManageUser = () => {
                 try {
                     const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/info`, {
                         withCredentials: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                        },
                     })
+                    console.log(response);
                     setUsers(response.data)
                     setMainUsers(response.data)
                 } catch (error) {

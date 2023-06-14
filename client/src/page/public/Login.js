@@ -59,8 +59,12 @@ const Login = ({ onClose }) => {
                 setCookie('refreshToken', response.data.refresh_token, refreshTokenOptions)
             }
             handleSetTokens()
+            const getToken = response.data.access_token
+            localStorage.setItem('accessToken', getToken)
+            const accessToken = localStorage.getItem('accessToken')
 
-            const tokenBody = response.data.access_token.split('.')[1]
+            const tokenBody = accessToken.split('.')[1]
+            // const tokenBody = response.data.access_token.split('.')[1]
 
             // Giai ma body voi base64
             const decodedTokenBody = atob(tokenBody)
