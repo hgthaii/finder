@@ -15,6 +15,12 @@ import Login from '../page/public/Login'
 import Backdrop from '@mui/material/Backdrop'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+
+import FormatBoldIcon from '@mui/icons-material/FormatBold'
+import FormatItalicIcon from '@mui/icons-material/FormatItalic'
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -106,8 +112,18 @@ const Modalcontainer = ({ data, closeModal }) => {
         }
     }
 
+    // Xóa bình luận reload list bình luận
+    const handleChangeComment = (newVal) => {
+        if(newVal){
+            console.log(newVal)
+            getCommentById();
+        }
+        getCommentById();
+    }
+
     useEffect(() => {
-        getCommentById()
+        // getCommentById()
+        handleChangeComment()
         checkFavoriteById()
     }, [movieId])
 
@@ -161,9 +177,15 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 },
             )
-            .then((response) => {})
+            .then((response) => {
+                getCommentById()
+            })
             .catch((error) => {
                 console.error('Lỗi khi bình luận', error)
             })
@@ -171,6 +193,9 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     const handleInputChange = (event) => {
         setPostComment({
+            content: event.target.value,
+        })
+        setContent({
             content: event.target.value,
         })
     }
@@ -186,6 +211,27 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     const [showAllEpisodes, setShowAllEpisodes] = useState(false)
     const limit = showAllEpisodes ? data?.episodes?.length : 5
+
+      const [content, setContent] = useState('')
+      const [fontWeight, setFontWeight] = useState('normal') 
+      const [fontStyle, setFontStyle] = useState('normal')
+      const [textDecorationLine, setTextDecorationLine] = useState('none')
+
+      const handleBoldClick = () => {
+          setFontWeight(fontWeight === 'bold' ? 'normal' : 'bold')
+      }
+      const handleItalicClick = () => {
+          setFontStyle(fontStyle === 'italic' ? 'normal' : 'italic')
+      }
+      const handleUnderlineClick = () => {
+          setTextDecorationLine(textDecorationLine === 'underline' ? 'none' : 'underline')
+      }
+
+      const [formats, setFormats] = React.useState(() => ['bold', 'italic'])
+
+      const handleFormat = (event, newFormats) => {
+          setFormats(newFormats)
+      }
     return (
         <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
             <div className="relative ">
@@ -304,7 +350,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-                        <div className="w-full bg-[#333333] p-4 rounded-lg">
+                        <div className="w-full bg-[#333333] p-8 rounded-lg">
                             <div className="flex items-center gap-3">
                                 <img
                                     src="https://source.unsplash.com/random"
@@ -321,29 +367,45 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         value={postComment.content}
                                         onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
+                                        style={{ fontWeight, fontStyle, textDecorationLine }}
                                     ></textarea>
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-[100px] h-[40px] text-black rounded-md bg-white  my-2 float-right"
+                                    className="w-[100px] h-[50px] text-black rounded-md bg-white  mt-3 float-right"
                                 >
                                     Bình luận
                                 </button>
                             </form>
 
                             <div className="flex justify-between items-center mt-3">
-                                <div className="flex gap-2">
-                                    <span className="cursor-pointer">
+                                {/* <div className="flex gap-2">
+                                    <span className="cursor-pointer" onClick={handleBoldClick}>
                                         <FaBold />
                                     </span>
-                                    <span className="cursor-pointer">
+                                    <span className="cursor-pointer" onClick={handleItalicClick}>
                                         <FaItalic />
                                     </span>
-                                    <span className="cursor-pointer">
+                                    <span className="cursor-pointer" onClick={handleUnderlineClick}>
                                         <AiOutlineLink size={20} />
                                     </span>
-                                </div>
+                                </div> */}
+                                <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="text formatting">
+                                    <ToggleButton value={fontWeight} aria-label={fontWeight} onClick={handleBoldClick}>
+                                        <FormatBoldIcon />
+                                    </ToggleButton>
+                                    <ToggleButton value={fontStyle} aria-label={fontStyle} onClick={handleItalicClick}>
+                                        <FormatItalicIcon />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        value={textDecorationLine}
+                                        aria-label={textDecorationLine}
+                                        onClick={handleUnderlineClick}
+                                    >
+                                        <FormatUnderlinedIcon />
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
                             </div>
                         </div>
                     )}
@@ -356,6 +418,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     content={item?.content}
                                     key={item._id}
                                     commentId={item._id}
+                                    handleChangeComment={handleChangeComment}
+                                    like={item?.likes}
                                 />
                             ))}
                     </div>
