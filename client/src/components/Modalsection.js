@@ -10,7 +10,7 @@ const Modalsection = ({ episodes, index }) => {
                     <span className="text-base font-bold">{episodes?.episode_title}</span>
                     <span className="text-base font-semibold">{episodes?.episode_runtime}</span>
                 </div>
-                <p className="px-[14px] pb-[14px]">{episodes?.episode_description}</p>
+                <p className="mx-[14px] mb-[14px] ellipsis3">{episodes?.episode_description}</p>
             </div>
         </div>
     )

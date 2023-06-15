@@ -114,7 +114,7 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     // Xóa bình luận reload list bình luận
     const handleChangeComment = (newVal) => {
-        if(newVal){
+        if (newVal) {
             console.log(newVal)
             getCommentById();
         }
@@ -139,7 +139,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     withCredentials: true,
                 },
             )
-            .then((response) => {})
+            .then((response) => { })
             .catch((error) => {
                 console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error)
             })
@@ -157,7 +157,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 withCredentials: true,
             })
-            .then((response) => {})
+            .then((response) => { })
             .catch((error) => {
                 console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error)
             })
@@ -211,28 +211,29 @@ const Modalcontainer = ({ data, closeModal }) => {
     const [showAllEpisodes, setShowAllEpisodes] = useState(false)
     const limit = showAllEpisodes ? data?.episodes?.length : 5
 
-      const [content, setContent] = useState('')
-      const [fontWeight, setFontWeight] = useState('normal') 
-      const [fontStyle, setFontStyle] = useState('normal')
-      const [textDecorationLine, setTextDecorationLine] = useState('none')
+    const [content, setContent] = useState('')
+    const [fontWeight, setFontWeight] = useState('normal')
+    const [fontStyle, setFontStyle] = useState('normal')
+    const [textDecorationLine, setTextDecorationLine] = useState('none')
 
-      const handleBoldClick = () => {
-          setFontWeight(fontWeight === 'bold' ? 'normal' : 'bold')
-      }
-      const handleItalicClick = () => {
-          setFontStyle(fontStyle === 'italic' ? 'normal' : 'italic')
-      }
-      const handleUnderlineClick = () => {
-          setTextDecorationLine(textDecorationLine === 'underline' ? 'none' : 'underline')
-      }
+    const handleBoldClick = () => {
+        setFontWeight(fontWeight === 'bold' ? 'normal' : 'bold')
+    }
+    const handleItalicClick = () => {
+        setFontStyle(fontStyle === 'italic' ? 'normal' : 'italic')
+    }
+    const handleUnderlineClick = () => {
+        setTextDecorationLine(textDecorationLine === 'underline' ? 'none' : 'underline')
+    }
 
-      const [formats, setFormats] = React.useState(() => ['bold', 'italic'])
+    const [formats, setFormats] = React.useState(() => ['bold', 'italic'])
 
-      const handleFormat = (event, newFormats) => {
-          setFormats(newFormats)
-      }
+    const handleFormat = (event, newFormats) => {
+        setFormats(newFormats)
+    }
+
     return (
-        <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl">
+        <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl" onClick={(event) => event.stopPropagation()} >
             <div className="relative ">
                 <Banner
                     banerModal
@@ -309,10 +310,10 @@ const Modalcontainer = ({ data, closeModal }) => {
 
                 <div className="">
                     <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
-                    <div className="flex flex-wrap w-full gap-3">
+                    <div className="flex flex-wrap w-full gap-3 justify-center ">
                         {genre &&
                             genre?.slice(0, 8).map((item) => (
-                                <div key={item._id} className="w-[45%] min-[1024px]:w-[30%] rounded-lg">
+                                <div key={item._id} className="w-[70%] min-[1024px]:w-[30%] rounded-lg">
                                     <Modalcard data={item} />
                                 </div>
                             ))}
@@ -367,6 +368,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                         style={{ fontWeight, fontStyle, textDecorationLine }}
+
                                     ></textarea>
                                 </div>
 

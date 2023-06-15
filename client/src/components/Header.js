@@ -36,7 +36,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Login from '../page/public/Login'
 import ModalProfile from '../page/dashboard/ModalProfile'
 import Skeleton from '@mui/material/Skeleton'
+// Initialization for ES Users
+import {
+    Collapse,
+    Dropdown,
+    initTE,
+} from "tw-elements";
 
+initTE({ Collapse, Dropdown });
 const style = {
     position: 'absolute',
     top: '50%',
@@ -61,6 +68,25 @@ const Header = () => {
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
+
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    const handleResize = () => {
+        if (window.innerWidth <= 1024) {
+            setIsMobile(true);
+        } else {
+            setIsMobile(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
@@ -98,7 +124,6 @@ const Header = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.pageYOffset
-
             if (scrollTop > 0) {
                 setIsScrolled(true)
             } else {
@@ -130,158 +155,196 @@ const Header = () => {
     const openPageAdmin = () => {
         navigate('/home-admin')
     }
-    return (
-        <div
-            className={`flex items-center px-[48px] justify-between ${
-                isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-            }`}
-        >
-            <div className="flex items-center">
-                <div className=" ">
-                    <img src={logo} alt="logo" className="object-cover max-h-20" />
-                </div>
-                <div className="">
-                    {headerMenu.map((item, index) => (
-                        <NavLink
-                            to={item.path}
-                            className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
-                            key={index}
-                        >
-                            {item.text}
-                        </NavLink>
-                    ))}
-                </div>
-            </div>
 
-            <div className="flex items-center gap-4 text-white">
-                <Search />
-                {/* <BiSearchAlt2 size={25} /> */}
-                <AiFillBell size={25} />
-                {accessToken ? (
-                    <div>
-                        <Button
-                            id="basic-button"
-                            aria-controls={openn ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={openn ? 'true' : undefined}
-                            onClick={handleClick}
-                            sx={{ color: '#02e7f5', fontWeight: '500' }}
-                        >
-                            Chào, {checkValueStorage?.displayName}
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={openn}
-                            onClose={handleCloseAnchorEl}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            {parsedTokenBody.roles === 'admin' ? (
-                                <>
-                                    <MenuItem onClick={openPageAdmin}>
-                                        <ListItemIcon>
-                                            <AdminPanelSettingsIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Trang quản trị</ListItemText>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleOpenProfile}>
-                                        <ListItemIcon>
-                                            <ManageAccountsIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Quản lý tài khoản</ListItemText>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleOpenListComment}>
-                                        <ListItemIcon>
-                                            <ReviewsIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Bình luận của bạn</ListItemText>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
-                                        <ListItemIcon>
-                                            <MeetingRoomIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Đăng xuất</ListItemText>
-                                    </MenuItem>
-                                </>
+    return (
+        <div >
+            <nav
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'} ${isMobile ? 'bg-[#030014] animate-header' : ''}`}
+                data-te-navbar-ref>
+                <div className="flex w-full flex-wrap items-center justify-between px-3">
+                    <button
+                        className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
+                        type="button"
+                        data-te-collapse-init
+                        data-te-target="#navbarSupportedContent1"
+                        aria-controls="navbarSupportedContent1"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span className="[&>svg]:w-7">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="h-7 w-7">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                                    clipRule="evenodd" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div
+                        className="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
+                        id="navbarSupportedContent1"
+                        data-te-collapse-item>
+                        <a
+                            className="mb-4 mr-2 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
+                            href="#">
+                            <img src={logo} alt="logo" className="object-cover max-h-20" loading="lazy" />
+                        </a>
+                        <ul
+                            className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
+                            data-te-navbar-nav-ref>
+                            {headerMenu.map((item, index) => (
+                                <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref key={index}>
+                                    <NavLink
+                                        to={item.path}
+                                        className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
+                                    >
+                                        {item.text}
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="relative flex items-center">
+                        < div className="flex items-center gap-4 text-white">
+                            <Search />
+                            {/* <BiSearchAlt2 size={25} /> */}
+                            <AiFillBell size={25} />
+                            {accessToken ? (
+                                <div>
+                                    <Button
+                                        id="basic-button"
+                                        aria-controls={openn ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={openn ? 'true' : undefined}
+                                        onClick={handleClick}
+                                        sx={{ color: '#02e7f5', fontWeight: '500' }}
+                                    >
+                                        Chào, {checkValueStorage?.displayName}
+                                    </Button>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={openn}
+                                        onClose={handleCloseAnchorEl}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        {parsedTokenBody.roles === 'admin' ? (
+                                            <>
+                                                <MenuItem onClick={openPageAdmin}>
+                                                    <ListItemIcon>
+                                                        <AdminPanelSettingsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Trang quản trị</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleOpenProfile}>
+                                                    <ListItemIcon>
+                                                        <ManageAccountsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Quản lý tài khoản</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleOpenListComment}>
+                                                    <ListItemIcon>
+                                                        <ReviewsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Bình luận của bạn</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleLogout}>
+                                                    <ListItemIcon>
+                                                        <MeetingRoomIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Đăng xuất</ListItemText>
+                                                </MenuItem>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <MenuItem onClick={handleOpenProfile}>
+                                                    <ListItemIcon>
+                                                        <ManageAccountsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Quản lý tài khoản</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleOpenListComment}>
+                                                    <ListItemIcon>
+                                                        <ReviewsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Bình luận của bạn</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleLogout}>
+                                                    <ListItemIcon>
+                                                        <MeetingRoomIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Đăng xuất</ListItemText>
+                                                </MenuItem>
+                                            </>
+                                        )}
+                                    </Menu>
+                                    <Modal
+                                        open={openProfile}
+                                        onClose={handleCloseProfile}
+                                        aria-labelledby="parent-modal-title"
+                                        aria-describedby="parent-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <ModalProfile onClose={handleCloseProfile} />
+                                        </Box>
+                                    </Modal>
+                                    <Modal
+                                        open={openListComment}
+                                        onClose={handleCloseListComment}
+                                        aria-labelledby="parent-modal-title"
+                                        aria-describedby="parent-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <ModalListComment onClose={handleCloseListComment} />
+                                        </Box>
+                                    </Modal>
+                                </div>
                             ) : (
-                                <>
-                                    <MenuItem onClick={handleOpenProfile}>
-                                        <ListItemIcon>
-                                            <ManageAccountsIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Quản lý tài khoản</ListItemText>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleOpenListComment}>
-                                        <ListItemIcon>
-                                            <ReviewsIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Bình luận của bạn</ListItemText>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
-                                        <ListItemIcon>
-                                            <MeetingRoomIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText>Đăng xuất</ListItemText>
-                                    </MenuItem>
-                                </>
+                                <div>
+                                    <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
+                                        Đăng nhập
+                                    </Button>
+                                    <Modal
+                                        aria-labelledby="transition-modal-title"
+                                        aria-describedby="transition-modal-description"
+                                        open={open}
+                                        onClose={handleClose}
+                                        closeAfterTransition
+                                        slots={{ backdrop: Backdrop }}
+                                        slotProps={{
+                                            backdrop: {
+                                                timeout: 500,
+                                            },
+                                        }}
+                                    >
+                                        <Fade in={open}>
+                                            <Box sx={style}>
+                                                <Login onClose={handleClose} />
+                                            </Box>
+                                        </Fade>
+                                    </Modal>
+                                </div>
                             )}
-                        </Menu>
-                        <Modal
-                            open={openProfile}
-                            onClose={handleCloseProfile}
-                            aria-labelledby="parent-modal-title"
-                            aria-describedby="parent-modal-description"
-                        >
-                            <Box sx={style}>
-                                <ModalProfile onClose={handleCloseProfile} />
-                            </Box>
-                        </Modal>
-                        <Modal
-                            open={openListComment}
-                            onClose={handleCloseListComment}
-                            aria-labelledby="parent-modal-title"
-                            aria-describedby="parent-modal-description"
-                        >
-                            <Box sx={style}>
-                                <ModalListComment onClose={handleCloseListComment} />
-                            </Box>
-                        </Modal>
+                            {/* <img
+             src={user}
+             alt="user"
+             className="w-[48px] h-12 rounded-full border border-blue-500"
+           /> */}
+                        </div>
+
                     </div>
-                ) : (
-                    <div>
-                        <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
-                            Đăng nhập
-                        </Button>
-                        <Modal
-                            aria-labelledby="transition-modal-title"
-                            aria-describedby="transition-modal-description"
-                            open={open}
-                            onClose={handleClose}
-                            closeAfterTransition
-                            slots={{ backdrop: Backdrop }}
-                            slotProps={{
-                                backdrop: {
-                                    timeout: 500,
-                                },
-                            }}
-                        >
-                            <Fade in={open}>
-                                <Box sx={style}>
-                                    <Login onClose={handleClose} />
-                                </Box>
-                            </Fade>
-                        </Modal>
-                    </div>
-                )}
-                {/* <img
-            src={user}
-            alt="user"
-            className="w-[48px] h-12 rounded-full border border-blue-500"
-          /> */}
-            </div>
+                </div>
+            </nav>
+
         </div>
+
     )
 }
 
@@ -356,9 +419,9 @@ export const ModalListComment = () => {
                 },
                 withCredentials: true,
                 headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                    },
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             setReviews(res.data)
         } catch (error) {
