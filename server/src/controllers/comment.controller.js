@@ -20,7 +20,7 @@ const createComment = async (req, res) => {
 
         // Kiểm tra nội dung bình luận chỉ chứa chữ cái và dấu cách
         const isValidComment = (comment) => {
-            const regex = /^[\p{L}\d\s]+$/u
+            const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?\s]*$/
             return regex.test(comment)
         }
         // Kiểm tra nội dung bình luận hợp lệ
