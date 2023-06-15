@@ -26,7 +26,9 @@ export const search = (keyword) => async (dispatch) => {
 
 export const getGenres = (idGenre) => async (dispatch) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`)
+        const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`, {
+            withCredentials: true,
+        })
         if (response.status === 200) {
             dispatch({
                 type: actionType.GENRES,

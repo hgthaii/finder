@@ -60,7 +60,9 @@ const Login = ({ onClose }) => {
             }
             handleSetTokens()
             const getToken = response.data.access_token
+            const getrfToken = response.data.refresh_token
             localStorage.setItem('accessToken', getToken)
+            localStorage.setItem('refreshToken', getrfToken)
             const accessToken = localStorage.getItem('accessToken')
 
             const tokenBody = accessToken.split('.')[1]

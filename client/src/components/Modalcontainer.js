@@ -56,7 +56,9 @@ const Modalcontainer = ({ data, closeModal }) => {
     useEffect(() => {
         const getGenreById = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`)
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/genre/${idGenre}`, {
+                    withCredentials: true,
+                })
                 if (response.status === 200) {
                     setGenre(response.data)
                 }
@@ -74,6 +76,10 @@ const Modalcontainer = ({ data, closeModal }) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/user/favorites/${movieId}/check`, {
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             if (response.status === 200) {
                 setFavorite(response.data)
@@ -111,6 +117,9 @@ const Modalcontainer = ({ data, closeModal }) => {
                 `${process.env.REACT_APP_API_URI}/user/favorites`,
                 { movieId: movieId },
                 {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                     withCredentials: true,
                 },
             )
@@ -126,6 +135,10 @@ const Modalcontainer = ({ data, closeModal }) => {
         await axios
             .delete(`${process.env.REACT_APP_API_URI}/user/favorites/del-favorite`, {
                 data: { movieId: movieId },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
                 withCredentials: true,
             })
             .then((response) => {})

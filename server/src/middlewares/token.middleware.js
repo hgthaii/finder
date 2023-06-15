@@ -7,11 +7,11 @@ const tokenDecode = (req) => {
     try {
         // const accessToken = req.headers.cookie.split(';')[0].split('=')[1]
         const accessToken = req.headers['authorization']
+        console.log(req.headers)
         if (accessToken) {
             const token = accessToken.split(' ')[1]
             return jsonwebtoken.verify(token, process.env.TOKEN_SECRET)
         }
-
         return false
     } catch (error) {
         return false

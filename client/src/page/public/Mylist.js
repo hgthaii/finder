@@ -17,6 +17,10 @@ const Mylist = () => {
             axios
                 .get(`${process.env.REACT_APP_API_URI}/user/favorites`, {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 })
                 .then((response) => {
                     setFavorites(response.data)

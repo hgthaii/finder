@@ -81,14 +81,12 @@ const Header = () => {
     }
     const handleLogout = async () => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`, // Gửi token trong header Authorization
-                },
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
                 withCredentials: true,
-            }
-
-            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
             removeCookie('accessToken')
             removeCookie('refreshToken')
             window.location.href = '/'
@@ -301,6 +299,9 @@ export const ModalListComment = () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
                     withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 })
                 setReviews(res.data)
             } catch (error) {
@@ -347,9 +348,15 @@ export const ModalListComment = () => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${reviewId}/delete`, {
                 withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             // gọi lại danh sách
             const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
                 withCredentials: true,
             })
             setReviews(res.data)

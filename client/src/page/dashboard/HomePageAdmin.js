@@ -212,7 +212,6 @@ const HomePageAdmin = () => {
             const config = {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
             }

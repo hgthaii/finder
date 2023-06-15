@@ -33,6 +33,9 @@ const Comment = ({ displayName, pastTime, content, commentId }) => {
         await axios
             .delete(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/delete`, {
                 withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             .then((response) => {
                 console.log('xoa comment thanh cong')
