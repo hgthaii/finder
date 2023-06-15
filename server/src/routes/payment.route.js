@@ -7,6 +7,14 @@ import crypto from 'crypto'
 
 const router = express()
 
+router.options('/create_payment_url', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Max-Age', '86400')
+    res.sendStatus(200)
+})
+
 router.post('/create_payment_url', function (req, res, next) {
     var ipAddr =
         req.headers['x-forwarded-for'] ||
@@ -23,11 +31,11 @@ router.post('/create_payment_url', function (req, res, next) {
 
     var createDate = dateFormat(date, 'yyyymmddHHmmss')
     var orderId = dateFormat(date, 'HHmmss')
-    var amount = req.body.amount
+    var amount = 30000
     var bankCode = req.body.bankCode
 
-    var orderInfo = req.body.orderDescription
-    var orderType = req.body.orderType
+    var orderInfo = req.body.orderDescription || 'Thai dep trai'
+    var orderType = req.body.orderType || 'other'
     var locale = req.body.language
     if (locale === null || locale === '') {
         locale = 'vn'
@@ -69,6 +77,11 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false })
 
+    
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Max-Age', '86400')
     res.redirect(vnpUrl)
 })
 

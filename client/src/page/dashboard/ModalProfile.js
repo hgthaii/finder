@@ -115,12 +115,12 @@ const ModalProfile = () => {
     }
     const payment = async () => {
         try {
-            const request = await axios.post(`https://payment-vnpay.onrender.com/order/create_payment_url`, {
+            const request = await axios.post(`https://vnpay-gpw7.onrender.com/order/create_payment_url`, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Origin': '*'
                 },
             })
             toast.success(request.data.message)

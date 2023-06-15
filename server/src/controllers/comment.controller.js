@@ -541,6 +541,19 @@ const replyToComment = async (req, res) => {
     }
 }
 
+const getLikesComment = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        if (!commentId) return responseHandler.badrequest(res, 'ID bình luận không được trống.')
+        const comment = await commentModel.findById(commentId).select('likes')
+        if(!comment) return responseHandler.notfound(res, 'Bình luận không tồn tại.')
+        responseHandler.ok(res, comment)
+    } catch (error) {
+        console.log(error);
+        responseHandler.error(res, 'Không tìm thấy bình luận.')
+    }
+}
+
 export default {
     createComment,
     editComment,
@@ -556,4 +569,5 @@ export default {
     editReplyComment,
     deleteReplyComment,
     getAllCommentOfUser,
+    getLikesComment,
 }

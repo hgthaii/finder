@@ -34,6 +34,8 @@ router.post(
     commentController.createComment,
 )
 
+router.get('/comments/:commentId/like-count', commentController.getLikesComment)
+
 router.put(
     '/comments/:commentId/like',
     tokenMiddleware.auth,
