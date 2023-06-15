@@ -19,7 +19,6 @@ const tokenDecode = (req) => {
 
 const auth = async (req, res, next) => {
     const tokenDecoded = tokenDecode(req)
-    console.log('tokenDecoded:', tokenDecoded)
     if (!tokenDecoded) return responseHandler.unauthorize(res, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
     const user = await userModel.findById(tokenDecoded.infor.id)
     if (!user) return responseHandler.unauthorize(res, 'Không tìm thấy user')

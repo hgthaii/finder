@@ -115,15 +115,14 @@ const ModalProfile = () => {
     }
     const payment = async () => {
         try {
-            const request = await axios.post(`https://vnpay-gpw7.onrender.com/order/create_payment_url`, {
+            const response = await axios.post(`http://localhost:5000/api/order/create_payment_url`, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
                 },
             })
-            toast.success(request.data.message)
         } catch (error) {
             if (error.response) {
                 toast.error(error.response.data.message)
@@ -132,6 +131,7 @@ const ModalProfile = () => {
             }
         }
     }
+
     const onChangePassword = async () => {
         try {
             const request = await axios.put(

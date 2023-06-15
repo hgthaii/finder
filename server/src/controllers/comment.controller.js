@@ -20,7 +20,8 @@ const createComment = async (req, res) => {
 
         // Kiểm tra nội dung bình luận chỉ chứa chữ cái và dấu cách
         const isValidComment = (comment) => {
-            const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?\s]*$/
+            const regex =
+                /^[a-zA-Z0-9\s!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?àáảãạăắằẳẵặâấầẩẫậđèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵ\s]*$/u
             return regex.test(comment)
         }
         // Kiểm tra nội dung bình luận hợp lệ
@@ -201,6 +202,7 @@ const deleteReplyComment = async (req, res) => {
 const likeComment = async (req, res) => {
     try {
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        console.log(tokenDecoded)
         const { commentId } = req.params
         const { likedIcon } = req.body
         const userId = tokenDecoded.infor.id

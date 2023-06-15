@@ -153,7 +153,7 @@ const Modalcontainer = ({ data, closeModal }) => {
         // Gửi bình luận lên server
         await axios
             .post(
-                `${process.env.REACT_APP_API_URI}/movies/comments/`,
+                `${process.env.REACT_APP_API_URI}/movies/comments`,
                 {
                     ...postComment,
                     movieId: movieId,
@@ -161,6 +161,9 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 {
                     withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
                 },
             )
             .then((response) => {})
