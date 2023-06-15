@@ -348,9 +348,6 @@ export const ModalListComment = () => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${reviewId}/delete`, {
                 withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
             })
             // gọi lại danh sách
             const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
@@ -358,6 +355,10 @@ export const ModalListComment = () => {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
                 withCredentials: true,
+                headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
             })
             setReviews(res.data)
         } catch (error) {

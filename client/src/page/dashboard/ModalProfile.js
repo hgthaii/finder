@@ -60,7 +60,6 @@ const ModalProfile = () => {
     const decodedPayload = atob(encodedPayload)
     const parsedTokenBody = JSON.parse(decodedPayload)
 
-    console.log('first' + JSON.stringify(parsedTokenBody.infor))
     const inforRole = parsedTokenBody.roles
     const infor = parsedTokenBody.infor
 
