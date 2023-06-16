@@ -93,9 +93,6 @@ const signin = async (req, res) => {
             expiresIn: '24h',
         })
 
-        const cookiesData = { accessToken, refreshToken }
-        req.cookiesData = cookiesData
-
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             maxAge: 2 * 60 * 60 * 1000,

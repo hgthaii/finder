@@ -114,7 +114,7 @@ const ModalProfile = () => {
     }
     const payment = async () => {
         try {
-            const response = await axios.post(`http://localhost:5000/api/order/create_payment_url`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URI}/payment`, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',

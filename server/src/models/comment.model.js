@@ -60,10 +60,23 @@ export default mongoose.model(
                     type: String,
                     require: true,
                 },
-                userId: {
-                    type: String,
-                    ref: 'User',
-                    require: true,
+                user: {
+                    userId: {
+                        type: String,
+                        ref: 'User',
+                        require: true,
+                    },
+                    displayName: {
+                        type: String,
+                        require: true,
+                    },
+                    username: {
+                        type: String,
+                    },
+                    avatar: {
+                        data: Buffer,
+                        contentType: String,
+                    },
                 },
                 likes: [
                     {

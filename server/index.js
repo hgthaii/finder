@@ -38,39 +38,39 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use("/api/v1", routes)
-app.all('/api/*', async (req, res) => {
-    try {
-        const { method, url, body } = req
+// app.all('/api/*', async (req, res) => {
+//     try {
+//         const { method, url, body } = req
 
-        const response = await axios({
-            method,
-            url: `http://localhost:8888/${url}`, // Thay đổi địa chỉ API cần gọi
-            data: body,
-            headers: req.headers,
-            maxRedirects: 0,
-            httpsAgent: agent,
-        })
+//         const response = await axios({
+//             method,
+//             url: `http://localhost:8888/${url}`, // Thay đổi địa chỉ API cần gọi
+//             data: body,
+//             headers: req.headers,
+//             maxRedirects: 0,
+//             httpsAgent: agent,
+//         })
 
         
-            if (response.status === 404) {
-                // Chuyển hướng tới link được trả về từ server
-                const redirectUrl = response.headers.location
-                window.location.href = redirectUrl
-            } else {
-                // Xử lý khi không nhận được kết quả thành công từ server
-                toast.error('Có lỗi xảy ra trong quá trình tạo thanh toán')
-            }
+//             if (response.status === 404) {
+//                 // Chuyển hướng tới link được trả về từ server
+//                 const redirectUrl = response.headers.location
+//                 window.location.href = redirectUrl
+//             } else {
+//                 // Xử lý khi không nhận được kết quả thành công từ server
+//                 toast.error('Có lỗi xảy ra trong quá trình tạo thanh toán')
+//             }
 
-        res.status(response.status).send(response.data)
-    } catch (error) {
-        if (error.response) {
-            res.status(error.response.status).send(error.response.data)
-        } else {
-            console.log(error)
-            res.status(500).send('Internal Server Error')
-        }
-    }
-})
+//         res.status(response.status).send(response.data)
+//     } catch (error) {
+//         if (error.response) {
+//             res.status(error.response.status).send(error.response.data)
+//         } else {
+//             console.log(error)
+//             res.status(500).send('Internal Server Error')
+//         }
+//     }
+// })
 
 const server = http.createServer(app)
 const port = process.env.PORT || 5000

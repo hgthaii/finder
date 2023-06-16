@@ -202,7 +202,6 @@ const deleteReplyComment = async (req, res) => {
 const likeComment = async (req, res) => {
     try {
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
-        console.log(tokenDecoded)
         const { commentId } = req.params
         const { likedIcon } = req.body
         const userId = tokenDecoded.infor.id
@@ -518,7 +517,7 @@ const replyToComment = async (req, res) => {
         const userId = tokenDecoded.infor.id
 
         const [checkUser, checkComment] = await Promise.all([
-            userModel.findById(userId),
+            userModel.findById(userId).select('displayName avatar username'),
             commentModel.findById(commentId),
         ])
 
@@ -527,7 +526,11 @@ const replyToComment = async (req, res) => {
 
         const reply = {
             content: content,
-            userId: userId,
+            user: {
+                userId,
+                displayName: checkUser.displayName,
+                avatar: checkUser.avatar
+            },
         }
 
         checkComment.replies.push(reply)
