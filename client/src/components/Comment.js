@@ -14,6 +14,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [timeAgo, setTimeAgo] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
+
     useEffect(() => {
         const interval = setInterval(() => {
             const time = moment(pastTime).locale('vi').fromNow()
@@ -122,61 +123,61 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     }
     const [listIcon, setListIcon] = useState()
     //Get list icon like of commentId
-    const handleListIconLike = async () => {
-        await axios
-            .get(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/change-liked`, {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-            })
-            .then((response) => {
-                // Xử lý kết quả trả về từ API
-                // setSuccess(true)
-                // onChangeComment()
-                setListIcon(response)
-                console.log('get list icon thanh cong')
-            })
-            .catch((error) => {
-                // Xử lý lỗi nếu có
-                console.error(error)
-            })
-    }
     useEffect(() => {
-    //   handleListIconLike()
+        const handleListIconLike = async () => {
+            await axios
+                .get(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/like-count`, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                })
+                .then((response) => {
+                    // Xử lý kết quả trả về từ API
+                    // setSuccess(true)
+                    // onChangeComment()
+                    setListIcon(response.data)
+                    console.log('get list icon thanh cong')
+                })
+                .catch((error) => {
+                    // Xử lý lỗi nếu có
+                    console.error(error)
+                })
+        }
+        handleListIconLike()
+    }, [commentId])
     
-    }, [])
     
     const getIcon = (likedIcon) => {
         switch (likedIcon) {
             case 1100:
                 return (
-                    <a onClick={() => handleLikeClick(1100)}>
-                        <AiTwotoneLike size={19} color="yellow" />
+                    <a onClick={() => handleLikeClick(1100)} className="flex gap-1 items-center">
+                        <AiTwotoneLike size={19} color="yellow" /> Bạn và
                     </a>
                 )
             case 1101:
                 return (
-                    <a onClick={() => handleLikeClick(1101)}>
-                        <AiFillDislike size={19} color="yellow" />
+                    <a onClick={() => handleLikeClick(1101)} className="flex gap-1 items-center">
+                        <AiFillDislike size={19} color="yellow" /> Bạn và
                     </a>
                 )
             case 1102:
                 return (
-                    <a onClick={() => handleLikeClick(1102)}>
-                        <AiFillHeart size={19} color="yellow" />
+                    <a onClick={() => handleLikeClick(1102)} className="flex gap-1 items-center">
+                        <AiFillHeart size={19} color="yellow" /> Bạn và
                     </a>
                 )
             case 1103:
                 return (
-                    <a onClick={() => handleLikeClick(1103)}>
-                        <FaSmileBeam size={19} color="yellow" />
+                    <a onClick={() => handleLikeClick(1103)} className="flex gap-1 items-center">
+                        <FaSmileBeam size={19} color="yellow" /> Bạn và
                     </a>
                 )
             case 1104:
                 return (
-                    <a onClick={() => handleLikeClick(1104)}>
-                        <BsEmojiAngryFill size={19} color="yellow" />
+                    <a onClick={() => handleLikeClick(1104)} className="flex gap-1 items-center">
+                        <BsEmojiAngryFill size={19} color="yellow" /> Bạn và
                     </a>
                 )
             default:
@@ -232,9 +233,10 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                     <span className="text-like">
                         <span>Thích</span>
                     </span>
-                    {like.length > 0 ? (
-                        <div className="icons">
-                            {like.map((x) => {
+                    <div className="icons">
+                        {like
+                            .filter((x) => x.userId === localStorage.getItem('userId'))
+                            .map((x) => {
                                 switch (x.likedIcon) {
                                     case 1100:
                                         return (
@@ -339,55 +341,60 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                                     default:
                                         return (
                                             <>
-                                                <a onClick={() => handleDislikeClick(1100)}>
+                                                <a onClick={() => handleLikeClick(1100)}>
                                                     <AiTwotoneLike size={19} color="#1E1E1E" />
                                                 </a>
-                                                <a onClick={() => handleDislikeClick(1101)}>
+                                                <a onClick={() => handleLikeClick(1101)}>
                                                     <AiFillDislike size={19} color="#1E1E1E" />
                                                 </a>
-                                                <a onClick={() => handleDislikeClick(1102)}>
+                                                <a onClick={() => handleLikeClick(1102)}>
                                                     <AiFillHeart size={19} color="#1E1E1E" />
                                                 </a>
-                                                <a onClick={() => handleDislikeClick(1103)}>
+                                                <a onClick={() => handleLikeClick(1103)}>
                                                     <FaSmileBeam size={19} color="#1E1E1E" />
                                                 </a>
-                                                <a onClick={() => handleDislikeClick(1104)}>
+                                                <a onClick={() => handleLikeClick(1104)}>
                                                     <BsEmojiAngryFill size={19} color="#1E1E1E" />
                                                 </a>
                                             </>
                                         )
                                 }
                             })}
-                        </div>
-                    ) : (
-                        <div className="icons">
-                            <a onClick={() => handleLikeClick(1100)}>
-                                <AiTwotoneLike size={19} color="#1E1E1E" />
-                            </a>
-                            <a onClick={() => handleLikeClick(1101)}>
-                                <AiFillDislike size={19} color="#1E1E1E" />
-                            </a>
-                            <a onClick={() => handleLikeClick(1102)}>
-                                <AiFillHeart size={19} color="#1E1E1E" />
-                            </a>
-                            <a onClick={() => handleLikeClick(1103)}>
-                                <FaSmileBeam size={19} color="#1E1E1E" />
-                            </a>
-                            <a onClick={() => handleLikeClick(1104)}>
-                                <BsEmojiAngryFill size={19} color="#1E1E1E" />
-                            </a>
-                        </div>
-                    )}
+                        {!like.some((x) => x.userId === localStorage.getItem('userId')) && (
+                            <>
+                                <a onClick={() => handleLikeClick(1100)}>
+                                    <AiTwotoneLike size={19} color="#1E1E1E" />
+                                </a>
+                                <a onClick={() => handleLikeClick(1101)}>
+                                    <AiFillDislike size={19} color="#1E1E1E" />
+                                </a>
+                                <a onClick={() => handleLikeClick(1102)}>
+                                    <AiFillHeart size={19} color="#1E1E1E" />
+                                </a>
+                                <a onClick={() => handleLikeClick(1103)}>
+                                    <FaSmileBeam size={19} color="#1E1E1E" />
+                                </a>
+                                <a onClick={() => handleLikeClick(1104)}>
+                                    <BsEmojiAngryFill size={19} color="#1E1E1E" />
+                                </a>
+                            </>
+                        )}
+                    </div>
                 </figure>
+
                 <span>Phản hồi</span>
             </div>
             <span className="flex items-center gap-2">
                 {like.length > 0 ? (
                     <>
-                        {like.map((x) => getIcon(x.likedIcon))}
-                        Bạn và {listIcon?.likes.length} người khác
+                        {like.map((x) => {
+                            if (x.userId === localStorage.getItem('userId')) {
+                                return getIcon(x.likedIcon)
+                            }
+                        })}
                     </>
                 ) : null}
+                {listIcon ? `${like?.length} người khác` : null}
             </span>
         </div>
     )
