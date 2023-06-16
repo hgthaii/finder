@@ -33,7 +33,7 @@ const Video = () => {
             ) : (
                 <div style={styles}>
                     <iframe
-                        src="https://streamable.com/e/41bitt?loop=0"
+                        src="https://trailer.vieon.vn/Teaser_HBO_KeThuChung.mp4"
                         frameBorder="0"
                         width="100%"
                         height="100%"

@@ -76,7 +76,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                             <ReactPlayer
-                                url="https://streamable.com/ojpt2p"
+                                url="https://trailer.vieon.vn/Teaser_HBO_KeThuChung.mp4"
                                 style={{ objectFit: 'cover' }}
                                 width="100%"
                                 height="100%"

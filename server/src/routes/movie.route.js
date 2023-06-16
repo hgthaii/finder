@@ -35,6 +35,7 @@ router.post(
 )
 
 router.get('/comments/:commentId/like-count', commentController.getLikesComment)
+router.get('/comments/:commentId/like-count/reply', commentController.GetLikesReplyComment)
 
 router.put(
     '/comments/:commentId/like',
