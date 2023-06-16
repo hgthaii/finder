@@ -183,7 +183,7 @@ const deleteReplyComment = async (req, res) => {
         if (replyIndex === -1) return responseHandler.badrequest(res, 'Bình luận phản hồi không tồn tại!')
 
         // Kiểm tra xem userId của bình luận phản hồi có bằng với userId hiện tại không
-        if (checkComment.replies[replyIndex].userId.toString() === userId) {
+        if (checkComment.replies[replyIndex].user.userId.toString() === userId) {
             checkComment.replies.splice(replyIndex, 1)
             await checkComment.save()
             responseHandler.ok(res, {
