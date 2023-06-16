@@ -8,9 +8,23 @@ import icons from '../ultis/icons'
 import Button from '@mui/material/Button'
 import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
+import ReplyComment from './ReplyComment'
+import ReplyCommentList from './ReplyCommentList';
 
 const Comment = ({ displayName, pastTime, content, commentId, handleChangeComment, like }) => {
-    const { BsThreeDotsVertical, AiTwotoneLike, AiFillDislike, AiFillHeart, FaSmileBeam, BsEmojiAngryFill } = icons
+    const {
+        BsThreeDotsVertical,
+        AiTwotoneLike,
+        AiFillDislike,
+        AiFillHeart,
+        FaSmileBeam,
+        BsEmojiAngryFill,
+        FaBold,
+        FaItalic,
+        AiOutlineLink,
+        MdSend,
+        BsArrowReturnRight,
+    } = icons
     const [timeAgo, setTimeAgo] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
@@ -145,9 +159,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 })
         }
         handleListIconLike()
+        getListReply()
     }, [commentId])
-    
-    
+
     const getIcon = (likedIcon) => {
         switch (likedIcon) {
             case 1100:
@@ -184,7 +198,34 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 return null
         }
     }
+    const [reply, setReply] = useState(false)
+    const onClickBtnReply = (bool) => {
+        setReply(bool)
+    }
+    const handleClickReply = () => {
+        reply ? onClickBtnReply(false) : onClickBtnReply(true)
+    }
 
+    const [listReplyComment, setListReplyComment] = useState()
+    // Get list reply in commentId
+    const getListReply = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/like-count/reply`, null, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                // Xử lý kết quả trả về từ API
+                setListReplyComment(response.data)
+                console.log('lay ds reply thanh cong' + JSON.stringify(response.data))
+            })
+            .catch((error) => {
+                // Xử lý lỗi nếu có
+                console.error(error)
+            })
+    }
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
             <div className="flex justify-between items-center mb-2">
@@ -228,7 +269,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             <div className="text-[16px] mb-3">
                 <p>{content}</p>
             </div>
-            <div className="flex items-end justify-end mr-7">
+            <div className="flex items-end justify-end mr-8">
                 <figure className="image-box">
                     <span className="text-like">
                         <span>Thích</span>
@@ -382,7 +423,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                     </div>
                 </figure>
 
-                <span>Phản hồi</span>
+                <span onClick={handleClickReply} className="cursor-pointer ">
+                    Phản hồi
+                </span>
             </div>
             <span className="flex items-center gap-2">
                 {like.length > 0 ? (
@@ -396,6 +439,16 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 ) : null}
                 {listIcon ? `${like?.length} người khác` : null}
             </span>
+            {reply ? <ReplyComment commentId={commentId} /> : null}
+            {listReplyComment ? (
+                <div>
+                    <span>Danh sách phản hồi:</span>
+
+                    {listReplyComment.map((data) => (
+                        <ReplyCommentList data={data} commentId={commentId} />
+                    ))}
+                </div>
+            ) : null}
         </div>
     )
 }

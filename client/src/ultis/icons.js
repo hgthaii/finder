@@ -10,13 +10,16 @@ import {
     AiOutlineCheck,
 } from 'react-icons/ai'
 import { BiSearchAlt2 } from 'react-icons/bi'
-import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill } from 'react-icons/bs'
+import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill, BsArrowReturnRight } from 'react-icons/bs'
 import { SlLike } from 'react-icons/sl'
 import { GrClose } from 'react-icons/gr'
 import { FaUsers, FaItalic, FaBold, FaSmileBeam } from 'react-icons/fa'
+import { MdSend } from 'react-icons/md'
 
 const icons = {
     AiTwotoneLike,
+    BsArrowReturnRight,
+    MdSend,
     AiFillDislike,
     BsEmojiAngryFill,
     AiFillBell,
