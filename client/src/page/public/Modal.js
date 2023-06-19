@@ -26,7 +26,9 @@ const Modal = () => {
     return (
         <>
             {detailtMovies && (
-                <div onClick={() => navigate('/')} className=" fixed top-0  left-0  z-50 w-full h-full overflow-auto   ">
+                <div onClick={() => navigate('/')}
+                    onScroll={(e) => e.preventDefault()}
+                    className=" fixed top-0  left-0  z-50 w-full h-full overflow-auto bg-[#000000b3]  ">
                     <div className="animate-scaleUp ">
                         <div className="relative  flex items-center justify-center mt-[50px] z-50 overflow-hidden min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:max-w-[1140px]">
                             <Modalcontainer data={detailtMovies} />
