@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Box from '@mui/material/Box'
-
+import { PayPalButton } from 'react-paypal-button-v2'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -99,6 +99,7 @@ const ModalProfile = () => {
     const [password, setPassword] = React.useState()
     const [newPassword, setNewPassword] = React.useState()
     const [confirmNewPassword, setConfirmNewPassword] = React.useState()
+    const [SdkReady, setSdkReady] = React.useState(false)
 
     const onChangePass = (event) => {
         const value = event.target.value
@@ -111,24 +112,6 @@ const ModalProfile = () => {
     const onChangeConfirmPass = (event) => {
         const value = event.target.value
         setConfirmNewPassword(value)
-    }
-    const payment = async () => {
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URI}/payment`, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                    'Access-Control-Allow-Origin': '*',
-                },
-            })
-        } catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message)
-            } else {
-                console.log(error)
-            }
-        }
     }
 
     const onChangePassword = async () => {
@@ -157,6 +140,34 @@ const ModalProfile = () => {
             }
         }
     }
+
+    const addPaypalId = async () => {
+        try {
+            const paypal = await axios.post(`${process.env.REACT_APP_API_URI}/payment/pay`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+            console.log(paypal);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const onSuccessData = (details, data) => {
+        if (data.status === "COMPLETED") {
+            
+        }
+    }
+
+    useEffect(() => {
+        if (window.paypal) {
+            addPaypalId()
+        } else {
+            setSdkReady(true)
+        }
+    }, [])
+
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
@@ -195,12 +206,7 @@ const ModalProfile = () => {
                             <label>
                                 <strong>UPDATED-AT:</strong> {formattedDateUpdated}
                             </label>
-                            <button
-                                onClick={payment}
-                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out"
-                            >
-                                Nạp lần đầu
-                            </button>
+                            <button onClick={addPaypalId}>pay</button>
                         </div>
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>

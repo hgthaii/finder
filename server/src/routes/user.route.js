@@ -158,6 +158,8 @@ router.put(
     userController.updateUserByAdmin,
 )
 
+router.put('/updateUserIsVip', tokenMiddleware.auth, userController.updateUserIsVip)
+
 router.delete(
     '/:userId',
     tokenMiddleware.auth,

@@ -319,6 +319,22 @@ const deleteUserById = async (req, res) => {
     }
 }
 
+const updateUserIsVip = async (req, res) => {
+    try {
+        const { isVip } = req.body
+        const userId = tokenMiddleware.tokenDecode(req).infor.id
+
+        const user = await userModel.findOneAndUpdate({userId}, {isVip: true}, {new: true})
+        if (!user) return responseHandler.badrequest(res, 'Không tìm thấy user')
+
+        responseHandler.ok(res, user)
+        
+    } catch (error) {
+        console.log(error);
+        responseHandler.error(res, 'Nâng cấp gói Vip không thành công.')
+    }
+}
+
 export default {
     signup,
     signin,
@@ -331,4 +347,5 @@ export default {
     updateUserByAdmin,
     findUserByDisplayName,
     deleteUserById,
+    updateUserIsVip,
 }

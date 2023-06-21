@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         select: false,
     },
+    isVip: Boolean,
     favorites: [
         {
             type: mongoose.Schema.Types.ObjectId,
