@@ -18,6 +18,7 @@ const whitelist = [
     'https://finder-api-hgthaii.vercel.app',
     'https://vnpay-gpw7.onrender.com',
     'https://sandbox.vnpayment.vn',
+    'https://www.sandbox.paypal.com/',
 ]
 const corsOptions = {
     credentials: true,
@@ -33,44 +34,11 @@ const corsOptions = {
 const agent = new https.Agent({
     rejectUnauthorized: false, // Vô hiệu hóa xác minh chứng chỉ SSL
 })
-app.use(cors())
-app.use(express.json())
+app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 app.use(cookieParser())
 app.use("/api/v1", routes)
-// app.all('/api/*', async (req, res) => {
-//     try {
-//         const { method, url, body } = req
-
-//         const response = await axios({
-//             method,
-//             url: `http://localhost:8888/${url}`, // Thay đổi địa chỉ API cần gọi
-//             data: body,
-//             headers: req.headers,
-//             maxRedirects: 0,
-//             httpsAgent: agent,
-//         })
-
-        
-//             if (response.status === 404) {
-//                 // Chuyển hướng tới link được trả về từ server
-//                 const redirectUrl = response.headers.location
-//                 window.location.href = redirectUrl
-//             } else {
-//                 // Xử lý khi không nhận được kết quả thành công từ server
-//                 toast.error('Có lỗi xảy ra trong quá trình tạo thanh toán')
-//             }
-
-//         res.status(response.status).send(response.data)
-//     } catch (error) {
-//         if (error.response) {
-//             res.status(error.response.status).send(error.response.data)
-//         } else {
-//             console.log(error)
-//             res.status(500).send('Internal Server Error')
-//         }
-//     }
-// })
 
 const server = http.createServer(app)
 const port = process.env.PORT || 5000
