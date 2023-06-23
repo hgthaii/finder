@@ -31,10 +31,10 @@ const corsOptions = {
             }
         }
 }
-app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors(corsOptions))
 app.use("/api/v1", routes)
 
 const server = http.createServer(app)

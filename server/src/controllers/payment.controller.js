@@ -8,22 +8,34 @@ import tokenMiddleware from '../middlewares/token.middleware.js'
 const createPaymentUrl = async (req, res) => {
     try {
         let date = new Date()
-        const payment = await axios.post('https://finder-payment.onrender.com/order/create_payment_url', {
-            tmnCode: config.get('vnp_TmnCode'),
-            secretKey: config.get('vnp_HashSecret'),
-            vnpUrl: config.get('vnp_Url'),
-            returnUrl: config.get('vnp_ReturnUrl'),
-            orderId: moment(date).format('DDHHmmss'),
-            amount: 50000,
-            bankCode: '',
-            locale: 'vn',
-            currCode: 'VND',
-            ipAddr:
-                req.headers['x-forwarded-for'] ||
-                req.connection.remoteAddress ||
-                req.socket.remoteAddress ||
-                req.connection.socket.remoteAddress,
-        })
+        const accessToken = req.headers['authorization']
+        const token = accessToken.split(' ')[1]
+        const payment = await axios.post(
+            'https://finder-payment.onrender.com/order/create_payment_url',
+            {
+                tmnCode: config.get('vnp_TmnCode'),
+                secretKey: config.get('vnp_HashSecret'),
+                vnpUrl: config.get('vnp_Url'),
+                returnUrl: config.get('vnp_ReturnUrl'),
+                orderId: moment(date).format('DDHHmmss'),
+                amount: 50000,
+                bankCode: '',
+                locale: 'vn',
+                currCode: 'VND',
+                ipAddr:
+                    req.headers['x-forwarded-for'] ||
+                    req.connection.remoteAddress ||
+                    req.socket.remoteAddress ||
+                    req.connection.socket.remoteAddress,
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        )
         responseHandler.ok(res, payment.data)
     } catch (error) {
         console.error(error)

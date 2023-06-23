@@ -150,7 +150,7 @@ const Login = ({ onClose }) => {
         console.log(res)
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/api/v1/user/googlelogin',
+            url: `${process.env.REACT_APP_API_URI}/user/googlelogin`,
             data: { tokenId: res.tokenId },
         }).then((res) => {
             console.log("Login success",res)
