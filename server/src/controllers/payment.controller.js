@@ -13,10 +13,10 @@ const createPaymentUrl = async (req, res) => {
         const payment = await axios.post(
             'https://finder-payment.onrender.com/order/create_payment_url',
             {
-                tmnCode: config.get('vnp_TmnCode'),
-                secretKey: config.get('vnp_HashSecret'),
-                vnpUrl: config.get('vnp_Url'),
-                returnUrl: config.get('vnp_ReturnUrl'),
+                tmnCode: 'ZFOUCS77',
+                secretKey: 'QXESFFFHTPUPZADYFLZXHBEWIZGKXNQC',
+                vnpUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+                returnUrl: 'https://www.findermovie.me/vnpay_return',
                 orderId: moment(date).format('DDHHmmss'),
                 amount: 50000,
                 bankCode: '',
