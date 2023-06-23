@@ -12,16 +12,13 @@ const app = express()
 
 const whitelist = [
     'https://finder-client-hgthaii.vercel.app',
-    'https://www.finder-client-hgthaii.vercel.app',
     'http://localhost:3000',
     'https://finder-api-hgthaii.vercel.app',
-    'https://www.finder-api-hgthaii.vercel.app',
-    'https://vnpay-gpw7.onrender.com',
-    'https://www.vnpay-gpw7.onrender.com',
+    'https://finder-payment.onrender.com',
     'https://sandbox.vnpayment.vn',
-    'https://www.sandbox.vnpayment.vn',
     'https://www.findermovie.me',
     'https://findermovie.me',
+    'http://finder-client-git-master-hgthaii.vercel.app',
 ]
 const corsOptions = {
     credentials: true,

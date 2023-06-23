@@ -12,12 +12,9 @@ app.use(
 )
 
 app.use(
-    '/api',
+    '/socket.io',
     createProxyMiddleware({
-        target: 'https://www.sandbox.paypal.com',
-        changeOrigin: true,
-        pathRewrite: {
-            '^/api': '', // Xóa tiền tố '/api' khỏi URL yêu cầu
-        },
+        target: 'https://finder-api-hgthaii.vercel.app',
+        ws: true,
     }),
 )
