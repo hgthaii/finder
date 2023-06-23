@@ -29,46 +29,32 @@ const Search = () => {
         },
         breakpoints: {
             // when window width is >= 600px
-            600: {
-                slidesPerView: 2,
-                slidesPerGroup: 2,
-                spaceBetween: 5,
+            100: {
+                slidesPerView: 1,
                 centeredSlides: true,
+
+            },
+            480: {
+                slidesPerView: 2,
+                centeredSlides: true,
+
+            },
+            768: {
+                slidesPerView: 3,
+                centeredSlides: false,
             },
             // when window width is >= 900px
             900: {
-                slidesPerView: 3,
-                slidesPerGroup: 3,
-                spaceBetween: 5,
+                slidesPerView: 4,
                 centeredSlides: false,
             },
-            // when window width is >= 1200px
-            1200: {
-                slidesPerView: 5,
-                slidesPerGroup: 1,
-                spaceBetween: 10,
-                centeredSlides: false,
-            },
-            // when window width is >= 1500px
-            1500: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
-                spaceBetween: 5,
-                centeredSlides: false,
-            },
-            // when window width is >= 1800px
-            1800: {
-                slidesPerView: 6,
-                slidesPerGroup: 6,
-                spaceBetween: 5,
-                centeredSlides: false,
-            },
+
         },
     }
 
     return (
         <div className=" mt-[100px]">
-            <div className="pl-12 w-full">
+            <div className=" w-full">
                 <Swiper {...swiperParams}>
                     {searchData?.map((item, index) => (
                         <SwiperSlide key={item._id} className="swiper-scale">
