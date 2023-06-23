@@ -2,12 +2,10 @@ import express from "express"
 import session from 'express-session'
 import mongoose from "mongoose"
 import http from "http"
-import https from 'https'
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import "dotenv/config"
 import routes from "./src/routes/index.js"
-import axios from 'axios'
 import socketIOMiddleware from './src/middlewares/socket.middleware.js'
 
 const app = express()
@@ -18,7 +16,7 @@ const whitelist = [
     'https://finder-api-hgthaii.vercel.app',
     'https://vnpay-gpw7.onrender.com',
     'https://sandbox.vnpayment.vn',
-    'https://www.sandbox.paypal.com/',
+    'https://www.sandbox.paypal.com',
 ]
 const corsOptions = {
     credentials: true,
@@ -31,9 +29,6 @@ const corsOptions = {
             }
         }
 }
-const agent = new https.Agent({
-    rejectUnauthorized: false, // Vô hiệu hóa xác minh chứng chỉ SSL
-})
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())

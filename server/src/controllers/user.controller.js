@@ -69,7 +69,7 @@ const signin = async (req, res) => {
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
-            .select('username id salt password displayName roles createdAt updatedAt')
+            .select('username id salt password displayName roles createdAt updatedAt isVip vipExpirationDate')
         if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
@@ -82,6 +82,8 @@ const signin = async (req, res) => {
                 username: user.username,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
+                isVip: user.isVip,
+                vipExpirationDate: user.vipExpirationDate,
             },
         }
 
@@ -323,14 +325,14 @@ const updateUserIsVip = async (req, res) => {
     try {
         const { isVip } = req.body
         const userId = tokenMiddleware.tokenDecode(req).infor.id
+        if (!userId) return responseHandler.badrequest(res)
 
-        const user = await userModel.findOneAndUpdate({userId}, {isVip: true}, {new: true})
+        const user = await userModel.findOneAndUpdate({ userId }, { isVip: true }, { new: true })
         if (!user) return responseHandler.badrequest(res, 'Không tìm thấy user')
 
         responseHandler.ok(res, user)
-        
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Nâng cấp gói Vip không thành công.')
     }
 }

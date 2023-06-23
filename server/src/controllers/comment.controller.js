@@ -529,7 +529,7 @@ const replyToComment = async (req, res) => {
             user: {
                 userId,
                 displayName: checkUser.displayName,
-                avatar: checkUser.avatar
+                avatar: checkUser.avatar,
             },
         }
 
@@ -551,14 +551,13 @@ const getLikesComment = async (req, res) => {
         const { commentId } = req.params
         if (!commentId) return responseHandler.badrequest(res, 'ID bình luận không được trống.')
         const comment = await commentModel.findById(commentId).select('likes')
-        if(!comment) return responseHandler.notfound(res, 'Bình luận không tồn tại.')
+        if (!comment) return responseHandler.notfound(res, 'Bình luận không tồn tại.')
         responseHandler.ok(res, comment)
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Không tìm thấy bình luận.')
     }
 }
-
 
 const GetLikesReplyComment = async (req, res) => {
     try {

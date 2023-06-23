@@ -27,7 +27,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         select: false,
     },
-    isVip: Boolean,
+    isVip: {
+        type: Boolean,
+        default: false,
+    },
+    vipExpirationDate: { type: Date },
     favorites: [
         {
             type: mongoose.Schema.Types.ObjectId,
