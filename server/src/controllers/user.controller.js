@@ -5,7 +5,10 @@ import responseHandler from '../handlers/response.handler.js'
 import mongoose from 'mongoose'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 // import cookieMiddleware from '../middlewares/cookie.middleware.js'
+import { OAuth2Client } from 'google-auth-library'
+import { response } from 'express'
 
+const client = new OAuth2Client('689641141844-dm1eiuln8nqg3rtncacmh64d6mv9skjf.apps.googleusercontent.com')
 const signup = async (req, res) => {
     try {
         // Lấy thông tin user mới được gửi lên trong request body
@@ -337,6 +340,139 @@ const updateUserIsVip = async (req, res) => {
     }
 }
 
+const signinWithGoogle = async (req, res) => {
+    const { tokenId } = req.body
+
+    try {
+        const response = await client.verifyIdToken({
+            idToken: tokenId,
+            audience: '689641141844-dm1eiuln8nqg3rtncacmh64d6mv9skjf.apps.googleusercontent.com',
+        })
+
+        const { email_verified, name, email } = response.payload
+
+        if (!email_verified) {
+            return responseHandler.badrequest(res, 'Email chưa được xác minh')
+        }
+
+        let user = await userModel.findOne({ email })
+
+        if (user) {
+            handleExistingUser(req, res, user)
+        } else {
+            handleNewUser(req, res, email, name)
+        }
+    } catch (error) {
+        console.error(error)
+        responseHandler.badrequest(res, 'Đã có lỗi xảy ra, vui lòng thử lại sau')
+    }
+}
+
+const handleExistingUser = async (req, res, user) => {
+    // Gỡ pass và hash ra khỏi user object
+    const { password, salt, ...userWithoutPassword } = user.toObject()
+
+    // Gắn đối tượng user đã xác thực vào req object
+    req.user = userWithoutPassword
+
+    const payload = {
+        roles: user.roles,
+        infor: {
+            id: user.id,
+            displayName: user.displayName,
+            username: user.username,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        },
+    }
+
+    const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: '2h',
+    })
+
+    const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: '24h',
+    })
+
+    const refreshTokenDoc = new refreshtokenModel({
+        token: refreshToken,
+        expiryDate: 24 * 60 * 60 * 1000,
+        user: user.id,
+    })
+
+    await refreshTokenDoc.save()
+
+    responseHandler.ok(res, {
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        displayName: user.displayName,
+        userId: user.id,
+    })
+}
+
+const handleNewUser = async (req, res, email, name) => {
+    // Check if username already exists
+    const existingUser = await userModel.findOne({ username: email })
+
+    if (existingUser) {
+        handleExistingUser(req, res, existingUser)
+    } else {
+        const newPassword = process.env.TOKEN_SECRET
+
+        const newUser = new userModel({
+            username: email,
+            displayName: name,
+            password: newPassword,
+            salt: email + process.env.TOKEN_SECRET,
+        })
+
+        await newUser.save()
+
+        // Gỡ pass và hash ra khỏi user object
+        const { password, salt, ...newUserWithoutPassword } = newUser.toObject()
+
+        // Gắn đối tượng user đã xác thực vào req object
+        req.user = newUserWithoutPassword
+
+        const payload = {
+            roles: newUser.roles,
+            infor: {
+                id: newUser.id,
+                displayName: newUser.displayName,
+                username: newUser.username,
+                createdAt: newUser.createdAt,
+                updatedAt: newUser.updatedAt,
+            },
+        }
+
+        const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
+            expiresIn: '2h',
+        })
+
+        const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
+            expiresIn: '24h',
+        })
+
+        const refreshTokenDoc = new refreshtokenModel({
+            token: refreshToken,
+            expiryDate: 24 * 60 * 60 * 1000,
+            user: newUser.id,
+        })
+
+        await refreshTokenDoc.save()
+
+        responseHandler.created(res, {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+            displayName: newUser.displayName,
+            userId: newUser.id,
+        })
+    }
+}
+
+
+
+
 export default {
     signup,
     signin,
@@ -350,4 +486,5 @@ export default {
     findUserByDisplayName,
     deleteUserById,
     updateUserIsVip,
+    signinWithGoogle,
 }

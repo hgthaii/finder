@@ -51,8 +51,9 @@ const style = {
 }
 const Header = () => {
     const { AiFillBell, BiSearchAlt2 } = icons
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
-    const accessToken = cookies['accessToken']
+    const accessToken = localStorage.getItem('accessToken')
+    const displayNameVal = localStorage.getItem('displayName')
+
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const checkValueStorage = parsedTokenBody.infor || {}
@@ -108,8 +109,7 @@ const Header = () => {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
             })
-            removeCookie('accessToken')
-            removeCookie('refreshToken')
+            localStorage.clear();
             window.location.href = '/'
         } catch (error) {
             console.log(error)
@@ -144,12 +144,11 @@ const Header = () => {
     const handleCloseListComment = () => {
         setOpenListComment(false)
     }
-    localStorage.setItem('displayName', checkValueStorage?.displayName)
-    localStorage.setItem('userId', checkValueStorage.id)
 
     const openPageAdmin = () => {
         navigate('/home-admin')
     }
+
 
     return (
         <div>
@@ -225,7 +224,7 @@ const Header = () => {
                                         onClick={handleClick}
                                         sx={{ color: '#02e7f5', fontWeight: '500' }}
                                     >
-                                        Chào, {checkValueStorage?.displayName}
+                                        Chào, {displayNameVal}
                                     </Button>
                                     <Menu
                                         id="basic-menu"
@@ -352,8 +351,8 @@ const Header = () => {
 export default Header
 
 export const ModalListComment = () => {
-    const [cookies] = useCookies(['accessToken', 'refreshToken'])
-    const accessToken = cookies['accessToken']
+    // const [cookies] = useCookies(['accessToken', 'refreshToken'])
+    const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const checkValueStorage = parsedTokenBody.infor.id || {}
@@ -411,16 +410,13 @@ export const ModalListComment = () => {
     const onDeleteReview = async (reviewId) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URI}/movies/comments/${reviewId}/delete`, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
             })
             // gọi lại danh sách
             const res = await axios.get(`${process.env.REACT_APP_API_URI}/movies/comments/${checkValueStorage}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
             })

@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import icons from '../ultis/icons'
 import axios from 'axios'
 
-const ReplyComment = ({ commentId }) => {
+const ReplyComment = ({ commentId, handleChangeReply }) => {
     const { MdSend, BsArrowReturnRight } = icons
     const [content, setContent] = useState()
+    const [successReply, setSuccessReply] = useState(false)
+    const onChangeReply = () => {
+        handleChangeReply(successReply)
+    }
     // Like comment
     const handleLikeClick = async () => {
         const data = {
@@ -20,7 +24,8 @@ const ReplyComment = ({ commentId }) => {
             })
             .then((response) => {
                 // Xử lý kết quả trả về từ API
-
+                setSuccessReply(true)
+                onChangeReply()
                 console.log('da phan hoi thanh cong' + response)
                 // console.log('da phan hoi thanh cong' + JSON.stringify(response))
             })

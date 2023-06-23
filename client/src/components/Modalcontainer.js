@@ -21,11 +21,13 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic'
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import ReactPaginate from 'react-paginate';
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
     // console.log(data?.release_date[0]);
-    const { AiOutlineClose, FaBold, FaItalic, AiOutlineLink } = icons
+    const { AiOutlineClose, FaBold, FaItalic, AiOutlineLink, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } =
+        icons
     const navigate = useNavigate()
     const [genre, setGenre] = useState([])
     const idGenre = data?.genres[0]._id
@@ -231,6 +233,33 @@ const Modalcontainer = ({ data, closeModal }) => {
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats)
     }
+        const [currentPage, setCurrentPage] = React.useState(0)
+        const PER_PAGE = 5
+
+        const handlePageChange = ({ selected }) => {
+            setCurrentPage(selected)
+        }
+
+        const offset = currentPage * PER_PAGE
+        const currentPageData = comment.slice(offset, offset + PER_PAGE)
+
+        const displayComments = () => {
+            return currentPageData.map((commentItem) => (
+                <Comment
+                    key={commentItem._id}
+                    displayName={commentItem?.user?.displayName}
+                    pastTime={commentItem?.createdAt}
+                    content={commentItem?.content}
+                    commentId={commentItem._id}
+                    handleChangeComment={handleChangeComment}
+                    like={commentItem?.likes}
+                />
+            ))
+        }
+
+        const displayCommentsLimit = () => {
+            return <div>{currentPageData.length > 0 ? displayComments() : <p>No comments available.</p>}</div>
+        }
 
     return (
         <div
@@ -413,18 +442,25 @@ const Modalcontainer = ({ data, closeModal }) => {
                         </div>
                     )}
                     <div>
-                        {comment &&
-                            comment.map((item) => (
-                                <Comment
-                                    displayName={item?.user?.displayName}
-                                    pastTime={item?.createdAt}
-                                    content={item?.content}
-                                    key={item._id}
-                                    commentId={item._id}
-                                    handleChangeComment={handleChangeComment}
-                                    like={item?.likes}
-                                />
-                            ))}
+                        {displayCommentsLimit()}
+
+                        <ReactPaginate
+                            pageCount={Math.ceil(comment.length / PER_PAGE)}
+                            previousLabel={<MdOutlineKeyboardArrowLeft size={24} />}
+                            nextLabel={<MdOutlineKeyboardArrowRight size={24} />}
+                            onPageChange={handlePageChange}
+                            containerClassName={'pagination'}
+                            activeClassName={'active'}
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakLabel="..."
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col pb-[32px] w-full">

@@ -162,6 +162,7 @@ html {
     background-color: #fff;
     border-color: #dee2e6;
 }
+
 .animate-header {
   transition: background-color 0.7s ease-in-out;
   -webkit-backface-visibility: hidden;
@@ -281,3 +282,7 @@ html {
 background: linear-gradient(180deg, rgba(3,0,20,0.87718837535014) 0%, rgba(3,0,20,0) 75%, rgba(141,141,141,0.1881127450980392) 100%);
 }
 
+.btn-login-gg{
+  width: 100%;
+  justify-content: center;
+}

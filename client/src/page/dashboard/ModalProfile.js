@@ -42,7 +42,7 @@ function a11yProps(index) {
 }
 const ModalProfile = () => {
     const [value, setValue] = React.useState(0)
-    const [cookies] = useCookies(['accessToken', 'refreshToken'])
+    // const [cookies] = useCookies(['accessToken', 'refreshToken'])
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -54,7 +54,7 @@ const ModalProfile = () => {
         const year = `${date.getFullYear()}`
         return `${day}-${month}-${year}`
     }
-    const accessToken = cookies['accessToken']
+    const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
     const encodedPayload = tokenParts[1]
     const decodedPayload = atob(encodedPayload)
