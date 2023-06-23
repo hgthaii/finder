@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import icons from '../ultis/icons'
-import axios from 'axios';
+import axios from 'axios'
 
 const ReplyComment = ({ commentId }) => {
     const { MdSend, BsArrowReturnRight } = icons

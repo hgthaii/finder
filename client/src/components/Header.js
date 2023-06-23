@@ -37,13 +37,9 @@ import Login from '../page/public/Login'
 import ModalProfile from '../page/dashboard/ModalProfile'
 import Skeleton from '@mui/material/Skeleton'
 // Initialization for ES Users
-import {
-    Collapse,
-    Dropdown,
-    initTE,
-} from "tw-elements";
+import { Collapse, Dropdown, initTE } from 'tw-elements'
 
-initTE({ Collapse, Dropdown });
+initTE({ Collapse, Dropdown })
 const style = {
     position: 'absolute',
     top: '50%',
@@ -69,24 +65,23 @@ const Header = () => {
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
 
-
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(false)
 
     const handleResize = () => {
         if (window.innerWidth <= 1024) {
-            setIsMobile(true);
+            setIsMobile(true)
         } else {
-            setIsMobile(false);
+            setIsMobile(false)
         }
-    };
+    }
 
     useEffect(() => {
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
@@ -157,10 +152,13 @@ const Header = () => {
     }
 
     return (
-        <div >
+        <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'} ${isMobile ? 'bg-[#030014] animate-header' : ''}`}
-                data-te-navbar-ref>
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${
+                    isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
+                } ${isMobile ? 'bg-[#030014] animate-header' : ''}`}
+                data-te-navbar-ref
+            >
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
                     <button
                         className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
@@ -169,17 +167,20 @@ const Header = () => {
                         data-te-target="#navbarSupportedContent1"
                         aria-controls="navbarSupportedContent1"
                         aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        aria-label="Toggle navigation"
+                    >
                         <span className="[&>svg]:w-7">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
-                                className="h-7 w-7">
+                                className="h-7 w-7"
+                            >
                                 <path
                                     fillRule="evenodd"
                                     d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                                    clipRule="evenodd" />
+                                    clipRule="evenodd"
+                                />
                             </svg>
                         </span>
                     </button>
@@ -187,15 +188,15 @@ const Header = () => {
                     <div
                         className="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
                         id="navbarSupportedContent1"
-                        data-te-collapse-item>
+                        data-te-collapse-item
+                    >
                         <a
                             className="mb-4 mr-2 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
-                            href="#">
+                            href="#"
+                        >
                             <img src={logo} alt="logo" className="object-cover max-h-20" loading="lazy" />
                         </a>
-                        <ul
-                            className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
-                            data-te-navbar-nav-ref>
+                        <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                             {headerMenu.map((item, index) => (
                                 <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref key={index}>
                                     <NavLink
@@ -210,7 +211,7 @@ const Header = () => {
                     </div>
 
                     <div className="relative flex items-center">
-                        < div className="flex items-center gap-4 text-white">
+                        <div className="flex items-center gap-4 text-white">
                             <Search />
                             {/* <BiSearchAlt2 size={25} /> */}
                             <AiFillBell size={25} />
@@ -308,7 +309,10 @@ const Header = () => {
                                 </div>
                             ) : (
                                 <div>
-                                    <Button onClick={handleOpen} sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}>
+                                    <Button
+                                        onClick={handleOpen}
+                                        sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
+                                    >
                                         Đăng nhập
                                     </Button>
                                     <Modal
@@ -338,13 +342,10 @@ const Header = () => {
              className="w-[48px] h-12 rounded-full border border-blue-500"
            /> */}
                         </div>
-
                     </div>
                 </div>
             </nav>
-
         </div>
-
     )
 }
 

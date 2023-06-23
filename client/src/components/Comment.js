@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import ReplyComment from './ReplyComment'
-import ReplyCommentList from './ReplyCommentList';
+import ReplyCommentList from './ReplyCommentList'
 
 const Comment = ({ displayName, pastTime, content, commentId, handleChangeComment, like }) => {
     const {

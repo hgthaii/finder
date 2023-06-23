@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Box from '@mui/material/Box'
@@ -99,7 +99,7 @@ const ModalProfile = () => {
     const [password, setPassword] = React.useState()
     const [newPassword, setNewPassword] = React.useState()
     const [confirmNewPassword, setConfirmNewPassword] = React.useState()
-    const [SdkReady, setSdkReady] = React.useState(false)
+    const [vip, setVip] = React.useState(null)
 
     const onChangePass = (event) => {
         const value = event.target.value
@@ -141,32 +141,28 @@ const ModalProfile = () => {
         }
     }
 
-    const addPaypalId = async () => {
+    const addPayment = async () => {
         try {
-            const paypal = await axios.post(`${process.env.REACT_APP_API_URI}/payment/pay`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
-            console.log(paypal);
+            const payment = await axios.post(
+                `${process.env.REACT_APP_API_URI}/payment/create_payment_url`,
+                {},
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                },
+            )
+            window.open(payment.data, '_blank')
         } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const onSuccessData = (details, data) => {
-        if (data.status === "COMPLETED") {
-            
+            console.log(error)
         }
     }
 
     useEffect(() => {
-        if (window.paypal) {
-            addPaypalId()
-        } else {
-            setSdkReady(true)
-        }
-    }, [])
+        setVip(infor.isVip)
+    }, [vip])
 
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
@@ -206,8 +202,22 @@ const ModalProfile = () => {
                             <label>
                                 <strong>UPDATED-AT:</strong> {formattedDateUpdated}
                             </label>
-                            <button onClick={addPaypalId}>pay</button>
                         </div>
+                        {!infor.isVip ? (
+                            <div className="text-center">
+                                <h2 className="text-2xl font-bold mb-4">
+                                    Chỉ với 30.000đ bạn sẽ được xem phim không giới hạn!
+                                </h2>
+                                <button
+                                    onClick={addPayment}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Thanh toán ngay
+                                </button>
+                            </div>
+                        ) : (
+                            <p>Bạn đã là VIP của Finder!</p>
+                        )}
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>
                         <div>

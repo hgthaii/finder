@@ -1,7 +1,19 @@
 /* eslint-disable */
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import { Home, Public, Movies, Movieseris, Mylist, Search, Modal, NotFound, Login, Register } from './page/public'
+import {
+    Home,
+    Public,
+    Movies,
+    Movieseris,
+    Mylist,
+    Search,
+    Modal,
+    NotFound,
+    Login,
+    Register,
+    VNPay,
+} from './page/public'
 import HomePageAdmin from './page/dashboard/HomePageAdmin'
 import * as action from './store/actions'
 import { useDispatch } from 'react-redux'
@@ -53,6 +65,7 @@ function App() {
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
                 </Route>
+                <Route path="/vnpay_return" element={<VNPay />}></Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

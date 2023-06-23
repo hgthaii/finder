@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import icons from '../ultis/icons';
-import axios from 'axios';
+import icons from '../ultis/icons'
+import axios from 'axios'
 import Button from '@mui/material/Button'
 import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'

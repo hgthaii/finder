@@ -116,9 +116,9 @@ const Modalcontainer = ({ data, closeModal }) => {
     const handleChangeComment = (newVal) => {
         if (newVal) {
             console.log(newVal)
-            getCommentById();
+            getCommentById()
         }
-        getCommentById();
+        getCommentById()
     }
 
     useEffect(() => {
@@ -139,7 +139,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     withCredentials: true,
                 },
             )
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error)
             })
@@ -157,7 +157,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 withCredentials: true,
             })
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error)
             })
@@ -233,7 +233,10 @@ const Modalcontainer = ({ data, closeModal }) => {
     }
 
     return (
-        <div className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl" onClick={(event) => event.stopPropagation()} >
+        <div
+            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl"
+            onClick={(event) => event.stopPropagation()}
+        >
             <div className="relative ">
                 <Banner
                     banerModal
@@ -368,7 +371,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
                                         style={{ fontWeight, fontStyle, textDecorationLine }}
-
                                     ></textarea>
                                 </div>
 
