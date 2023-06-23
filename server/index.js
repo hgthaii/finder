@@ -17,6 +17,7 @@ const whitelist = [
     'https://vnpay-gpw7.onrender.com',
     'https://sandbox.vnpayment.vn',
     'https://www.sandbox.paypal.com',
+    'https://www.findermovie.me',
 ]
 const corsOptions = {
     credentials: true,
