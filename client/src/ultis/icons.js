@@ -14,11 +14,13 @@ import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill, BsArro
 import { SlLike } from 'react-icons/sl'
 import { GrClose } from 'react-icons/gr'
 import { FaUsers, FaItalic, FaBold, FaSmileBeam } from 'react-icons/fa'
-import { MdSend } from 'react-icons/md'
+import { MdSend, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
 
 const icons = {
     AiTwotoneLike,
     BsArrowReturnRight,
+    MdOutlineKeyboardArrowRight,
+    MdOutlineKeyboardArrowLeft,
     MdSend,
     AiFillDislike,
     BsEmojiAngryFill,

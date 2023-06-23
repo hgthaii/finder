@@ -235,6 +235,9 @@ const HomePageAdmin = () => {
     function changeLanguage(e) {
         i18n.changeLanguage(e.target.value)
     }
+    const handleRefundPage = () => {
+        window.location.href = '/'
+    }
     return (
         <ThemeProvider theme={darkTheme}>
             <ToastContainer
@@ -303,6 +306,7 @@ const HomePageAdmin = () => {
                                 }}
                             >
                                 <MenuItem onClick={handleOpenProfile}>{t('Account_setting')}</MenuItem>
+                                <MenuItem onClick={handleRefundPage}>Trang người dùng</MenuItem>
                                 <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
                             </Menu>
 

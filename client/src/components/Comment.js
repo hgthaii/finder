@@ -46,11 +46,11 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [success, setSuccess] = useState(false)
     const onChangeComment = () => {
         handleChangeComment(success)
+
     }
     const handleDeleteComment = async () => {
         await axios
             .delete(`${process.env.REACT_APP_API_URI}/movies/comments/${commentId}/delete`, {
-                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
@@ -160,7 +160,24 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
         }
         handleListIconLike()
         getListReply()
+        handleChangeReply()
     }, [commentId])
+
+    const handleChangeReply = (newVal) => {
+        if (newVal) {
+            console.log(newVal)
+            getListReply()
+        }
+        getListReply()
+    }
+    const handleChangeReplyList = (newVal) => {
+        if (newVal) {
+            console.log(newVal)
+            getListReply()
+        }
+        getListReply()
+    }
+
 
     const getIcon = (likedIcon) => {
         switch (likedIcon) {
@@ -226,6 +243,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 console.error(error)
             })
     }
+
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
             <div className="flex justify-between items-center mb-2">
@@ -439,13 +457,19 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 ) : null}
                 {listIcon ? `${like?.length} người khác` : null}
             </span>
-            {reply ? <ReplyComment commentId={commentId} /> : null}
+            {reply ? <ReplyComment commentId={commentId} handleChangeReply={handleChangeReply} /> : null}
             {listReplyComment ? (
                 <div>
                     <span>Danh sách phản hồi:</span>
-
                     {listReplyComment.map((data) => (
-                        <ReplyCommentList data={data} commentId={commentId} />
+                        <ReplyCommentList
+                            like={like}
+                            data={data}
+                            replyId={data._id}
+                            commentId={commentId}
+                            pastTime={pastTime}
+                            handleChangeReplyList={handleChangeReplyList}
+                        />
                     ))}
                 </div>
             ) : null}

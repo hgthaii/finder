@@ -174,5 +174,5 @@ router.delete(
 
     favoriteController.removeFavorite,
 )
-
+router.post('/googlelogin', userController.signinWithGoogle)
 export default router
