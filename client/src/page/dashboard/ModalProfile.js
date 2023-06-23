@@ -203,7 +203,7 @@ const ModalProfile = () => {
                                 <strong>UPDATED-AT:</strong> {formattedDateUpdated}
                             </label>
                         </div>
-                        {!infor.isVip ? (
+                        {infor.isVip === false ? (
                             <div className="text-center">
                                 <h2 className="text-2xl font-bold mb-4">
                                     Chỉ với 30.000đ bạn sẽ được xem phim không giới hạn!
