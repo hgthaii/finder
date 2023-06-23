@@ -141,7 +141,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     withCredentials: true,
                 },
             )
-            .then((response) => {})
+            .then((response) => { })
             .catch((error) => {
                 console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error)
             })
@@ -159,7 +159,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 withCredentials: true,
             })
-            .then((response) => {})
+            .then((response) => { })
             .catch((error) => {
                 console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error)
             })
@@ -233,33 +233,33 @@ const Modalcontainer = ({ data, closeModal }) => {
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats)
     }
-        const [currentPage, setCurrentPage] = React.useState(0)
-        const PER_PAGE = 5
+    const [currentPage, setCurrentPage] = React.useState(0)
+    const PER_PAGE = 5
 
-        const handlePageChange = ({ selected }) => {
-            setCurrentPage(selected)
-        }
+    const handlePageChange = ({ selected }) => {
+        setCurrentPage(selected)
+    }
 
-        const offset = currentPage * PER_PAGE
-        const currentPageData = comment.slice(offset, offset + PER_PAGE)
+    const offset = currentPage * PER_PAGE
+    const currentPageData = comment.slice(offset, offset + PER_PAGE)
 
-        const displayComments = () => {
-            return currentPageData.map((commentItem) => (
-                <Comment
-                    key={commentItem._id}
-                    displayName={commentItem?.user?.displayName}
-                    pastTime={commentItem?.createdAt}
-                    content={commentItem?.content}
-                    commentId={commentItem._id}
-                    handleChangeComment={handleChangeComment}
-                    like={commentItem?.likes}
-                />
-            ))
-        }
+    const displayComments = () => {
+        return currentPageData.map((commentItem) => (
+            <Comment
+                key={commentItem._id}
+                displayName={commentItem?.user?.displayName}
+                pastTime={commentItem?.createdAt}
+                content={commentItem?.content}
+                commentId={commentItem._id}
+                handleChangeComment={handleChangeComment}
+                like={commentItem?.likes}
+            />
+        ))
+    }
 
-        const displayCommentsLimit = () => {
-            return <div>{currentPageData.length > 0 ? displayComments() : <p>No comments available.</p>}</div>
-        }
+    const displayCommentsLimit = () => {
+        return <div>{currentPageData.length > 0 ? displayComments() : <p>No comments available.</p>}</div>
+    }
 
     return (
         <div
@@ -282,7 +282,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </button>
             </div>
 
-            <div className="px-12 relative top-[-18px]">
+            <div className="px-6 relative top-[-18px]">
                 <div className="flex">
                     <div className="w-[70%] flex flex-col ">
                         <div className="flex text-base mt-[18px]">
@@ -353,7 +353,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="w-full mt-4 ">
-                    {displayName === 'undefined' ? (
+                    {displayName === 'undefined' || !displayName ? (
                         <div className="w-full flex  justify-center items-center">
                             <Button
                                 onClick={handleOpen}

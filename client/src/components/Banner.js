@@ -61,16 +61,13 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
         navigate(`/video/${idValue}`)
     }
     return (
-        <div className="relative">
+        <div className={`relative mt-[60px]  h-[400px] flex justify-center mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''}`}>
             {showImage ? (
-                <div className="">
-                    <img
-                        src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
-                        // ref={imageRef}
-                        alt="background"
-                        className={`w-full object-cover z-0  ${banerModal ? '' : 'h-[100%]'}`}
-                    />
-                </div>
+                <img
+                    src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
+                    alt="background"
+                    className={`w-full object-cover z-0 rounded-lg  ${banerModal ? '' : 'h-[100%]'}`}
+                />
             ) : (
                 <div className="relative bg-gradient-left top-0 left-0 bottom-0 z-[0]">
                     <div style={{ position: 'relative', paddingTop: '56.25%' }}>
@@ -90,7 +87,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
             <div className="px-12 absolute top-0 left-0 bottom-0 right-0 z-[2] flex justify-center items-center flex-col bg-gradient-left"></div>
             <div className="px-12 absolute top-0 left-0 bottom-0 right-0 z-[4] flex justify-center items-center flex-col select-none">
                 <div className="pb-14">
-                    <div>
+                    <div className={`md:block  hidden`}>
                         <img
                             src={data?.logo ? data?.logo : randomMovies?.logo}
                             alt="movives"
@@ -98,7 +95,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                         />
                     </div>
                     <div className="flex flex-col">
-                        <p className="w-[45%] text-[#F9F9F9] text-[1rem] font-medium leading-5 my-5 ellipsis3">
+                        <p className={`opacity-0 sm:opacity-100 ${banerModal ? '!opacity-100' : ''} text-[#F9F9F9] text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}>
                             {data?.overview || randomMovies?.overview}
                         </p>
                         <div className="flex items-center">
@@ -106,10 +103,10 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                 <button
                                     // onClick={handleButtonClick}
                                     onClick={onClickVideo}
-                                    className="  flex items-center justify-center rounded-md bg-white text-black text-center font-semibold py-2 px-5 mr-2 "
+                                    className="  flex items-center justify-center rounded-full  bg-white text-black text-center font-semibold py-2 px-2 mr-2 sm:px-5 sm:rounded-md"
                                 >
                                     <BsFillPlayFill size={35} />
-                                    Phát
+                                    <span className={`sm:block  ${banerModal ? 'block' : 'hidden'}`}>Phát</span>
                                 </button>
                                 <div>
                                     {isFullScreen && (
@@ -154,10 +151,10 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                 <div>
                                     <Link
                                         to={`${path.DETAIL_MOVIES}/${randomMovies?._id}`}
-                                        className=" gap-2  flex items-center justify-center rounded-md bg-transparent text-white text-center font-bold py-2 px-5 ml-2 border border-white"
+                                        className=" gap-2  flex items-center justify-center rounded-full bg-transparent text-white text-center font-bold py-2 px-2 ml-2 border border-white md:px-5 md:rounded-md"
                                     >
                                         <AiOutlineExclamationCircle size={30} color="white" />
-                                        Thông tin khác
+                                        <span className='md:block hidden'>Thông tin khác</span>
                                     </Link>
                                 </div>
                             )}

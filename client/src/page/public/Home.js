@@ -65,47 +65,33 @@ const Home = () => {
         },
         breakpoints: {
             // when window width is >= 600px
-            600: {
-                slidesPerView: 2,
-                slidesPerGroup: 2,
-                spaceBetween: 5,
+            100: {
+                slidesPerView: 1,
                 centeredSlides: true,
+
+            },
+            480: {
+                slidesPerView: 2,
+                centeredSlides: true,
+
+            },
+            768: {
+                slidesPerView: 3,
+                centeredSlides: false,
             },
             // when window width is >= 900px
             900: {
-                slidesPerView: 3,
-                slidesPerGroup: 3,
-                spaceBetween: 5,
+                slidesPerView: 4,
                 centeredSlides: false,
             },
-            // when window width is >= 1200px
-            1200: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
-                spaceBetween: 10,
-                centeredSlides: false,
-            },
-            // when window width is >= 1500px
-            1500: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
-                spaceBetween: 5,
-                centeredSlides: false,
-            },
-            // when window width is >= 1800px
-            1800: {
-                slidesPerView: 6,
-                slidesPerGroup: 6,
-                spaceBetween: 5,
-                centeredSlides: false,
-            },
+
         },
     }
 
     return (
         <div className="">
             <Banner randomMovies={randomMovies} />
-            <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0">
+            <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className="my-4">
                     <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold">Mới phát hành</h3>
                     <Swiper {...swiperParams}>
