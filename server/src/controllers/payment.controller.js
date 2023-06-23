@@ -8,7 +8,7 @@ import tokenMiddleware from '../middlewares/token.middleware.js'
 const createPaymentUrl = async (req, res) => {
     try {
         let date = new Date()
-        const payment = await axios.post('https://vnpay-gpw7.onrender.com/order/create_payment_url', {
+        const payment = await axios.post('https://finder-payment.onrender.com/order/create_payment_url', {
             tmnCode: config.get('vnp_TmnCode'),
             secretKey: config.get('vnp_HashSecret'),
             vnpUrl: config.get('vnp_Url'),

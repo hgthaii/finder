@@ -156,7 +156,11 @@ const ModalProfile = () => {
             )
             window.open(payment.data, '_blank')
         } catch (error) {
-            console.log(error)
+            if (error.response) {
+                toast.error(error.response.data.message)
+            } else {
+                console.log(error)
+            }
         }
     }
 
