@@ -289,7 +289,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             </div>
             <div className="flex items-end justify-end mr-8">
                 <figure className="image-box">
-                    <span className="text-like">
+                    <span className="text-like dark:text-black">
                         <span>Thích</span>
                     </span>
                     <div className="icons">

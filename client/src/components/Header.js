@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { MenuItem, Menu, cardHeaderClasses } from '@mui/material'
@@ -15,6 +14,12 @@ import { headerMenu } from '../ultis/menu'
 import logo from '../asset/image/logo.png'
 import icons from '../ultis/icons'
 import { Search } from '../components/'
+
+import Brightness7 from '@mui/icons-material/Brightness7'
+import Brightness4 from '@mui/icons-material/Brightness4'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import i18n from '../translation/i18n'
+
 
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
@@ -50,7 +55,7 @@ const style = {
     boxShadow: 24,
 }
 const Header = () => {
-    const { AiFillBell, BiSearchAlt2 } = icons
+    const { AiFillBell, BiSearchAlt2, MdDarkMode, MdOutlineDarkMode } = icons
     const accessToken = localStorage.getItem('accessToken')
     const displayNameVal = localStorage.getItem('displayName')
 
@@ -60,13 +65,28 @@ const Header = () => {
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
+    const [theme, setTheme] = useState('light')
 
     const openn = Boolean(anchorEl)
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
-    const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white'
+    const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white dark:text-black '
 
     const [isMobile, setIsMobile] = useState(false)
+
+
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+    }, [theme])
+
+    const handleThemeSwitch = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark')
+    }
 
     const handleResize = () => {
         if (window.innerWidth <= 1024) {
@@ -153,8 +173,8 @@ const Header = () => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-[#030014] animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : 'bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
@@ -196,7 +216,7 @@ const Header = () => {
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                             {headerMenu.map((item, index) => (
-                                <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref key={index}>
+                                <li className="mb-4 lg:mb-0 lg:pr-2 dark:text-black " data-te-nav-item-ref key={index}>
                                     <NavLink
                                         to={item.path}
                                         className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
@@ -209,17 +229,20 @@ const Header = () => {
                     </div>
 
                     <div className="relative flex items-center">
-                        <div className="flex items-center gap-4 text-white">
-                            <div onClick={e => console.log(e)}>
-                                <input
-                                    className="mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:checked:bg-primary dark:checked:after:bg-primary dark:focus:before:shadow-[3px_-1px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca]"
-                                    type="checkbox"
-                                    role="switch"
-                                    id="flexSwitchCheckDefault" />
+                        <div className="flex items-center gap-4 text-white ">
+                            <div className='flex '>
+                                {/* <div className="flex items-center">
+                                    <select onChange={changeLanguage} className="text-black">
+                                        <option value="vi">vi</option>
+                                        <option value="en">en</option>
+                                    </select>
+                                </div> */}
+                                <div onClick={handleThemeSwitch} className='cursor-pointer'>
+                                    {theme === 'dark' ? <MdDarkMode color='black' size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
+                                </div>
                             </div >
-                            <Search />
-                            {/* <BiSearchAlt2 size={25} /> */}
-                            <AiFillBell size={25} />
+                            <Search isBlack={theme === 'dark'} />
+                            {theme === 'dark' ? <AiFillBell color='black' size={25} /> : <AiFillBell color='white' size={25} />}
                             {accessToken ? (
                                 <div>
                                     <Button
@@ -341,11 +364,7 @@ const Header = () => {
                                     </Modal>
                                 </div>
                             )}
-                            {/* <img
-             src={user}
-             alt="user"
-             className="w-[48px] h-12 rounded-full border border-blue-500"
-           /> */}
+
                         </div>
                     </div>
                 </div>

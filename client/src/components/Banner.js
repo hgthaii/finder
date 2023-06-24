@@ -62,7 +62,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
     }
     {/* //  */ }
     return (
-        <div className={`relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''}`}>
+        <div className={`  relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''}`}>
             {showImage ? (
                 <img
                     src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
@@ -96,7 +96,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                         />
                     </div>
                     <div className="flex flex-col">
-                        <p className={`opacity-0 sm:opacity-100 ${banerModal ? '!opacity-100' : ''} text-[#F9F9F9] text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}>
+                        <p className={`opacity-0 sm:opacity-100 ${banerModal ? '!opacity-100' : ''} text-white marker:text-[#F9F9F9]  text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}>
                             {data?.overview || randomMovies?.overview}
                         </p>
                         <div className="flex items-center">
@@ -127,24 +127,24 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
 
                             {banerModal ? (
                                 <div className="">
-                                    <div className="flex text-center">
+                                    <div className="flex text-center ">
                                         {favorite?.isFavorite ? (
                                             <span
                                                 onClick={handleDeleteFav}
                                                 className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer "
                                             >
-                                                <AiOutlineCheck />
+                                                <AiOutlineCheck color='white' />
                                             </span>
                                         ) : (
                                             <span
                                                 onClick={handlePostFav}
                                                 className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer "
                                             >
-                                                <AiOutlinePlus />
+                                                <AiOutlinePlus color='white' />
                                             </span>
                                         )}
                                         <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
-                                            <SlLike />
+                                            <SlLike color='white' />
                                         </span>
                                     </div>
                                 </div>

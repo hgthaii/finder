@@ -38,7 +38,7 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
         <div className="flex justify-between">
             <BsArrowReturnRight size={40} color="grey" className="ml-7 mt-2 mr-2" />
             <div className="flex justify-end w-11/12 mr-8">
-                <div className="w-full bg-[#333333] rounded-lg  flex justify-between">
+                <div className="w-full bg-[#333333] rounded-lg  flex justify-between dark:bg-[#fafafc]">
                     <form className="flex justify-between items-center w-full">
                         <img
                             src="https://source.unsplash.com/random"

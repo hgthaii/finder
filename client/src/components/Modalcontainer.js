@@ -263,7 +263,7 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     return (
         <div
-            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl"
+            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl dark:bg-[#fafafc] dark:text-black "
             onClick={(event) => event.stopPropagation()}
         >
             <div className="relative ">
@@ -287,27 +287,27 @@ const Modalcontainer = ({ data, closeModal }) => {
                     <div className="w-[70%] flex flex-col ">
                         <div className="flex text-base mt-[18px]">
                             {/* <span className="mr-2 text-[#46D369]">Độ trùng: 94%</span> */}
-                            <span className="mr-2 text-white">{data?.release_date ? data?.release_date : ''}</span>
+                            <span className="mr-2 ">{data?.release_date ? data?.release_date : ''}</span>
                             {data?.episodes?.length !== 0 && (
-                                <span className="mr-2 text-white">{`${data?.episodes?.length + 1} Tập`}</span>
+                                <span className="mr-2 ">{`${data?.episodes?.length + 1} Tập`}</span>
                             )}
 
-                            <span className="mr-2  px-[0.4rem] border text-white border-white bg-transparent flex justify-center items-center">
+                            <span className="mr-2  px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                                 HD
                             </span>
                         </div>
                         <div className="flex text-sm mb-[26px]">
-                            <span className="  mr-2 px-[0.4rem] border text-white border-white bg-transparent flex justify-center items-center">
+                            <span className="  mr-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                                 {data?.age_rating}
                             </span>
-                            {/* <span className=" text-white">ngôn ngữ</span> */}
+                            {/* <span className=" ">ngôn ngữ</span> */}
                         </div>
-                        <div className="text-sm text-white ">
+                        <div className="text-sm  ">
                             <p className="">{data?.overview}</p>
                         </div>
                     </div>
                     <div className="w-[30%] my-[18px]">
-                        <div className=" text-white text-sm mb-[7px] mr-[7px]">
+                        <div className="  text-sm mb-[7px] mr-[7px]">
                             <span className="text-[#777]">Diễn viên: </span>
                             {data?.casts?.length !== 0 &&
                                 data?.casts
@@ -318,11 +318,11 @@ const Modalcontainer = ({ data, closeModal }) => {
                         </div>
                     </div>
                 </div>
-                <div className="episodes-gradient">
+                <div className="episodes-gradient ">
                     {data?.episodes?.length !== 0 && (
-                        <div className="flex items-center justify-between mt-[31px] mb-[16px] font-bold">
-                            <h3 className="w-[70%] text-white text-2xl">Tập </h3>
-                            <span className="w-[30%] text-white text-lg text-right">{data?.duration}</span>
+                        <div className="flex items-center justify-between mt-[31px]  font-bold dark:bg-[#fafafc] dark:text-black ">
+                            <h3 className="w-[70%]  text-2xl">Tập </h3>
+                            <span className="w-[30%]  text-lg text-right">{data?.duration}</span>
                         </div>
                     )}
                     {data?.episodes?.slice(0, limit).map((item, index) => (
@@ -341,7 +341,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="">
-                    <h3 className="text-white text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
+                    <h3 className=" text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
                     <div className="flex flex-wrap w-full gap-3 justify-center ">
                         {genre &&
                             genre?.slice(0, 8).map((item) => (
@@ -382,7 +382,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-                        <div className="w-full bg-[#333333] p-8 rounded-lg">
+                        <div className="w-full bg-[#333333] p-8 rounded-lg dark:bg-[#fafafc] dark:text-black dark:border dark:border-[#ddd]">
                             <div className="flex items-center gap-3">
                                 <img
                                     src="https://source.unsplash.com/random"
@@ -393,12 +393,12 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </div>
 
                             <form onSubmit={handleSubmit}>
-                                <div className="border-b border-[#BCBCBC]">
+                                <div className="border-b border-[#BCBCBC] ">
                                     <textarea
                                         placeholder="Bạn nghĩ gì về bộ phim này..."
                                         value={postComment.content}
                                         onChange={handleInputChange}
-                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px]"
+                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px] dark:bg-[#fafafc] dark:text-black"
                                         style={{ fontWeight, fontStyle, textDecorationLine }}
                                     ></textarea>
                                 </div>
@@ -464,7 +464,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     </div>
                 </div>
                 <div className="flex flex-col pb-[32px] w-full">
-                    <div className="text-white mt-12 mb-5 text-2xl flex">
+                    <div className=" mt-12 mb-5 text-2xl flex">
                         <span className="mr-2">Giới thiệu về </span>
                         <h3 className="font-bold">{data?.title} </h3>
                     </div>
@@ -489,7 +489,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     </div>
                     <div className="flex text-sm my-[7px] mr-[7px] ">
                         <span className="text-[#777777]">Xếp hạng độ tuổi: </span>
-                        <span className=" w-10 h-5 mx-2 px-[0.4rem] border text-white border-white bg-transparent flex justify-center items-center">
+                        <span className=" w-10 h-5 mx-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                             {data?.age_rating}
                         </span>
                         <span> {`Phù hợp với độ tuổi từ ${data?.age_rating} trở lên`} </span>

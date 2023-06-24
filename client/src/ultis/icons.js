@@ -14,7 +14,10 @@ import { BsFillPlayFill, BsInfoLg, BsThreeDotsVertical, BsEmojiAngryFill, BsArro
 import { SlLike } from 'react-icons/sl'
 import { GrClose } from 'react-icons/gr'
 import { FaUsers, FaItalic, FaBold, FaSmileBeam } from 'react-icons/fa'
-import { MdSend, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
+import {
+    MdSend, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight, MdDarkMode,
+    MdOutlineDarkMode
+} from 'react-icons/md'
 
 const icons = {
     AiTwotoneLike,
@@ -41,6 +44,8 @@ const icons = {
     FaItalic,
     AiOutlineLink,
     AiOutlineCheck,
+    MdDarkMode,
+    MdOutlineDarkMode
 }
 
 export default icons

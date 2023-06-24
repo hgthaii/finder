@@ -167,7 +167,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
     }
     return (
         <div className="ml-16 p-2 mr-7">
-            <div className="p-2 rounded-lg bg-[#333333] mt-2">
+            <div className="p-2 rounded-lg bg-[#333333] mt-2 dark:bg-[#e3e3e5] dark:text-black">
                 <div className="flex justify-between items-center mb-2 ">
                     <div className="flex ">
                         <img
@@ -210,9 +210,9 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                     <p>{data.content}</p>
                 </div>
                 <div className="flex items-end justify-end mr-8">
-                    <figure className="image-box">
+                    <figure className="image-box dark:text-black">
                         <span className="text-like">
-                            <span>Thích</span>
+                            <span className='dark:text-black text-white'>Thích</span>
                         </span>
                         <div className="icons">
                             {like
