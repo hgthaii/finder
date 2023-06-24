@@ -39,7 +39,6 @@ import PropTypes from 'prop-types'
 // import Tabs from '@mui/material/Tabs'
 // import Tab from '@mui/material/Tab'
 import axios from 'axios'
-import { useCookies } from 'react-cookie'
 import ModalProfile from './ModalProfile'
 
 const style = {
@@ -168,7 +167,6 @@ const HomePageAdmin = () => {
     const [light, setLight] = React.useState(true)
     const [anchorEl, setAnchorEl] = React.useState(null)
     const [selectedItem, setSelectedItem] = React.useState('Account')
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
 
     const darkTheme = createTheme({
         palette: {
@@ -200,7 +198,6 @@ const HomePageAdmin = () => {
         setAnchorEl(null)
     }
 
-    // const name = JSON.parse(localStorage.getItem("infor"));
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
     const encodedPayload = tokenParts[1]
@@ -217,8 +214,8 @@ const HomePageAdmin = () => {
             }
 
             await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)
-            removeCookie('accessToken')
-            removeCookie('refreshToken')
+
+            localStorage.clear()
             window.location.href = '/'
         } catch (error) {
             console.log(error)
