@@ -201,7 +201,7 @@ const HomePageAdmin = () => {
     }
 
     // const name = JSON.parse(localStorage.getItem("infor"));
-    const accessToken = cookies['accessToken']
+    const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
     const encodedPayload = tokenParts[1]
     const decodedPayload = atob(encodedPayload)

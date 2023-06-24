@@ -28,7 +28,7 @@ function App() {
         dispatch(action.getHome())
     }, [])
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
-    const accessToken = cookies['accessToken']
+    const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const currentRole = parsedTokenBody.roles || {}
