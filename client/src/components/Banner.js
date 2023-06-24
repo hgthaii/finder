@@ -61,7 +61,8 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
         navigate(`/video/${idValue}`)
     }
     return (
-        <div className={`relative mt-[60px]  h-[400px] flex justify-center mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''}`}>
+        <div className="relative">
+        {/* <div className={`relative mt-[60px]  h-[400px] flex justify-center mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''}`}> */}
             {showImage ? (
                 <img
                     src={banerModal ? data?.poster_path?.[0]?.path : randomMovies?.poster_path?.[0]?.path}
