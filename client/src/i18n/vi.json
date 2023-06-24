@@ -1,4 +1,6 @@
 {
+    "Like":"Thích",
+    "Hello":"Chào",
     "Title_header": "Quản trị",
     "Account_setting": "Quản lý tài khoản",
     "Logout": "Đăng xuất",
@@ -73,5 +75,34 @@
     "Movie_none": "Bỏ trống",
     "ManageComment": "Chi tiết bình luận phim",
     "ManageComment_selectMovie": "Chọn một bộ phim",
-    "ManageComment_listMovie": "Danh sách bình luận"
+    "ManageComment_listMovie": "Danh sách bình luận",
+
+    "Actor_modal":"Diễn viên: ",
+    "Episode_modal":"Tập",
+    "SimilarContent_modal":"Nội dung tương tự",
+    "SignInToComment_modal":"Đăng nhập để bình luận",
+    "Comment_modal":"Bình luận",
+    "About_modal":"Giới thiệu về: ",
+    "Genre_modal":"Thể loại: ",
+    "Shows_modal":"Chương trình này: ",
+    "AgeRatings_modal":"Xếp hạng độ tuổi: ",
+    "SuitableForAges_modal":"Phù hợp độ tuổi từ",
+    "AndAbove_modal":"trở lên",
+    "ThinkMovie_modal":"Bạn nghĩ gì về bộ phim này...",
+    "NoCommentsAvailable_modal":"Không có bình luận",
+    "YouAnd_comment":"Bạn và",
+    "RemoveComment_comment":"Xóa bình luận",
+    "Feedback_comment":"Phản hồi",
+    "FeedbackList_comment":"Danh sách phản hồi",
+    "Other_comment":"người khác",
+    "respond_comment":"Bạn muốn phản hồi điều gì",
+    "RemoveRespond_comment":"Xóa phản hồi",
+
+    "PrivacyPolicy_footer":"Chính sách bảo mật",
+    "Help_footer":"Giúp đỡ",
+    "SupportedDevices_footer":"Thiết bị hỗ trợ",
+    "AboutFinder_footer":"Về Finder"
+
+
+
 }

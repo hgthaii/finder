@@ -22,6 +22,8 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ReactPaginate from 'react-paginate';
+import { useTranslation } from 'react-i18next'
+
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -37,6 +39,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const userId = localStorage.getItem('userId')
     const [open, setOpen] = useState(false)
     const [favorite, setFavorite] = useState()
+    const { t } = useTranslation()
     // const [commentValue, setCommentValue] = useState('')
     const [postComment, setPostComment] = useState({
         content: '',
@@ -258,7 +261,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     }
 
     const displayCommentsLimit = () => {
-        return <div>{currentPageData.length > 0 ? displayComments() : <p>No comments available.</p>}</div>
+        return <div>{currentPageData.length > 0 ? displayComments() : <p>{t('NoCommentsAvailable_modal')}</p>}</div>
     }
 
     return (
@@ -289,7 +292,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             {/* <span className="mr-2 text-[#46D369]">Độ trùng: 94%</span> */}
                             <span className="mr-2 ">{data?.release_date ? data?.release_date : ''}</span>
                             {data?.episodes?.length !== 0 && (
-                                <span className="mr-2 ">{`${data?.episodes?.length + 1} Tập`}</span>
+                                <span className="mr-2 ">{`${data?.episodes?.length + 1} ${t('Episode_modal')}`}</span>
                             )}
 
                             <span className="mr-2  px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
@@ -300,7 +303,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span className="  mr-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                                 {data?.age_rating}
                             </span>
-                            {/* <span className=" ">ngôn ngữ</span> */}
                         </div>
                         <div className="text-sm  ">
                             <p className="">{data?.overview}</p>
@@ -308,7 +310,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     </div>
                     <div className="w-[30%] my-[18px]">
                         <div className="  text-sm mb-[7px] mr-[7px]">
-                            <span className="text-[#777]">Diễn viên: </span>
+                            <span className="text-[#777]">{t('Actor_modal')}</span>
                             {data?.casts?.length !== 0 &&
                                 data?.casts
                                     ?.slice(0, 5)
@@ -321,8 +323,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                 <div className="episodes-gradient ">
                     {data?.episodes?.length !== 0 && (
                         <div className="flex items-center justify-between mt-[31px]  font-bold dark:bg-[#fafafc] dark:text-black ">
-                            <h3 className="w-[70%]  text-2xl">Tập </h3>
-                            <span className="w-[30%]  text-lg text-right">{data?.duration}</span>
+                            <h3 className="w-[70%] text-2xl">{t('Episode_modal')} </h3>
+                            <span className="w-[30%] text-lg text-right">{data?.duration}</span>
                         </div>
                     )}
                     {data?.episodes?.slice(0, limit).map((item, index) => (
@@ -341,7 +343,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="">
-                    <h3 className=" text-2xl mt-12 mb-5 font-bold">Nội dung tương tự</h3>
+                    <h3 className=" text-2xl mt-12 mb-5 font-bold">{t('SimilarContent_modal')}</h3>
                     <div className="flex flex-wrap w-full gap-3 justify-center ">
                         {genre &&
                             genre?.slice(0, 8).map((item) => (
@@ -359,7 +361,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 onClick={handleOpen}
                                 sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
                             >
-                                Đăng nhập để bình luận
+                                {t('SignInToComment_modal')}
                             </Button>
                             <Modal
                                 aria-labelledby="transition-modal-title"
@@ -395,7 +397,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <form onSubmit={handleSubmit}>
                                 <div className="border-b border-[#BCBCBC] ">
                                     <textarea
-                                        placeholder="Bạn nghĩ gì về bộ phim này..."
+                                        placeholder={t('ThinkMovie_modal')}
                                         value={postComment.content}
                                         onChange={handleInputChange}
                                         className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px] dark:bg-[#fafafc] dark:text-black"
@@ -407,7 +409,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                     type="submit"
                                     className="w-[100px] h-[50px] text-black rounded-md bg-white  mt-3 float-right"
                                 >
-                                    Bình luận
+                                    {t('Comment_modal')}
                                 </button>
                             </form>
 
@@ -465,34 +467,34 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
                 <div className="flex flex-col pb-[32px] w-full">
                     <div className=" mt-12 mb-5 text-2xl flex">
-                        <span className="mr-2">Giới thiệu về </span>
+                        <span className="mr-2">{t('About_modal')}</span>
                         <h3 className="font-bold">{data?.title} </h3>
                     </div>
                     <div className="text-sm  ">
-                        <span className="text-[#777777]">Diễn viên: </span>
+                        <span className="text-[#777777]">{t('Actor_modal')}</span>
                         {data?.casts?.map((item, index) => (
                             <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                         ))}
                     </div>
 
                     <div className=" text-sm my-[7px] mr-[7px] w-full ">
-                        <span className="text-[#777777]">Thể loại: </span>
+                        <span className="text-[#777777]">{t('Genre_modal')}</span>
                         {data?.genres?.map((item, index) => (
                             <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                         ))}
                     </div>
                     <div className=" text-sm my-[7px] mr-[7px] ">
-                        <span className="text-[#777777]">Chương trình này: </span>
+                        <span className="text-[#777777]">{t('Shows_modal')}</span>
                         {data?.program_type?.map((item, index) => (
                             <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
                         ))}
                     </div>
                     <div className="flex text-sm my-[7px] mr-[7px] ">
-                        <span className="text-[#777777]">Xếp hạng độ tuổi: </span>
+                        <span className="text-[#777777]">{t('AgeRatings_modal')}</span>
                         <span className=" w-10 h-5 mx-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                             {data?.age_rating}
                         </span>
-                        <span> {`Phù hợp với độ tuổi từ ${data?.age_rating} trở lên`} </span>
+                        <span> {`${t('SuitableForAges_modal')} ${data?.age_rating} ${t('AndAbove_modal')}`} </span>
                     </div>
                 </div>
             </div>

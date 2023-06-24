@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useParams } from 'react-router'
 import axios from 'axios'
 import moment from 'moment'
@@ -10,6 +10,8 @@ import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import ReplyComment from './ReplyComment'
 import ReplyCommentList from './ReplyCommentList'
+import { useTranslation } from 'react-i18next'
+
 
 const Comment = ({ displayName, pastTime, content, commentId, handleChangeComment, like }) => {
     const {
@@ -28,11 +30,19 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [timeAgo, setTimeAgo] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
-
+    const { t, i18n } = useTranslation()
+    console.log(i18n.language);
     useEffect(() => {
         const interval = setInterval(() => {
-            const time = moment(pastTime).locale('vi').fromNow()
-            setTimeAgo(time)
+            if (i18n.language === 'vi') {
+                const time = moment(pastTime).locale('vi').fromNow()
+                setTimeAgo(time)
+            } else {
+                const time = moment(pastTime).locale('en').fromNow()
+                setTimeAgo(time)
+            }
+            // const timevi = moment(pastTime).locale('vi').fromNow()
+            // setTimeAgo(timevi)
         }, 1000)
         return () => clearInterval(interval)
     }, [pastTime])
@@ -184,31 +194,31 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             case 1100:
                 return (
                     <a onClick={() => handleLikeClick(1100)} className="flex gap-1 items-center">
-                        <AiTwotoneLike size={19} color="yellow" /> Bạn và
+                        <AiTwotoneLike size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1101:
                 return (
                     <a onClick={() => handleLikeClick(1101)} className="flex gap-1 items-center">
-                        <AiFillDislike size={19} color="yellow" /> Bạn và
+                        <AiFillDislike size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1102:
                 return (
                     <a onClick={() => handleLikeClick(1102)} className="flex gap-1 items-center">
-                        <AiFillHeart size={19} color="yellow" /> Bạn và
+                        <AiFillHeart size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1103:
                 return (
                     <a onClick={() => handleLikeClick(1103)} className="flex gap-1 items-center">
-                        <FaSmileBeam size={19} color="yellow" /> Bạn và
+                        <FaSmileBeam size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1104:
                 return (
                     <a onClick={() => handleLikeClick(1104)} className="flex gap-1 items-center">
-                        <BsEmojiAngryFill size={19} color="yellow" /> Bạn và
+                        <BsEmojiAngryFill size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             default:
@@ -279,7 +289,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                         }}
                     >
                         <MenuItem onClick={handleDeleteComment}>
-                            <ListItemText>Xóa bình luận</ListItemText>
+                            <ListItemText>{t('RemoveComment_comment')}</ListItemText>
                         </MenuItem>
                     </Menu>
                 </div>
@@ -290,7 +300,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             <div className="flex items-end justify-end mr-8">
                 <figure className="image-box">
                     <span className="text-like dark:text-black">
-                        <span>Thích</span>
+                        <span>{t('Like')}</span>
                     </span>
                     <div className="icons">
                         {like
@@ -442,7 +452,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 </figure>
 
                 <span onClick={handleClickReply} className="cursor-pointer ">
-                    Phản hồi
+                    {t('Feedback_comment')}
                 </span>
             </div>
             <span className="flex items-center gap-2">
@@ -455,12 +465,12 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                         })}
                     </>
                 ) : null}
-                {listIcon ? `${like?.length} người khác` : null}
+                {listIcon ? `${like?.length} ${t('Other_comment')}` : null}
             </span>
             {reply ? <ReplyComment commentId={commentId} handleChangeReply={handleChangeReply} /> : null}
             {listReplyComment ? (
                 <div>
-                    <span>Danh sách phản hồi:</span>
+                    <span>{t('FeedbackList_comment')}</span>
                     {listReplyComment.map((data) => (
                         <ReplyCommentList
                             like={like}

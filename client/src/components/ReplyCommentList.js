@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import moment from 'moment';
+import { useTranslation } from 'react-i18next'
 
 const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChangeReplyList }) => {
     const {
@@ -20,13 +21,21 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
         MdSend,
         BsArrowReturnRight,
     } = icons
+    const { t, i18n } = useTranslation()
+
     useEffect(() => {
         const interval = setInterval(() => {
-            const time = moment(pastTime).locale('vi').fromNow()
-            setTimeAgo(time)
+            if (i18n.language === 'vi') {
+                const time = moment(pastTime).locale('vi').fromNow()
+                setTimeAgo(time)
+            } else {
+                const time = moment(pastTime).locale('en').fromNow()
+                setTimeAgo(time)
+            }
         }, 1000)
         return () => clearInterval(interval)
     }, [pastTime])
+
     const [timeAgo, setTimeAgo] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
@@ -134,31 +143,31 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
             case 1100:
                 return (
                     <a onClick={() => handleLikeClick(1100)} className="flex gap-1 items-center">
-                        <AiTwotoneLike size={19} color="yellow" /> Bạn và
+                        <AiTwotoneLike size={19} color="yellow" /> {t('YouAnd_commen')}
                     </a>
                 )
             case 1101:
                 return (
                     <a onClick={() => handleLikeClick(1101)} className="flex gap-1 items-center">
-                        <AiFillDislike size={19} color="yellow" /> Bạn và
+                        <AiFillDislike size={19} color="yellow" /> {t('YouAnd_commen')}
                     </a>
                 )
             case 1102:
                 return (
                     <a onClick={() => handleLikeClick(1102)} className="flex gap-1 items-center">
-                        <AiFillHeart size={19} color="yellow" /> Bạn và
+                        <AiFillHeart size={19} color="yellow" /> {t('YouAnd_commen')}
                     </a>
                 )
             case 1103:
                 return (
                     <a onClick={() => handleLikeClick(1103)} className="flex gap-1 items-center">
-                        <FaSmileBeam size={19} color="yellow" /> Bạn và
+                        <FaSmileBeam size={19} color="yellow" /> {t('YouAnd_commen')}
                     </a>
                 )
             case 1104:
                 return (
                     <a onClick={() => handleLikeClick(1104)} className="flex gap-1 items-center">
-                        <BsEmojiAngryFill size={19} color="yellow" /> Bạn và
+                        <BsEmojiAngryFill size={19} color="yellow" /> {t('YouAnd_commen')}
                     </a>
                 )
             default:
@@ -201,7 +210,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                             }}
                         >
                             <MenuItem onClick={() => handleDeleteReplyComment()}>
-                                <ListItemText>Xóa phản hồi</ListItemText>
+                                <ListItemText>{t('RemoveRespond_comment')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </div>
@@ -212,7 +221,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                 <div className="flex items-end justify-end mr-8">
                     <figure className="image-box dark:text-black">
                         <span className="text-like">
-                            <span className='dark:text-black text-white'>Thích</span>
+                            <span className='dark:text-black text-white'>{t('Like')}</span>
                         </span>
                         <div className="icons">
                             {like
@@ -363,7 +372,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                         </div>
                     </figure>
 
-                    <span className="cursor-pointer ">Phản hồi</span>
+                    <span className="cursor-pointer ">{t('Feedback_comment')}</span>
                 </div>
                 <span className="flex items-center gap-2">
                     {/* {like.length > 0 ? (

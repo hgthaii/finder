@@ -18,6 +18,7 @@ import Brightness7 from '@mui/icons-material/Brightness7'
 import Brightness4 from '@mui/icons-material/Brightness4'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import i18n from '../translation/i18n'
+import { useTranslation } from 'react-i18next'
 
 
 import Backdrop from '@mui/material/Backdrop'
@@ -69,7 +70,7 @@ const Header = () => {
     const openn = Boolean(anchorEl)
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
-    const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white dark:text-black '
+    const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white  '
 
     const [isMobile, setIsMobile] = useState(false)
 
@@ -102,6 +103,13 @@ const Header = () => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
+
+    function changeLanguage(e) {
+        i18n.changeLanguage(e.target.value)
+    }
+
+    const { t } = useTranslation()
+
 
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
@@ -172,8 +180,8 @@ const Header = () => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-[#030014]  animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
@@ -215,7 +223,7 @@ const Header = () => {
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                             {headerMenu.map((item, index) => (
-                                <li className="mb-4 lg:mb-0 lg:pr-2 dark:text-black " data-te-nav-item-ref key={index}>
+                                <li className="mb-4 lg:mb-0 lg:pr-2  " data-te-nav-item-ref key={index}>
                                     <NavLink
                                         to={item.path}
                                         className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
@@ -230,18 +238,18 @@ const Header = () => {
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
                             <div className='flex '>
-                                {/* <div className="flex items-center">
+                                <div className="flex items-center mr-2">
                                     <select onChange={changeLanguage} className="text-black">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
-                                </div> */}
+                                </div>
                                 <div onClick={handleThemeSwitch} className='cursor-pointer'>
-                                    {theme === 'dark' ? <MdDarkMode color='black' size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
+                                    {theme === 'dark' ? <MdDarkMode size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
                                 </div>
                             </div >
-                            <Search isBlack={theme === 'dark'} />
-                            {theme === 'dark' ? <AiFillBell color='black' size={25} /> : <AiFillBell color='white' size={25} />}
+                            <Search />
+                            {theme === 'dark' ? <AiFillBell size={25} /> : <AiFillBell color='white' size={25} />}
                             {accessToken ? (
                                 <div>
                                     <Button
@@ -252,7 +260,7 @@ const Header = () => {
                                         onClick={handleClick}
                                         sx={{ color: '#02e7f5', fontWeight: '500' }}
                                     >
-                                        Chào, {displayNameVal}
+                                        {t('Hello')}, {displayNameVal}
                                     </Button>
                                     <Menu
                                         id="basic-menu"
