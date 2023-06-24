@@ -7,9 +7,11 @@ import SwiperCore, { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Section } from '../../components'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 SwiperCore.use([Navigation, Pagination])
 const Mylist = () => {
+    const navigate = useNavigate()
+
     const [favorites, setFavorites] = useState([])
 
     useEffect(() => {
@@ -26,6 +28,9 @@ const Mylist = () => {
                     setFavorites(response.data)
                 })
                 .catch((error) => {
+                    if (error.response.data && error.response.data.statusCode === 401) {
+                        navigate('/expired-token')
+                    }
                     console.error(error)
                 })
         }

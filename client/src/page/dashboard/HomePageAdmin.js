@@ -40,6 +40,7 @@ import PropTypes from 'prop-types'
 // import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import ModalProfile from './ModalProfile'
+import { useCookies } from 'react-cookie';
 
 const style = {
     position: 'absolute',
@@ -162,6 +163,8 @@ function a11yProps(index) {
     }
 }
 const HomePageAdmin = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const [light, setLight] = React.useState(true)
@@ -216,6 +219,8 @@ const HomePageAdmin = () => {
             await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, config)
 
             localStorage.clear()
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
             window.location.href = '/'
         } catch (error) {
             console.log(error)
