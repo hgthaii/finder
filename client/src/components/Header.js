@@ -57,6 +57,7 @@ const style = {
 }
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const navigate = useNavigate()
 
     const { AiFillBell, BiSearchAlt2, MdDarkMode, MdOutlineDarkMode } = icons
     const accessToken = localStorage.getItem('accessToken')
@@ -114,7 +115,6 @@ const Header = () => {
     const { t } = useTranslation()
 
 
-    const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(true)
@@ -244,12 +244,12 @@ const Header = () => {
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
                             <div className='flex '>
-                                {/* <div className="flex items-center">
+                                <div className="flex items-center">
                                     <select onChange={changeLanguage} className="text-black">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
-                                </div> */}
+                                </div>
                                 <div onClick={handleThemeSwitch} className='cursor-pointer'>
                                     {theme === 'dark' ? <MdDarkMode color='black' size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
                                 </div>

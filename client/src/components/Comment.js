@@ -1,4 +1,4 @@
-/* eslint-disable */
+import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import axios from 'axios'
@@ -43,8 +43,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 const time = moment(pastTime).locale('en').fromNow()
                 setTimeAgo(time)
             }
-            // const timevi = moment(pastTime).locale('vi').fromNow()
-            // setTimeAgo(timevi)
+
         }, 1000)
         return () => clearInterval(interval)
     }, [pastTime])
