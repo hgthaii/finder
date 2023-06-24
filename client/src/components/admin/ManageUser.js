@@ -179,6 +179,9 @@ const ManageUser = () => {
                 setUsers(mainusers)
             }
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             console.log(error)
             toast.error('Result not found')
             setUsers(mainusers)
@@ -347,6 +350,9 @@ export const ModalDeleteUser = (props) => {
                 successCount: successCount,
             }
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             setIsLoading(false)
         }
     }
@@ -538,6 +544,9 @@ export const ModalUpdateUser = (props) => {
                 successCount: successCount,
             }
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             setIsLoading(false)
         }
     }

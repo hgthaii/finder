@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -40,6 +41,8 @@ function a11yProps(index) {
     }
 }
 const ModalProfile = () => {
+    const navigate = useNavigate()
+
     const [value, setValue] = React.useState(0)
 
     const handleChange = (event, newValue) => {
@@ -86,6 +89,9 @@ const ModalProfile = () => {
 
             // window.location.reload()
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             if (error.response) {
                 toast.error(error.response.data.message)
             } else {
@@ -131,6 +137,9 @@ const ModalProfile = () => {
             )
             toast.success(request.data.message)
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             if (error.response) {
                 toast.error(error.response.data.message)
             } else {
@@ -154,6 +163,9 @@ const ModalProfile = () => {
             )
             window.open(payment.data, '_blank')
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             if (error.response) {
                 toast.error(error.response.data.message)
             } else {

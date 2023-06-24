@@ -1,9 +1,30 @@
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
+import axios from 'axios';
 
 const NotFound = () => {
     const navigate = useNavigate()
-    const refundHome = () => navigate('/')
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const [, , removeAllCookies] = useCookies()
+    
+    const refundHome = async () => {
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
+            localStorage.clear()
+            removeAllCookies()
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className="h-screen flex flex-col justify-center items-center py-20 bg-gray-300">
             <div className="text-center">

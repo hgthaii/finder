@@ -358,6 +358,9 @@ export const ModalDeleteMovie = (props) => {
                 successCount: successCount,
             }
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             console.log(error)
             setIsLoading(false)
         }
@@ -473,6 +476,9 @@ export const ModalAddMovie = (props) => {
             toast.success('Added movie successfully!')
             setIsLoading(false)
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             console.log(error)
             toast.error('Added movie failed!')
             setIsLoading(false)
@@ -1025,6 +1031,9 @@ export const ModalUpdateMovie = (props) => {
             })
             setIsLoading(false)
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             console.log(error)
             setIsLoading(false)
             // throw new Error(error)

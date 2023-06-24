@@ -91,7 +91,7 @@ const signin = async (req, res) => {
         }
 
         const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '2h',
+            expiresIn: '30s',
         })
 
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
