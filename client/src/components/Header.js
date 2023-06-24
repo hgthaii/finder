@@ -57,7 +57,6 @@ const style = {
 }
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
-    const navigate = useNavigate()
 
     const { AiFillBell, BiSearchAlt2, MdDarkMode, MdOutlineDarkMode } = icons
     const accessToken = localStorage.getItem('accessToken')
