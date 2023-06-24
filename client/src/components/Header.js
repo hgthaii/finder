@@ -43,6 +43,7 @@ import ModalProfile from '../page/dashboard/ModalProfile'
 import Skeleton from '@mui/material/Skeleton'
 // Initialization for ES Users
 import { Collapse, Dropdown, initTE } from 'tw-elements'
+import { useCookies } from 'react-cookie';
 
 initTE({ Collapse, Dropdown })
 const style = {
@@ -55,6 +56,9 @@ const style = {
     boxShadow: 24,
 }
 const Header = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const navigate = useNavigate()
+
     const { AiFillBell, BiSearchAlt2, MdDarkMode, MdOutlineDarkMode } = icons
     const accessToken = localStorage.getItem('accessToken')
     const displayNameVal = localStorage.getItem('displayName')
@@ -137,6 +141,8 @@ const Header = () => {
                 },
             })
             localStorage.clear();
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
             window.location.href = '/'
         } catch (error) {
             console.log(error)
@@ -176,12 +182,13 @@ const Header = () => {
         navigate('/home-admin')
     }
 
-
+    const isLoggedIn = localStorage.getItem('accessToken') ? true : false
+    const headerMenuLength = isLoggedIn ? headerMenu.length : headerMenu.length - 1
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-[#030014]  animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : 'bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
@@ -223,7 +230,7 @@ const Header = () => {
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                             {headerMenu.map((item, index) => (
-                                <li className="mb-4 lg:mb-0 lg:pr-2  " data-te-nav-item-ref key={index}>
+                                <li className="mb-4 lg:mb-0 lg:pr-2 dark:text-black " data-te-nav-item-ref key={index}>
                                     <NavLink
                                         to={item.path}
                                         className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
@@ -238,18 +245,18 @@ const Header = () => {
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
                             <div className='flex '>
-                                <div className="flex items-center mr-2">
+                                {/* <div className="flex items-center">
                                     <select onChange={changeLanguage} className="text-black">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
-                                </div>
+                                </div> */}
                                 <div onClick={handleThemeSwitch} className='cursor-pointer'>
-                                    {theme === 'dark' ? <MdDarkMode size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
+                                    {theme === 'dark' ? <MdDarkMode color='black' size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
                                 </div>
                             </div >
-                            <Search />
-                            {theme === 'dark' ? <AiFillBell size={25} /> : <AiFillBell color='white' size={25} />}
+                            <Search isBlack={theme === 'dark'} />
+                            {theme === 'dark' ? <AiFillBell color='black' size={25} /> : <AiFillBell color='white' size={25} />}
                             {accessToken ? (
                                 <div>
                                     <Button
@@ -271,8 +278,8 @@ const Header = () => {
                                             'aria-labelledby': 'basic-button',
                                         }}
                                     >
-                                        {parsedTokenBody.roles === 'admin' ? (
-                                            [
+                                        {parsedTokenBody.roles === 'admin'
+                                            ? [
                                                 <MenuItem key="page-admin" onClick={openPageAdmin}>
                                                     <ListItemIcon>
                                                         <AdminPanelSettingsIcon fontSize="small" />
@@ -298,8 +305,7 @@ const Header = () => {
                                                     <ListItemText>Đăng xuất</ListItemText>
                                                 </MenuItem>,
                                             ]
-                                        ) : (
-                                            [
+                                            : [
                                                 <MenuItem key="manage-user" onClick={handleOpenProfile}>
                                                     <ListItemIcon>
                                                         <ManageAccountsIcon fontSize="small" />
@@ -318,8 +324,7 @@ const Header = () => {
                                                     </ListItemIcon>
                                                     <ListItemText>Đăng xuất</ListItemText>
                                                 </MenuItem>,
-                                            ]
-                                        )}
+                                            ]}
                                     </Menu>
                                     <Modal
                                         open={openProfile}
@@ -371,7 +376,6 @@ const Header = () => {
                                     </Modal>
                                 </div>
                             )}
-
                         </div>
                     </div>
                 </div>
@@ -383,6 +387,8 @@ const Header = () => {
 export default Header
 
 export const ModalListComment = () => {
+    const navigate = useNavigate()
+
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
@@ -399,6 +405,9 @@ export const ModalListComment = () => {
                 })
                 setReviews(res.data)
             } catch (error) {
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.log(error)
             }
         }
@@ -453,6 +462,9 @@ export const ModalListComment = () => {
             })
             setReviews(res.data)
         } catch (error) {
+            if (error.response.data && error.response.data.statusCode === 401) {
+                navigate('/expired-token')
+            }
             console.log(error)
         }
     }

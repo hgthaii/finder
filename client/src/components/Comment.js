@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState, } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import axios from 'axios'
 import moment from 'moment'
@@ -14,6 +14,8 @@ import { useTranslation } from 'react-i18next'
 
 
 const Comment = ({ displayName, pastTime, content, commentId, handleChangeComment, like }) => {
+    const navigate = useNavigate()
+
     const {
         BsThreeDotsVertical,
         AiTwotoneLike,
@@ -56,7 +58,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [success, setSuccess] = useState(false)
     const onChangeComment = () => {
         handleChangeComment(success)
-
     }
     const handleDeleteComment = async () => {
         await axios
@@ -71,6 +72,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 console.log('xoa comment thanh cong')
             })
             .catch((error) => {
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error('Lỗi khi xóa comment', error)
             })
     }
@@ -96,6 +100,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             })
             .catch((error) => {
                 // Xử lý lỗi nếu có
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error(error)
             })
     }
@@ -116,6 +123,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             })
             .catch((error) => {
                 // Xử lý lỗi nếu có
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error(error)
             })
     }
@@ -142,6 +152,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             })
             .catch((error) => {
                 // Xử lý lỗi nếu có
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error(error)
             })
     }
@@ -165,6 +178,9 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 })
                 .catch((error) => {
                     // Xử lý lỗi nếu có
+                    if (error.response.data && error.response.data.statusCode === 401) {
+                        navigate('/expired-token')
+                    }
                     console.error(error)
                 })
         }
@@ -187,7 +203,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
         }
         getListReply()
     }
-
 
     const getIcon = (likedIcon) => {
         switch (likedIcon) {
@@ -250,9 +265,13 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             })
             .catch((error) => {
                 // Xử lý lỗi nếu có
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error(error)
             })
     }
+    const isLoggedIn = localStorage.getItem('accessToken') ? true : false
 
     return (
         <div className="w-full  border-b border-[#404040] py-4 my-4">
@@ -268,31 +287,33 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                         <span>{timeAgo}</span>
                     </div>
                 </div>
-                <div className="">
-                    <Button
-                        id="basic-button"
-                        aria-controls={openn ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openn ? 'true' : undefined}
-                        onClick={handleClick}
-                        sx={{ color: '#02e7f5', fontWeight: '500' }}
-                    >
-                        <BsThreeDotsVertical />
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={openn}
-                        onClose={handleCloseDetailComment}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleDeleteComment}>
-                            <ListItemText>{t('RemoveComment_comment')}</ListItemText>
-                        </MenuItem>
-                    </Menu>
-                </div>
+                {isLoggedIn ? (
+                    <div className="">
+                        <Button
+                            id="basic-button"
+                            aria-controls={openn ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={openn ? 'true' : undefined}
+                            onClick={handleClick}
+                            sx={{ color: '#02e7f5', fontWeight: '500' }}
+                        >
+                            <BsThreeDotsVertical />
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={openn}
+                            onClose={handleCloseDetailComment}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleDeleteComment}>
+                                <ListItemText>Xóa bình luận</ListItemText>
+                            </MenuItem>
+                        </Menu>
+                    </div>
+                ) : null}
             </div>
             <div className="text-[16px] mb-3">
                 <p>{content}</p>
@@ -300,7 +321,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             <div className="flex items-end justify-end mr-8">
                 <figure className="image-box">
                     <span className="text-like dark:text-black">
-                        <span>{t('Like')}</span>
+                        <span>Thích</span>
                     </span>
                     <div className="icons">
                         {like
@@ -452,7 +473,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 </figure>
 
                 <span onClick={handleClickReply} className="cursor-pointer ">
-                    {t('Feedback_comment')}
+                    Phản hồi
                 </span>
             </div>
             <span className="flex items-center gap-2">
@@ -468,7 +489,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 {listIcon ? `${like?.length} ${t('Other_comment')}` : null}
             </span>
             {reply ? <ReplyComment commentId={commentId} handleChangeReply={handleChangeReply} /> : null}
-            {listReplyComment ? (
+            {listReplyComment && listReplyComment.length > 0 && (
                 <div>
                     <span>{t('FeedbackList_comment')}</span>
                     {listReplyComment.map((data) => (
@@ -482,7 +503,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                         />
                     ))}
                 </div>
-            ) : null}
+            )}
         </div>
     )
 }

@@ -98,6 +98,9 @@ const Modalcontainer = ({ data, closeModal }) => {
             // Xử lý dữ liệu nhận được
         } catch (error) {
             // Xử lý lỗi
+            // if (error.response.data && error.response.data.statusCode === 401) {
+            //     navigate('/expired-token')
+            // }
             console.error(error)
         }
     }
@@ -146,6 +149,9 @@ const Modalcontainer = ({ data, closeModal }) => {
             )
             .then((response) => { })
             .catch((error) => {
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error('Lỗi khi thêm phần tử vào danh sách yêu thích', error)
             })
 
@@ -164,6 +170,9 @@ const Modalcontainer = ({ data, closeModal }) => {
             })
             .then((response) => { })
             .catch((error) => {
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error('Lỗi khi xóa phần tử khỏi danh sách yêu thích', error)
             })
 
@@ -191,6 +200,9 @@ const Modalcontainer = ({ data, closeModal }) => {
                 getCommentById()
             })
             .catch((error) => {
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error('Lỗi khi bình luận', error)
             })
     }

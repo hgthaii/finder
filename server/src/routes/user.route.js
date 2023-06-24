@@ -63,7 +63,7 @@ router.post(
     userController.signin,
 )
 
-router.post('/signout', tokenMiddleware.auth, userController.signout)
+router.post('/signout', userController.signout)
 
 router.put(
     '/update-password',

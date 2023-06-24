@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import icons from '../ultis/icons'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'
 
 const ReplyComment = ({ commentId, handleChangeReply }) => {
+    const navigate = useNavigate()
+
     const { MdSend, BsArrowReturnRight } = icons
     const [content, setContent] = useState()
     const [successReply, setSuccessReply] = useState(false)
@@ -33,6 +36,9 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
             })
             .catch((error) => {
                 // Xử lý lỗi nếu có
+                if (error.response.data && error.response.data.statusCode === 401) {
+                    navigate('/expired-token')
+                }
                 console.error(error)
             })
     }
