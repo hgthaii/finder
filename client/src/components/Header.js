@@ -7,7 +7,6 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ReviewsIcon from '@mui/icons-material/Reviews'
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
-import { useCookies } from 'react-cookie'
 import axios from 'axios'
 
 import { headerMenu } from '../ultis/menu'
@@ -265,53 +264,53 @@ const Header = () => {
                                         }}
                                     >
                                         {parsedTokenBody.roles === 'admin' ? (
-                                            <>
-                                                <MenuItem onClick={openPageAdmin}>
+                                            [
+                                                <MenuItem key="page-admin" onClick={openPageAdmin}>
                                                     <ListItemIcon>
                                                         <AdminPanelSettingsIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Trang quản trị</ListItemText>
-                                                </MenuItem>
-                                                <MenuItem onClick={handleOpenProfile}>
+                                                </MenuItem>,
+                                                <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
                                                     <ListItemIcon>
                                                         <ManageAccountsIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Quản lý tài khoản</ListItemText>
-                                                </MenuItem>
-                                                <MenuItem onClick={handleOpenListComment}>
+                                                </MenuItem>,
+                                                <MenuItem key="comment-movie" onClick={handleOpenListComment}>
                                                     <ListItemIcon>
                                                         <ReviewsIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Bình luận của bạn</ListItemText>
-                                                </MenuItem>
-                                                <MenuItem onClick={handleLogout}>
+                                                </MenuItem>,
+                                                <MenuItem key="logout" onClick={handleLogout}>
                                                     <ListItemIcon>
                                                         <MeetingRoomIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Đăng xuất</ListItemText>
-                                                </MenuItem>
-                                            </>
+                                                </MenuItem>,
+                                            ]
                                         ) : (
-                                            <>
-                                                <MenuItem onClick={handleOpenProfile}>
+                                            [
+                                                <MenuItem key="manage-user" onClick={handleOpenProfile}>
                                                     <ListItemIcon>
                                                         <ManageAccountsIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Quản lý tài khoản</ListItemText>
-                                                </MenuItem>
-                                                <MenuItem onClick={handleOpenListComment}>
+                                                </MenuItem>,
+                                                <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
                                                     <ListItemIcon>
                                                         <ReviewsIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Bình luận của bạn</ListItemText>
-                                                </MenuItem>
-                                                <MenuItem onClick={handleLogout}>
+                                                </MenuItem>,
+                                                <MenuItem key="logout-user" onClick={handleLogout}>
                                                     <ListItemIcon>
                                                         <MeetingRoomIcon fontSize="small" />
                                                     </ListItemIcon>
                                                     <ListItemText>Đăng xuất</ListItemText>
-                                                </MenuItem>
-                                            </>
+                                                </MenuItem>,
+                                            ]
                                         )}
                                     </Menu>
                                     <Modal
@@ -376,7 +375,6 @@ const Header = () => {
 export default Header
 
 export const ModalListComment = () => {
-    // const [cookies] = useCookies(['accessToken', 'refreshToken'])
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Box from '@mui/material/Box'
@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
-import { useCookies } from 'react-cookie'
 function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -42,7 +41,6 @@ function a11yProps(index) {
 }
 const ModalProfile = () => {
     const [value, setValue] = React.useState(0)
-    // const [cookies] = useCookies(['accessToken', 'refreshToken'])
 
     const handleChange = (event, newValue) => {
         setValue(newValue)

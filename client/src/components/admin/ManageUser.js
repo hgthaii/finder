@@ -14,7 +14,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
 
 const style = {
     position: 'absolute',
@@ -42,7 +41,6 @@ const ManageUser = () => {
     const [users, setUsers] = useState([])
     const [mainusers, setMainUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [cookie] = useCookies(['accessToken', 'refreshToken'])
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false)

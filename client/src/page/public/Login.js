@@ -41,26 +41,26 @@ const Login = ({ onClose }) => {
                 password,
             })
 
-            // const handleSetTokens = () => {
-            //     const accessTokenExpiration = new Date()
-            //     accessTokenExpiration.setHours(accessTokenExpiration.getHours() + 2) // Hết hạn sau 1 giờ
-            //     const refreshTokenExpiration = new Date()
-            //     refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 24) // Hết hạn sau 24 giờ
+            const handleSetTokens = () => {
+                const accessTokenExpiration = new Date()
+                accessTokenExpiration.setHours(accessTokenExpiration.getHours() + 2) // Hết hạn sau 1 giờ
+                const refreshTokenExpiration = new Date()
+                refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 24) // Hết hạn sau 24 giờ
 
-            //     const accessTokenOptions = {
-            //         path: '/',
-            //         expires: accessTokenExpiration,
-            //     }
+                const accessTokenOptions = {
+                    path: '/',
+                    expires: accessTokenExpiration,
+                }
 
-            //     const refreshTokenOptions = {
-            //         path: '/',
-            //         expires: refreshTokenExpiration,
-            //     }
+                const refreshTokenOptions = {
+                    path: '/',
+                    expires: refreshTokenExpiration,
+                }
 
-            //     setCookie('accessToken', response.data.access_token, accessTokenOptions)
-            //     setCookie('refreshToken', response.data.refresh_token, refreshTokenOptions)
-            // }
-            // handleSetTokens()
+                setCookie('accessToken', response.data.access_token, accessTokenOptions)
+                setCookie('refreshToken', response.data.refresh_token, refreshTokenOptions)
+            }
+            handleSetTokens()
             const getToken = response.data.access_token
             const getrfToken = response.data.refresh_token
             console.log("oke123131231",getToken)
@@ -81,8 +81,9 @@ const Login = ({ onClose }) => {
             localStorage.setItem('userId', parsedTokenBody.infor.id)
             if (parsedTokenBody.roles === 'admin') {
                 toast.success('Đăng nhập thành công')
-                navigate('/')
                 // navigate('/home-admin')
+                onClose()
+
             } else if (parsedTokenBody.roles === 'user') {
                 toast.success('Đăng nhập thành công')
                 onClose()

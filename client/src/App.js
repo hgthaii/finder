@@ -28,7 +28,7 @@ function App() {
         dispatch(action.getHome())
     }, [])
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
-    const accessToken = localStorage.getItem('accessToken')
+    const accessToken = cookies.accessToken
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
     const currentRole = parsedTokenBody.roles || {}
@@ -40,7 +40,7 @@ function App() {
             {isTokenExpired && <Navigate to="/" replace={true} />}
             <Routes>
                 <Route
-                    path="home-admin"
+                    path="/home-admin"
                     element={
                         currentRole && currentRole === 'admin' ? <HomePageAdmin /> : <Navigate to="/" replace={true} />
                     }
