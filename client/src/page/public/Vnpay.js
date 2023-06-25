@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
+import { useTranslation } from 'react-i18next'
 
 function VnpayReturnPage() {
     const location = useLocation()
@@ -18,6 +19,9 @@ function VnpayReturnPage() {
     const vnp_Params = Object.fromEntries(queryParams.entries())
     const datePayment = vnp_Params.vnp_PayDate
     const datetime = moment(datePayment, 'YYYYMMDDHHmmss').utcOffset('+07:00').format('YYYY-MM-DD HH:mm:ss')
+
+    const { t } = useTranslation()
+
     useEffect(() => {
         handleVnpayReturn(vnp_Params)
     }, [])
@@ -76,14 +80,14 @@ function VnpayReturnPage() {
                                                 className="text-lg leading-6 font-medium text-gray-900 mb-3"
                                                 id="modal-headline"
                                             >
-                                                Thanh toán thành công!
+                                                {t('PaymentSuccessful')}
                                             </h3>
                                             <div className="payment-details">
                                                 <table className="border-collapse w-full">
                                                     <tbody>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium border-b text-left">
-                                                                Số tiền thanh toán:
+                                                                {t('PaymentAmount')}
                                                             </td>
                                                             <td className="py-2 pl-4 border-b text-left">
                                                                 {vnp_Params.vnp_Amount / 100} VND
@@ -91,7 +95,7 @@ function VnpayReturnPage() {
                                                         </tr>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium border-b text-left">
-                                                                Ngân hàng:
+                                                                {t('Bank')}
                                                             </td>
                                                             <td className="py-2 pl-4 border-b text-left">
                                                                 {vnp_Params.vnp_BankCode}
@@ -99,7 +103,7 @@ function VnpayReturnPage() {
                                                         </tr>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium border-b text-left">
-                                                                Người thanh toán:
+                                                                {t('Payer')}
                                                             </td>
                                                             <td className="py-2 pl-4 border-b text-left">
                                                                 {parsedTokenBody.infor.username}
@@ -107,7 +111,7 @@ function VnpayReturnPage() {
                                                         </tr>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium border-b text-left">
-                                                                Mã giao dịch:
+                                                                {t('BankTransactionCode')}
                                                             </td>
                                                             <td className="py-2 pl-4 border-b text-left">
                                                                 {vnp_Params.vnp_BankTranNo}
@@ -115,7 +119,7 @@ function VnpayReturnPage() {
                                                         </tr>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium border-b text-left">
-                                                                Hình thức thanh toán:
+                                                                {t('PaymentMethod')}
                                                             </td>
                                                             <td className="py-2 pl-4 border-b text-left">
                                                                 {vnp_Params.vnp_CardType}
@@ -123,7 +127,7 @@ function VnpayReturnPage() {
                                                         </tr>
                                                         <tr>
                                                             <td className="py-2 pr-4 font-medium text-left">
-                                                                Thời gian thanh toán:
+                                                                {t('PaymentTime')}
                                                             </td>
                                                             <td className="py-2 pl-4 text-left">{datetime}</td>
                                                         </tr>
@@ -139,7 +143,7 @@ function VnpayReturnPage() {
                                                 className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                                                 onClick={handleGoHome}
                                             >
-                                                Quay về trang chủ
+                                                {t('BackToHomepage')}
                                             </button>
                                         </span>
                                     </div>
@@ -151,10 +155,10 @@ function VnpayReturnPage() {
             } catch (error) {
                 console.log('Failed to update payment status:', error)
 
-                setResult(<p>Không thành công2</p>)
+                setResult(<p>{t('Failed')}</p>)
             }
         } else {
-            setResult(<p>Không thành công1</p>)
+            setResult(<p>{t('Failed')}</p>)
         }
     }
 

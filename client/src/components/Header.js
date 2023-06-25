@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { MenuItem, Menu, cardHeaderClasses } from '@mui/material'
+import { MenuItem, Menu, } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
@@ -14,9 +14,6 @@ import logo from '../asset/image/logo.png'
 import icons from '../ultis/icons'
 import { Search } from '../components/'
 
-import Brightness7 from '@mui/icons-material/Brightness7'
-import Brightness4 from '@mui/icons-material/Brightness4'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
 import i18n from '../translation/i18n'
 import { useTranslation } from 'react-i18next'
 
@@ -28,19 +25,11 @@ import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
 import ReactPaginate from 'react-paginate'
 
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Avatar from '@mui/material/Avatar'
-import IconButton from '@mui/material/IconButton'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import FolderIcon from '@mui/icons-material/Folder'
+
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import Login from '../page/public/Login'
 import ModalProfile from '../page/dashboard/ModalProfile'
-import Skeleton from '@mui/material/Skeleton'
 // Initialization for ES Users
 import { Collapse, Dropdown, initTE } from 'tw-elements'
 import { useCookies } from 'react-cookie';
@@ -59,7 +48,7 @@ const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
     const navigate = useNavigate()
 
-    const { AiFillBell, BiSearchAlt2, MdDarkMode, MdOutlineDarkMode } = icons
+    const { AiFillBell, MdDarkMode, BsSunFill, AiOutlineMenu } = icons
     const accessToken = localStorage.getItem('accessToken')
     const displayNameVal = localStorage.getItem('displayName')
 
@@ -70,13 +59,14 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState('light')
-
+    const [isHiddenMenu, setIsHiddenMenu] = useState(false);
     const openn = Boolean(anchorEl)
 
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white  '
 
     const [isMobile, setIsMobile] = useState(false)
+
 
 
     useEffect(() => {
@@ -186,39 +176,29 @@ const Header = () => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
                     } ${isMobile ? 'bg-[#030014]  animate-header' : ''}`}
                 data-te-navbar-ref
             >
-                <div className="flex w-full flex-wrap items-center justify-between px-3">
+                <div className="flex w-full flex-wrap items-center justify-between px-3 ">
                     <button
                         className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
                         type="button"
-                        data-te-collapse-init
-                        data-te-target="#navbarSupportedContent1"
+                        id="toggleButton"
+                        aria-expanded={isHiddenMenu ? 'true' : 'false'}
                         aria-controls="navbarSupportedContent1"
-                        aria-expanded="false"
                         aria-label="Toggle navigation"
+                        onClick={() => setIsHiddenMenu(!isHiddenMenu)}
                     >
-                        <span className="[&>svg]:w-7">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="h-7 w-7"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
+                        <span >
+                            <AiOutlineMenu size={30} />
                         </span>
                     </button>
 
                     <div
-                        className="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
+                        className="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto "
                         id="navbarSupportedContent1"
+                        style={{ display: isHiddenMenu ? 'block' : 'none' }}
                         data-te-collapse-item
                     >
                         <a
@@ -234,7 +214,8 @@ const Header = () => {
                                         to={item.path}
                                         className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}
                                     >
-                                        {item.text}
+                                        {/* {item.text} */}
+                                        {t(`${item.text}`)}
                                     </NavLink>
                                 </li>
                             ))}
@@ -244,14 +225,14 @@ const Header = () => {
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
                             <div className='flex '>
-                                <div className="flex items-center">
+                                <div className="flex items-center mr-2">
                                     <select onChange={changeLanguage} className="text-black">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
                                 </div>
                                 <div onClick={handleThemeSwitch} className='cursor-pointer'>
-                                    {theme === 'dark' ? <MdDarkMode size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
+                                    {theme === 'dark' ? <BsSunFill size={30} /> : <MdDarkMode color='white' size={30} />}
                                 </div>
                             </div >
                             <Search />
@@ -283,25 +264,25 @@ const Header = () => {
                                                     <ListItemIcon>
                                                         <AdminPanelSettingsIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Trang quản trị</ListItemText>
+                                                    <ListItemText>{t('Header_adminPage')}</ListItemText>
                                                 </MenuItem>,
                                                 <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
                                                     <ListItemIcon>
                                                         <ManageAccountsIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Quản lý tài khoản</ListItemText>
+                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
                                                 </MenuItem>,
                                                 <MenuItem key="comment-movie" onClick={handleOpenListComment}>
                                                     <ListItemIcon>
                                                         <ReviewsIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Bình luận của bạn</ListItemText>
+                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
                                                 </MenuItem>,
                                                 <MenuItem key="logout" onClick={handleLogout}>
                                                     <ListItemIcon>
                                                         <MeetingRoomIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Đăng xuất</ListItemText>
+                                                    <ListItemText>{t('Logout')}</ListItemText>
                                                 </MenuItem>,
                                             ]
                                             : [
@@ -309,19 +290,19 @@ const Header = () => {
                                                     <ListItemIcon>
                                                         <ManageAccountsIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Quản lý tài khoản</ListItemText>
+                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
                                                 </MenuItem>,
                                                 <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
                                                     <ListItemIcon>
                                                         <ReviewsIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Bình luận của bạn</ListItemText>
+                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
                                                 </MenuItem>,
                                                 <MenuItem key="logout-user" onClick={handleLogout}>
                                                     <ListItemIcon>
                                                         <MeetingRoomIcon fontSize="small" />
                                                     </ListItemIcon>
-                                                    <ListItemText>Đăng xuất</ListItemText>
+                                                    <ListItemText>{t('Logout')}</ListItemText>
                                                 </MenuItem>,
                                             ]}
                                     </Menu>
@@ -352,7 +333,7 @@ const Header = () => {
                                         onClick={handleOpen}
                                         sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
                                     >
-                                        Đăng nhập
+                                        {t('LogIn')}
                                     </Button>
                                     <Modal
                                         aria-labelledby="transition-modal-title"

@@ -307,7 +307,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                             }}
                         >
                             <MenuItem onClick={handleDeleteComment}>
-                                <ListItemText>Xóa bình luận</ListItemText>
+                                <ListItemText>{t('RemoveComment_comment')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </div>
@@ -320,7 +320,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 <div className="flex items-end justify-end mr-8">
                     <figure className="image-box">
                         <span className="text-like dark:text-black">
-                            <span>Thích</span>
+                            <span>{t('Like')}</span>
                         </span>
                         <div className="icons">
                             {like
@@ -472,7 +472,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                     </figure>
 
                     <span onClick={handleClickReply} className="cursor-pointer ">
-                        Phản hồi
+                        {t('Feedback_comment')}
                     </span>
                 </div>
             ) : null}

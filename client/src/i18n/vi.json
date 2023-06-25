@@ -1,12 +1,21 @@
 {
     "Like":"Thích",
     "Hello":"Chào",
+    "Failed":"Không thành công",
     "Title_header": "Quản trị",
     "Account_setting": "Quản lý tài khoản",
     "Logout": "Đăng xuất",
+    "LogIn":"Đăng nhập",
     "Account": "Người dùng",
     "Movie": "Phim",
+    "Movieseries":"Phim T.Hình",
+    "MyFavorite":"Danh sách của tôi",
     "Comment": "Bình luận",
+    "Home":"Trang chủ",
+    "Desc_Vip":"Chỉ với 30.000đ bạn sẽ được xem phim không giới hạn!",
+    "PayNow":"Thanh toán ngay",
+    "VIP":"Bạn đã là VIP của Finder!",
+    "Change":"Thay đổi",
     "ManageAccount": "Quản trị người dùng",
     "Add_user": "Thêm người dùng",
     "Update_user": "Chỉnh sửa người dùng",
@@ -15,6 +24,7 @@
     "Placeholder_displayname": "Nhập tên hiển thị",
     "Placeholder_password": "Nhập mật khẩu",
     "Placeholder_confirmPassword": "Nhập xác nhận mật khẩu",
+    "Placeholder_newPassword": "Nhập mật khẩu mới",
     "Search_displayname": "Tìm kiếm tên hiển thị",
     "btn_Search": "Tìm kiếm",
     "btn_Submit": "Đồng ý",
@@ -24,7 +34,6 @@
     "Display_name": "Tên hiển thị",
     "User_name": "Tên tài khoản",
     "User_role": "Quyền người dùng",
-    "Created_at": "Ngày tạo",
     "User_id": "Mã người dùng",
     "ManageMovie": "Quản lý phim",
     "ManageMovie_details": "Chi tiết phim",
@@ -101,6 +110,33 @@
     "PrivacyPolicy_footer":"Chính sách bảo mật",
     "Help_footer":"Giúp đỡ",
     "SupportedDevices_footer":"Thiết bị hỗ trợ",
-    "AboutFinder_footer":"Về Finder"
+    "AboutFinder_footer":"Về Finder",
+
+    "Banner_play":"Phát",
+    "Banner_more":"Thông tin khác",
+    "PaymentSuccessful!":"Thanh toán thành công!",
+    "PaymentAmount":"Số tiền thanh toán: ",
+    "Bank":"Ngân hàng: ",
+    "Payer":"Người thanh toán",
+    "BankTransactionCode":"Mã giao dịch: ",
+    "PaymentMethod:":"Hình thức thanh toán: ",
+    "PaymentTime":"Thời gian thanh toán: ",
+    "BackToHomepage":"Quay về trang chủ",
+
+    "Header_adminPage":"Trang quản trị",
+    "Header_accountManagement":"Quản lý tài khoản",
+    "Header_yourComment":"Bình luận của bạn",
+
+    "Accout_accoutInfomation":"Thông tin tài khoản",
+    "Accout_changeDisplayName":"Thay đổi tên",
+    "Accout_changePassword":"Thay đổi mật khẩu",
+    "Accout_createdAt": "Ngày tạo: ",
+    "Accout_updateAt": "Ngày cập nhật: ",
+    "Accout_userName":"Tên người dùng: ",
+    "Accout_DisplayName":"Tên hiển thị: "
+    
+
+
+
 
 }

@@ -26,6 +26,16 @@ module.exports = {
                         opacity: 1,
                     },
                 },
+                scaleDown: {
+                    '0%': {
+                        transform: 'scale(1) translateY(0)',
+                        opacity: 0,
+                    },
+                    '100%': {
+                        transform: 'scale(0.5) translateY(500px)',
+                        opacity: 1,
+                    },
+                },
                 blowUpModal: {
                     '0%': {
                         transform: 'scale(1)',
@@ -46,9 +56,11 @@ module.exports = {
                 },
             },
             animation: {
-                scaleUp: 'scaleUp .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;;',
+                scaleUp: 'scaleUp .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards',
                 blowUpModal: ' blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards',
                 header: 'header 1s ease-in-out',
+                scaleDown: 'scaleDown .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards',
+
             },
             important: true,
         },
