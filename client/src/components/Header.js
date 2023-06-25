@@ -228,7 +228,7 @@ const Header = () => {
                             <img src={logo} alt="logo" className="object-cover max-h-20" loading="lazy" />
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
-                            {headerMenu.map((item, index) => (
+                            {headerMenu.slice(0, headerMenuLength).map((item, index) => (
                                 <li className="mb-4 lg:mb-0 lg:pr-2 dark:text-black " data-te-nav-item-ref key={index}>
                                     <NavLink
                                         to={item.path}
