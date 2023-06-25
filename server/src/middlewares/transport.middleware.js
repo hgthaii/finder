@@ -5,7 +5,7 @@ import 'dotenv/config'
 const transporter = nodemailer.createTransport({
     host: 'smtp.forwardemail.net', // Tên máy chủ SMTP của bạn
     port: 587, // Cổng máy chủ SMTP
-    secure: true, // Sử dụng kết nối bảo mật SSL/TLS (nếu cần thiết)
+    secure: false, // Sử dụng kết nối bảo mật SSL/TLS (nếu cần thiết)
     auth: {
         user: process.env.EMAIL, // Địa chỉ email của bạn
         pass: process.env.PASSWORD_EMAIL, // Mật khẩu email của bạn
