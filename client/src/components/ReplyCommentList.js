@@ -228,7 +228,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                                 }}
                             >
                                 <MenuItem onClick={() => handleDeleteReplyComment()}>
-                                    <ListItemText>Xóa phản hồi</ListItemText>
+                                    <ListItemText>{t('RemoveRespond_comment')}</ListItemText>
                                 </MenuItem>
                             </Menu>
                         </div>
@@ -240,7 +240,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                 <div className="flex items-end justify-end mr-8">
                     <figure className="image-box dark:text-black">
                         <span className="text-like">
-                            <span className='dark:text-black text-white'>Thích</span>
+                            <span className='dark:text-black text-white'>{t('Like')}</span>
                         </span>
                         <div className="icons">
                             {like
@@ -391,7 +391,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                         </div>
                     </figure>
 
-                    <span className="cursor-pointer ">Phản hồi</span>
+                    <span className="cursor-pointer ">{t('Feedback_comment')}</span>
                 </div>
                 <span className="flex items-center gap-2">
                     {/* {like.length > 0 ? (

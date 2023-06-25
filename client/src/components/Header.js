@@ -186,8 +186,8 @@ const Header = () => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-[#030014] dark:bg-[#fafafc] animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-[#030014]  animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
@@ -251,11 +251,11 @@ const Header = () => {
                                     </select>
                                 </div>
                                 <div onClick={handleThemeSwitch} className='cursor-pointer'>
-                                    {theme === 'dark' ? <MdDarkMode color='black' size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
+                                    {theme === 'dark' ? <MdDarkMode size={30} /> : <MdOutlineDarkMode color='white' size={30} />}
                                 </div>
                             </div >
-                            <Search isBlack={theme === 'dark'} />
-                            {theme === 'dark' ? <AiFillBell color='black' size={25} /> : <AiFillBell color='white' size={25} />}
+                            <Search />
+                            {theme === 'dark' ? <AiFillBell size={25} /> : <AiFillBell color='white' size={25} />}
                             {accessToken ? (
                                 <div>
                                     <Button

@@ -33,7 +33,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
     const { t, i18n } = useTranslation()
-    console.log(i18n.language);
     useEffect(() => {
         const interval = setInterval(() => {
             if (i18n.language === 'vi') {
