@@ -11,7 +11,7 @@ const Modalcard = ({ data }) => {
             <div className="p-2">
                 <div className=" flex p-[14px] gap-2 justify-between items-center">
                     <div className="flex flex-col text-base mt-[18px]">
-                        <span className="mr-2 text-[#46D369]">Độ trùng: 94%</span>
+                        {/* <span className="mr-2 text-[#46D369]">Độ trùng: 94%</span> */}
                         <div className="flex  ">
                             <span className="mr-2 ">{data?.release_date ? data?.release_date : ''}</span>
                             <span className="mr-2  px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">

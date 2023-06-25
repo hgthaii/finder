@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import icons from '../ultis/icons'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'
 
 const ReplyComment = ({ commentId, handleChangeReply }) => {
     const navigate = useNavigate()
@@ -12,6 +13,7 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
     const onChangeReply = () => {
         handleChangeReply(successReply)
     }
+    const { t } = useTranslation()
     // Like comment
     const handleLikeClick = async () => {
         const data = {
@@ -52,11 +54,11 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
                             className="w-10 h-10 rounded-full mb-12 m-4 "
                         />
 
-                        <div className="border-b border-[#BCBCBC] w-4/5">
+                        <div className="border-b border-[#BCBCBC] w-4/5 ">
                             <textarea
                                 onChange={(e) => setContent(e.target.value)}
-                                placeholder="Bạn muốn phản hồi điều gì..."
-                                className="bg-[#333333] outline-none w-full"
+                                placeholder={t('respond_comment')}
+                                className="bg-[#333333] outline-none w-full dark:bg-[#fafafc]"
                             ></textarea>
                         </div>
 
