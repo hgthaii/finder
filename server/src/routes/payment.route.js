@@ -12,6 +12,6 @@ router.post(
     paymentController.createPaymentUrl,
 )
 
-router.post('/', tokenMiddleware.auth, transportMiddleware.sendPaymentSuccessEmail, paymentController.vnpayReturn)
+router.post('/', transportMiddleware.sendPaymentSuccessEmail, paymentController.vnpayReturn)
 
 export default router

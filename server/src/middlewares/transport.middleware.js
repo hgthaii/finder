@@ -5,7 +5,7 @@ import 'dotenv/config'
 const transporter = nodemailer.createTransport({
     host: 'smtp.forwardemail.net', // Tên máy chủ SMTP của bạn
     port: 587, // Cổng máy chủ SMTP
-    secure: false, // Sử dụng kết nối bảo mật SSL/TLS (nếu cần thiết)
+    secure: true, // Sử dụng kết nối bảo mật SSL/TLS (nếu cần thiết)
     auth: {
         user: process.env.EMAIL, // Địa chỉ email của bạn
         pass: process.env.PASSWORD_EMAIL, // Mật khẩu email của bạn
@@ -26,11 +26,11 @@ const sendPaymentSuccessEmail = (req, res, next) => {
     // Gửi email
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.error('Error sending email:', error)
-            responseHandler.error(res, 'Error sending email')
+            console.error('Lỗi khi gửi mail:', error)
+            responseHandler.error(res, 'Lỗi khi gửi mail')
         } else {
             console.log('Email sent:', info.response)
-            responseHandler.ok(res, 'Email sent successfully')
+            responseHandler.ok(res, 'Gửi mail thành công!')
             next()
         }
     })

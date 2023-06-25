@@ -28,18 +28,19 @@ function VnpayReturnPage() {
     const handleVnpayReturn = async (vnp_Params) => {
         if (vnp_Params.vnp_ResponseCode === '00') {
             try {
-                await axios.post(
+                const rs = await axios.post(
                     `${process.env.REACT_APP_API_URI}/payment`,
                     {
                         isVip: true,
                     },
                     {
+                        withCredentials: true,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
-
+                console.log('rs', rs);
                 setResult(
                     <div>
                         <div className="fixed z-10 inset-0 overflow-y-auto">
