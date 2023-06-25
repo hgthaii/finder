@@ -1,4 +1,6 @@
 {
+    "Like":"Like",
+    "Hello":"Hello",
     "Title_header": "Administrator",
     "Account_setting": "Account Setting",
     "Logout": "Logout",
@@ -73,5 +75,33 @@
     "Movie_none": "Bỏ trống",
     "ManageComment": "Movie comment details",
     "ManageComment_selectMovie": "Select a movie",
-    "ManageComment_listMovie": "List comments"
+    "ManageComment_listMovie": "List comments",
+
+    "Actor_modal":"Actor: ",
+    "Episode_modal":"Episode",
+    "SimilarContent_modal":"Similar content",
+    "SignInToComment_modal":"Sign in to comment",
+    "Comment_modal":"Comment",
+    "About_modal":"About: ",
+    "Genre_modal":"Genre: ",
+    "Shows_modal":"This shows: ",
+    "AgeRatings_modal":"Age ratings: ",
+    "SuitableForAges_modal":"Suitable for ages ",
+    "AndAbove_modal":" and above",
+    "ThinkMovie_modal":"What do you think of this movie...",
+    "NoCommentsAvailable_modal":"No comments available",
+    "YouAnd_comment":"You and",
+    "RemoveComment_comment":"Remove Comment",
+    "Feedback_comment":"Feedback",
+    "FeedbackList_comment":"Feedback list",
+    "Other_comment":"Other",
+    "respond_comment":"What do you want to respond to...",
+    "RemoveRespond_comment":"Remove respond",
+
+
+    "PrivacyPolicy_footer":"Privacy Policy",
+    "Help_footer":"Help",
+    "SupportedDevices_footer":"Supported Devices",
+    "AboutFinder_footer":"About Finder"
+    
 }
