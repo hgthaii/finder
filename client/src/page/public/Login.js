@@ -63,7 +63,6 @@ const Login = ({ onClose }) => {
             handleSetTokens()
             const getToken = response.data.access_token
             const getrfToken = response.data.refresh_token
-            console.log("oke123131231",getToken)
             localStorage.setItem('accessToken', getToken)
             localStorage.setItem('refreshToken', getrfToken)
             const accessToken = localStorage.getItem('accessToken')
