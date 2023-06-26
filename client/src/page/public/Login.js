@@ -8,7 +8,7 @@ import axios from 'axios'
 
 import isEmpty from 'validator/lib/isEmpty'
 // import isEmail from 'validator/lib/isEmail'
-import logo from '../../asset/image/logo.png'
+import logo from '../../asset/image/Finder.svg'
 import { Box, Modal } from '@mui/material'
 import Register from './Register'
 import { toast } from 'react-toastify'

@@ -10,11 +10,3 @@ app.use(
         ws: true,
     }),
 )
-
-app.use(
-    '/socket.io',
-    createProxyMiddleware({
-        target: 'https://finder-api-hgthaii.vercel.app',
-        ws: true,
-    }),
-)

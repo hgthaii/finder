@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        h1 {
+            color: #000;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: normal;
+        }
+
+        .highlight {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .team-name {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cảm ơn bạn đã đăng ký VIP Member</h1>
+        <p>Xin chào, <span class="highlight">
+                <%= displayName %>
+            </span></p>
+        <p>Cảm ơn bạn đã đăng ký chương trình VIP Member của website findermovie.me. Chúng tôi rất vui mừng chào đón bạn
+            và hy vọng bạn sẽ có những trải nghiệm tuyệt vời với dịch vụ của chúng tôi.</p>
+        <p>Với tư cách là thành viên VIP, bạn sẽ được hưởng nhiều ưu đãi đặc biệt như:</p>
+        <ul>
+            <li>Truy cập vào nội dung VIP của website findermovie.me</li>
+            <li>Tham gia các sự kiện, chương trình khuyến mãi độc quyền</li>
+            <li>Nhận thông báo về các bộ phim mới, cập nhật từ chúng tôi</li>
+        </ul>
+        <p>Hãy truy cập website findermovie.me để khám phá thêm các tính năng và nội dung độc quyền dành cho thành viên
+            VIP.</p>
+        <p>Xin cảm ơn bạn một lần nữa và hãy liên hệ với chúng tôi nếu bạn có bất kỳ câu hỏi hoặc yêu cầu nào.</p>
+        <p>Trân trọng,</p>
+        <p>Đội ngũ <span class="team-name">Finder</span></p>
+
+        <h2 class="highlight">Thông tin đơn hàng:</h2>
+        <table>
+            <tr>
+                <th>Số tiền đã thanh toán</th>
+                <td>
+                    <%= vnp_Amount %>
+                </td>
+            </tr>
+            <tr>
+                <th>Ngày thanh toán</th>
+                <td>
+                    <%= vnp_CreateDate %>
+                </td>
+            </tr>
+            <tr>
+                <th>Mã giao dịch</th>
+                <td>
+                    <%= vnp_TxnRef %>
+                </td>
+            </tr>
+            <tr>
+                <th>Địa chỉ IPv4</th>
+                <td>
+                    <%= vnp_IpAddr %>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -4,8 +4,9 @@ import config from 'config'
 import axios from 'axios'
 import moment from 'moment'
 import tokenMiddleware from '../middlewares/token.middleware.js'
+import transportController from '../controllers/transport.controller.js'
 
-const createPaymentUrl = async (req, res) => {
+const createPaymentUrl = async (req, res, next) => {
     try {
         let date = new Date()
         const accessToken = req.headers['authorization']
@@ -16,7 +17,7 @@ const createPaymentUrl = async (req, res) => {
                 tmnCode: 'ZFOUCS77',
                 secretKey: 'QXESFFFHTPUPZADYFLZXHBEWIZGKXNQC',
                 vnpUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
-                returnUrl: 'https://www.findermovie.me/vnpay_return',
+                returnUrl: 'https://findermovie.me/vnpay_return',
                 orderId: moment(date).format('DDHHmmss'),
                 amount: 50000,
                 bankCode: '',
@@ -36,7 +37,16 @@ const createPaymentUrl = async (req, res) => {
                 },
             },
         )
+        const arr = payment.data.split('?')[1].split('&')
+        const vnpay = {}
+        arr.forEach((item) => {
+            const [key, value] = item.split('=')
+            vnpay[key] = value
+        })
+        req.headers.vnpay = vnpay
+
         responseHandler.ok(res, payment.data)
+        next(req, res)
     } catch (error) {
         console.error(error)
         responseHandler.error(res, 'Internal server error')
@@ -55,6 +65,7 @@ const vnpayReturn = async (req, res) => {
                 { $set: { isVip: isVip } }, // Trường thông tin thanh toán
                 { new: true },
             )
+            transportController.sendPaymentSuccessEmail(req, res)
             responseHandler.ok(res, isVip)
         }
     } catch (error) {

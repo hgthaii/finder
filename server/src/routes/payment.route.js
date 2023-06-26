@@ -2,7 +2,7 @@ import express from 'express'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import paymentController from '../controllers/payment.controller.js'
 import checkAndUpdateVipStatus from '../middlewares/vip.middleware.js'
-import transportMiddleware from '../middlewares/transport.middleware.js'
+import transportController from '../controllers/transport.controller.js'
 
 const router = express()
 
@@ -12,6 +12,8 @@ router.post(
     paymentController.createPaymentUrl,
 )
 
-router.post('/', transportMiddleware.sendPaymentSuccessEmail, paymentController.vnpayReturn)
+router.post('/', paymentController.vnpayReturn)
+
+router.post('/send-email', transportController.sendPaymentSuccessEmail)
 
 export default router

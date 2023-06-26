@@ -138,7 +138,7 @@ const signin = async (req, res) => {
 
 const signout = async (req, res) => {
     try {
-        const refreshToken = req.headers['cookie'].split(';')[3].split('=')[1]
+        const refreshToken = req.headers['cookie']?.split(';')[3]?.split('=')[1] || req.headers['authorization']?.split(' ')[1]
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken')

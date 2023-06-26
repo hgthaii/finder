@@ -10,7 +10,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import axios from 'axios'
 
 import { headerMenu } from '../ultis/menu'
-import logo from '../asset/image/logo.png'
+import logo from '../asset/image/Finder.svg'
 import icons from '../ultis/icons'
 import { Search } from '../components/'
 
@@ -44,6 +44,7 @@ import Skeleton from '@mui/material/Skeleton'
 // Initialization for ES Users
 import { Collapse, Dropdown, initTE } from 'tw-elements'
 import { useCookies } from 'react-cookie';
+import { io } from 'socket.io-client'
 
 initTE({ Collapse, Dropdown })
 const style = {
@@ -183,6 +184,12 @@ const Header = () => {
 
     const isLoggedIn = localStorage.getItem('accessToken') ? true : false
     const headerMenuLength = isLoggedIn ? headerMenu.length : headerMenu.length - 1
+
+    useEffect(() => {
+        const socket = io('http://localhost:5000', {
+            withCredentials: true,
+        })
+    },[])
     return (
         <div>
             <nav

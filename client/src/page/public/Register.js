@@ -6,7 +6,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import logo from '../../asset/image/logo.png'
+import logo from '../../asset/image/Finder.svg'
 const Register = ({ onClose }) => {
     // const [email, setEmail] = useState("");
     const [validationMsg, setValidationMsg] = useState({})
