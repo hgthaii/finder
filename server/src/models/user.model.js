@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         select: false, // Không được lấy ra khi query
     },
+    email: {
+        type: String,
+        required: true
+    },
     roles: { type: String, enum: ['user'], default: 'user' },
     salt: {
         type: String,

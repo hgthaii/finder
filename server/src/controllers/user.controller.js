@@ -12,7 +12,7 @@ const client = new OAuth2Client('689641141844-dm1eiuln8nqg3rtncacmh64d6mv9skjf.a
 const signup = async (req, res) => {
     try {
         // Lấy thông tin user mới được gửi lên trong request body
-        const { username, password, displayName, roles } = req.body
+        const { username, password, displayName, roles, email } = req.body
 
         // Kiểm tra xem user đó đã tồn tại trong database chưa
         const checkUser = await userModel.findOne({ username })
@@ -23,6 +23,7 @@ const signup = async (req, res) => {
 
         user.displayName = displayName
         user.username = username
+        user.email = email
         if (roles) {
             user.roles = roles
         } else {
@@ -38,8 +39,9 @@ const signup = async (req, res) => {
             roles: user.roles,
             infor: {
                 id: user.id,
-                displayName: user.displayName,
                 username: user.username,
+                displayName: user.displayName,
+                email: user.email,
             },
         }
 
@@ -72,7 +74,7 @@ const signin = async (req, res) => {
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
-            .select('username id salt password displayName roles createdAt updatedAt isVip vipExpirationDate')
+            .select('username id salt password displayName roles createdAt updatedAt isVip vipExpirationDate email')
         if (!user) return responseHandler.badrequest(res, 'Tài khoản không tồn tại!')
 
         if (!user.validPassword(password)) return responseHandler.badrequest(res, 'Sai mật khẩu, vui lòng thử lại!')
@@ -83,6 +85,7 @@ const signin = async (req, res) => {
                 id: user.id,
                 displayName: user.displayName,
                 username: user.username,
+                email: user.email,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
                 isVip: user.isVip,

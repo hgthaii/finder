@@ -15,6 +15,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY)
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
         const displayName = tokenDecoded.infor.displayName
+        const email = tokenDecoded.infor.email
         const currentFilePath = fileURLToPath(import.meta.url)
         const currentDirectoryPath = dirname(currentFilePath)
         const templatePath = path.join(currentDirectoryPath, '..', 'assets', 'html', 'email.ejs')
@@ -31,7 +32,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
         const html = ejs.render(template, data)
 
         const msg = {
-            to: process.env.TO_EMAIL,
+            to: email,
             from: process.env.FROM_EMAIL,
             subject: 'Đăng ký VIP Member thành công!',
             // text: 'and easy to do anywhere, even with Node.js',
