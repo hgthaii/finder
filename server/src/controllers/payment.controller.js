@@ -62,9 +62,9 @@ const vnpayReturn = async (req, res) => {
                 { $set: { isVip: isVip } }, // Trường thông tin thanh toán
                 { new: true },
             )
-            transportController.sendPaymentSuccessEmail(req, res)
-            responseHandler.ok(res, isVip)
         }
+        transportController.sendPaymentSuccessEmail(req, res)
+        responseHandler.ok(res, isVip)
     } catch (error) {
         console.log(error)
         responseHandler.error(res, 'Lỗi thanh toán')
