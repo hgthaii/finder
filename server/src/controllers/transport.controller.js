@@ -21,7 +21,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
             vnp_TransactionNo: vnpay.vnp_TransactionNo,
             vnp_OrderInfo: vnpay.vnp_OrderInfo,
             vnp_CreateDate: moment(vnpay.vnp_PayDate, 'YYYYMMDDHHmmss')
-                .utcOffset('+07:00')
+                .utcOffset()
                 .format('YYYY-MM-DD HH:mm:ss'),
         }
         const html = `<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f1f1f1;">
