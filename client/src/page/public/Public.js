@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 const Public = () => {
     //
     return (
-        <div className="flex relative flex-col bg-[#030014] min-h-screen text-white dark:bg-[#fafafc] ">
+        <div className="flex relative flex-col bg-[#030014] min-h-screen text-white dark:bg-[#0f0f0f] ">
             <ToastContainer
                 position="bottom-left"
                 hideProgressBar={false}
