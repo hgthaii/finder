@@ -15,8 +15,6 @@ const createPaymentUrl = async (req, res) => {
             {
                 tmnCode: 'ZFOUCS77',
                 secretKey: 'QXESFFFHTPUPZADYFLZXHBEWIZGKXNQC',
-                vnpUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
-                returnUrl: 'https://findermovie.me/vnpay_return',
                 orderId: moment(date).format('DDHHmmss'),
                 amount: 50000,
                 bankCode: '',
