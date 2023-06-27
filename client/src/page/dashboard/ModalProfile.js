@@ -8,6 +8,8 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -177,11 +179,12 @@ const ModalProfile = () => {
     useEffect(() => {
         setVip(infor.isVip)
     }, [vip])
+    const { t, i18n } = useTranslation()
 
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
-                <h3 className="text-xl font-semibold mb-4 text-center">Account Setting</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center">{t('Account_setting')}</h3>
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs
@@ -191,9 +194,9 @@ const ModalProfile = () => {
                             textColor="inherit"
                             aria-label="basic tabs example"
                         >
-                            <Tab label="Account Information" {...a11yProps(0)} />
-                            <Tab label="Change DisplayName" {...a11yProps(1)} />
-                            <Tab label="Change Password" {...a11yProps(2)} />
+                            <Tab label={t('Accout_accoutInfomation')} {...a11yProps(0)} />
+                            <Tab label={t('Accout_changeDisplayName')} {...a11yProps(1)} />
+                            <Tab label={t('Accout_changePassword')} {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={parseInt(value)} index={0}>
@@ -202,44 +205,44 @@ const ModalProfile = () => {
                                 <strong>ID:</strong> {infor?.id}
                             </label>
                             <label>
-                                <strong>DISPLAY NAME:</strong> {infor?.displayName}
+                                <strong>{t('Accout_DisplayName')}</strong> {infor?.displayName}
                             </label>
                             <label>
-                                <strong>USERNAME:</strong> {infor?.username}
+                                <strong>{t('Accout_userName')}</strong> {infor?.username}
                             </label>
                             <label>
                                 <strong>ROLE:</strong> {inforRole}
                             </label>
                             <label>
-                                <strong>CREATED-AT:</strong> {formattedDateCreated}
+                                <strong>{t('Accout_createdAt')}</strong> {formattedDateCreated}
                             </label>
                             <label>
-                                <strong>UPDATED-AT:</strong> {formattedDateUpdated}
+                                <strong>{t('Accout_updateAt')}</strong> {formattedDateUpdated}
                             </label>
                         </div>
                         {infor.isVip === false ? (
                             <div className="text-center">
                                 <h2 className="text-2xl font-bold mb-4">
-                                    Chỉ với 30.000đ bạn sẽ được xem phim không giới hạn!
+                                    {t('Desc_Vip')}
                                 </h2>
                                 <button
                                     onClick={addPayment}
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                 >
-                                    Thanh toán ngay
+                                    {t('PayNow')}
                                 </button>
                             </div>
                         ) : (
-                            <p>Bạn đã là VIP của Finder!</p>
+                            <p>{t('VIP')}</p>
                         )}
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>
                         <div>
-                            <label>DISPLAYNAME: </label>
+                            <label>{t('Accout_DisplayName')}</label>
                             <input
                                 type="text"
                                 className="w-[200px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
-                                placeholder="Enter displayname"
+                                placeholder={t('Placeholder_displayname')}
                                 onChange={onChangeName}
                             />
                         </div>
@@ -247,7 +250,7 @@ const ModalProfile = () => {
                             className="bg-[#037AEB] h-12 w-[100px] mt-5 rounded-md p-3 font-semibold "
                             onClick={onChangeDisplayName}
                         >
-                            CHANGE
+                            {t('Change')}
                         </button>
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={2}>
@@ -256,27 +259,27 @@ const ModalProfile = () => {
                                 <input
                                     type="password"
                                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                                    placeholder="Enter password"
+                                    placeholder={t('Placeholder_password')}
                                     onChange={onChangePass}
                                 />
 
                                 <input
                                     type="password"
                                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
-                                    placeholder="Enter new password"
+                                    placeholder={t('Placeholder_newPassword')}
                                     onChange={onChangeNewPass}
                                 />
                                 <input
                                     type="password"
                                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                                    placeholder="Enter confirm new password"
+                                    placeholder={t('Placeholder_confirmPassword')}
                                     onChange={onChangeConfirmPass}
                                 />
                                 <button
                                     className="bg-[#037AEB] h-12 w-[100px] mt-5 rounded-md p-3 font-semibold mr-auto"
                                     onClick={onChangePassword}
                                 >
-                                    CHANGE
+                                    {t('Change')}
                                 </button>
                             </div>
                         </div>

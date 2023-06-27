@@ -1,18 +1,18 @@
 export const headerMenu = [
     {
         path: '',
-        text: 'Trang chủ',
+        text: 'Home',
     },
     {
         path: 'movieseris',
-        text: 'Phim T.Hình',
+        text: 'Movieseries',
     },
     {
         path: 'movie',
-        text: 'Phim',
+        text: 'Movie',
     },
     {
         path: 'mylist',
-        text: 'Danh sách của tôi',
+        text: 'MyFavorite',
     },
 ]

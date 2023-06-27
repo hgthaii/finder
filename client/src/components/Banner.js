@@ -5,6 +5,7 @@ import ReactPlayer from 'react-player'
 import icons from '../ultis/icons'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
+import { useTranslation } from 'react-i18next'
 
 import path from '../ultis/path'
 import axios from 'axios'
@@ -13,6 +14,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
     const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
     const [isFullScreen, setIsFullScreen] = useState(false)
+    const { t } = useTranslation()
 
     const handleWrapperRef = (ref) => {
         if (ref) {
@@ -65,9 +67,8 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
 
     return (
         <div
-            className={`  relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${
-                banerModal ? '!h-auto !m-0 !p-0 ' : ''
-            }`}
+            className={`  relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''
+                }`}
         >
             {showImage ? (
                 <img
@@ -103,9 +104,8 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                     </div>
                     <div className="flex flex-col">
                         <p
-                            className={`opacity-0 sm:opacity-100 ${
-                                banerModal ? '!opacity-100' : ''
-                            } text-white marker:text-[#F9F9F9]  text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}
+                            className={`opacity-0 sm:opacity-100 ${banerModal ? '!opacity-100' : ''
+                                } text-white marker:text-[#F9F9F9]  text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}
                         >
                             {data?.overview || randomMovies?.overview}
                         </p>
@@ -117,7 +117,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                     className="  flex items-center justify-center rounded-full  bg-white text-black text-center font-semibold py-2 px-2 mr-2 sm:px-5 sm:rounded-md"
                                 >
                                     <BsFillPlayFill size={35} />
-                                    <span className={`sm:block  ${banerModal ? 'block' : 'hidden'}`}>Phát</span>
+                                    <span className={`sm:block  ${banerModal ? 'block' : 'hidden'}`}>{t('Banner_play')}</span>
                                 </button>
                                 <div>
                                     {isFullScreen && (
@@ -167,7 +167,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                         className=" gap-2  flex items-center justify-center rounded-full bg-transparent text-white text-center font-bold py-2 px-2 ml-2 border border-white md:px-5 md:rounded-md"
                                     >
                                         <AiOutlineExclamationCircle size={30} color="white" />
-                                        <span className="md:block hidden">Thông tin khác</span>
+                                        <span className="md:block hidden">{t('Banner_more')}</span>
                                     </Link>
                                 </div>
                             )}
@@ -175,7 +175,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                     </div>
                 </div>
             </div>
-            <div className="bg-gradient-top absolute top-0 bottom-0 left-0 right-0 z-[3]"></div>
+            <div className="bg-gradient-top absolute top-0 bottom-0 left-0 right-0 z-[3] dark:bg-gradient-top-dark"></div>
         </div>
     )
 }

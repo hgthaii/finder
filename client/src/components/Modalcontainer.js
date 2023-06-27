@@ -278,7 +278,7 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     return (
         <div
-            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl dark:bg-[#fafafc] dark:text-black "
+            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl dark:bg-main-100  "
             onClick={(event) => event.stopPropagation()}
         >
             <div className="relative ">
@@ -334,7 +334,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
                 <div className="episodes-gradient ">
                     {data?.episodes?.length !== 0 && (
-                        <div className="flex items-center justify-between mt-[31px]  font-bold dark:bg-[#fafafc] dark:text-black ">
+                        <div className="flex items-center justify-between mt-[31px]  font-bold dark:bg-main-100  ">
                             <h3 className="w-[70%] text-2xl">{t('Episode_modal')} </h3>
                             <span className="w-[30%] text-lg text-right">{data?.duration}</span>
                         </div>
@@ -396,7 +396,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-                        <div className="w-full bg-[#333333] p-8 rounded-lg dark:bg-[#fafafc] dark:text-black dark:border dark:border-[#ddd]">
+                        <div className="w-full bg-[#333333] p-8 rounded-lg dark:bg-main-100  dark:border dark:border-[#ddd]">
                             <div className="flex items-center gap-3">
                                 <img
                                     src="https://source.unsplash.com/random"
@@ -412,7 +412,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         placeholder={t('ThinkMovie_modal')}
                                         value={postComment.content}
                                         onChange={handleInputChange}
-                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px] dark:bg-[#fafafc] dark:text-black"
+                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px] dark:bg-main-100 "
                                         style={{ fontWeight, fontStyle, textDecorationLine }}
                                     ></textarea>
                                 </div>

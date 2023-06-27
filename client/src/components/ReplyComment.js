@@ -46,7 +46,7 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
         <div className="flex justify-between">
             <BsArrowReturnRight size={40} color="grey" className="ml-7 mt-2 mr-2" />
             <div className="flex justify-end w-11/12 mr-8">
-                <div className="w-full bg-[#333333] rounded-lg  flex justify-between dark:bg-[#fafafc]">
+                <div className="w-full bg-[#333333] rounded-lg  flex justify-between dark:bg-main-100">
                     <form className="flex justify-between items-center w-full">
                         <img
                             src="https://source.unsplash.com/random"
@@ -58,7 +58,7 @@ const ReplyComment = ({ commentId, handleChangeReply }) => {
                             <textarea
                                 onChange={(e) => setContent(e.target.value)}
                                 placeholder={t('respond_comment')}
-                                className="bg-[#333333] outline-none w-full dark:bg-[#fafafc]"
+                                className="bg-[#333333] outline-none w-full dark:bg-main-100"
                             ></textarea>
                         </div>
 

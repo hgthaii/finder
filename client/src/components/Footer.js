@@ -6,7 +6,7 @@ import logo from '../../src/asset/image/logo.png'
 const Footer = () => {
     const { t } = useTranslation()
     return (
-        <div className="bg-[#030014]  text-white w-full dark:text-black dark:bg-[#fafafc]">
+        <div className="bg-[#030014]  text-white w-full  dark:bg-main-100">
             <div className="  p-4 text-center">
                 <div className="mb-6 flex justify-center">
                     <img src={logo} alt="logo" />
@@ -27,14 +27,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div
-                className="p-4 text-center"
-            >
-                © 2023 Copyright:
-                <a className="text-white dark:text-black" href="https://tailwind-elements.com/"
-                >by Finder</a
-                >
-            </div>
+            <div className="p-4 text-center">© 2023 Copyright: by Finder</div>
         </div>
     )
 }

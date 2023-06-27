@@ -33,7 +33,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
     const [anchorEl, setAnchorEl] = useState(null)
     const openn = Boolean(anchorEl)
     const { t, i18n } = useTranslation()
-    console.log(i18n.language);
     useEffect(() => {
         const interval = setInterval(() => {
             if (i18n.language === 'vi') {
@@ -308,7 +307,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                             }}
                         >
                             <MenuItem onClick={handleDeleteComment}>
-                                <ListItemText>Xóa bình luận</ListItemText>
+                                <ListItemText>{t('RemoveComment_comment')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </div>
@@ -320,8 +319,8 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             {isLoggedIn ? (
                 <div className="flex items-end justify-end mr-8">
                     <figure className="image-box">
-                        <span className="text-like dark:text-black">
-                            <span>Thích</span>
+                        <span className="text-like ">
+                            <span>{t('Like')}</span>
                         </span>
                         <div className="icons">
                             {like
@@ -473,7 +472,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                     </figure>
 
                     <span onClick={handleClickReply} className="cursor-pointer ">
-                        Phản hồi
+                        {t('Feedback_comment')}
                     </span>
                 </div>
             ) : null}
