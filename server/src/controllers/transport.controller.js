@@ -82,7 +82,11 @@ const sendPaymentSuccessEmail = async (req, res) => {
             // text: 'and easy to do anywhere, even with Node.js',
             html: html,
         }
-        await sgMail.send(msg)
+        try {
+            await sgMail.send(msg).then((error) => console.log(error))
+        } catch (error) {
+            console.log(error);
+        }
         // responseHandler.ok(res, {
         //     statusCode: 200,
         //     message: 'Gửi mail thành công!',
