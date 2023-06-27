@@ -209,7 +209,7 @@ const Header = () => {
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                             {headerMenu.slice(0, headerMenuLength).map((item, index) => (
-                                <li className="mb-4 lg:mb-0 lg:pr-2 dark:text-black " data-te-nav-item-ref key={index}>
+                                <li className="mb-4 lg:mb-0 lg:pr-2  " data-te-nav-item-ref key={index}>
                                     <NavLink
                                         to={item.path}
                                         className={({ isActive }) => (isActive ? ActiveStyle : noActiveStyle)}

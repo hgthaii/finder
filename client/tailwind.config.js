@@ -14,6 +14,17 @@ module.exports = {
                 'gradient-header': 'linear-gradient(180deg,#030014ac 10%,transparent)',
                 'gradient-radial180':
                     'linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(20,20,20,1) 10%, rgba(20,20,20,0.6111694677871149) 40%, rgba(20,20,20,0.14898459383753504) 75%, rgba(20,20,20,0.08175770308123254) 88%, rgba(20,20,20,0) 100%)',
+                'gradient-top-dark':
+                    'linear-gradient(180deg, hsla(0, 0%, 8%, 0) 0, hsla(0, 0%, 8%, .15) 37%, hsla(0, 0%, 8%, .35) 47%, hsla(0, 0%, 8%, .58) 75%, #0f0f0f 88%, #0f0f0f)',
+
+            },
+            colors: {
+                'main-100': '#0f0f0f',
+                'main-200': '#dde4e4',
+                'main-300': '#ced9d9',
+                'main-400': '#c0d8d8',
+                'main-500': '#0e8080',
+                'main-white': "#fff"
             },
             keyframes: {
                 scaleUp: {

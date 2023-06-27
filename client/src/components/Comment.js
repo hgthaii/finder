@@ -319,7 +319,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             {isLoggedIn ? (
                 <div className="flex items-end justify-end mr-8">
                     <figure className="image-box">
-                        <span className="text-like dark:text-black">
+                        <span className="text-like ">
                             <span>{t('Like')}</span>
                         </span>
                         <div className="icons">

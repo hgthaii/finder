@@ -175,7 +175,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                     </div>
                 </div>
             </div>
-            <div className="bg-gradient-top absolute top-0 bottom-0 left-0 right-0 z-[3]"></div>
+            <div className="bg-gradient-top absolute top-0 bottom-0 left-0 right-0 z-[3] dark:bg-gradient-top-dark"></div>
         </div>
     )
 }

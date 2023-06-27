@@ -6,7 +6,7 @@ import icons from '../ultis/icons'
 const Modalcard = ({ data }) => {
     const { BsFillPlayFill, FaUsers, AiOutlinePlus, BsInfoLg } = icons
     return (
-        <div className="flex flex-col h-[450px] bg-[#1A1D29] overflow-hidden text-white dark:text-black dark:bg-[#fafafc] dark:border dark:border-[#ddd]">
+        <div className="flex flex-col h-[450px] bg-[#1A1D29] overflow-hidden text-white  dark:bg-main-100 dark:border dark:border-[#ddd]">
             <img src={data?.poster_path?.[0]?.path} alt="card" className="w-full object-contain" />
             <div className="p-2">
                 <div className=" flex p-[14px] gap-2 justify-between items-center">
