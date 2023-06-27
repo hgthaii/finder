@@ -87,6 +87,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
         //     statusCode: 200,
         //     message: 'Gửi mail thành công!',
         // })
+        console.log('Gửi mail thành công!');
     } catch (error) {
         console.log(error);
         // responseHandler.error(res, 'Gửi mail không thành công.')
