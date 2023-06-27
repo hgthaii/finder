@@ -20,9 +20,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
             vnp_CardType: vnpay.vnp_CardType,
             vnp_TransactionNo: vnpay.vnp_TransactionNo,
             vnp_OrderInfo: vnpay.vnp_OrderInfo,
-            vnp_CreateDate: moment(vnpay.vnp_PayDate, 'YYYYMMDDHHmmss')
-                .utcOffset()
-                .format('YYYY-MM-DD HH:mm:ss'),
+            vnp_CreateDate: moment(vnpay.vnp_PayDate).format('YYYY-MM-DD HH:mm:ss'),
         }
         const html = `<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f1f1f1;">
     <div style="max-width: 600px; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); color: #333;">
