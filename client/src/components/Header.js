@@ -185,11 +185,11 @@ const Header = () => {
     const isLoggedIn = localStorage.getItem('accessToken') ? true : false
     const headerMenuLength = isLoggedIn ? headerMenu.length : headerMenu.length - 1
 
-    useEffect(() => {
-        const socket = io('http://localhost:5000', {
-            withCredentials: true,
-        })
-    },[])
+    // useEffect(() => {
+    //     const socket = io('http://localhost:5000', {
+    //         withCredentials: true,
+    //     })
+    // },[])
     return (
         <div>
             <nav

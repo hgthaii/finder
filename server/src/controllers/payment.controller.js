@@ -1,6 +1,5 @@
 import userModel from '../models/user.model.js'
 import responseHandler from '../handlers/response.handler.js'
-import config from 'config'
 import axios from 'axios'
 import moment from 'moment'
 import tokenMiddleware from '../middlewares/token.middleware.js'
@@ -56,6 +55,7 @@ const createPaymentUrl = async (req, res, next) => {
 const vnpayReturn = async (req, res) => {
     try {
         const { isVip } = req.body
+        // console.log(req.headers);
         const userId = tokenMiddleware.tokenDecode(req).infor.id
         const checkUser = await userModel.findById(userId)
         if (!checkUser) return responseHandler.notfound(res, 'Không tìm thấy user.')
