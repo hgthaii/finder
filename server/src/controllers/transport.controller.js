@@ -21,7 +21,7 @@ const sendPaymentSuccessEmail = async (req, res) => {
             vnp_TransactionNo: vnpay.vnp_TransactionNo,
             vnp_OrderInfo: vnpay.vnp_OrderInfo,
             vnp_CreateDate: moment(vnpay.vnp_PayDate, 'YYYYMMDDHHmmss')
-                .utcOffset()
+                .utcOffset('+07:00')
                 .format('YYYY-MM-DD HH:mm:ss'),
         }
         const html = `<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f1f1f1;">
@@ -83,7 +83,8 @@ const sendPaymentSuccessEmail = async (req, res) => {
             html: html,
         }
         try {
-            await sgMail.send(msg).then((error) => console.log(error))
+            await sgMail.send(msg)
+            console.log('Gửi mail thành công!');
         } catch (error) {
             console.log(error);
         }
@@ -91,7 +92,6 @@ const sendPaymentSuccessEmail = async (req, res) => {
         //     statusCode: 200,
         //     message: 'Gửi mail thành công!',
         // })
-        console.log('Gửi mail thành công!');
     } catch (error) {
         console.log(error);
         // responseHandler.error(res, 'Gửi mail không thành công.')
