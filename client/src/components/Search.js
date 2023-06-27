@@ -8,6 +8,7 @@ import icons from '../ultis/icons'
 import { useDebounce } from '../hook'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const Search = () => {
     const { BiSearchAlt2 } = icons
@@ -16,6 +17,7 @@ const Search = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen)
     }
@@ -48,7 +50,7 @@ const Search = () => {
                     <input
                         type="text"
                         className="w-full bg-transparent outline-none px-2 py-1 "
-                        placeholder="Phim, diễn viên, thể loại..."
+                        placeholder={t('Placeholder_searchRelaseMovie')}
                         value={searchValue}
                         onChange={handleChange}
                     />

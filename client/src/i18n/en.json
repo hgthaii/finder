@@ -25,6 +25,7 @@
     "Placeholder_password": "Enter password",
     "Placeholder_confirmPassword": "Enter confirm password",
     "Placeholder_newPassword": "Enter new password",
+    "Placeholder_searchRelaseMovie":"Movie, Actor, Relase...",
     "Search_displayname": "Search displayname",
     "btn_Search": "Search",
     "btn_Submit": "SUBMIT",

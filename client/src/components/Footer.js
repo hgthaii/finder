@@ -27,15 +27,6 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            {/* <div
-                className="p-4 text-center"
-            >
-                © 2023 Copyright:
-                <a className="text-white " href="https://tailwind-elements.com/"
-                >by Finder</a
-                >
-            </div> */}
-
             <div className="p-4 text-center">© 2023 Copyright: by Finder</div>
         </div>
     )
