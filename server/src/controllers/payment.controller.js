@@ -63,7 +63,7 @@ const vnpayReturn = async (req, res) => {
                 { new: true },
             )
         }
-        transportController.sendPaymentSuccessEmail(req, res)
+        await transportController.sendPaymentSuccessEmail(req, res)
         responseHandler.ok(res, isVip)
     } catch (error) {
         console.log(error)
