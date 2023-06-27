@@ -5,7 +5,7 @@ import moment from 'moment'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import transportController from '../controllers/transport.controller.js'
 
-const createPaymentUrl = async (req, res, next) => {
+const createPaymentUrl = async (req, res) => {
     try {
         let date = new Date()
         const accessToken = req.headers['authorization']
@@ -45,7 +45,6 @@ const createPaymentUrl = async (req, res, next) => {
         req.headers.vnpay = vnpay
 
         responseHandler.ok(res, payment.data)
-        next(req, res)
     } catch (error) {
         console.error(error)
         responseHandler.error(res, 'Internal server error')
