@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 // import cookieMiddleware from '../middlewares/cookie.middleware.js'
 import { OAuth2Client } from 'google-auth-library'
-import { response } from 'express'
+import notificationController from './notification.controller.js'
 
 const client = new OAuth2Client('689641141844-dm1eiuln8nqg3rtncacmh64d6mv9skjf.apps.googleusercontent.com')
 const signup = async (req, res) => {
@@ -128,7 +128,8 @@ const signin = async (req, res) => {
 
         // Gắn đối tượng user đã xác thực vào req object
         req.user = user
-
+        await notificationController.sendWelcomeNotification(user.id)
+        
         responseHandler.created(res, {
             access_token: accessToken,
             refresh_token: refreshToken,
@@ -142,10 +143,13 @@ const signin = async (req, res) => {
 const signout = async (req, res) => {
     try {
         const refreshToken = req.headers['cookie']?.split(';')[3]?.split('=')[1] || req.headers['authorization']?.split(' ')[1]
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const userId = tokenDecoded.infor.id
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken')
         await refreshtokenModel.findOneAndDelete({ token: refreshToken })
+        await notificationController.deleteWelcomeNotification(userId)
         responseHandler.ok(res, {
             statusCode: 200,
             message: 'Đăng xuất thành công!',
