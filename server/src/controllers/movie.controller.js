@@ -2,6 +2,7 @@ import responseHandler from '../handlers/response.handler.js'
 import commentModel from '../models/comment.model.js'
 import genreModel from '../models/genre.model.js'
 import movieModel from '../models/movie.model.js'
+import notificationController from './notification.controller.js'
 
 // Tạo mới một bộ phim
 const createMovie = async (req, res) => {
@@ -66,6 +67,10 @@ const createMovie = async (req, res) => {
 
         await movie.save()
 
+        const subject = `Phim ${title} vừa được cập nhật`
+        const body = `Chần chờ gì nữa, vào xem ngay thôi!`
+        await notificationController.sendMovieUpdateNotification(subject, body)
+        
         responseHandler.created(res, {
             ...movie._doc,
         })
