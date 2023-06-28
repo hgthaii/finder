@@ -5,7 +5,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import 'dotenv/config'
 import routes from './src/routes/index.js'
-import { Server } from 'socket.io'
+import notificationController from './src/controllers/notification.controller.js'
 
 const app = express()
 
@@ -31,6 +31,7 @@ const corsOptions = {
     },
 }
 const server = http.createServer(app)
+notificationController.setupSocketIO(server)
 const port = process.env.PORT || 5000
 
 app.use(express.urlencoded({ extended: false }))
@@ -38,16 +39,6 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use('/api/v1', routes)
-
-const io = new Server(server)
-
-
-io.on('connection', (socket) => {
-    console.log('Socket is connected!')
-    socket.on('disconnect', () => {
-        console.log('Socket disconnected!')
-    })
-})
 
 mongoose
     .connect(process.env.MONGODB_URL, {
