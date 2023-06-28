@@ -7,6 +7,7 @@ import movieRoute from './movie.route.js'
 import tokenRoute from './token.route.js'
 import castRoute from './cast.route.js'
 import paymentRoute from './payment.route.js'
+import notificationRoute from './notification.route.js'
 
 const router = express.Router()
 
@@ -17,5 +18,6 @@ router.use('/reviews', reviewRoute)
 router.use('/genres', mediaRoute)
 router.use('/auth', tokenRoute)
 router.use('/casts', castRoute)
+router.use('/notifications', notificationRoute)
 
 export default router
