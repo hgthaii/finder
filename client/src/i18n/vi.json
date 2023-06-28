@@ -12,6 +12,8 @@
     "MyFavorite":"Danh sách của tôi",
     "Comment": "Bình luận",
     "Home":"Trang chủ",
+    "RemoveAll":"Xóa tất cả",
+    "NoNotify":"Không có thông báo",
     "Desc_Vip":"Chỉ với 30.000đ bạn sẽ được xem phim không giới hạn!",
     "PayNow":"Thanh toán ngay",
     "VIP":"Bạn đã là VIP của Finder!",
@@ -86,6 +88,7 @@
     "ManageComment": "Chi tiết bình luận phim",
     "ManageComment_selectMovie": "Chọn một bộ phim",
     "ManageComment_listMovie": "Danh sách bình luận",
+    "NotComment_comment":"Bạn không có bình luận nào",
 
     "Actor_modal":"Diễn viên: ",
     "Episode_modal":"Tập",
@@ -107,6 +110,8 @@
     "Other_comment":"người khác",
     "respond_comment":"Bạn muốn phản hồi điều gì",
     "RemoveRespond_comment":"Xóa phản hồi",
+    "Likes_comment":"Lượt thích: ",
+
 
     "PrivacyPolicy_footer":"Chính sách bảo mật",
     "Help_footer":"Giúp đỡ",
@@ -115,13 +120,13 @@
 
     "Banner_play":"Phát",
     "Banner_more":"Thông tin khác",
-    "PaymentSuccessful!":"Thanh toán thành công!",
-    "PaymentAmount":"Số tiền thanh toán: ",
-    "Bank":"Ngân hàng: ",
+    "PaymentSuccessful":"Thanh toán thành công!",
+    "PaymentAmount":"Số tiền thanh toán ",
+    "Bank":"Ngân hàng ",
     "Payer":"Người thanh toán",
-    "BankTransactionCode":"Mã giao dịch: ",
-    "PaymentMethod:":"Hình thức thanh toán: ",
-    "PaymentTime":"Thời gian thanh toán: ",
+    "BankTransactionCode":"Mã giao dịch ",
+    "PaymentMethod:":"Hình thức thanh toán ",
+    "PaymentTime":"Thời gian thanh toán ",
     "BackToHomepage":"Quay về trang chủ",
 
     "Header_adminPage":"Trang quản trị",
@@ -135,9 +140,6 @@
     "Accout_updateAt": "Ngày cập nhật: ",
     "Accout_userName":"Tên người dùng: ",
     "Accout_DisplayName":"Tên hiển thị: "
-    
-
-
 
 
 }

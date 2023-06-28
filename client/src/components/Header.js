@@ -34,6 +34,7 @@ import ModalProfile from '../page/dashboard/ModalProfile'
 import { Collapse, Dropdown, initTE } from 'tw-elements'
 import { useCookies } from 'react-cookie';
 import { io } from 'socket.io-client'
+import { Notify } from './'
 
 initTE({ Collapse, Dropdown })
 const style = {
@@ -45,8 +46,19 @@ const style = {
     // height: 550,
     padding: '50px',
     background: '#030014',
-
     boxShadow: 24,
+}
+const styleNotify = {
+    position: 'absolute',
+    background: '#030014',
+    boxShadow: 24,
+    width: 350,
+    height: 600,
+    top: "50px",
+    right: '10px',
+    borderRadius: '12px',
+    overflow: "scroll",
+
 }
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
@@ -65,7 +77,7 @@ const Header = () => {
     const [theme, setTheme] = useState('light')
     const [isHiddenMenu, setIsHiddenMenu] = useState(false);
     const openn = Boolean(anchorEl)
-
+    const [notify, setNotify] = useState([])
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
     const noActiveStyle = 'py-2 px-[25px] font-medium text-[16px] text-white  '
 
@@ -156,20 +168,29 @@ const Header = () => {
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
-    const [openProfile, setOpenProfile] = React.useState(false)
+    const [openProfile, setOpenProfile] = useState(false)
     const handleOpenProfile = () => {
         setOpenProfile(true)
     }
     const handleCloseProfile = () => {
         setOpenProfile(false)
     }
-    const [openListComment, setOpenListComment] = React.useState(false)
+    const [openListComment, setOpenListComment] = useState(false)
     const handleOpenListComment = () => {
         setOpenListComment(true)
     }
     const handleCloseListComment = () => {
         setOpenListComment(false)
     }
+
+    const [openNotify, setOpenNotify] = useState(false)
+    const handleOpenNotify = () => {
+        setOpenNotify(true)
+    }
+    const handleCloseNotify = () => {
+        setOpenNotify(false)
+    }
+
 
     const openPageAdmin = () => {
         navigate('/home-admin')
@@ -183,6 +204,29 @@ const Header = () => {
     //         withCredentials: true,
     //     })
     // },[])
+
+
+    /// get notify
+    useEffect(() => {
+        const getNotifyById = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URI}/notifications/`, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                })
+                if (response.status === 200) {
+                    setNotify(response.data)
+                }
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+        getNotifyById()
+    }, [])
     return (
         <div>
             <nav
@@ -246,7 +290,24 @@ const Header = () => {
                                 </div>
                             </div >
                             <Search />
-                            {theme === 'dark' ? <AiFillBell size={25} /> : <AiFillBell color='white' size={25} />}
+                            <div >
+                                <div
+                                    onClick={handleOpenNotify}
+                                >
+                                    <AiFillBell color='white' size={25} />
+                                </div>
+                                <Modal
+                                    open={openNotify}
+                                    onClose={handleCloseNotify}
+                                // aria-labelledby="parent-modal-title"
+                                // aria-describedby="parent-modal-description"
+                                >
+                                    <Box sx={styleNotify}>
+                                        <Notify notify={notify} pastTime={notify?.createdAt} onClose={handleCloseNotify} />
+                                    </Box>
+                                </Modal>
+                            </div>
+
                             {accessToken ? (
                                 <div>
                                     <Button
@@ -378,6 +439,7 @@ export default Header
 
 export const ModalListComment = () => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken ? accessToken.split('.') : []
@@ -414,6 +476,7 @@ export const ModalListComment = () => {
     const currentPageData = reviews.slice(offset, offset + PER_PAGE)
     const [movieDetails, setMovieDetails] = React.useState({})
     const displayReviews = () => {
+
         return currentPageData.map((x, index) => {
             const movie = movieDetails[x.movieId]
             const title = movie ? movie[0]?.title : ''
@@ -424,14 +487,14 @@ export const ModalListComment = () => {
                     <img src={poster} alt="poster" className="mr-4 w-40" />
                     <div className="w-2/5">
                         <h3 className="text-lg font-bold">{title}</h3>
-                        <p className="text-gray-500">Lượt thích: {x.likes.length}</p>
-                        <p className="text-gray-500">Bình luận: {x.content}</p>
+                        <p className="text-gray-500">{t('Likes_comment')} {x.likes.length}</p>
+                        <p className="text-gray-500">{t('Comment')} {x.content}</p>
                     </div>
                     <button
                         className="text-white hover:bg-red-800 bg-red-700 rounded p-2 ml-24"
                         onClick={() => onDeleteReview(x._id)}
                     >
-                        <DeleteIcon /> Xóa bình luận
+                        <DeleteIcon /> {t('RemoveComment_comment')}
                     </button>
                 </div>
             )
@@ -476,7 +539,7 @@ export const ModalListComment = () => {
     return (
         <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
             <div className="flex flex-col text-white mt-8 w-4/5">
-                <h3 className="text-xl font-semibold mb-4 text-center">Danh sách bình luận</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center">{t('ManageComment_listMovie')}</h3>
                 {reviews?.length > 0 ? (
                     <>
                         <div className="w-full grid grid-cols-1 gap-2">{displayReviews()}</div>
@@ -497,7 +560,7 @@ export const ModalListComment = () => {
                         />
                     </>
                 ) : (
-                    <h2>Not found review</h2>
+                    <h2>{t('NotComment_comment')}</h2>
                 )}
             </div>
         </div>
