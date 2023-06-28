@@ -20,8 +20,10 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 900,
-    height: 550,
+    // width: 800,
+    // height: 550,
+    padding: '50px',
+    background: '#030014',
     boxShadow: 24,
 }
 const Login = ({ onClose }) => {
@@ -186,7 +188,7 @@ const Login = ({ onClose }) => {
     // const accessToken = gapi.auth.getToken().id_token;
 
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col">
+        <div className="bg-[#030014] h-full flex items-center justify-center flex-col">
             <img src={logo} alt="logo" />
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">ĐĂNG NHẬP</h3>

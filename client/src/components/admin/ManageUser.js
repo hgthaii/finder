@@ -394,6 +394,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState()
     const [displayName, setDisplayName] = useState()
+    const [email, setEmail] = useState()
 
     const onAddUser = async () => {
         try {
@@ -402,6 +403,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
                 username,
                 password,
                 confirmPassword,
+                email,
                 displayName,
             })
             toast.success('Added user successfully!')
@@ -461,6 +463,10 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
         const value = event.target.value
         setDisplayName(value)
     }
+    const onChangeEmail = (event) => {
+        const value = event.target.value
+        setEmail(value)
+    }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             onAddUser()
@@ -478,6 +484,16 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
                     onKeyPress={handleKeyPress}
                 />
                 {validate.username && <p className="text-red-400 text-sm ">{validate.username}</p>}
+
+                <input
+                    type="text"
+                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
+                    placeholder="Email"
+                    onChange={onChangeEmail}
+                    onKeyPress={handleKeyPress}
+                    required
+                />
+
                 <input
                     type="text"
                     className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"

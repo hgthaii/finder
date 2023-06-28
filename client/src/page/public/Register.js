@@ -55,6 +55,7 @@ const Register = ({ onClose }) => {
                 username,
                 password,
                 confirmPassword,
+                email,
                 displayName,
             })
             if (res.data && res.data.statusCode === 201) {
@@ -70,6 +71,7 @@ const Register = ({ onClose }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState()
     const [displayName, setDisplayName] = useState()
+    const [email, setEmail] = useState()
     const [checked, setChecked] = useState(false)
     const onChangeCheckbox = (event) => {
         setChecked(event.target.checked)
@@ -91,13 +93,17 @@ const Register = ({ onClose }) => {
         const value = event.target.value
         setDisplayName(value)
     }
+    const onChangeEmail = (event) => {
+        const value = event.target.value
+        setEmail(value)
+    }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             onSubmitRegister()
         }
     }
     return (
-        <div className="bg-[#1E1E1E] h-full">
+        <div className="bg-[#030014] h-full">
             {/* <span className="flex justify-end  text-white mr-4 pt-4">
           Đăng nhập
         </span> */}
@@ -110,12 +116,21 @@ const Register = ({ onClose }) => {
                     <input
                         type="text"
                         className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
-                        placeholder="Emai hoặc số điện thoại..."
+                        placeholder="Tên tài khoản"
                         onChange={onChangeUsername}
                         onKeyPress={handleKeyPress}
                         required
                     />
                     <p className="text-red-400 text-xs "> {validationMsg.email}</p>
+
+                    <input
+                        type="text"
+                        className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
+                        placeholder="Email"
+                        onChange={onChangeEmail}
+                        onKeyPress={handleKeyPress}
+                        required
+                    />
 
                     <input
                         type="text"
