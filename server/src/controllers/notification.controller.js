@@ -2,7 +2,7 @@ import responseHandler from '../handlers/response.handler.js'
 import { EventEmitter } from 'events'
 import tokenMiddleware from '../middlewares/token.middleware.js'
 import userModel from '../models/user.model.js'
-import {Server} from 'socket.io'
+import { Server } from 'socket.io'
 
 const eventEmitter = new EventEmitter()
 let io
@@ -119,10 +119,58 @@ const deleteWelcomeNotification = async (userId) => {
     }
 }
 
+const deleteAllNotifications = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const userId = tokenDecoded.infor.id
+        // Tìm người dùng trong cơ sở dữ liệu bằng userId
+        const user = await userModel.findById(userId)
+
+        // Kiểm tra xem người dùng có tồn tại hay không
+        if (!user) return responseHandler.badrequest(res, 'Người dùng không tồn tại.')
+
+        // Xoá tất cả thông báo trong danh sách thông báo của người dùng
+        user.notifications = []
+
+        // Lưu thông tin người dùng đã được cập nhật
+        await user.save()
+
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: 'Xoá tất cả thông báo thành công.',
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Xoá tất cả thông báo không thành công.')
+    }
+}
+
+const getAllNotifications = async (req, res) => {
+    try {
+        const tokenDecoded = tokenMiddleware.tokenDecode(req)
+        const userId = tokenDecoded.infor.id
+        // Tìm người dùng trong cơ sở dữ liệu bằng userId
+        const user = await userModel.findById(userId)
+
+        // Kiểm tra xem người dùng có tồn tại hay không
+        if (!user) return responseHandler.badrequest(res, 'Người dùng không tồn tại.')
+
+        // Lấy danh sách thông báo của người dùng
+        const notifications = user.notifications
+
+        responseHandler.ok(res, notifications)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Lấy tất cả thông báo không thành công')
+    }
+}
+
 export default {
     setupSocketIO,
     adminPushNotify,
     sendMovieUpdateNotification,
     sendWelcomeNotification,
     deleteWelcomeNotification,
+    getAllNotifications,
+    deleteAllNotifications,
 }

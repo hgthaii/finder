@@ -23,16 +23,18 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
     },
-    notifications: [{
-        title: String,
-        content: String,
-        createdAt: {
-            type: Date,
-            default: Date.now,
+    notifications: [
+        {
+            title: String,
+            content: String,
+            createdAt: {
+                type: Date,
+                default: Date.now,
+            },
         },
-    }],
+    ],
     roles: { type: String, enum: ['user', 'admin'], default: 'user' },
     salt: {
         type: String,

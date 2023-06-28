@@ -5,6 +5,10 @@ import authorizeMiddleware from '../middlewares/authorize.middleware.js'
 
 const router = express()
 
+router.get('/', tokenMiddleware.auth, notificationController.getAllNotifications)
+
 router.post('/push', tokenMiddleware.auth, authorizeMiddleware.allowAdminOnly, notificationController.adminPushNotify)
+
+router.delete('/delete-all-notify', tokenMiddleware.auth, notificationController.deleteAllNotifications)
 
 export default router

@@ -70,7 +70,7 @@ const createMovie = async (req, res) => {
         const subject = `Phim ${title} vừa được cập nhật`
         const body = `Chần chờ gì nữa, vào xem ngay thôi!`
         await notificationController.sendMovieUpdateNotification(subject, body)
-        
+
         responseHandler.created(res, {
             ...movie._doc,
         })

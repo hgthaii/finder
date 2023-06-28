@@ -6,11 +6,7 @@ import transportController from '../controllers/transport.controller.js'
 
 const router = express()
 
-router.post(
-    '/create_payment_url',
-    tokenMiddleware.auth,
-    paymentController.createPaymentUrl,
-)
+router.post('/create_payment_url', tokenMiddleware.auth, paymentController.createPaymentUrl)
 
 router.post('/', paymentController.vnpayReturn)
 

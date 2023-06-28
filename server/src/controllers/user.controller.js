@@ -129,7 +129,7 @@ const signin = async (req, res) => {
         // Gắn đối tượng user đã xác thực vào req object
         req.user = user
         await notificationController.sendWelcomeNotification(user.id)
-        
+
         responseHandler.created(res, {
             access_token: accessToken,
             refresh_token: refreshToken,
@@ -142,7 +142,8 @@ const signin = async (req, res) => {
 
 const signout = async (req, res) => {
     try {
-        const refreshToken = req.headers['cookie']?.split(';')[3]?.split('=')[1] || req.headers['authorization']?.split(' ')[1]
+        const refreshToken =
+            req.headers['cookie']?.split(';')[3]?.split('=')[1] || req.headers['authorization']?.split(' ')[1]
         const tokenDecoded = tokenMiddleware.tokenDecode(req)
         const userId = tokenDecoded.infor.id
         if (!refreshToken) return responseHandler.badrequest(res, 'Không có refreshToken')
@@ -476,9 +477,6 @@ const handleNewUser = async (req, res, email, name) => {
         })
     }
 }
-
-
-
 
 export default {
     signup,
