@@ -44,13 +44,13 @@ const style = {
     transform: 'translate(-50%, -50%)',
     // width: 900,
     // height: 550,
-    padding: '50px',
-    background: '#030014',
+    padding: '20px',
+    background: '#0f0f0f',
     boxShadow: 24,
 }
 const styleNotify = {
     position: 'absolute',
-    background: '#030014',
+    background: '#0f0f0f',
     boxShadow: 24,
     width: 350,
     height: 600,
@@ -207,31 +207,51 @@ const Header = () => {
 
 
     /// get notify
-    useEffect(() => {
-        const getNotifyById = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URI}/notifications/`, {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                    },
-                })
-                if (response.status === 200) {
-                    setNotify(response.data)
-                }
-                // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
+    const getNotify = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URI}/notifications/`, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
+            if (response.status === 200) {
+                setNotify(response.data)
             }
+            // Xử lý dữ liệu nhận được
+        } catch (error) {
+            // Xử lý lỗi
+            console.error(error)
         }
-        getNotifyById()
-    }, [])
+    }
+    useEffect(() => {
+        if (isLoggedIn) {
+            getNotify()
+        }
+    }, [isLoggedIn])
+
+    const deleteNotify = () => {
+        axios.delete(`${process.env.REACT_APP_API_URI}/notifications/delete-all-notify`, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        })
+            .then(response => {
+                console.log('Xóa thành công!');
+                getNotify()
+                // Thực hiện các hành động khác sau khi xóa thành công
+            })
+            .catch(error => {
+                console.error('Đã xảy ra lỗi khi xóa:', error);
+                // Xử lý lỗi nếu cần thiết
+            });
+    }
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled ? 'bg-[#030014]  animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-[#030014]  animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled ? 'bg-main-100  animate-header' : 'bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-main-100  animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3 ">
@@ -280,7 +300,7 @@ const Header = () => {
                         <div className="flex items-center gap-4 text-white ">
                             <div className='flex '>
                                 <div className="flex items-center mr-2">
-                                    <select onChange={changeLanguage} className="text-black">
+                                    <select onChange={changeLanguage} className="text-black ">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
@@ -290,7 +310,7 @@ const Header = () => {
                                 </div>
                             </div >
                             <Search />
-                            <div >
+                            <div className='cursor-pointer'>
                                 <div
                                     onClick={handleOpenNotify}
                                 >
@@ -299,11 +319,10 @@ const Header = () => {
                                 <Modal
                                     open={openNotify}
                                     onClose={handleCloseNotify}
-                                // aria-labelledby="parent-modal-title"
-                                // aria-describedby="parent-modal-description"
                                 >
                                     <Box sx={styleNotify}>
                                         <Notify notify={notify} pastTime={notify?.createdAt} onClose={handleCloseNotify} />
+                                        {notify?.length !== 0 && <div onClick={deleteNotify} className=" text-white border border-[#333] px-3 py-2 flex justify-center items-center cursor-pointer">{t('RemoveAll')}</div>}
                                     </Box>
                                 </Modal>
                             </div>
@@ -537,7 +556,7 @@ export const ModalListComment = () => {
         })
     }, [currentPageData, movieDetails])
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center flex-col text-white">
             <div className="flex flex-col text-white mt-8 w-4/5">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('ManageComment_listMovie')}</h3>
                 {reviews?.length > 0 ? (

@@ -216,9 +216,8 @@ const ManageUser = () => {
                         {t('Add_user')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
-                            disableUpdate && 'opacity-50'
-                        }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
+                            }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >
@@ -367,7 +366,7 @@ export const ModalDeleteUser = (props) => {
         }
     }
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col items-center justify-center text-white mt-4">
                 <ErrorOutlineIcon style={{ fontSize: 80 }} />
                 <label>{t('Ask_Delete')}</label>
@@ -473,7 +472,7 @@ export const ModalAddUser = ({ onClose, setIsLoading }) => {
         }
     }
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">{t('Add_user')}</h3>
                 <input
@@ -592,7 +591,7 @@ export const ModalUpdateUser = (props) => {
     const rol = ['user', 'admin']
 
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">{t('Update_user')}</h3>
                 <input

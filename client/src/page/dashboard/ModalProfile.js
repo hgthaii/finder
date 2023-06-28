@@ -182,7 +182,7 @@ const ModalProfile = () => {
     const { t, i18n } = useTranslation()
 
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center flex-col text-white ">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('Account_setting')}</h3>
                 <Box sx={{ width: '100%' }}>
@@ -193,6 +193,7 @@ const ModalProfile = () => {
                             indicatorColor="secondary"
                             textColor="inherit"
                             aria-label="basic tabs example"
+
                         >
                             <Tab label={t('Accout_accoutInfomation')} {...a11yProps(0)} />
                             <Tab label={t('Accout_changeDisplayName')} {...a11yProps(1)} />
@@ -241,7 +242,7 @@ const ModalProfile = () => {
                             <label>{t('Accout_DisplayName')}</label>
                             <input
                                 type="text"
-                                className="w-[200px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
+                                className="w-[200px] h-12 mt-3 rounded-md p-3 bg-main-100 text-[#C8C9CB] "
                                 placeholder={t('Placeholder_displayname')}
                                 onChange={onChangeName}
                             />
@@ -254,24 +255,24 @@ const ModalProfile = () => {
                         </button>
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={2}>
-                        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
+                        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
                             <div className="flex flex-col text-white">
                                 <input
                                     type="password"
-                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
+                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-main-100 text-[#C8C9CB]"
                                     placeholder={t('Placeholder_password')}
                                     onChange={onChangePass}
                                 />
 
                                 <input
                                     type="password"
-                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB] "
+                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-main-100 text-[#C8C9CB] "
                                     placeholder={t('Placeholder_newPassword')}
                                     onChange={onChangeNewPass}
                                 />
                                 <input
                                     type="password"
-                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-[#31343E] text-[#C8C9CB]"
+                                    className="w-[374px] h-12 mt-3 rounded-md p-3 bg-main-100 text-[#C8C9CB]"
                                     placeholder={t('Placeholder_confirmPassword')}
                                     onChange={onChangeConfirmPass}
                                 />

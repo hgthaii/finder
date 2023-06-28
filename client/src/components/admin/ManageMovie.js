@@ -240,9 +240,8 @@ const ManageMovie = () => {
                         {t('Add_movie')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
-                            disableUpdate && 'opacity-50'
-                        }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
+                            }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >
@@ -377,7 +376,7 @@ export const ModalDeleteMovie = (props) => {
         }
     }
     return (
-        <div className="bg-[#1E1E1E] h-full flex items-center justify-center flex-col text-white">
+        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col items-center justify-center text-white mt-4">
                 <ErrorOutlineIcon style={{ fontSize: 80 }} />
                 <label>{t('Ask_Delete')}</label>
@@ -968,9 +967,8 @@ export const DialogMovieDetail = (props) => {
                             ))} */}
                         {detail?.program_type?.length ? (
                             detail?.program_type?.map((item, index) => (
-                                <span key={index}>{`${item.name}${
-                                    index !== detail.program_type.length - 1 ? ', ' : ''
-                                }`}</span>
+                                <span key={index}>{`${item.name}${index !== detail.program_type.length - 1 ? ', ' : ''
+                                    }`}</span>
                             ))
                         ) : (
                             <span>{t('Movie_notfound')}</span>
@@ -980,9 +978,8 @@ export const DialogMovieDetail = (props) => {
                         <span className="font-bold">{t('Movie_creator')}: </span>
                         {detail?.creators?.length ? (
                             detail?.creators?.map((item, index) => (
-                                <span key={index}>{`${item.name}${
-                                    index !== detail.creators.length - 1 ? ', ' : ''
-                                }`}</span>
+                                <span key={index}>{`${item.name}${index !== detail.creators.length - 1 ? ', ' : ''
+                                    }`}</span>
                             ))
                         ) : (
                             <span>{t('Movie_notfound')}</span>
