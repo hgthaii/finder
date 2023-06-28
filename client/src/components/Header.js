@@ -41,8 +41,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 900,
-    height: 550,
+    // width: 900,
+    // height: 550,
+    padding: '50px',
+    background: '#030014',
+
     boxShadow: 24,
 }
 const Header = () => {
