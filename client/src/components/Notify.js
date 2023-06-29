@@ -20,18 +20,19 @@ const Notify = ({ content, title, notify, pastTime }) => {
         }, 1000)
         return () => clearInterval(interval)
     }, [pastTime])
-
     return (
-        <div className='text-white flex flex-col'>
-            {notify.length !== 0 ? notify?.map((item) => (
-                <div key={item._id} className=' flex flex-col border border-[#333] px-3 py-2'>
-                    <h4 className='font-bold '>{item?.title}</h4>
-                    <p>{item?.content}</p>
-                    <span className='text-[#ddd]'>{timeAgo}</span>
-                </div>
-            ))
-                : <h3 className='p-4 text-center'>{t('NoNotify')}</h3>}
-
+        <div className="text-white flex flex-col">
+            {notify.length !== 0 ? (
+                notify?.map((item) => (
+                    <div key={item._id} className=" flex flex-col border border-[#333] px-3 py-2">
+                        <h4 className="font-bold ">{item?.title}</h4>
+                        <p>{item?.content}</p>
+                        <span className="text-[#ddd]">{timeAgo}</span>
+                    </div>
+                ))
+            ) : (
+                <h3 className="p-4 text-center">{t('NoNotify')}</h3>
+            )}
         </div>
     )
 }
