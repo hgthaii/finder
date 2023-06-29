@@ -182,7 +182,7 @@ const ModalProfile = () => {
     const { t, i18n } = useTranslation()
 
     return (
-        <div className="bg-main-100 h-full flex items-center flex-col text-white ">
+        <div className="bg-[#030014] h-full flex items-center flex-col text-white ">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('Account_setting')}</h3>
                 <Box sx={{ width: '100%' }}>
@@ -193,7 +193,6 @@ const ModalProfile = () => {
                             indicatorColor="secondary"
                             textColor="inherit"
                             aria-label="basic tabs example"
-
                         >
                             <Tab label={t('Accout_accoutInfomation')} {...a11yProps(0)} />
                             <Tab label={t('Accout_changeDisplayName')} {...a11yProps(1)} />
@@ -223,9 +222,7 @@ const ModalProfile = () => {
                         </div>
                         {infor.isVip === false ? (
                             <div className="text-center">
-                                <h2 className="text-2xl font-bold mb-4">
-                                    {t('Desc_Vip')}
-                                </h2>
+                                <h2 className="text-2xl font-bold mb-4">{t('Desc_Vip')}</h2>
                                 <button
                                     onClick={addPayment}
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
