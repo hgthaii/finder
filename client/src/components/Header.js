@@ -42,10 +42,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 900,
-    // height: 550,
-    padding: '20px',
-    background: '#0f0f0f',
+    padding: '50px',
+    background: '#030014',
     boxShadow: 24,
 }
 const styleNotify = {
@@ -247,11 +245,13 @@ const Header = () => {
                 // Xử lý lỗi nếu cần thiết
             });
     }
+    // const [val, setVal] = useState()
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled ? 'bg-main-100  animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-main-100  animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${
+                    isScrolled ? 'bg-main-100  animate-header' : 'bg-gradient-header animate-header'
+                } ${isMobile ? 'bg-main-100  animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3 ">
@@ -264,7 +264,7 @@ const Header = () => {
                         aria-label="Toggle navigation"
                         onClick={() => setIsHiddenMenu(!isHiddenMenu)}
                     >
-                        <span >
+                        <span>
                             <AiOutlineMenu size={30} />
                         </span>
                     </button>
@@ -298,31 +298,47 @@ const Header = () => {
 
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
-                            <div className='flex '>
+                            <div className="flex ">
                                 <div className="flex items-center mr-2">
                                     <select onChange={changeLanguage} className="text-black ">
                                         <option value="vi">vi</option>
                                         <option value="en">en</option>
                                     </select>
                                 </div>
-                                <div onClick={handleThemeSwitch} className='cursor-pointer'>
-                                    {theme === 'dark' ? <BsSunFill size={30} /> : <MdDarkMode color='white' size={30} />}
+                                <div onClick={handleThemeSwitch} className="cursor-pointer">
+                                    {theme === 'dark' ? (
+                                        <BsSunFill size={30} />
+                                    ) : (
+                                        <MdDarkMode color="white" size={30} />
+                                    )}
                                 </div>
-                            </div >
+                            </div>
                             <Search />
-                            <div className='cursor-pointer'>
-                                <div
-                                    onClick={handleOpenNotify}
-                                >
-                                    <AiFillBell color='white' size={25} />
+                            <div className="cursor-pointer">
+                                {notify.length > 0 && (
+                                    <div className="absolute text-white text-xs font-bold ml-6 bg-[#d83b01] rounded-lg p-1 bottom-5">
+                                        {notify.length || notify.length < 10 ? `0${notify.length}` : notify.length}
+                                    </div>
+                                )}
+
+                                <div onClick={handleOpenNotify}>
+                                    <AiFillBell color="white" size={30} />
                                 </div>
-                                <Modal
-                                    open={openNotify}
-                                    onClose={handleCloseNotify}
-                                >
+                                <Modal open={openNotify} onClose={handleCloseNotify}>
                                     <Box sx={styleNotify}>
-                                        <Notify notify={notify} pastTime={notify?.createdAt} onClose={handleCloseNotify} />
-                                        {notify?.length !== 0 && <div onClick={deleteNotify} className=" text-white border border-[#333] px-3 py-2 flex justify-center items-center cursor-pointer">{t('RemoveAll')}</div>}
+                                        <Notify
+                                            notify={notify}
+                                            pastTime={notify?.createdAt}
+                                            onClose={handleCloseNotify}
+                                        />
+                                        {notify?.length !== 0 && (
+                                            <div
+                                                onClick={deleteNotify}
+                                                className=" text-white border border-[#333] px-3 py-2 flex justify-center items-center cursor-pointer"
+                                            >
+                                                {t('RemoveAll')}
+                                            </div>
+                                        )}
                                     </Box>
                                 </Modal>
                             </div>
@@ -350,51 +366,51 @@ const Header = () => {
                                     >
                                         {parsedTokenBody.roles === 'admin'
                                             ? [
-                                                <MenuItem key="page-admin" onClick={openPageAdmin}>
-                                                    <ListItemIcon>
-                                                        <AdminPanelSettingsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_adminPage')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
-                                                    <ListItemIcon>
-                                                        <ManageAccountsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="comment-movie" onClick={handleOpenListComment}>
-                                                    <ListItemIcon>
-                                                        <ReviewsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="logout" onClick={handleLogout}>
-                                                    <ListItemIcon>
-                                                        <MeetingRoomIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Logout')}</ListItemText>
-                                                </MenuItem>,
-                                            ]
+                                                  <MenuItem key="page-admin" onClick={openPageAdmin}>
+                                                      <ListItemIcon>
+                                                          <AdminPanelSettingsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_adminPage')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
+                                                      <ListItemIcon>
+                                                          <ManageAccountsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="comment-movie" onClick={handleOpenListComment}>
+                                                      <ListItemIcon>
+                                                          <ReviewsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="logout" onClick={handleLogout}>
+                                                      <ListItemIcon>
+                                                          <MeetingRoomIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Logout')}</ListItemText>
+                                                  </MenuItem>,
+                                              ]
                                             : [
-                                                <MenuItem key="manage-user" onClick={handleOpenProfile}>
-                                                    <ListItemIcon>
-                                                        <ManageAccountsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
-                                                    <ListItemIcon>
-                                                        <ReviewsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="logout-user" onClick={handleLogout}>
-                                                    <ListItemIcon>
-                                                        <MeetingRoomIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Logout')}</ListItemText>
-                                                </MenuItem>,
-                                            ]}
+                                                  <MenuItem key="manage-user" onClick={handleOpenProfile}>
+                                                      <ListItemIcon>
+                                                          <ManageAccountsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
+                                                      <ListItemIcon>
+                                                          <ReviewsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="logout-user" onClick={handleLogout}>
+                                                      <ListItemIcon>
+                                                          <MeetingRoomIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Logout')}</ListItemText>
+                                                  </MenuItem>,
+                                              ]}
                                     </Menu>
                                     <Modal
                                         open={openProfile}
