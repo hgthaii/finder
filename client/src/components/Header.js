@@ -56,6 +56,7 @@ const styleNotify = {
     right: '10px',
     borderRadius: '12px',
     overflow: "scroll",
+    border: "1px solid #404040",
 
 }
 const Header = () => {
