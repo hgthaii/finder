@@ -204,7 +204,7 @@ const HomePageAdmin = () => {
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
     const encodedPayload = tokenParts[1]
-    const decodedPayload = atob(encodedPayload)
+    const decodedPayload = decodeURIComponent(escape(window.atob(encodedPayload)))
     const payloadObj = JSON.parse(decodedPayload)
     const name = payloadObj.infor
     const handleLogout = async () => {

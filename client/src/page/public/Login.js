@@ -73,7 +73,7 @@ const Login = ({ onClose }) => {
             // const tokenBody = response.data.access_token.split('.')[1]
 
             // Giai ma body voi base64
-            const decodedTokenBody = atob(tokenBody)
+            const decodedTokenBody = decodeURIComponent(escape(window.atob(tokenBody)))
 
             // Giai ma cac phan tu JSON cua body
             const parsedTokenBody = JSON.parse(decodedTokenBody)
