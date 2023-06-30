@@ -74,10 +74,43 @@ const getFilmOfCast = async (req, res) => {
     }
 }
 
+const updateCast = async (req, res) => {
+    try {
+        const { castId } = req.params
+        const {name} = req.body
+        const cast = await castModel.findByIdAndUpdate(castId)
+        if (!cast) return responseHandler.notfound(res, 'Không tìm thấy cast.')
+
+        cast.name = name
+        await cast.save()
+
+        responseHandler.ok(res, cast)
+    } catch (error) {
+        console.log(error);
+        responseHandler.error(res, 'Chỉnh sửa không cast thành công.')
+    }
+}
+
+const findCast = async (req, res) => {
+    try {
+        const { name } = req.body
+        const regex = new RegExp(name.split('').join('.*'), 'i')
+        const cast = await castModel.find({ name: { $regex: regex } })
+        if (!cast) return responseHandler.notfound(res, 'Không tìm thấy cast!')
+
+        responseHandler.ok(res, cast)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Tìm cast không thành công.')
+    }
+}
+
 export default {
     addCast,
     removeCast,
     getAllCasts,
     getCastById,
     getFilmOfCast,
+    updateCast,
+    findCast,
 }
