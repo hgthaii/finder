@@ -485,20 +485,29 @@ const Modalcontainer = ({ data, closeModal }) => {
                     <div className="text-sm  ">
                         <span className="text-[#777777]">{t('Actor_modal')}</span>
                         {data?.casts?.map((item, index) => (
-                            <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                            <span key={item._id}>
+                                {item.name}
+                                {index === data.casts.length - 1 ? '' : ', '}
+                            </span>
                         ))}
                     </div>
 
                     <div className=" text-sm my-[7px] mr-[7px] w-full ">
                         <span className="text-[#777777]">{t('Genre_modal')}</span>
                         {data?.genres?.map((item, index) => (
-                            <span key={item._id}>{`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                            <span key={item._id}>
+                                {item.name}
+                                {index === data.genres.length - 1 ? '' : ', '}
+                            </span>
                         ))}
                     </div>
                     <div className=" text-sm my-[7px] mr-[7px] ">
                         <span className="text-[#777777]">{t('Shows_modal')}</span>
                         {data?.program_type?.map((item, index) => (
-                            <span key={item._id}> {`${item.name}${index < item?.length ? ', ' : ''}`}</span>
+                            <span key={item._id}>
+                                {item.name}
+                                {index === data.program_type.length - 1 ? '' : ', '}
+                            </span>
                         ))}
                     </div>
                     <div className="flex text-sm my-[7px] mr-[7px] ">
