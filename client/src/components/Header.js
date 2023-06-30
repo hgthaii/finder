@@ -50,14 +50,13 @@ const styleNotify = {
     position: 'absolute',
     background: '#0f0f0f',
     boxShadow: 24,
-    width: 350,
-    height: 450,
+    width: 250,
+    height: 300,
     top: "50px",
     right: '10px',
     borderRadius: '12px',
     overflow: "scroll",
     border: "1px solid #404040",
-
 }
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
@@ -324,8 +323,8 @@ const Header = () => {
                                 <div onClick={handleOpenNotify}>
                                     <AiFillBell color="white" size={30} />
                                 </div>
-                                <Modal open={openNotify} onClose={handleCloseNotify}>
-                                    <Box sx={styleNotify}>
+                                <Modal open={openNotify} onClose={handleCloseNotify} >
+                                    <Box sx={styleNotify} >
                                         <Notify
                                             notify={notify}
                                             pastTime={notify?.createdAt}
@@ -335,7 +334,7 @@ const Header = () => {
                                         {notify?.length !== 0 && (
                                             <div
                                                 onClick={deleteNotify}
-                                                className=" text-white border border-[#404040] px-3 py-2 flex justify-center items-center cursor-pointer absolute bottom-0 left-0 right-0 font-bold text-sm"
+                                                className=" text-white border border-[#404040] px-3 py-2 flex justify-center items-center cursor-pointer bg-[#0f0f0f] sticky bottom-0 left-0 right-0  font-bold text-sm"
                                             >
                                                 {t('RemoveAll')}
                                             </div>

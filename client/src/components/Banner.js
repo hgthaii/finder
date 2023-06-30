@@ -154,9 +154,9 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                                     <AiOutlinePlus color="white" />
                                                 </span>
                                             )}
-                                            <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
+                                            {/* <span className="w-[35px] h-[35px] border border-[#ddd] rounded-full flex items-center justify-center mr-1 cursor-pointer ">
                                                 <SlLike color="white" />
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 ) : null
