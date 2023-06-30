@@ -51,14 +51,14 @@ router.post(
     '/signin',
     body('username')
         .exists()
-        .withMessage('username is required')
+        .withMessage('Tên người dùng không được trống.')
         .isLength({ min: 4 })
-        .withMessage('username minimum 4 characters'),
+        .withMessage('Tên người dùng phải lớn hơn 4 ký tự'),
     body('password')
         .exists()
-        .withMessage('password is required')
+        .withMessage('Mật khẩu không được trống.')
         .isLength({ min: 4 })
-        .withMessage('password minimum 4 characters'),
+        .withMessage('Mật khẩu phải dài hơn 4 ký tự.'),
     requestHandler.validate,
     userController.signin,
 )
@@ -70,21 +70,21 @@ router.put(
     tokenMiddleware.auth,
     body('password')
         .exists()
-        .withMessage('password is required')
+        .withMessage('Mật khẩu không được trống.')
         .isLength({ min: 4 })
-        .withMessage('password minimum 4 characters'),
+        .withMessage('Mật khẩu phải dài hơn 4 ký tự.'),
     body('newPassword')
         .exists()
-        .withMessage('newPassword is required')
+        .withMessage('Mật khẩu mới không được trống.')
         .isLength({ min: 4 })
-        .withMessage('password minimum 4 characters'),
+        .withMessage('Mật khẩu phải dài hơn 4 ký tự.'),
     body('confirmNewPassword')
         .exists()
-        .withMessage('confirmNewPassword is required')
+        .withMessage('Xác nhận mật khẩu không được trống.')
         .isLength({ min: 4 })
-        .withMessage('confirmNewPassword minimum 4 characters')
+        .withMessage('Xác nhận mật khẩu phải lớn hơn 4 ký tự.')
         .custom((value, { req }) => {
-            if (value !== req.body.newPassword) throw new Error('confirmNewPassword not match')
+            if (value !== req.body.newPassword) throw new Error('Xác nhận mật khẩu không khớp.')
             return true
         }),
     requestHandler.validate,
@@ -114,9 +114,9 @@ router.post(
     '/favorites',
     body('movieId')
         .exists()
-        .withMessage('movieId is required')
+        .withMessage('ID phim là bắt buộc')
         .isLength({ min: 1 })
-        .withMessage('movieId can not be empty'),
+        .withMessage('ID phim không được trống.'),
     tokenMiddleware.auth,
     requestHandler.validate,
 
@@ -142,9 +142,9 @@ router.put(
     '/update-profile',
     body('displayName')
         .exists()
-        .withMessage('displayName is required')
+        .withMessage('Tên hiển thị không được trống.')
         .isLength({ min: 4 })
-        .withMessage('displayName minimum 4 characters'),
+        .withMessage('Tên hiển thị phải lớn hơn 4 ký tự.'),
     tokenMiddleware.auth,
 
     userController.updateUserByUser,

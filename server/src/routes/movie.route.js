@@ -126,23 +126,23 @@ router.post(
     '/',
     body('title')
         .exists()
-        .withMessage('title là bắt buộc!')
-        .isLength({ min: 1 })
-        .withMessage('title không được trống!'),
-    body('logo').exists().withMessage('logo is required'),
-    body('duration').exists().withMessage('duration is required'),
-    body('release_date').exists().withMessage('release_date is required'),
-    body('poster_path').exists().withMessage('poster_path is required'),
-    body('overview').exists().withMessage('overview is required'),
-    body('trailer').exists().withMessage('trailer is required'),
-    body('video').exists().withMessage('video is required'),
-    body('genres').exists().withMessage('genres is required'),
-    body('episodes').exists().withMessage('episodes is required'),
-    body('casts').exists().withMessage('casts is required'),
-    body('program_type').exists().withMessage('program_type is required'),
-    body('age_rating').exists().withMessage('age_rating is required'),
-    // body('creators').exists().withMessage('creators is required'),
-    body('item_genre').exists().withMessage('item_genre is required'),
+        .withMessage('Tiêu đề không được trống.')
+        .isLength({ min: 2 })
+        .withMessage('Tiêu đề phải dài hơn 2 ký tự'),
+    body('logo').exists().withMessage('Logo không được trống.'),
+    body('duration').exists().withMessage('Thời gian phim không được trống'),
+    body('release_date').exists().withMessage('Ngày phát hành không được trống.'),
+    body('poster_path').exists().withMessage('Đường dẫn poster không được trống.'),
+    body('overview').exists().withMessage('Mô tả phim không được trống.'),
+    body('trailer').exists().withMessage('Trailer không được trống.'),
+    body('video').exists().withMessage('Video không được trống.'),
+    body('genres').exists().withMessage('Thể loại không được trống.'),
+    body('episodes').exists().withMessage('Tập phim không được trống.'),
+    body('casts').exists().withMessage('Diễn viên không được trống.'),
+    body('program_type').exists().withMessage('Thể loại chương trình không được trống.'),
+    body('age_rating').exists().withMessage('Giới hạn độ tuổi không được trống.'),
+    // body('creators').exists().withMessage('Tác giả không được trống.'),
+    body('item_genre').exists().withMessage('Thể loại không được trống.'),
     tokenMiddleware.auth,
 
     authorizeMiddleware.allowAdminOnly,
