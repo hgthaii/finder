@@ -102,6 +102,8 @@
     "AndAbove_modal":" and above",
     "ThinkMovie_modal":"What do you think of this movie...",
     "NoCommentsAvailable_modal":"No comments available",
+    "View_modal":"View: ",
+
     "YouAnd_comment":"You and",
     "RemoveComment_comment":"Remove Comment",
     "Feedback_comment":"Reply",

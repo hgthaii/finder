@@ -310,6 +310,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span className="mr-2  px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                                 HD
                             </span>
+                            <div >
+                                <span className='text-[#777] text-sm'>{t('View_modal')}</span>
+                                <span>{data?.views}</span>
+                            </div>
                         </div>
                         <div className="flex text-sm mb-[26px]">
                             <span className="  mr-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
