@@ -84,4 +84,52 @@ const search = async (req, res) => {
     }
 }
 
-export default { getGenres, search, addGenres }
+const updateGenre = async (req, res) => {
+    try {
+        const { genreId } = req.params
+        const { name } = req.body
+        
+        const genre = await genreModel.findById(genreId)
+        if (!genre) return responseHandler.notfound(res, 'Không tìm thấy thể loại.')
+        
+        genre.name = name
+
+        await genre.save()
+
+        responseHandler.ok(res, genre)
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Chỉnh sửa thể loại không thành công.')
+    }
+}
+
+const deleteGenre = async (req, res) => {
+    try {
+        const { genreId } = req.params
+        const delGenre = await genreModel.findByIdAndRemove(genreId)
+        if (!delGenre) return responseHandler.notfound(res, 'Không tìm thấy thể loại.')
+        
+        responseHandler.ok(res, {
+            statusCode: 200,
+            message: `Xoá thể loại ${delGenre.name} thành công.`,
+        })
+    } catch (error) {
+        console.log(error)
+        responseHandler.error(res, 'Xoá thể loại không thành công.')
+    }
+}
+
+const findGenre = async (req, res) => {
+    try {
+        const { name } = req.body
+    const regex = new RegExp(name.split('').join('.*'), 'i');
+        const genre = await genreModel.find({ name: { $regex: regex } });
+        if(!genre) return responseHandler.notfound(res, 'Không tìm thấy thể loại!')
+    responseHandler.ok(res, genre)
+  } catch (error) {
+    console.error(error);
+    responseHandler.error(res, 'Tìm kiếm thể loại không thành công!');
+  }
+};
+
+export default { getGenres, search, addGenres, updateGenre, deleteGenre, findGenre }

@@ -80,7 +80,7 @@ const sendWelcomeNotification = async (userId) => {
 
         // Tạo nội dung thông báo chào mừng
         const title = 'Chào mừng bạn đến với bình nguyên vô tận!'
-        const content = 'Xin chào, ' + user.username + '! Chúc bạn có trải nghiệm tuyệt vời.'
+        const content = 'Xin chào, ' + user.displayName + '! Chúc bạn có trải nghiệm tuyệt vời.'
 
         // Thêm thông báo vào danh sách thông báo của người dùng
         user.notifications.push({ title, content })
@@ -156,7 +156,7 @@ const getAllNotifications = async (req, res) => {
         if (!user) return responseHandler.badrequest(res, 'Người dùng không tồn tại.')
 
         // Lấy danh sách thông báo của người dùng
-        const notifications = user.notifications
+        const notifications = user.notifications.sort((a, b) => b.createdAt - a.createdAt)
 
         responseHandler.ok(res, notifications)
     } catch (error) {

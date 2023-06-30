@@ -70,7 +70,6 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
     try {
         const { username, password } = req.body
-
         // Chỉ định các trường cần được trả về, bao gồm cả trường roles
         const user = await userModel
             .findOne({ username })
@@ -100,7 +99,7 @@ const signin = async (req, res) => {
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
             expiresIn: '24h',
         })
-
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             maxAge: 2 * 60 * 60 * 1000,

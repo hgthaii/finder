@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Box from '@mui/material/Box'
-import { PayPalButton } from 'react-paypal-button-v2'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -60,7 +59,7 @@ const ModalProfile = () => {
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
     const encodedPayload = tokenParts[1]
-    const decodedPayload = atob(encodedPayload)
+    const decodedPayload = decodeURIComponent(escape(window.atob(encodedPayload)))
     const parsedTokenBody = JSON.parse(decodedPayload)
 
     const inforRole = parsedTokenBody.roles
