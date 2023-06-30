@@ -4,17 +4,12 @@ import responseHandler from '../handlers/response.handler.js'
 
 const addCast = async (req, res) => {
     try {
-        const { character, summary, birthYear, profile_path } = req.body
+        const { name } = req.body
 
-        const checkCast = await castModel.findOne({ character })
+        const checkCast = await castModel.findOne({ name })
         if (checkCast) return responseHandler.notfound(res, 'Cast đã tồn tại trong hệ thống!')
 
-        const cast = new castModel({
-            character,
-            summary,
-            profile_path,
-            birthYear,
-        })
+        const cast = new castModel({ name })
         await cast.save()
         responseHandler.created(res, cast)
     } catch {

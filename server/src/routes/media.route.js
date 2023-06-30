@@ -11,7 +11,7 @@ const router = express.Router({ mergeParams: true })
 router.get('/media/search', mediaController.search)
 router.get('/', mediaController.getGenres)
 router.post(
-    '/genres',
+    '/',
     body('name').exists().withMessage('name is required').isLength({ min: 1 }).withMessage('name minimum 1 character'),
     tokenMiddleware.auth,
 

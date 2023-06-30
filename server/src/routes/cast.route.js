@@ -13,24 +13,9 @@ router.get('/:castId/film', castController.getFilmOfCast)
 
 router.post(
     '/',
-    body('character')
+    body('name')
         .exists()
         .withMessage('character is required')
-        .isLength({ min: 1 })
-        .withMessage('Độ dài tối thiểu là 1 ký tự'),
-    body('profile_path')
-        .exists()
-        .withMessage('profile_path is required')
-        .isLength({ min: 1 })
-        .withMessage('Độ dài tối thiểu là 1 ký tự'),
-    body('summary')
-        .exists()
-        .withMessage('summary is required')
-        .isLength({ min: 1 })
-        .withMessage('Độ dài tối thiểu là 1 ký tự'),
-    body('birthYear')
-        .exists()
-        .withMessage('birthYear is required')
         .isLength({ min: 1 })
         .withMessage('Độ dài tối thiểu là 1 ký tự'),
     tokenMiddleware.auth,
