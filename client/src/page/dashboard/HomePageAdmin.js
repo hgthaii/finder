@@ -53,8 +53,9 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 800,
-    height: 600,
+    height: 500,
+    padding: '50px',
+    background: '#030014',
     boxShadow: 24,
 }
 const iconList = [
