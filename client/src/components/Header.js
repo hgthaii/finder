@@ -46,6 +46,16 @@ const style = {
     background: '#030014',
     boxShadow: 24,
 }
+const styless = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:900,
+    padding: '10px',
+    background: '#030014',
+    boxShadow: 24,
+}
 const styleNotify = {
     position: 'absolute',
     background: '#0f0f0f',
@@ -137,12 +147,14 @@ const Header = () => {
     }
     const handleLogout = async () => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-            })
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, null
+            // {
+            //     withCredentials: true,
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            //     },
+            // }
+            )
             localStorage.clear();
             removeCookie('accessToken')
             removeCookie('refreshToken')
@@ -249,8 +261,9 @@ const Header = () => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled ? 'bg-main-100  animate-header' : 'bg-gradient-header animate-header'
-                    } ${isMobile ? 'bg-main-100  animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${
+                    isScrolled ? 'bg-main-100  animate-header' : 'bg-gradient-header animate-header'
+                } ${isMobile ? 'bg-main-100  animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3 ">
@@ -329,7 +342,7 @@ const Header = () => {
                                             notify={notify}
                                             pastTime={notify?.createdAt}
                                             onClose={handleCloseNotify}
-                                            className='relative'
+                                            className="relative"
                                         />
                                         {notify?.length !== 0 && (
                                             <div
@@ -366,51 +379,51 @@ const Header = () => {
                                     >
                                         {parsedTokenBody.roles === 'admin'
                                             ? [
-                                                <MenuItem key="page-admin" onClick={openPageAdmin}>
-                                                    <ListItemIcon>
-                                                        <AdminPanelSettingsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_adminPage')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
-                                                    <ListItemIcon>
-                                                        <ManageAccountsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="comment-movie" onClick={handleOpenListComment}>
-                                                    <ListItemIcon>
-                                                        <ReviewsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="logout" onClick={handleLogout}>
-                                                    <ListItemIcon>
-                                                        <MeetingRoomIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Logout')}</ListItemText>
-                                                </MenuItem>,
-                                            ]
+                                                  <MenuItem key="page-admin" onClick={openPageAdmin}>
+                                                      <ListItemIcon>
+                                                          <AdminPanelSettingsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_adminPage')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
+                                                      <ListItemIcon>
+                                                          <ManageAccountsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="comment-movie" onClick={handleOpenListComment}>
+                                                      <ListItemIcon>
+                                                          <ReviewsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="logout" onClick={handleLogout}>
+                                                      <ListItemIcon>
+                                                          <MeetingRoomIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Logout')}</ListItemText>
+                                                  </MenuItem>,
+                                              ]
                                             : [
-                                                <MenuItem key="manage-user" onClick={handleOpenProfile}>
-                                                    <ListItemIcon>
-                                                        <ManageAccountsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
-                                                    <ListItemIcon>
-                                                        <ReviewsIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                </MenuItem>,
-                                                <MenuItem key="logout-user" onClick={handleLogout}>
-                                                    <ListItemIcon>
-                                                        <MeetingRoomIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText>{t('Logout')}</ListItemText>
-                                                </MenuItem>,
-                                            ]}
+                                                  <MenuItem key="manage-user" onClick={handleOpenProfile}>
+                                                      <ListItemIcon>
+                                                          <ManageAccountsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
+                                                      <ListItemIcon>
+                                                          <ReviewsIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                  </MenuItem>,
+                                                  <MenuItem key="logout-user" onClick={handleLogout}>
+                                                      <ListItemIcon>
+                                                          <MeetingRoomIcon fontSize="small" />
+                                                      </ListItemIcon>
+                                                      <ListItemText>{t('Logout')}</ListItemText>
+                                                  </MenuItem>,
+                                              ]}
                                     </Menu>
                                     <Modal
                                         open={openProfile}
@@ -428,7 +441,7 @@ const Header = () => {
                                         aria-labelledby="parent-modal-title"
                                         aria-describedby="parent-modal-description"
                                     >
-                                        <Box sx={style}>
+                                        <Box sx={styless}>
                                             <ModalListComment onClose={handleCloseListComment} />
                                         </Box>
                                     </Modal>
@@ -572,7 +585,7 @@ export const ModalListComment = () => {
         })
     }, [currentPageData, movieDetails])
     return (
-        <div className="bg-main-100 h-full flex items-center flex-col text-white">
+        <div className="bg-[#030014] h-full flex items-center flex-col text-white">
             <div className="flex flex-col text-white mt-8 w-4/5">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('ManageComment_listMovie')}</h3>
                 {reviews?.length > 0 ? (

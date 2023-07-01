@@ -78,18 +78,18 @@ const ManageUser = () => {
             {
                 field: 'displayName',
                 renderHeader: () => <p>{t('Display_name')}</p>,
-                width: 200,
+                width: 160,
             },
             {
                 field: 'username',
                 renderHeader: () => <p>{t('User_name')}</p>,
-                width: 200,
+                width: 160,
             },
-            { field: 'roles', renderHeader: () => <p>{t('User_role')}</p>, width: 200 },
+            { field: 'roles', renderHeader: () => <p>{t('User_role')}</p>, width: 160 },
             {
                 field: 'createdAt',
                 renderHeader: () => <p>{t('Created_at')}</p>,
-                width: 250,
+                width: 160,
                 valueFormatter: (params) => {
                     // Tạo đối tượng Date từ chuỗi thời gian
                     const date = new Date(params.value)
@@ -106,6 +106,7 @@ const ManageUser = () => {
                 },
             },
             { field: '_id', renderHeader: () => <p>{t('User_id')}</p>, width: 220 },
+            { field: 'email', renderHeader: () => <p>Email</p>, width: 240 },
         ],
         [],
     )

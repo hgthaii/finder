@@ -182,7 +182,7 @@ const ModalProfile = () => {
 
     return (
         <div className="bg-[#030014] h-full flex items-center flex-col text-white ">
-            <div className="flex flex-col text-white mt-8">
+            <div className="flex flex-col text-white">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('Account_setting')}</h3>
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -251,7 +251,7 @@ const ModalProfile = () => {
                         </button>
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={2}>
-                        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
+                        <div className="bg-[#030014] h-full flex items-center justify-center flex-col text-white">
                             <div className="flex flex-col text-white">
                                 <input
                                     type="password"
