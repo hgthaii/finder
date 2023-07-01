@@ -11,7 +11,7 @@ const router = express.Router({ mergeParams: true })
 router.get('/media/search', mediaController.search)
 router.get('/', mediaController.getGenres)
 
-router.get(
+router.post(
     '/find-genre',
     tokenMiddleware.auth,
     mediaController.findGenre

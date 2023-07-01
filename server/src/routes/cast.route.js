@@ -11,7 +11,7 @@ router.get('/', castController.getAllCasts)
 router.get('/:castId', castController.getCastById)
 router.get('/:castId/film', castController.getFilmOfCast)
 
-router.get(
+router.post(
     '/find-cast/find',
     tokenMiddleware.auth,
     castController.findCast
