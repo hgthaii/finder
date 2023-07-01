@@ -23,6 +23,9 @@ import LiveTvIcon from '@mui/icons-material/LiveTv'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import CommentIcon from '@mui/icons-material/Comment'
+import Diversity3Icon from '@mui/icons-material/Diversity3'
+import CategoryIcon from '@mui/icons-material/Category';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
@@ -41,6 +44,9 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import ModalProfile from './ModalProfile'
 import { useCookies } from 'react-cookie';
+import ManageGenres from '../../components/admin/ManageGenres';
+import ManageCast from '../../components/admin/ManageCast';
+import ManageNotification from '../../components/admin/ManageNotification';
 
 const style = {
     position: 'absolute',
@@ -55,6 +61,9 @@ const iconList = [
     <AccountCircleIcon />,
     <LiveTvIcon />,
     <CommentIcon />,
+    <CategoryIcon />,
+    <Diversity3Icon />,
+    <CampaignIcon />
     // Thêm các icon khác vào đây
 ]
 
@@ -62,6 +71,9 @@ const componentMap = {
     Account: ManageUser,
     Movie: ManageMovie,
     Comment: ManageComment,
+    Genres: ManageGenres,
+    Casts: ManageCast,
+    Notifications: ManageNotification,
 }
 const drawerWidth = 240
 
@@ -308,7 +320,7 @@ const HomePageAdmin = () => {
                                 }}
                             >
                                 <MenuItem onClick={handleOpenProfile}>{t('Account_setting')}</MenuItem>
-                                <MenuItem onClick={handleRefundPage}>Trang người dùng</MenuItem>
+                                <MenuItem onClick={handleRefundPage}>{t('Link_Pageuser')}</MenuItem>
                                 <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
                             </Menu>
 
@@ -333,7 +345,7 @@ const HomePageAdmin = () => {
                     </DrawerHeader>
                     <Divider />
                     <List>
-                        {['Account', 'Movie', 'Comment'].map((text, index) => (
+                        {['Account', 'Movie', 'Comment', 'Genres', 'Casts', 'Notifications'].map((text, index) => (
                             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     sx={{

@@ -9,21 +9,24 @@ const NotFound = () => {
     const [, , removeAllCookies] = useCookies()
     
     const refundHome = async () => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-            })
-            localStorage.clear()
-            removeAllCookies()
-            removeCookie('accessToken')
-            removeCookie('refreshToken')
-            navigate('/')
-        } catch (error) {
-            console.log(error)
-        }
+        // try {
+        //     await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
+        //         withCredentials: true,
+                
+        //     })
+        //     localStorage.clear()
+        //     removeAllCookies()
+        //     removeCookie('accessToken')
+        //     removeCookie('refreshToken')
+        //     navigate('/')
+        // } catch (error) {
+        //     console.log(error)
+        // }
+        localStorage.clear()
+        removeAllCookies()
+        removeCookie('accessToken')
+        removeCookie('refreshToken')
+        navigate('/')
     }
     return (
         <div className="h-screen flex flex-col justify-center items-center py-20 bg-gray-300">
