@@ -42,6 +42,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    height: 500,
     padding: '50px',
     background: '#030014',
     boxShadow: 24,
@@ -52,7 +53,7 @@ const styless = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width:900,
-    padding: '10px',
+    // padding: '10px',
     background: '#030014',
     boxShadow: 24,
 }
