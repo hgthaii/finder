@@ -364,7 +364,9 @@ const Modalcontainer = ({ data, closeModal }) => {
                         {genre &&
                             genre?.slice(0, 8).map((item) => (
                                 <div key={item._id} className="w-[70%] min-[1024px]:w-[30%] rounded-lg">
-                                    <Modalcard data={item} />
+                                    <Modalcard data={item} idMovie={item._id} favorite={favorite}
+                                        handleDeleteFav={handleDeleteFav}
+                                        handlePostFav={handlePostFav} />
                                 </div>
                             ))}
                     </div>
