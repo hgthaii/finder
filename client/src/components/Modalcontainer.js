@@ -278,7 +278,7 @@ const Modalcontainer = ({ data, closeModal }) => {
 
     return (
         <div
-            className="max-w-[850px] w-full bg-[#030014] text-white !rounded-xl dark:bg-main-100  "
+            className="max-w-[850px] w-full !rounded-xl bg-main-200 text-white dark:bg-main-100 dark:text-main-300  "
             onClick={(event) => event.stopPropagation()}
         >
             <div className="relative ">
@@ -307,7 +307,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                 <span className="mr-2 ">{`${data?.episodes?.length + 1} ${t('Episode_modal')}`}</span>
                             )}
 
-                            <span className="mr-2  px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
+                            <span className="mr-2  px-[0.4rem] border dark:border-main-300  bg-transparent flex justify-center items-center">
                                 HD
                             </span>
                             <div >
@@ -316,7 +316,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </div>
                         </div>
                         <div className="flex text-sm mb-[26px]">
-                            <span className="  mr-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
+                            <span className="  mr-2 px-[0.4rem] border dark:border-main-300  bg-transparent flex justify-center items-center">
                                 {data?.age_rating}
                             </span>
                         </div>
@@ -338,7 +338,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
                 <div className="episodes-gradient ">
                     {data?.episodes?.length !== 0 && (
-                        <div className="flex items-center justify-between mt-[31px]  font-bold dark:bg-main-100  ">
+                        <div className="flex items-center justify-between mt-[31px]  font-bold  bg-main-200 text-white dark:bg-main-100 dark:text-main-300 ">
                             <h3 className="w-[70%] text-2xl">{t('Episode_modal')} </h3>
                             <span className="w-[30%] text-lg text-right">{data?.duration}</span>
                         </div>
@@ -402,7 +402,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                             </Modal>
                         </div>
                     ) : (
-                        <div className="w-full bg-[#333333] p-8 rounded-lg dark:bg-main-100  dark:border dark:border-[#ddd]">
+                        <div className="w-full  p-8 rounded-lg bg-main-200 text-white dark:bg-main-100 dark:text-main-300  dark:border dark:border-[#ddd]">
                             <div className="flex items-center gap-3">
                                 <img
                                     src="https://source.unsplash.com/random"
@@ -418,7 +418,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         placeholder={t('ThinkMovie_modal')}
                                         value={postComment.content}
                                         onChange={handleInputChange}
-                                        className=" w-full bg-[#333333] outline-none pt-2 min-h-[100px] dark:bg-main-100 "
+                                        className=" w-full  outline-none pt-2 min-h-[100px]   bg-main-200 text-white dark:bg-main-100 dark:text-main-300"
                                         style={{ fontWeight, fontStyle, textDecorationLine }}
                                     ></textarea>
                                 </div>
@@ -455,7 +455,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         aria-label={textDecorationLine}
                                         onClick={handleUnderlineClick}
                                     >
-                                        <FormatUnderlinedIcon />
+                                        <FormatUnderlinedIcon color='white' />
+                                        {/* <FaItalic color='white' /> */}
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                             </div>

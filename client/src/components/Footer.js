@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import logo from '../../src/asset/image/logo.png'
+import logo from '../../src/asset/image/Finder.svg'
 
 const Footer = () => {
     const { t } = useTranslation()
     return (
-        <div className="bg-[#030014]  text-white w-full  dark:bg-main-100">
+        <div className="w-full  bg-main-200 text-white dark:bg-main-100 dark:text-main-300">
             <div className="  p-4 text-center">
                 <div className="mb-6 flex justify-center">
                     <img src={logo} alt="logo" />

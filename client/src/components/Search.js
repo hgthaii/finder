@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-const Search = () => {
+const Search = ({ isDark, isScroll }) => {
     const { BiSearchAlt2 } = icons
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
@@ -41,8 +41,7 @@ const Search = () => {
         >
             <button onClick={toggleSearch} className=" mx-2 ">
                 <span>
-
-                    <BiSearchAlt2 size={25} />
+                    {isDark ? (isScroll ? <BiSearchAlt2 color='black' size={25} /> : <BiSearchAlt2 color='white' size={25} />) : (<BiSearchAlt2 color='white' size={25} />)}
                 </span>
             </button>
             {isSearchOpen && (

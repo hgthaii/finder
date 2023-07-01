@@ -173,9 +173,8 @@ const ManageCast = () => {
                         {t('Manage_cast_add')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
-                            disableUpdate && 'opacity-50'
-                        }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
+                            }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >
@@ -320,7 +319,7 @@ export const ModalAddGenres = ({ onClose, setIsLoading }) => {
         }
     }
     return (
-        <div className="bg-main-100 h-full flex items-center justify-center flex-col text-white">
+        <div className="bg-main-200  dark:bg-main-100 dark:text-main-300 h-full flex items-center justify-center flex-col text-white">
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">{t('Manage_cast_add')}</h3>
                 <input

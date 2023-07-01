@@ -82,7 +82,7 @@ const Mylist = () => {
         <div className=" mt-[100px]">
             {favorites.length !== 0 && (
                 <div>
-                    <h3 className="pl-12 text-white mb-3 text-[18px] font-bold">Danh sách của tôi</h3>
+                    <h3 className="pl-12 text-white mb-3 text-[18px] font-bold dark:text-main-300">Danh sách của tôi</h3>
                     <div className=" w-full">
                         <Swiper {...swiperParams}>
                             {favorites?.map((item, index) => (

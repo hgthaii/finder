@@ -93,7 +93,7 @@ const Home = () => {
             <Banner randomMovies={randomMovies} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className="my-4">
-                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold ">Mới phát hành</h3>
+                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">Mới phát hành</h3>
                     <Swiper {...swiperParams}>
                         {movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">
@@ -106,7 +106,7 @@ const Home = () => {
                     </Swiper>
                 </div>
                 <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold ">Đang thịnh hành</h3>
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">Đang thịnh hành</h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id}>

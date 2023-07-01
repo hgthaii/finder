@@ -193,7 +193,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
 
     return (
         <div className="ml-16 p-2 mr-7">
-            <div className="p-2 rounded-lg bg-[#333333] mt-2 dark:bg-main-100 ">
+            <div className="p-2 rounded-lg bg-main-200 text-white dark:bg-main-100 dark:text-main-300">
                 <div className="flex justify-between items-center mb-2 ">
                     <div className="flex ">
                         <img
@@ -241,7 +241,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                     <div className="flex items-end justify-end mr-8">
                         <figure className="image-box ">
                             <span className="text-like">
-                                <span className=" text-white">{t('Like')}</span>
+                                <span className=" text-white dark:text-main-300">{t('Like')}</span>
                             </span>
                             <div className="icons">
                                 {like

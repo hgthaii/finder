@@ -79,10 +79,11 @@ const Movieseris = () => {
         },
     }
     return (
-        <div className="flex flex-col w-full ">
+        <div className=" ">
             <Banner randomMovies={randomMovies} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
-                <div className=" w-full">
+                <div className=" my-4">
+                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">Phim truyền hình mới</h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">

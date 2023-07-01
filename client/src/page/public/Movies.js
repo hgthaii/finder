@@ -80,7 +80,7 @@ const Movies = () => {
     }
 
     return (
-        <div className="flex flex-col w-full ">
+        <div className="flex flex-col w-full dark:text-main-300 ">
             <Banner randomMovies={randomMovies} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className=" w-full mt-3">

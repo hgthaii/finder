@@ -2,7 +2,7 @@ import React from 'react'
 
 const Modalsection = ({ episodes, index }) => {
     return (
-        <div className="p-4 flex text-white items-center justify-between  w-full dark:bg-main-100 ">
+        <div className="p-4 flex items-center justify-between  w-full  bg-main-200 text-white dark:bg-main-100 dark:text-main-300">
             <h3 className="px-3 text-[24px]">{index + 1}</h3>
             <img src={episodes?.episode_image} alt="image" className="object-contain w-[130px] h-[73px]" />
             <div className="flex flex-col">
