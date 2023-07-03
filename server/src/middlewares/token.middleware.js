@@ -87,14 +87,14 @@ const verifyTokenAndRefresh = async (req, res, next) => {
                 }
 
                 const newAccessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-                    expiresIn: '1h',
+                    expiresIn: '24h',
                 })
 
                 res.cookie('accessToken', newAccessToken, {
                     // httpOnly: true,
-                    maxAge: 1 * 60 * 60 * 1000,
-                    domain: 'api-hgthaii.vercel.app',
-                    path: '/api/v1',
+                    maxAge: 24 * 60 * 60 * 1000,
+                    domain: 'finder-api-hgthaii.vercel.app',
+                    // path: '/api/v1',
                     // secure: true,
                     // sameSite: true,
                 })

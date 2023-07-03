@@ -45,9 +45,9 @@ const Login = ({ onClose }) => {
 
             const handleSetTokens = () => {
                 const accessTokenExpiration = new Date()
-                accessTokenExpiration.setHours(accessTokenExpiration.getHours() + 2) // Hết hạn sau 1 giờ
+                accessTokenExpiration.setHours(accessTokenExpiration.getHours() + 24) // Hết hạn sau 1 giờ
                 const refreshTokenExpiration = new Date()
-                refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 24) // Hết hạn sau 24 giờ
+                refreshTokenExpiration.setHours(refreshTokenExpiration.getHours() + 72) // Hết hạn sau 24 giờ
 
                 const accessTokenOptions = {
                     path: '/',

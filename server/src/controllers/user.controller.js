@@ -93,29 +93,29 @@ const signin = async (req, res) => {
         }
 
         const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '2h',
+            expiresIn: '24h',
         })
 
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '24h',
+            expiresIn: '72h',
         })
         res.setHeader('Content-Type', 'application/json; charset=utf-8')
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            maxAge: 2 * 60 * 60 * 1000,
+            maxAge: 24 * 60 * 60 * 1000,
             // domain: 'api-41z0.onrender.com',
             // secure: true,
             sameSite: 'none',
         })
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 72 * 60 * 60 * 1000,
             // domain: 'api-41z0.onrender.com',
             sameSite: 'none',
         })
         const refreshTokenDoc = new refreshtokenModel({
             token: refreshToken,
-            expiryDate: 24 * 60 * 60 * 1000,
+            expiryDate: 72 * 60 * 60 * 1000,
             user: user.id,
         })
         // console.log(refreshTokenDoc)
