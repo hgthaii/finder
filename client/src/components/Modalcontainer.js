@@ -455,8 +455,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         aria-label={textDecorationLine}
                                         onClick={handleUnderlineClick}
                                     >
-                                        <FormatUnderlinedIcon color='white' />
-                                        {/* <FaItalic color='white' /> */}
+                                        {/* <FormatUnderlinedIcon color='white' /> */}
+                                        <FaItalic color='white' />
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                             </div>
