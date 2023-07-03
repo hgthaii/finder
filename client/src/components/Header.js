@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { MenuItem, Menu, } from '@mui/material'
@@ -71,7 +72,8 @@ const styleNotify = {
     overflow: "scroll",
     border: "1px solid #404040",
 }
-const Header = () => {
+const Header = ({ handleThemeSwitch, theme }) => {
+    // eslint-disable-next-line no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
     const navigate = useNavigate()
 
@@ -81,11 +83,10 @@ const Header = () => {
 
     const tokenParts = accessToken ? accessToken.split('.') : []
     const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
-    const checkValueStorage = parsedTokenBody.infor || {}
+    // const checkValueStorage = parsedTokenBody.infor || {}
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
-    const [theme, setTheme] = useState('light')
     const [isHiddenMenu, setIsHiddenMenu] = useState(false);
     const openn = Boolean(anchorEl)
     const [notify, setNotify] = useState([])
@@ -94,23 +95,6 @@ const Header = () => {
 
     const [isMobile, setIsMobile] = useState(false)
 
-
-
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark')
-            localStorage.theme = "dark"
-        } else {
-            document.documentElement.classList.remove('dark')
-            localStorage.theme = "light"
-
-        }
-
-    }, [theme])
-
-    const handleThemeSwitch = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark')
-    }
 
     const handleResize = () => {
         if (window.innerWidth <= 1024) {
@@ -526,6 +510,7 @@ export const ModalListComment = () => {
             }
         }
         getReview()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const [currentPage, setCurrentPage] = React.useState(0)

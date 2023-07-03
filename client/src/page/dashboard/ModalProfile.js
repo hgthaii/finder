@@ -184,7 +184,7 @@ const ModalProfile = () => {
         <div className="bg-[#030014] h-full flex items-center flex-col text-white ">
             <div className="flex flex-col text-white">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('Account_setting')}</h3>
-                <Box sx={{ width: '100%' }}>
+                <Box sx={{ width: '500px' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs
                             value={value}
@@ -221,7 +221,7 @@ const ModalProfile = () => {
                         </div>
                         {infor.isVip === false ? (
                             <div className="text-center">
-                                <h2 className="text-2xl font-bold mb-4">{t('Desc_Vip')}</h2>
+                                <div className='flex items-center justify-center border border-white  my-3'><p className="text-xl font-bold pt-1 mb-3 ">{t('Desc_Vip')}</p></div>
                                 <button
                                     onClick={addPayment}
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -230,15 +230,17 @@ const ModalProfile = () => {
                                 </button>
                             </div>
                         ) : (
-                            <p>{t('VIP')}</p>
+                            <div className="flex items-center justify-center border border-white p-3 mt-3">
+                                <p>{t('VIP')}</p>
+                            </div>
                         )}
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>
-                        <div>
+                        <div >
                             <label>{t('Accout_DisplayName')}</label>
                             <input
                                 type="text"
-                                className="w-[200px] h-12 mt-3 rounded-md p-3 bg-main-100 text-[#C8C9CB] "
+                                className=" h-12 mt-3 rounded-md p-3 w-full bg-main-100 text-[#C8C9CB] "
                                 placeholder={t('Placeholder_displayname')}
                                 onChange={onChangeName}
                             />
