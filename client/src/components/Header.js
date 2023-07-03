@@ -153,13 +153,13 @@ const Header = () => {
     }
     const handleLogout = async () => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, null
-                // {
-                //     withCredentials: true,
-                //     headers: {
-                //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                //     },
-                // }
+            await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                }
             )
             localStorage.clear();
             removeCookie('accessToken')
