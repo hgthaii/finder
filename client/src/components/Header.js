@@ -10,7 +10,9 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import axios from 'axios'
 
 import { headerMenu } from '../ultis/menu'
-import logo from '../asset/image/Finder.svg'
+import logoWhite from '../../src/asset/image/FinderWhite.svg'
+import logoBlack from '../../src/asset/image/FinderBlack.svg'
+
 import icons from '../ultis/icons'
 import { Search } from '../components/'
 
@@ -97,8 +99,11 @@ const Header = () => {
     useEffect(() => {
         if (theme === 'dark') {
             document.documentElement.classList.add('dark')
+            localStorage.theme = "dark"
         } else {
             document.documentElement.classList.remove('dark')
+            localStorage.theme = "light"
+
         }
 
     }, [theme])
@@ -259,6 +264,7 @@ const Header = () => {
             });
     }
     // const [val, setVal] = useState()
+
     return (
         <div>
             <nav
@@ -291,7 +297,7 @@ const Header = () => {
                             className="mb-4 mr-2 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
                             href="#"
                         >
-                            <img src={logo} alt="logo" className="object-cover max-h-20" loading="lazy" />
+                            {theme === 'dark' ? <img src={`${isScrolled ? logoBlack : logoWhite}`} alt="logo" className="object-cover max-h-20" loading="lazy" /> : <img src={logoWhite} alt="logo" className="object-cover max-h-20" loading="lazy" />}
                         </a>
                         <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row " data-te-navbar-nav-ref>
                             {headerMenu.slice(0, headerMenuLength).map((item, index) => (

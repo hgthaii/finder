@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { GoogleLogin } from 'react-google-login'
-import {gapi} from 'gapi-script'
+import { gapi } from 'gapi-script'
 import axios from 'axios'
 
 import isEmpty from 'validator/lib/isEmpty'
 // import isEmail from 'validator/lib/isEmail'
-import logo from '../../asset/image/Finder.svg'
+
+import logoWhite from '../../asset/image/FinderWhite.svg'
 import { Box, Modal } from '@mui/material'
 import Register from './Register'
 import { toast } from 'react-toastify'
@@ -147,7 +148,7 @@ const Login = ({ onClose }) => {
     //     gapi.load('client:auth2', start)
 
     // })
-    
+
     const onSuccess = (res) => {
         console.log(res)
         axios({
@@ -155,7 +156,7 @@ const Login = ({ onClose }) => {
             url: `${process.env.REACT_APP_API_URI}/user/googlelogin`,
             data: { tokenId: res.tokenId },
         }).then((res) => {
-            console.log("Login success",res)
+            console.log("Login success", res)
             localStorage.setItem('accessToken', res.data.access_token)
             localStorage.setItem('refreshToken', res.data.refresh_token)
             localStorage.setItem('displayName', res.data.displayName)
@@ -184,12 +185,12 @@ const Login = ({ onClose }) => {
     const onFailure = (res) => {
         console.log('LOGIN FAILURE! res: ', res)
     }
-    
+
     // const accessToken = gapi.auth.getToken().id_token;
 
     return (
         <div className="bg-[#030014] h-full flex items-center justify-center flex-col">
-            <img src={logo} alt="logo" />
+            <img src={logoWhite} alt="logo" />
             <div className="flex flex-col text-white mt-8">
                 <h3 className="text-xl font-semibold">ĐĂNG NHẬP</h3>
                 <p className="text-red-400 text-xs "> {validationMsg}</p>
