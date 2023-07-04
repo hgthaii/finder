@@ -10,8 +10,8 @@ import { useTranslation } from 'react-i18next'
 import path from '../ultis/path'
 import axios from 'axios'
 import Video from './Video'
-const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handleDeleteFav }) => {
-    const { BsFillPlayFill, SlLike, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
+const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handleDeleteFav, handleGetApiUPview }) => {
+    const { BsFillPlayFill, AiOutlinePlus, AiOutlineExclamationCircle, AiOutlineCheck } = icons
     const [showImage, setShowImage] = useState(true)
     const [isFullScreen, setIsFullScreen] = useState(false)
     const { t } = useTranslation()
@@ -56,6 +56,7 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
     const navigate = useNavigate()
 
     const onClickVideo = () => {
+        handleGetApiUPview()
         let idValue = data?._id
         if (randomMovies) {
             idValue = randomMovies?._id
