@@ -97,12 +97,8 @@ const Home = () => {
         }
         fetchGenreKorean()
     }, [])
-    const [isNextClicked, setIsNextClicked] = useState(false)
-    const prevRef = useRef(null)
+    
     const movieId = randomMovies?._id
-    const handleNextClick = () => {
-        setIsNextClicked(true)
-    }
 
     useEffect(() => {
         const fetchTop10Movies = async () => {
