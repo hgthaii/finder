@@ -207,6 +207,15 @@ const Modalcontainer = ({ data, closeModal }) => {
             })
     }
 
+    const handleGetApiUPview = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
+            console.log(response);
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleInputChange = (event) => {
         setPostComment({
             content: event.target.value,
@@ -288,6 +297,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     favorite={favorite}
                     handleDeleteFav={handleDeleteFav}
                     handlePostFav={handlePostFav}
+                    handleGetApiUPview={handleGetApiUPview}
                 />
                 <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">

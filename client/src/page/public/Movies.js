@@ -8,11 +8,13 @@ import SwiperCore, { Navigation, Pagination } from 'swiper'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import axios from 'axios'
 
 SwiperCore.use([Navigation, Pagination])
 const Movies = () => {
     const [randomMovies, setRandomMovies] = useState([])
     const [top10Movies, setTop10Movies] = useState(null)
+    const movieId = randomMovies?._id
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +39,14 @@ const Movies = () => {
         top10Movies()
     }, [])
 
+    const handleGetApiUPview = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
+            console.log(response);
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const swiperParams = {
         slidesPerView: 5,
         slidesPerGroup: 1,
@@ -81,7 +91,7 @@ const Movies = () => {
 
     return (
         <div className="flex flex-col w-full dark:text-main-300 ">
-            <Banner randomMovies={randomMovies} />
+            <Banner randomMovies={randomMovies} handleGetApiUPview={handleGetApiUPview} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className=" w-full mt-3">
                     <Swiper {...swiperParams}>
