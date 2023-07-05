@@ -74,35 +74,36 @@ html {
 
 .swiper-button-next {
   right: 0 !important;
-  background-image: linear-gradient(to left,#030014ac,transparent 110%) !important;
+  background-image: linear-gradient(to left,#030014ac,transparent 100%) !important;
 }
 .swiper-button-prev {
   left: 0 !important;
-  background-image: linear-gradient(to right,#030014ac,transparent 110%) !important;
+  background-image: linear-gradient(to right,#030014ac,transparent 100%) !important;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 20px !important;
-  margin-top: 0 !important;
+  font-size: 30px !important;
+  /* top: -6px !important; */
+  margin-top: 1.2rem !important;
+  font-weight: 700;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  font-weight: 700;
   color: #fff !important;
   position: absolute !important;
   width: 3rem !important ;
-  height: 8rem !important;
-  top: var(--swiper-navigation-top-offset,14%) !important;
+  height: 100% !important;
+  top: -2px !important;
   margin-left: 0 !important;
-  margin-right: 0 !important
+  margin-right: 0 !important 
 }
 
 .swiper-pagination {
   /* background-color: #fff; */
   position: relative !important;
-  top: -6px !important;
+  bottom: 6px !important;
 }
 
 .swiper-pagination-bullet {
@@ -117,9 +118,9 @@ html {
   padding: 0 48px !important;
 }
 
-.swiper .swiper-slide {
+/* .swiper .swiper-slide {
   overflow: visible !important;
-}
+} */
 
 /* .swiper-scale {
   transition: all 300ms ease-in-out;

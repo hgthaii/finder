@@ -39,9 +39,11 @@ const Movieseris = () => {
 
     const swiperParams = {
         slidesPerView: 5,
-        slidesPerGroup: 1,
+        slidesPerGroup: 5,
         spaceBetween: 10,
         initialSlide: 0,
+        loopPreventsSliding: true,
+        speed: 1050,
         autoHeight: false,
         centeredSlides: false,
         loop: true,
@@ -59,12 +61,10 @@ const Movieseris = () => {
             100: {
                 slidesPerView: 1,
                 centeredSlides: true,
-
             },
             480: {
                 slidesPerView: 2,
                 centeredSlides: true,
-
             },
             768: {
                 slidesPerView: 3,
@@ -73,9 +73,9 @@ const Movieseris = () => {
             // when window width is >= 900px
             900: {
                 slidesPerView: 4,
+                slidesPerGroup: 4,
                 centeredSlides: false,
             },
-
         },
     }
     return (
@@ -83,15 +83,17 @@ const Movieseris = () => {
             <Banner randomMovies={randomMovies} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className=" my-4">
-                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">Phim truyền hình mới</h3>
+                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">
+                        Phim truyền hình mới
+                    </h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">
                                 <Section data={item} />
                             </SwiperSlide>
                         ))}
-                        <div className="swiper-button-next swiper-button-wrapper"></div>
-                        <div className="swiper-button-prev swiper-button-wrapper"></div>
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
                         <div className="swiper-pagination"></div> {/* Hiển thị dots */}
                     </Swiper>
                 </div>

@@ -26,7 +26,7 @@ const Section = ({ data }) => {
             <img
                 src={data?.logo}
                 alt="logo"
-                className="absolute bottom-2 left-2 object-left object-contain w-[100%] h-[50%]"
+                className="absolute bottom-2 left-2 object-left object-contain w-[86%] h-[50%]"
             />
         </Link>
     )
