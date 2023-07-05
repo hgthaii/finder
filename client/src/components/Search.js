@@ -36,12 +36,21 @@ const Search = ({ isDark, isScroll }) => {
 
     return (
         <div
-            className={`flex  items-center  cursor-pointer ${isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
-                }`}
+            className={`flex  items-center  cursor-pointer ${
+                isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
+            }`}
         >
             <button onClick={toggleSearch} className=" mx-2 ">
                 <span>
-                    {isDark ? (isScroll ? <BiSearchAlt2 color='black' size={25} /> : <BiSearchAlt2 color='white' size={25} />) : (<BiSearchAlt2 color='white' size={25} />)}
+                    {isDark ? (
+                        isScroll ? (
+                            <BiSearchAlt2 color="black" size={25} />
+                        ) : (
+                            <BiSearchAlt2 color="white" size={25} />
+                        )
+                    ) : (
+                        <BiSearchAlt2 color="white" size={25} />
+                    )}
                 </span>
             </button>
             {isSearchOpen && (

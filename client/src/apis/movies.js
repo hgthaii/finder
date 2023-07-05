@@ -83,7 +83,6 @@ export const genreScienFiction = () => {
     return getMoviesByGenre(genreId)
 }
 
-
 export const apiSearchMovies = (title) =>
     new Promise(async (resolve, reject) => {
         try {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import icons from '../ultis/icons'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const ReplyComment = ({ commentId, handleChangeReply }) => {

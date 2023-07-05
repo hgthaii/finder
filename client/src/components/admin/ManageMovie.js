@@ -240,8 +240,9 @@ const ManageMovie = () => {
                         {t('Add_movie')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
-                            }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
+                            disableUpdate && 'opacity-50'
+                        }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >
@@ -967,8 +968,9 @@ export const DialogMovieDetail = (props) => {
                             ))} */}
                         {detail?.program_type?.length ? (
                             detail?.program_type?.map((item, index) => (
-                                <span key={index}>{`${item.name}${index !== detail.program_type.length - 1 ? ', ' : ''
-                                    }`}</span>
+                                <span key={index}>{`${item.name}${
+                                    index !== detail.program_type.length - 1 ? ', ' : ''
+                                }`}</span>
                             ))
                         ) : (
                             <span>{t('Movie_notfound')}</span>
@@ -978,8 +980,9 @@ export const DialogMovieDetail = (props) => {
                         <span className="font-bold">{t('Movie_creator')}: </span>
                         {detail?.creators?.length ? (
                             detail?.creators?.map((item, index) => (
-                                <span key={index}>{`${item.name}${index !== detail.creators.length - 1 ? ', ' : ''
-                                    }`}</span>
+                                <span key={index}>{`${item.name}${
+                                    index !== detail.creators.length - 1 ? ', ' : ''
+                                }`}</span>
                             ))
                         ) : (
                             <span>{t('Movie_notfound')}</span>

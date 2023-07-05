@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 function TabPanel(props) {
@@ -221,7 +221,9 @@ const ModalProfile = () => {
                         </div>
                         {infor.isVip === false ? (
                             <div className="text-center">
-                                <div className='flex items-center justify-center border border-white  my-3'><p className="text-xl font-bold pt-1 mb-3 ">{t('Desc_Vip')}</p></div>
+                                <div className="flex items-center justify-center border border-white  my-3">
+                                    <p className="text-xl font-bold pt-1 mb-3 ">{t('Desc_Vip')}</p>
+                                </div>
                                 <button
                                     onClick={addPayment}
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -236,7 +238,7 @@ const ModalProfile = () => {
                         )}
                     </TabPanel>
                     <TabPanel value={parseInt(value)} index={1}>
-                        <div >
+                        <div>
                             <label>{t('Accout_DisplayName')}</label>
                             <input
                                 type="text"

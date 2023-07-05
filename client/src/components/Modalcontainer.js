@@ -21,7 +21,7 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic'
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from 'react-paginate'
 import { useTranslation } from 'react-i18next'
 
 // import io from 'socket.io-client'
@@ -147,7 +147,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     withCredentials: true,
                 },
             )
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 if (error.response.data && error.response.data.statusCode === 401) {
                     navigate('/expired-token')
@@ -168,7 +168,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 withCredentials: true,
             })
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 if (error.response.data && error.response.data.statusCode === 401) {
                     navigate('/expired-token')
@@ -210,7 +210,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     const handleGetApiUPview = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
-            console.log(response);
+            console.log(response)
         } catch (error) {
             console.error(error)
         }
@@ -320,8 +320,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                             <span className="mr-2  px-[0.4rem] border dark:border-main-300  bg-transparent flex justify-center items-center">
                                 HD
                             </span>
-                            <div >
-                                <span className='text-[#777] text-sm'>{t('View_modal')}</span>
+                            <div>
+                                <span className="text-[#777] text-sm">{t('View_modal')}</span>
                                 <span>{data?.views}</span>
                             </div>
                         </div>
@@ -374,9 +374,13 @@ const Modalcontainer = ({ data, closeModal }) => {
                         {genre &&
                             genre?.slice(0, 8).map((item) => (
                                 <div key={item._id} className="w-[70%] min-[1024px]:w-[30%] rounded-lg">
-                                    <Modalcard data={item} idMovie={item._id} favorite={favorite}
+                                    <Modalcard
+                                        data={item}
+                                        idMovie={item._id}
+                                        favorite={favorite}
                                         handleDeleteFav={handleDeleteFav}
-                                        handlePostFav={handlePostFav} />
+                                        handlePostFav={handlePostFav}
+                                    />
                                 </div>
                             ))}
                     </div>
@@ -466,7 +470,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         onClick={handleUnderlineClick}
                                     >
                                         {/* <FormatUnderlinedIcon color='white' /> */}
-                                        <FaItalic color='white' />
+                                        <FaItalic color="white" />
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                             </div>

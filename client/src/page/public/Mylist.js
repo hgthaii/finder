@@ -60,12 +60,10 @@ const Mylist = () => {
             100: {
                 slidesPerView: 1,
                 centeredSlides: true,
-
             },
             480: {
                 slidesPerView: 2,
                 centeredSlides: true,
-
             },
             768: {
                 slidesPerView: 3,
@@ -75,14 +73,15 @@ const Mylist = () => {
                 slidesPerView: 4,
                 centeredSlides: false,
             },
-
         },
     }
     return (
         <div className=" mt-[100px]">
             {favorites.length !== 0 && (
                 <div>
-                    <h3 className="pl-12 text-white mb-3 text-[18px] font-bold dark:text-main-300">Danh sách của tôi</h3>
+                    <h3 className="pl-12 text-white mb-3 text-[18px] font-bold dark:text-main-300">
+                        Danh sách của tôi
+                    </h3>
                     <div className=" w-full">
                         <Swiper {...swiperParams}>
                             {favorites?.map((item, index) => (

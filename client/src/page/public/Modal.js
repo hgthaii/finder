@@ -14,7 +14,7 @@ const Modal = () => {
                 if (response.status === 200) {
                     setDetailMovie(response.data?.[0])
                 }
-                // Xử lý dữ liệu nhận được 
+                // Xử lý dữ liệu nhận được
             } catch (error) {
                 // Xử lý lỗi
                 console.error(error)

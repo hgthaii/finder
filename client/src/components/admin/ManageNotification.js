@@ -1,14 +1,13 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const ManageNotification = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
-
 
     const [title, setTitle] = useState()
     const [content, setContent] = useState()

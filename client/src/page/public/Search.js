@@ -32,12 +32,10 @@ const Search = () => {
             100: {
                 slidesPerView: 1,
                 centeredSlides: true,
-
             },
             480: {
                 slidesPerView: 2,
                 centeredSlides: true,
-
             },
             768: {
                 slidesPerView: 3,
@@ -48,7 +46,6 @@ const Search = () => {
                 slidesPerView: 4,
                 centeredSlides: false,
             },
-
         },
     }
 

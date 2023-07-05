@@ -12,7 +12,6 @@ import ReplyComment from './ReplyComment'
 import ReplyCommentList from './ReplyCommentList'
 import { useTranslation } from 'react-i18next'
 
-
 const Comment = ({ displayName, pastTime, content, commentId, handleChangeComment, like }) => {
     const navigate = useNavigate()
 
@@ -42,7 +41,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
                 const time = moment(pastTime).locale('en').fromNow()
                 setTimeAgo(time)
             }
-
         }, 1000)
         return () => clearInterval(interval)
     }, [pastTime])

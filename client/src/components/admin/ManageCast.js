@@ -173,8 +173,9 @@ const ManageCast = () => {
                         {t('Manage_cast_add')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
-                            }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
+                            disableUpdate && 'opacity-50'
+                        }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >

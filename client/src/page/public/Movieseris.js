@@ -41,7 +41,7 @@ const Movieseris = () => {
     const handleGetApiUPview = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
-            console.log(response);
+            console.log(response)
         } catch (error) {
             console.error(error)
         }

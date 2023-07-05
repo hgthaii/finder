@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import icons from '../ultis/icons';
-import axios from 'axios';
+import icons from '../ultis/icons'
+import axios from 'axios'
 import Button from '@mui/material/Button'
 import { MenuItem, Menu } from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
-import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChangeReplyList }) => {

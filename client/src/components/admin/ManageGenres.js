@@ -5,12 +5,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { InputBase } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import axios from 'axios';
+import axios from 'axios'
 import SearchIcon from '@mui/icons-material/Search'
 import { Box, Modal } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
-
 
 const style = {
     position: 'absolute',
@@ -139,7 +138,8 @@ const ManageGenres = () => {
     const onSearchGenres = async () => {
         try {
             const request = await axios.post(
-                `${process.env.REACT_APP_API_URI}/genres/find-genre`,{name: name},
+                `${process.env.REACT_APP_API_URI}/genres/find-genre`,
+                { name: name },
                 {
                     withCredentials: true,
                     headers: {
@@ -354,7 +354,7 @@ export const ModalUpdateGenres = (props) => {
         try {
             setIsLoading(true)
             const data = {
-                name: name
+                name: name,
             }
             const requests = userIds.map((userId) =>
                 axios.put(`${process.env.REACT_APP_API_URI}/genres/update/${userId._id}`, data, {

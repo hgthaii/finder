@@ -24,8 +24,8 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import CommentIcon from '@mui/icons-material/Comment'
 import Diversity3Icon from '@mui/icons-material/Diversity3'
-import CategoryIcon from '@mui/icons-material/Category';
-import CampaignIcon from '@mui/icons-material/Campaign';
+import CategoryIcon from '@mui/icons-material/Category'
+import CampaignIcon from '@mui/icons-material/Campaign'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
@@ -43,10 +43,10 @@ import PropTypes from 'prop-types'
 // import Tab from '@mui/material/Tab'
 import axios from 'axios'
 import ModalProfile from './ModalProfile'
-import { useCookies } from 'react-cookie';
-import ManageGenres from '../../components/admin/ManageGenres';
-import ManageCast from '../../components/admin/ManageCast';
-import ManageNotification from '../../components/admin/ManageNotification';
+import { useCookies } from 'react-cookie'
+import ManageGenres from '../../components/admin/ManageGenres'
+import ManageCast from '../../components/admin/ManageCast'
+import ManageNotification from '../../components/admin/ManageNotification'
 
 const style = {
     position: 'absolute',
@@ -64,7 +64,7 @@ const iconList = [
     <CommentIcon />,
     <CategoryIcon />,
     <Diversity3Icon />,
-    <CampaignIcon />
+    <CampaignIcon />,
     // Thêm các icon khác vào đây
 ]
 

@@ -14,12 +14,11 @@ const Public = () => {
     useEffect(() => {
         if (theme === 'dark') {
             document.documentElement.classList.add('dark')
-            localStorage.theme = "dark"
+            localStorage.theme = 'dark'
         } else {
             document.documentElement.classList.remove('dark')
-            localStorage.theme = "light"
+            localStorage.theme = 'light'
         }
-
     }, [theme])
     return (
         <div className="flex relative flex-col  min-h-screen  bg-main-200 text-white dark:bg-main-100 dark:text-main-300">

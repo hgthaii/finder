@@ -63,13 +63,16 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
         }
         navigate(`/video/${idValue}`)
     }
-    {/* //  */ }
+    {
+        /* //  */
+    }
     const isLoggedIn = localStorage.getItem('accessToken') ? true : false
 
     return (
         <div
-            className={`  relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${banerModal ? '!h-auto !m-0 !p-0 ' : ''
-                }`}
+            className={`  relative mt-[60px]  h-[400px]  mx-[75px] pt-[10px] pb-[80px] sm:h-auto sm:m-0 sm:p-0 ${
+                banerModal ? '!h-auto !m-0 !p-0 ' : ''
+            }`}
         >
             {showImage ? (
                 <img
@@ -105,8 +108,9 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                     </div>
                     <div className="flex flex-col">
                         <p
-                            className={`opacity-0 sm:opacity-100 ${banerModal ? '!opacity-100' : ''
-                                } text-white marker:text-[#F9F9F9]  text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}
+                            className={`opacity-0 sm:opacity-100 ${
+                                banerModal ? '!opacity-100' : ''
+                            } text-white marker:text-[#F9F9F9]  text-[1rem] font-medium leading-5 my-5 ellipsis3 sm:w-[45%] w-full `}
                         >
                             {data?.overview || randomMovies?.overview}
                         </p>
@@ -118,7 +122,9 @@ const Banner = ({ banerModal, data, randomMovies, favorite, handlePostFav, handl
                                     className="  flex items-center justify-center rounded-full  bg-white text-black text-center font-semibold py-2 px-2 mr-2 sm:px-5 sm:rounded-md"
                                 >
                                     <BsFillPlayFill size={35} />
-                                    <span className={`sm:block  ${banerModal ? 'block' : 'hidden'}`}>{t('Banner_play')}</span>
+                                    <span className={`sm:block  ${banerModal ? 'block' : 'hidden'}`}>
+                                        {t('Banner_play')}
+                                    </span>
                                 </button>
                                 <div>
                                     {isFullScreen && (

@@ -42,7 +42,7 @@ const Movies = () => {
     const handleGetApiUPview = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
-            console.log(response);
+            console.log(response)
         } catch (error) {
             console.error(error)
         }
@@ -69,12 +69,10 @@ const Movies = () => {
             100: {
                 slidesPerView: 1,
                 centeredSlides: true,
-
             },
             480: {
                 slidesPerView: 2,
                 centeredSlides: true,
-
             },
             768: {
                 slidesPerView: 3,
@@ -85,7 +83,6 @@ const Movies = () => {
                 slidesPerView: 4,
                 centeredSlides: false,
             },
-
         },
     }
 
@@ -103,7 +100,7 @@ const Movies = () => {
                         <div className="swiper-button-next swiper-button-wrapper"></div>
                         <div className="swiper-button-prev swiper-button-wrapper"></div>
                         <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper >
+                    </Swiper>
                 </div>
             </div>
 
@@ -115,4 +112,3 @@ const Movies = () => {
 }
 
 export default Movies
-

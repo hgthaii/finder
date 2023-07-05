@@ -85,7 +85,6 @@ const Login = ({ onClose }) => {
                 toast.success('Đăng nhập thành công')
                 // navigate('/home-admin')
                 onClose()
-
             } else if (parsedTokenBody.roles === 'user') {
                 toast.success('Đăng nhập thành công')
                 onClose()
@@ -156,7 +155,7 @@ const Login = ({ onClose }) => {
             url: `${process.env.REACT_APP_API_URI}/user/googlelogin`,
             data: { tokenId: res.tokenId },
         }).then((res) => {
-            console.log("Login success", res)
+            console.log('Login success', res)
             localStorage.setItem('accessToken', res.data.access_token)
             localStorage.setItem('refreshToken', res.data.refresh_token)
             localStorage.setItem('displayName', res.data.displayName)

@@ -77,7 +77,7 @@ const getFilmOfCast = async (req, res) => {
 const updateCast = async (req, res) => {
     try {
         const { castId } = req.params
-        const {name} = req.body
+        const { name } = req.body
         const cast = await castModel.findByIdAndUpdate(castId)
         if (!cast) return responseHandler.notfound(res, 'Không tìm thấy cast.')
 
@@ -86,7 +86,7 @@ const updateCast = async (req, res) => {
 
         responseHandler.ok(res, cast)
     } catch (error) {
-        console.log(error);
+        console.log(error)
         responseHandler.error(res, 'Chỉnh sửa không cast thành công.')
     }
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import moment from 'moment';
+import moment from 'moment'
 import 'moment/locale/vi'
 import { useTranslation } from 'react-i18next'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
 const Notify = ({ content, title, notify, pastTime }) => {
     const [timeAgo, setTimeAgo] = useState('')
     const { t, i18n } = useTranslation()
@@ -26,7 +26,7 @@ const Notify = ({ content, title, notify, pastTime }) => {
                 notify?.map((item) => (
                     <div key={item._id} className=" flex flex-col border border-[#404040] px-3 py-2">
                         <h4 className="font-bold text-sm ">{item?.title}</h4>
-                        <p className='text-[12px]'>{item?.content}</p>
+                        <p className="text-[12px]">{item?.content}</p>
                         <span className="text-[#BCBCBC] text-[12px]">{timeAgo}</span>
                     </div>
                 ))

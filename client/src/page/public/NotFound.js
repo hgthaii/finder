@@ -1,18 +1,18 @@
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import axios from 'axios';
+import axios from 'axios'
 
 const NotFound = () => {
     const navigate = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
     const [, , removeAllCookies] = useCookies()
-    
+
     const refundHome = async () => {
         // try {
         //     await axios.post(`${process.env.REACT_APP_API_URI}/user/signout`, null, {
         //         withCredentials: true,
-                
+
         //     })
         //     localStorage.clear()
         //     removeAllCookies()

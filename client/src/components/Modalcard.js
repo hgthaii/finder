@@ -9,9 +9,7 @@ const Modalcard = ({ data, idMovie, favorite, handlePostFav, handleDeleteFav }) 
     const { AiOutlinePlus, AiOutlineCheck } = icons
 
     return (
-        <Link
-            to={`/${path.DETAIL_MOVIES}/${idMovie}`}
-        >
+        <Link to={`/${path.DETAIL_MOVIES}/${idMovie}`}>
             <div className="flex flex-col h-[450px]  overflow-hidden border border-white dark:border dark:border-main-300 bg-main-200 text-white dark:bg-main-100 dark:text-main-300">
                 <img src={data?.poster_path?.[0]?.path} alt="card" className="w-full object-contain" />
                 <div className="p-2">
@@ -26,7 +24,6 @@ const Modalcard = ({ data, idMovie, favorite, handlePostFav, handleDeleteFav }) 
                                 {/* <span  className="w-10 h-10 rounded-full border border-white bg-transparent flex items-center justify-center ">
                                     <AiOutlinePlus color="white" />
                                 </span> */}
-
 
                                 {/* <div className="flex text-center ">
                                     {favorite?.isFavorite ? (
@@ -46,20 +43,16 @@ const Modalcard = ({ data, idMovie, favorite, handlePostFav, handleDeleteFav }) 
                                     )}
 
                                 </div> */}
-
-
                             </div>
                         </div>
-
                     </div>
 
-                    <div >
+                    <div>
                         <p>{data?.overview}</p>
                     </div>
                 </div>
             </div>
         </Link>
-
     )
 }
 
