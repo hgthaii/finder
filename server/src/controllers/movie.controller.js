@@ -113,16 +113,11 @@ const getAllMovies = async (req, res) => {
 const getMovieById = async (req, res) => {
     try {
         const { movieId } = req.params
-        const movies = []
-        const getMovie = await movieModel.find().sort('-createdAt')
-        for (const movie of getMovie) {
-            if (String(movie._id) === movieId) {
-                movies.push(movie)
-            }
+        const movie = await movieModel.findById(movieId)
+        if (!movie) {
+            return responseHandler.notfound(res, 'Không tìm thấy phim')
         }
-        if (!getMovie) return responseHandler.notfound(res, 'Không tìm thấy phim')
-        // console.log(movies)
-        responseHandler.ok(res, movies)
+        responseHandler.ok(res, [movie])
     } catch (error) {
         console.log(error)
         responseHandler.error(res, 'Lấy thông tin phim thất bại.')
@@ -153,6 +148,25 @@ const searchMovieByGenre = async (req, res) => {
     }
 }
 
+// Hàm lấy ngẫu nhiên n phần tử từ mảng arr
+const getRandomElements = (arr, n) => {
+  if (n >= arr.length) {
+    return arr; // Nếu n lớn hơn hoặc bằng độ dài mảng, trả về toàn bộ mảng
+  }
+  
+  // Tạo một bản sao của mảng arr để tránh thay đổi mảng gốc
+  const copyArr = [...arr];
+  
+  // Dùng Fisher-Yates shuffle để xáo trộn mảng
+  for (let i = copyArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
+  }
+  
+  // Trả về n phần tử đầu tiên của mảng đã xáo trộn
+  return copyArr.slice(0, n);
+};
+
 // Lấy danh sách phim theo thể loại
 const getAllMovieByGenre = async (req, res) => {
     try {
@@ -174,7 +188,9 @@ const getAllMovieByGenre = async (req, res) => {
                 movies.push(movie)
             }
         }
-        responseHandler.ok(res, movies)
+
+        const randomMovies = getRandomElements(movies, 10)
+        responseHandler.ok(res, randomMovies)
     } catch (error) {
         console.log(error)
         responseHandler.error(res, 'Lấy danh sách phim theo thể loại thất bại.')
