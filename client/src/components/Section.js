@@ -15,13 +15,13 @@ const Section = ({ data }) => {
     return (
         <Link
             to={`${path.DETAIL_MOVIES}/${idValue}`}
-            className={`relative ${isActive ? 'active' : ''}`}
+            className={`relative ${isActive ? 'active' : ''}  `}
             onClick={handleToggleActive}
         >
             <img
                 src={data?.poster_path[0]?.path || data?.poster_path}
                 alt="movies"
-                className="w-[100%] object-cover rounded-md h-[50%]"
+                className="w-[100%] h-full object-cover rounded-md "
             />
             <img
                 src={data?.logo}
