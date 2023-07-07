@@ -1,43 +1,25 @@
 /* eslint-disable */
-import React, { useState, useEffect, useSelector } from 'react'
+import React, { useContext } from 'react'
 
-import * as apis from '../../apis'
 import { Outlet } from 'react-router-dom'
-import { Section, Banner, Modal } from '../../components'
+import { Section, Banner, } from '../../components'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import axios from 'axios'
+import { ApiContext } from '../../components/ApiContext';
 
 SwiperCore.use([Navigation, Pagination])
 const Movies = () => {
-    const [randomMovies, setRandomMovies] = useState([])
-    const [top10Movies, setTop10Movies] = useState(null)
+    const { top10Movies, randomMovies, genreDocumentary, genreComedy, genreAgent,
+        genreKorean,
+        genreAnime,
+        genreAction,
+        genreFamily,
+        genreScienFiction,
+        genreCriminal, } = useContext(ApiContext);
     const movieId = randomMovies?._id
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await apis.apiMoviesRandom()
-                setRandomMovies(response)
-                // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
-            }
-        }
-
-        fetchData()
-    }, [])
-
-    useEffect(() => {
-        const top10Movies = async () => {
-            const reponse = await apis.top10Movies()
-            setTop10Movies(reponse)
-        }
-        top10Movies()
-    }, [])
 
     const handleGetApiUPview = async () => {
         try {
@@ -90,15 +72,151 @@ const Movies = () => {
         <div className="flex flex-col w-full dark:text-main-300 ">
             <Banner randomMovies={randomMovies} handleGetApiUPview={handleGetApiUPview} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
-                <div className=" w-full mt-3">
+                <div className="my-4">
+                    <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">
+                        Top 10 bộ phim hot trong tuần
+                    </h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">
                                 <Section data={item} />
                             </SwiperSlide>
                         ))}
-                        <div className="swiper-button-next swiper-button-wrapper"></div>
-                        <div className="swiper-button-prev swiper-button-wrapper"></div>
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Chương trình truyền hình tội phạm
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreCriminal?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">Loạt Anime</h3>
+                    <Swiper {...swiperParams}>
+                        {genreAnime?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Chương trình truyền hình Hàn Quốc
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreKorean?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Chương trình khoa học viễn tưởng & giả tưởng
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreScienFiction?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Phim trẻ em & gia đình
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreFamily?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Phim hành động
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreAction?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Phim hành động & phiêu lưu về điệp viên
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreAgent?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">Phim hài</h3>
+                    <Swiper {...swiperParams}>
+                        {genreComedy?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+
+
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        Loạt phim tài liệu
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreDocumentary?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
                         <div className="swiper-pagination"></div> {/* Hiển thị dots */}
                     </Swiper>
                 </div>

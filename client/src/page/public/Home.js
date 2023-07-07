@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import { useSelector } from 'react-redux'
 import 'swiper/swiper.min.css'
@@ -7,119 +7,21 @@ import SwiperCore, { Navigation, Pagination } from 'swiper'
 import axios from 'axios'
 
 import { Section, Banner } from '../../components'
-import * as apis from '../../apis'
 import { Outlet } from 'react-router'
+import { ApiContext } from '../../components/ApiContext';
 
 SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
-    // const { movies } = useSelector((state) => state.app)
-    const [top10Movies, setTop10Movies] = useState(null)
-    const [genreKorean, setGenreKorean] = useState(null)
-    const [genreCriminal, setGenreCriminal] = useState(null)
-    const [genreAnime, setGenreAnime] = useState(null)
-    const [genreAction, setGenreAction] = useState(null)
-    const [genreFamily, setGenreFamily] = useState(null)
-    const [genreAgent, setGenreAgent] = useState(null)
-    const [genreComedy, setGenreComedy] = useState(null)
-    const [genreDocumentary, setGenreDocumentary] = useState(null)
-    const [genreScienFiction, setGenreScienFiction] = useState(null)
-    const [randomMovies, setRandomMovies] = useState([])
-
-    useEffect(() => {
-        const fetchDocumentary = async () => {
-            const response = await apis.genreDocumentary()
-            setGenreDocumentary(response)
-        }
-        fetchDocumentary()
-    }, [])
-
-    useEffect(() => {
-        const fetchComedy = async () => {
-            const response = await apis.genreComedy()
-            setGenreComedy(response)
-        }
-        fetchComedy()
-    }, [])
-
-    useEffect(() => {
-        const fetchAgent = async () => {
-            const response = await apis.genreAgent()
-            setGenreAgent(response)
-        }
-        fetchAgent()
-    }, [])
-
-    useEffect(() => {
-        const fetchFamily = async () => {
-            const response = await apis.genreFamily()
-            setGenreFamily(response)
-        }
-        fetchFamily()
-    }, [])
-
-    useEffect(() => {
-        const fetchAction = async () => {
-            const response = await apis.genreAction()
-            setGenreAction(response)
-        }
-        fetchAction()
-    }, [])
-
-    useEffect(() => {
-        const fetchScienFiction = async () => {
-            const response = await apis.genreScienFiction()
-            setGenreScienFiction(response)
-        }
-        fetchScienFiction()
-    }, [])
-
-    useEffect(() => {
-        const fetchGenreAnime = async () => {
-            const response = await apis.genreAnime()
-            setGenreAnime(response)
-        }
-        fetchGenreAnime()
-    }, [])
-
-    useEffect(() => {
-        const fetchGenreCriminal = async () => {
-            const response = await apis.genreCriminal()
-            setGenreCriminal(response)
-        }
-        fetchGenreCriminal()
-    }, [])
-
-    useEffect(() => {
-        const fetchGenreKorean = async () => {
-            const response = await apis.genreKorean()
-            setGenreKorean(response)
-        }
-        fetchGenreKorean()
-    }, [])
+    const { top10Movies, randomMovies, genreDocumentary, genreComedy, genreAgent,
+        genreKorean,
+        genreAnime,
+        genreAction,
+        genreFamily,
+        genreScienFiction,
+        genreCriminal, } = useContext(ApiContext);
 
     const movieId = randomMovies?._id
-
-    useEffect(() => {
-        const fetchTop10Movies = async () => {
-            const response = await apis.top10Movies()
-            setTop10Movies(response)
-        }
-        fetchTop10Movies()
-    }, [])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await apis.apiMoviesRandom()
-                setRandomMovies(response)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        fetchData()
-    }, [])
 
     const handleGetApiUPview = async () => {
         try {
@@ -269,49 +171,6 @@ const Home = () => {
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreAction?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Phim hành động & phiêu lưu về điệp viên
-                    </h3>
-                    <Swiper {...swiperParams}>
-                        {genreAgent?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">Phim hài</h3>
-                    <Swiper {...swiperParams}>
-                        {genreComedy?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Loạt phim tài liệu
-                    </h3>
-                    <Swiper {...swiperParams}>
-                        {genreDocumentary?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>

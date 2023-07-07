@@ -86,13 +86,18 @@ const Header = ({ handleThemeSwitch, theme }) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
     const [isHiddenMenu, setIsHiddenMenu] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
+
     const openn = Boolean(anchorEl)
     const [notify, setNotify] = useState([])
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
-    const noActiveStyle = `py-2 px-[25px] font-medium text-[16px] text-white ${
-        isScrolled ? 'dark:text-main-300' : 'text-white'
-    } `
+    const noActiveStyle = `py-2 px-[25px] font-medium text-[16px] text-white ${isScrolled ? 'dark:text-main-300' : 'text-white'
+        } `
 
+
+    const toggleSearch = () => {
+        setIsSearchOpen(!isSearchOpen)
+    }
     const [isMobile, setIsMobile] = useState(false)
 
     const handleResize = () => {
@@ -247,11 +252,10 @@ const Header = ({ handleThemeSwitch, theme }) => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center   justify-between lg:flex-wrap lg:justify-start  lg:py-4 ${
-                    isScrolled
-                        ? 'bg-main-200 dark:bg-main-100  animate-header'
-                        : ' !text-white bg-gradient-header animate-header'
-                } ${isMobile ? 'bg-main-200 dark:bg-main-100 dark:text-main-300 animate-header' : ''}`}
+                className={`flex-no-wrap relative flex w-full items-center   justify-between lg:flex-wrap lg:justify-start  lg:py-4 ${isScrolled
+                    ? 'bg-main-200 dark:bg-main-100  animate-header'
+                    : ' !text-white bg-gradient-header animate-header'
+                    } ${isMobile ? 'bg-main-200 dark:bg-main-100 dark:text-main-300 animate-header' : ''}`}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3 ">
@@ -310,7 +314,7 @@ const Header = ({ handleThemeSwitch, theme }) => {
 
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
-                            <div className="flex ">
+                            {!isSearchOpen && <div className="flex ">
                                 <div className="flex items-center mr-2">
                                     <select onChange={changeLanguage} className="text-black ">
                                         <option value="vi">vi</option>
@@ -324,9 +328,9 @@ const Header = ({ handleThemeSwitch, theme }) => {
                                         <MdDarkMode color="white" size={30} />
                                     )}
                                 </div>
-                            </div>
-                            <Search isDark={theme === 'dark'} isScroll={isScrolled} />
-                            <div className="cursor-pointer">
+                            </div>}
+                            <Search isDark={theme === 'dark'} isScroll={isScrolled} isSearchOpen={isSearchOpen} toggleSearch={toggleSearch} />
+                            {!isSearchOpen && <div className="cursor-pointer">
                                 {notify.length > 0 && (
                                     <div className="absolute text-white text-xs font-bold ml-6 bg-[#d83b01] rounded-lg p-1 bottom-5">
                                         {notify.length || notify.length < 10 ? `0${notify.length}` : notify.length}
@@ -363,10 +367,10 @@ const Header = ({ handleThemeSwitch, theme }) => {
                                         )}
                                     </Box>
                                 </Modal>
-                            </div>
+                            </div>}
 
                             {accessToken ? (
-                                <div>
+                                !isSearchOpen && <div>
                                     <Button
                                         id="basic-button"
                                         aria-controls={openn ? 'basic-menu' : undefined}
@@ -388,51 +392,51 @@ const Header = ({ handleThemeSwitch, theme }) => {
                                     >
                                         {parsedTokenBody.roles === 'admin'
                                             ? [
-                                                  <MenuItem key="page-admin" onClick={openPageAdmin}>
-                                                      <ListItemIcon>
-                                                          <AdminPanelSettingsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_adminPage')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
-                                                      <ListItemIcon>
-                                                          <ManageAccountsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="comment-movie" onClick={handleOpenListComment}>
-                                                      <ListItemIcon>
-                                                          <ReviewsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="logout" onClick={handleLogout}>
-                                                      <ListItemIcon>
-                                                          <MeetingRoomIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Logout')}</ListItemText>
-                                                  </MenuItem>,
-                                              ]
+                                                <MenuItem key="page-admin" onClick={openPageAdmin}>
+                                                    <ListItemIcon>
+                                                        <AdminPanelSettingsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Header_adminPage')}</ListItemText>
+                                                </MenuItem>,
+                                                <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
+                                                    <ListItemIcon>
+                                                        <ManageAccountsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                </MenuItem>,
+                                                <MenuItem key="comment-movie" onClick={handleOpenListComment}>
+                                                    <ListItemIcon>
+                                                        <ReviewsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                </MenuItem>,
+                                                <MenuItem key="logout" onClick={handleLogout}>
+                                                    <ListItemIcon>
+                                                        <MeetingRoomIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Logout')}</ListItemText>
+                                                </MenuItem>,
+                                            ]
                                             : [
-                                                  <MenuItem key="manage-user" onClick={handleOpenProfile}>
-                                                      <ListItemIcon>
-                                                          <ManageAccountsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
-                                                      <ListItemIcon>
-                                                          <ReviewsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="logout-user" onClick={handleLogout}>
-                                                      <ListItemIcon>
-                                                          <MeetingRoomIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Logout')}</ListItemText>
-                                                  </MenuItem>,
-                                              ]}
+                                                <MenuItem key="manage-user" onClick={handleOpenProfile}>
+                                                    <ListItemIcon>
+                                                        <ManageAccountsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                </MenuItem>,
+                                                <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
+                                                    <ListItemIcon>
+                                                        <ReviewsIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                </MenuItem>,
+                                                <MenuItem key="logout-user" onClick={handleLogout}>
+                                                    <ListItemIcon>
+                                                        <MeetingRoomIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>{t('Logout')}</ListItemText>
+                                                </MenuItem>,
+                                            ]}
                                     </Menu>
                                     <Modal
                                         open={openProfile}
@@ -456,7 +460,7 @@ const Header = ({ handleThemeSwitch, theme }) => {
                                     </Modal>
                                 </div>
                             ) : (
-                                <div>
+                                !isSearchOpen && <div>
                                     <Button
                                         onClick={handleOpen}
                                         sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}

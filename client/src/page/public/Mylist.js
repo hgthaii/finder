@@ -13,7 +13,6 @@ const Mylist = () => {
     const navigate = useNavigate()
 
     const [favorites, setFavorites] = useState([])
-
     useEffect(() => {
         const fetchData = async () => {
             axios
