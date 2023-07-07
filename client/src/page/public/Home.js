@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
@@ -13,7 +13,7 @@ import { Outlet } from 'react-router'
 SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
-    const { movies } = useSelector((state) => state.app)
+    // const { movies } = useSelector((state) => state.app)
     const [top10Movies, setTop10Movies] = useState(null)
     const [genreKorean, setGenreKorean] = useState(null)
     const [genreCriminal, setGenreCriminal] = useState(null)
@@ -171,7 +171,6 @@ const Home = () => {
             },
         },
     }
-
     return (
         <div className="">
             <Banner randomMovies={randomMovies} handleGetApiUPview={handleGetApiUPview} />

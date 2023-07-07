@@ -247,7 +247,7 @@ const Header = ({ handleThemeSwitch, theme }) => {
     return (
         <div>
             <nav
-                className={`flex-no-wrap relative flex w-full items-center   justify-between  py-2 lg:flex-wrap lg:justify-start  lg:py-4 ${
+                className={`flex-no-wrap relative flex w-full items-center   justify-between lg:flex-wrap lg:justify-start  lg:py-4 ${
                     isScrolled
                         ? 'bg-main-200 dark:bg-main-100  animate-header'
                         : ' !text-white bg-gradient-header animate-header'
