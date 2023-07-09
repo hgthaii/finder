@@ -385,6 +385,7 @@ const handleExistingUser = async (req, res, user) => {
     const payload = {
         roles: user.roles,
         infor: {
+            isVip: user.isVip,
             id: user.id,
             displayName: user.displayName,
             username: user.username,
@@ -427,6 +428,8 @@ const handleNewUser = async (req, res, email, name) => {
         const newPassword = process.env.TOKEN_SECRET
 
         const newUser = new userModel({
+            isVip: user.isVip,
+            email: email,
             username: email,
             displayName: name,
             password: newPassword,
