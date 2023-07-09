@@ -180,7 +180,7 @@ const getAllMovieByGenre = async (req, res) => {
 
         // Tìm kiếm phim có cùng thể loại
         const movies = []
-        const listMovie = await movieModel.find().sort('-createAt')
+        const listMovie = await movieModel.find().select('_id poster_path logo genres overview release_date title').sort('-createAt')
 
         for (const index in listMovie) {
             const movie = listMovie[index]
