@@ -17,7 +17,7 @@ const Notify = ({ content, title, notify, pastTime }) => {
                 const time = moment(pastTime).locale('en').fromNow()
                 setTimeAgo(time)
             }
-        }, 1000)
+        }, 300)
         return () => clearInterval(interval)
     }, [pastTime])
     return (

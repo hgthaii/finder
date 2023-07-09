@@ -31,9 +31,11 @@ const Movies = () => {
     }
     const swiperParams = {
         slidesPerView: 5,
-        slidesPerGroup: 1,
+        slidesPerGroup: 5,
         spaceBetween: 10,
         initialSlide: 0,
+        loopPreventsSliding: true,
+        speed: 1050,
         autoHeight: false,
         centeredSlides: false,
         loop: true,
@@ -63,6 +65,7 @@ const Movies = () => {
             // when window width is >= 900px
             900: {
                 slidesPerView: 4,
+                slidesPerGroup: 4,
                 centeredSlides: false,
             },
         },
