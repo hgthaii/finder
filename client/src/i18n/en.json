@@ -39,7 +39,7 @@
     "User_name": "User Name",
     "User_role": "Role",
     "Created_at": "Created at",
-    "User_id": "User ID",
+    "User_type": "User type",
     "ManageMovie": "Manage movie",
     "ManageMovie_details": "Manage details",
     "Add_movie": "Add movie",
