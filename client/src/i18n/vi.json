@@ -39,7 +39,7 @@
     "User_name": "Tên tài khoản",
     "User_role": "Quyền người dùng",
     "Created_at": "Ngày tạo",
-    "User_id": "Mã người dùng",
+    "User_type": "Loại người dùng",
     "ManageMovie": "Quản lý phim",
     "ManageMovie_details": "Chi tiết phim",
     "Add_movie": "Thêm bộ phim",
