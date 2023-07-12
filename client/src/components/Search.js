@@ -10,17 +10,17 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-const Search = ({ isDark, isScroll }) => {
+const Search = ({ isDark, isScroll, isSearchOpen, toggleSearch }) => {
     const { BiSearchAlt2 } = icons
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
+    // const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { t } = useTranslation()
-    const toggleSearch = () => {
-        setIsSearchOpen(!isSearchOpen)
-    }
+    // const toggleSearch = () => {
+    //     setIsSearchOpen(!isSearchOpen)
+    // }
 
     const clearSearch = () => {
         setSearchValue('')
@@ -37,7 +37,7 @@ const Search = ({ isDark, isScroll }) => {
     return (
         <div
             className={`flex  items-center  cursor-pointer ${
-                isSearchOpen ? `w-[300px] border border-white bg-[#141414]` : ''
+                isSearchOpen ? `w-[300px] border border-white bg-[#141414] ` : ''
             }`}
         >
             <button onClick={toggleSearch} className=" mx-2 ">
