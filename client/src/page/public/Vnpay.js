@@ -11,8 +11,8 @@ function VnpayReturnPage() {
 
     const accessToken = localStorage.getItem('accessToken')
     const tokenBody = accessToken.split('.')[1]
-
-    const decodedTokenBody = atob(tokenBody)
+    const base64 = tokenBody?.replace(/-/g, '+')?.replace(/_/g, '/') // Chuẩn hóa chuỗi Base64
+    const decodedTokenBody = decodeURIComponent(escape(atob(base64)))
     const parsedTokenBody = JSON.parse(decodedTokenBody)
 
     const queryParams = new URLSearchParams(location.search)

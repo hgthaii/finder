@@ -216,8 +216,8 @@ const HomePageAdmin = () => {
 
     const accessToken = localStorage.getItem('accessToken')
     const tokenParts = accessToken.split('.')
-    const encodedPayload = tokenParts[1]
-    const decodedPayload = decodeURIComponent(escape(window.atob(encodedPayload)))
+    const base64 = tokenParts[1]?.replace(/-/g, '+')?.replace(/_/g, '/') // Chuẩn hóa chuỗi Base64a
+    const decodedPayload = decodeURIComponent(escape(atob(base64)))
     const payloadObj = JSON.parse(decodedPayload)
     const name = payloadObj.infor
     const handleLogout = async () => {

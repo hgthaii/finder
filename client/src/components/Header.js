@@ -43,7 +43,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    height: 500,
+    height: 600,
     padding: '50px',
     background: '#030014',
     boxShadow: 24,
@@ -86,6 +86,8 @@ const Header = ({ handleThemeSwitch, theme }) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [isScrolled, setIsScrolled] = useState(false)
     const [isHiddenMenu, setIsHiddenMenu] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
+
     const openn = Boolean(anchorEl)
     const [notify, setNotify] = useState([])
     const ActiveStyle = 'py-2 px-[25px]  text-[16px] text-[#02E7F5] font-bold'
@@ -93,6 +95,9 @@ const Header = ({ handleThemeSwitch, theme }) => {
         isScrolled ? 'dark:text-main-300' : 'text-white'
     } `
 
+    const toggleSearch = () => {
+        setIsSearchOpen(!isSearchOpen)
+    }
     const [isMobile, setIsMobile] = useState(false)
 
     const handleResize = () => {
@@ -310,180 +315,194 @@ const Header = ({ handleThemeSwitch, theme }) => {
 
                     <div className="relative flex items-center">
                         <div className="flex items-center gap-4 text-white ">
-                            <div className="flex ">
-                                <div className="flex items-center mr-2">
-                                    <select onChange={changeLanguage} className="text-black ">
-                                        <option value="vi">vi</option>
-                                        <option value="en">en</option>
-                                    </select>
-                                </div>
-                                <div onClick={handleThemeSwitch} className="cursor-pointer">
-                                    {theme === 'dark' ? (
-                                        <BsSunFill color="yellow" size={30} />
-                                    ) : (
-                                        <MdDarkMode color="white" size={30} />
-                                    )}
-                                </div>
-                            </div>
-                            <Search isDark={theme === 'dark'} isScroll={isScrolled} />
-                            <div className="cursor-pointer">
-                                {notify.length > 0 && (
-                                    <div className="absolute text-white text-xs font-bold ml-6 bg-[#d83b01] rounded-lg p-1 bottom-5">
-                                        {notify.length || notify.length < 10 ? `0${notify.length}` : notify.length}
+                            {!isSearchOpen && (
+                                <div className="flex ">
+                                    <div className="flex items-center mr-2">
+                                        <select onChange={changeLanguage} className="text-black ">
+                                            <option value="vi">vi</option>
+                                            <option value="en">en</option>
+                                        </select>
                                     </div>
-                                )}
+                                    <div onClick={handleThemeSwitch} className="cursor-pointer">
+                                        {theme === 'dark' ? (
+                                            <BsSunFill color="yellow" size={30} />
+                                        ) : (
+                                            <MdDarkMode color="white" size={30} />
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                            <Search
+                                isDark={theme === 'dark'}
+                                isScroll={isScrolled}
+                                isSearchOpen={isSearchOpen}
+                                toggleSearch={toggleSearch}
+                            />
+                            {!isSearchOpen && (
+                                <div className="cursor-pointer">
+                                    {notify.length > 0 && (
+                                        <div className="absolute text-white text-xs font-bold ml-6 bg-[#d83b01] rounded-lg p-1 bottom-5">
+                                            {notify.length || notify.length < 10 ? `0${notify.length}` : notify.length}
+                                        </div>
+                                    )}
 
-                                <div onClick={handleOpenNotify}>
-                                    {theme === 'dark' ? (
-                                        isScrolled ? (
-                                            <AiFillBell color="black" size={30} />
+                                    <div onClick={handleOpenNotify}>
+                                        {theme === 'dark' ? (
+                                            isScrolled ? (
+                                                <AiFillBell color="black" size={30} />
+                                            ) : (
+                                                <AiFillBell color="white" size={30} />
+                                            )
                                         ) : (
                                             <AiFillBell color="white" size={30} />
-                                        )
-                                    ) : (
-                                        <AiFillBell color="white" size={30} />
-                                    )}
-                                    {/* ${isScrolled ? 'dark:text-main-300' : 'text-white'} */}
-                                </div>
-                                <Modal open={openNotify} onClose={handleCloseNotify}>
-                                    <Box sx={styleNotify}>
-                                        <Notify
-                                            notify={notify}
-                                            pastTime={notify?.createdAt}
-                                            onClose={handleCloseNotify}
-                                            className="relative"
-                                        />
-                                        {notify?.length !== 0 && (
-                                            <div
-                                                onClick={deleteNotify}
-                                                className=" text-white border border-[#404040] px-3 py-2 flex justify-center items-center cursor-pointer bg-[#0f0f0f] sticky bottom-0 left-0 right-0  font-bold text-sm"
-                                            >
-                                                {t('RemoveAll')}
-                                            </div>
                                         )}
-                                    </Box>
-                                </Modal>
-                            </div>
-
-                            {accessToken ? (
-                                <div>
-                                    <Button
-                                        id="basic-button"
-                                        aria-controls={openn ? 'basic-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={openn ? 'true' : undefined}
-                                        onClick={handleClick}
-                                        sx={{ color: '#02e7f5', fontWeight: '500' }}
-                                    >
-                                        {t('Hello')}, {displayNameVal}
-                                    </Button>
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={openn}
-                                        onClose={handleCloseAnchorEl}
-                                        MenuListProps={{
-                                            'aria-labelledby': 'basic-button',
-                                        }}
-                                    >
-                                        {parsedTokenBody.roles === 'admin'
-                                            ? [
-                                                  <MenuItem key="page-admin" onClick={openPageAdmin}>
-                                                      <ListItemIcon>
-                                                          <AdminPanelSettingsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_adminPage')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
-                                                      <ListItemIcon>
-                                                          <ManageAccountsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="comment-movie" onClick={handleOpenListComment}>
-                                                      <ListItemIcon>
-                                                          <ReviewsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="logout" onClick={handleLogout}>
-                                                      <ListItemIcon>
-                                                          <MeetingRoomIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Logout')}</ListItemText>
-                                                  </MenuItem>,
-                                              ]
-                                            : [
-                                                  <MenuItem key="manage-user" onClick={handleOpenProfile}>
-                                                      <ListItemIcon>
-                                                          <ManageAccountsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_accountManagement')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="comment-movieUser" onClick={handleOpenListComment}>
-                                                      <ListItemIcon>
-                                                          <ReviewsIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Header_yourComment')}</ListItemText>
-                                                  </MenuItem>,
-                                                  <MenuItem key="logout-user" onClick={handleLogout}>
-                                                      <ListItemIcon>
-                                                          <MeetingRoomIcon fontSize="small" />
-                                                      </ListItemIcon>
-                                                      <ListItemText>{t('Logout')}</ListItemText>
-                                                  </MenuItem>,
-                                              ]}
-                                    </Menu>
-                                    <Modal
-                                        open={openProfile}
-                                        onClose={handleCloseProfile}
-                                        aria-labelledby="parent-modal-title"
-                                        aria-describedby="parent-modal-description"
-                                    >
-                                        <Box sx={style}>
-                                            <ModalProfile onClose={handleCloseProfile} />
+                                        {/* ${isScrolled ? 'dark:text-main-300' : 'text-white'} */}
+                                    </div>
+                                    <Modal open={openNotify} onClose={handleCloseNotify}>
+                                        <Box sx={styleNotify}>
+                                            <Notify
+                                                notify={notify}
+                                                pastTime={notify?.createdAt}
+                                                onClose={handleCloseNotify}
+                                                className="relative"
+                                            />
+                                            {notify?.length !== 0 && (
+                                                <div
+                                                    onClick={deleteNotify}
+                                                    className=" text-white border border-[#404040] px-3 py-2 flex justify-center items-center cursor-pointer bg-[#0f0f0f] sticky bottom-0 left-0 right-0  font-bold text-sm"
+                                                >
+                                                    {t('RemoveAll')}
+                                                </div>
+                                            )}
                                         </Box>
-                                    </Modal>
-                                    <Modal
-                                        open={openListComment}
-                                        onClose={handleCloseListComment}
-                                        aria-labelledby="parent-modal-title"
-                                        aria-describedby="parent-modal-description"
-                                    >
-                                        <Box sx={styless}>
-                                            <ModalListComment onClose={handleCloseListComment} />
-                                        </Box>
-                                    </Modal>
-                                </div>
-                            ) : (
-                                <div>
-                                    <Button
-                                        onClick={handleOpen}
-                                        sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
-                                    >
-                                        {t('LogIn')}
-                                    </Button>
-                                    <Modal
-                                        aria-labelledby="transition-modal-title"
-                                        aria-describedby="transition-modal-description"
-                                        open={open}
-                                        onClose={handleClose}
-                                        closeAfterTransition
-                                        slots={{ backdrop: Backdrop }}
-                                        slotProps={{
-                                            backdrop: {
-                                                timeout: 500,
-                                            },
-                                        }}
-                                    >
-                                        <Fade in={open}>
-                                            <Box sx={style}>
-                                                <Login onClose={handleClose} />
-                                            </Box>
-                                        </Fade>
                                     </Modal>
                                 </div>
                             )}
+
+                            {accessToken
+                                ? !isSearchOpen && (
+                                      <div>
+                                          <Button
+                                              id="basic-button"
+                                              aria-controls={openn ? 'basic-menu' : undefined}
+                                              aria-haspopup="true"
+                                              aria-expanded={openn ? 'true' : undefined}
+                                              onClick={handleClick}
+                                              sx={{ color: '#02e7f5', fontWeight: '500' }}
+                                          >
+                                              {t('Hello')}, {displayNameVal}
+                                          </Button>
+                                          <Menu
+                                              id="basic-menu"
+                                              anchorEl={anchorEl}
+                                              open={openn}
+                                              onClose={handleCloseAnchorEl}
+                                              MenuListProps={{
+                                                  'aria-labelledby': 'basic-button',
+                                              }}
+                                          >
+                                              {parsedTokenBody.roles === 'admin'
+                                                  ? [
+                                                        <MenuItem key="page-admin" onClick={openPageAdmin}>
+                                                            <ListItemIcon>
+                                                                <AdminPanelSettingsIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Header_adminPage')}</ListItemText>
+                                                        </MenuItem>,
+                                                        <MenuItem key="manage-userAdmin" onClick={handleOpenProfile}>
+                                                            <ListItemIcon>
+                                                                <ManageAccountsIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                        </MenuItem>,
+                                                        <MenuItem key="comment-movie" onClick={handleOpenListComment}>
+                                                            <ListItemIcon>
+                                                                <ReviewsIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                        </MenuItem>,
+                                                        <MenuItem key="logout" onClick={handleLogout}>
+                                                            <ListItemIcon>
+                                                                <MeetingRoomIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Logout')}</ListItemText>
+                                                        </MenuItem>,
+                                                    ]
+                                                  : [
+                                                        <MenuItem key="manage-user" onClick={handleOpenProfile}>
+                                                            <ListItemIcon>
+                                                                <ManageAccountsIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Header_accountManagement')}</ListItemText>
+                                                        </MenuItem>,
+                                                        <MenuItem
+                                                            key="comment-movieUser"
+                                                            onClick={handleOpenListComment}
+                                                        >
+                                                            <ListItemIcon>
+                                                                <ReviewsIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Header_yourComment')}</ListItemText>
+                                                        </MenuItem>,
+                                                        <MenuItem key="logout-user" onClick={handleLogout}>
+                                                            <ListItemIcon>
+                                                                <MeetingRoomIcon fontSize="small" />
+                                                            </ListItemIcon>
+                                                            <ListItemText>{t('Logout')}</ListItemText>
+                                                        </MenuItem>,
+                                                    ]}
+                                          </Menu>
+                                          <Modal
+                                              open={openProfile}
+                                              onClose={handleCloseProfile}
+                                              aria-labelledby="parent-modal-title"
+                                              aria-describedby="parent-modal-description"
+                                          >
+                                              <Box sx={style}>
+                                                  <ModalProfile onClose={handleCloseProfile} />
+                                              </Box>
+                                          </Modal>
+                                          <Modal
+                                              open={openListComment}
+                                              onClose={handleCloseListComment}
+                                              aria-labelledby="parent-modal-title"
+                                              aria-describedby="parent-modal-description"
+                                          >
+                                              <Box sx={styless}>
+                                                  <ModalListComment onClose={handleCloseListComment} />
+                                              </Box>
+                                          </Modal>
+                                      </div>
+                                  )
+                                : !isSearchOpen && (
+                                      <div>
+                                          <Button
+                                              onClick={handleOpen}
+                                              sx={{ color: 'black', background: 'white', fontWeight: 'bold' }}
+                                          >
+                                              {t('LogIn')}
+                                          </Button>
+                                          <Modal
+                                              aria-labelledby="transition-modal-title"
+                                              aria-describedby="transition-modal-description"
+                                              open={open}
+                                              onClose={handleClose}
+                                              closeAfterTransition
+                                              slots={{ backdrop: Backdrop }}
+                                              slotProps={{
+                                                  backdrop: {
+                                                      timeout: 500,
+                                                  },
+                                              }}
+                                          >
+                                              <Fade in={open}>
+                                                  <Box sx={style}>
+                                                      <Login onClose={handleClose} />
+                                                  </Box>
+                                              </Fade>
+                                          </Modal>
+                                      </div>
+                                  )}
                         </div>
                     </div>
                 </div>

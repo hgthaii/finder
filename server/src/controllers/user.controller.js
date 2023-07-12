@@ -416,6 +416,7 @@ const handleExistingUser = async (req, res, user) => {
         refresh_token: refreshToken,
         displayName: user.displayName,
         userId: user.id,
+        isVip: user.isVip,
     })
 }
 
@@ -477,6 +478,7 @@ const handleNewUser = async (req, res, email, name) => {
             refresh_token: refreshToken,
             displayName: newUser.displayName,
             userId: newUser.id,
+            isVip: newUser.isVip
         })
     }
 }

@@ -30,7 +30,8 @@ function App() {
     const [cookies] = useCookies(['accessToken', 'refreshToken'])
     const accessToken = cookies.accessToken
     const tokenParts = accessToken ? accessToken.split('.') : []
-    const parsedTokenBody = accessToken ? JSON.parse(atob(tokenParts[1])) : {}
+    const base64 = tokenParts[1]?.replace(/-/g, '+')?.replace(/_/g, '/') // Chuẩn hóa chuỗi Base64
+    const parsedTokenBody = accessToken ? JSON.parse(decodeURIComponent(escape(atob(base64)))) : {}
     const currentRole = parsedTokenBody.roles || {}
 
     // check token expired

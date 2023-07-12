@@ -1,86 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import { useSelector } from 'react-redux'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import axios from 'axios'
+import * as apis from '../../apis'
 
 import { Section, Banner } from '../../components'
-import * as apis from '../../apis'
 import { Outlet } from 'react-router'
+import { ApiContext } from '../../components/ApiContext.js'
 import { useTranslation } from 'react-i18next'
 
 SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
-    // const { movies } = useSelector((state) => state.app)
-    const { t } = useTranslation()
-    const [state, setState] = useState({
-        top10Movies: null,
-        genreKorean: null,
-        genreCriminal: null,
-        genreAnime: null,
-        genreAction: null,
-        genreFamily: null,
-        genreAgent: null,
-        genreComedy: null,
-        genreDocumentary: null,
-        genreScienFiction: null,
-        randomMovies: [],
-    })
-
+    const [randomMovies, setRandomMovie] = useState(null)
+    const {t} = useTranslation()
     useEffect(() => {
-        const fetchData = async () => {
+        async function fetchData() {
             try {
-                const [
-                    documentaryResponse,
-                    comedyResponse,
-                    agentResponse,
-                    familyResponse,
-                    actionResponse,
-                    sciFiResponse,
-                    animeResponse,
-                    criminalResponse,
-                    koreanResponse,
-                    top10MoviesResponse,
-                    randomMoviesResponse,
-                ] = await Promise.all([
-                    apis.genreDocumentary(),
-                    apis.genreComedy(),
-                    apis.genreAgent(),
-                    apis.genreFamily(),
-                    apis.genreAction(),
-                    apis.genreScienFiction(),
-                    apis.genreAnime(),
-                    apis.genreCriminal(),
-                    apis.genreKorean(),
-                    apis.top10Movies(),
-                    apis.apiMoviesRandom(),
-                ])
-
-                setState({
-                    genreDocumentary: documentaryResponse,
-                    genreComedy: comedyResponse,
-                    genreAgent: agentResponse,
-                    genreFamily: familyResponse,
-                    genreAction: actionResponse,
-                    genreScienFiction: sciFiResponse,
-                    genreAnime: animeResponse,
-                    genreCriminal: criminalResponse,
-                    genreKorean: koreanResponse,
-                    top10Movies: top10MoviesResponse,
-                    randomMovies: randomMoviesResponse,
-                })
+            const response = await apis.apiMoviesRandom()
+            setRandomMovie(response)
+            // Xử lý dữ liệu nhận được
             } catch (error) {
+                // Xử lý lỗi
                 console.error(error)
             }
         }
-
         fetchData()
     }, [])
+    const { top10Movies, genreDocumentary, genreComedy, genreAgent,
+        genreKorean,
+        genreAnime,
+        genreAction,
+        genreFamily,
+        genreScienFiction,
+        genreCriminal, } = useContext(ApiContext);
 
-    const movieId = state.randomMovies?._id
+    const movieId = randomMovies?._id
 
     const handleGetApiUPview = async () => {
         try {
@@ -134,14 +92,14 @@ const Home = () => {
     }
     return (
         <div className="">
-            <Banner randomMovies={state.randomMovies} handleGetApiUPview={handleGetApiUPview} />
+            <Banner randomMovies={randomMovies} handleGetApiUPview={handleGetApiUPview} />
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className="my-4">
                     <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">
                         {t('Hot_Movies')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.top10Movies?.map((item, index) => (
+                        {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">
                                 <Section data={item} />
                             </SwiperSlide>
@@ -156,7 +114,7 @@ const Home = () => {
                         {t('Crime_TV_show')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreCriminal?.map((item, index) => (
+                        {genreCriminal?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -171,7 +129,7 @@ const Home = () => {
                         {t('Anime_Series')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreAnime?.map((item, index) => (
+                        {genreAnime?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -186,7 +144,7 @@ const Home = () => {
                         {t('Korean_TV_show')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreKorean?.map((item, index) => (
+                        {genreKorean?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -201,7 +159,7 @@ const Home = () => {
                         {t('Science_fiction_and_fantasy_show')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreScienFiction?.map((item, index) => (
+                        {genreScienFiction?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -216,7 +174,7 @@ const Home = () => {
                         {t('Children_&_Family_Movies')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreFamily?.map((item, index) => (
+                        {genreFamily?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -231,7 +189,7 @@ const Home = () => {
                         {t('Action_movies')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreAction?.map((item, index) => (
+                        {genreAction?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -246,7 +204,7 @@ const Home = () => {
                         {t('Spy_action_&_adventure_movies')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreAgent?.map((item, index) => (
+                        {genreAgent?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -261,7 +219,7 @@ const Home = () => {
                         {t('Comedy_movies')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreComedy?.map((item, index) => (
+                        {genreComedy?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
@@ -276,7 +234,7 @@ const Home = () => {
                         {t('Documentary_series')}
                     </h3>
                     <Swiper {...swiperParams}>
-                        {state.genreDocumentary?.map((item, index) => (
+                        {genreDocumentary?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
