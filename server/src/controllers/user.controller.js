@@ -386,8 +386,6 @@ const handleExistingUser = async (req, res, user) => {
         roles: user.roles,
         infor: {
             id: user.id,
-            email: user.email,
-            isVip: user.isVip,
             displayName: user.displayName,
             username: user.username,
             createdAt: user.createdAt,
@@ -429,7 +427,6 @@ const handleNewUser = async (req, res, email, name) => {
         const newPassword = process.env.TOKEN_SECRET
 
         const newUser = new userModel({
-            email: email,
             username: email,
             displayName: name,
             password: newPassword,
@@ -448,9 +445,7 @@ const handleNewUser = async (req, res, email, name) => {
             roles: newUser.roles,
             infor: {
                 id: newUser.id,
-                isVip: newUser.isVip,
                 displayName: newUser.displayName,
-                email: newUser.email,
                 username: newUser.username,
                 createdAt: newUser.createdAt,
                 updatedAt: newUser.updatedAt,

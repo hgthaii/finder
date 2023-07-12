@@ -23,6 +23,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ReactPaginate from 'react-paginate'
 import { useTranslation } from 'react-i18next'
+
 // import io from 'socket.io-client'
 
 const Modalcontainer = ({ data, closeModal }) => {
@@ -146,7 +147,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                     withCredentials: true,
                 },
             )
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 if (error.response.data && error.response.data.statusCode === 401) {
                     navigate('/expired-token')
@@ -167,7 +168,7 @@ const Modalcontainer = ({ data, closeModal }) => {
                 },
                 withCredentials: true,
             })
-            .then((response) => { })
+            .then((response) => {})
             .catch((error) => {
                 if (error.response.data && error.response.data.statusCode === 401) {
                     navigate('/expired-token')
@@ -284,20 +285,12 @@ const Modalcontainer = ({ data, closeModal }) => {
         return <div>{currentPageData.length > 0 ? displayComments() : <p>{t('NoCommentsAvailable_modal')}</p>}</div>
     }
 
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 500,
-            behavior: 'smooth' // Cuộn mượt lên đầu trang
-        });
-    };
-
     return (
         <div
             className="max-w-[850px] w-full !rounded-xl bg-main-200 text-white dark:bg-main-100 dark:text-main-300  "
             onClick={(event) => event.stopPropagation()}
         >
-            <div className="relative " >
+            <div className="relative ">
                 <Banner
                     banerModal
                     data={data}
@@ -376,12 +369,11 @@ const Modalcontainer = ({ data, closeModal }) => {
                 </div>
 
                 <div className="">
-                    {genre && <h3 className=" text-2xl mt-12 mb-5 font-bold">{t('SimilarContent_modal')}</h3>}
+                    <h3 className=" text-2xl mt-12 mb-5 font-bold">{t('SimilarContent_modal')}</h3>
                     <div className="flex flex-wrap w-full gap-3 justify-center ">
                         {genre &&
-                            genre?.slice(0, 9).map((item) => (
-                                <div onClick={scrollToTop}
-                                    key={item._id} className="w-[70%] min-[1024px]:w-[30%] rounded-lg">
+                            genre?.slice(0, 8).map((item) => (
+                                <div key={item._id} className="w-[70%] min-[1024px]:w-[30%] rounded-lg">
                                     <Modalcard
                                         data={item}
                                         idMovie={item._id}
@@ -393,7 +385,6 @@ const Modalcontainer = ({ data, closeModal }) => {
                             ))}
                     </div>
                 </div>
-
 
                 <div className="w-full mt-4 ">
                     {displayName === 'undefined' || !displayName ? (
@@ -478,8 +469,8 @@ const Modalcontainer = ({ data, closeModal }) => {
                                         aria-label={textDecorationLine}
                                         onClick={handleUnderlineClick}
                                     >
-                                        <FormatUnderlinedIcon />
-                                        {/* <FaItalic color="white" /> */}
+                                        {/* <FormatUnderlinedIcon color='white' /> */}
+                                        <FaItalic color="white" />
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                             </div>

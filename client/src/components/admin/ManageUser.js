@@ -78,12 +78,12 @@ const ManageUser = () => {
             {
                 field: 'displayName',
                 renderHeader: () => <p>{t('Display_name')}</p>,
-                width: 180,
+                width: 160,
             },
             {
                 field: 'username',
                 renderHeader: () => <p>{t('User_name')}</p>,
-                width: 180,
+                width: 160,
             },
             { field: 'roles', renderHeader: () => <p>{t('User_role')}</p>, width: 160 },
             {
@@ -105,19 +105,7 @@ const ManageUser = () => {
                     return formattedDateString
                 },
             },
-            {
-                field: 'isVip',
-                renderHeader: () => <p>{t('User_type')}</p>,
-                width: 160,
-                valueFormatter: (params) => {
-                    console.log('oke nhaaaa', params)
-                    if (params.value) {
-                        return 'VIP'
-                    } else {
-                        return 'non-VIP'
-                    }
-                },
-            },
+            { field: '_id', renderHeader: () => <p>{t('User_id')}</p>, width: 220 },
             { field: 'email', renderHeader: () => <p>Email</p>, width: 240 },
         ],
         [],

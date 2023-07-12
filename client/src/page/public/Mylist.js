@@ -13,6 +13,7 @@ const Mylist = () => {
     const navigate = useNavigate()
 
     const [favorites, setFavorites] = useState([])
+
     useEffect(() => {
         const fetchData = async () => {
             axios
@@ -37,7 +38,43 @@ const Mylist = () => {
         fetchData()
     }, [])
 
-
+    const swiperParams = {
+        slidesPerView: 5,
+        slidesPerGroup: 1,
+        spaceBetween: 10,
+        initialSlide: 0,
+        autoHeight: false,
+        centeredSlides: false,
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination', // CSS selector cho phần tử hiển thị dots
+            clickable: true, // Cho phép người dùng nhấp vào dots để chuyển đến slide tương ứng
+            // dynamicBullets: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            // when window width is >= 600px
+            100: {
+                slidesPerView: 1,
+                centeredSlides: true,
+            },
+            480: {
+                slidesPerView: 2,
+                centeredSlides: true,
+            },
+            768: {
+                slidesPerView: 3,
+                centeredSlides: false,
+            },
+            900: {
+                slidesPerView: 4,
+                centeredSlides: false,
+            },
+        },
+    }
     return (
         <div className=" mt-[100px]">
             {favorites.length !== 0 && (
@@ -45,12 +82,17 @@ const Mylist = () => {
                     <h3 className="pl-12 text-white mb-3 text-[18px] font-bold dark:text-main-300">
                         Danh sách của tôi
                     </h3>
-                    <div className="flex flex-wrap w-full">
-                        {favorites?.map((item) => (
-                            <div key={item?._id} className="w-[50%]  min-[1024px]:w-[20%] rounded-lg mt-2 px-1">
-                                <Section data={item} />
-                            </div>
-                        ))}
+                    <div className=" w-full">
+                        <Swiper {...swiperParams}>
+                            {favorites?.map((item, index) => (
+                                <SwiperSlide key={item._id} className="swiper-scale">
+                                    <Section data={item} />
+                                </SwiperSlide>
+                            ))}
+                            <div className="swiper-button-next swiper-button-wrapper"></div>
+                            <div className="swiper-button-prev swiper-button-wrapper"></div>
+                            <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                        </Swiper>
                     </div>
                 </div>
             )}

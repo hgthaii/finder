@@ -219,7 +219,7 @@ const ModalProfile = () => {
                                 <strong>{t('Accout_updateAt')}</strong> {formattedDateUpdated}
                             </label>
                         </div>
-                        {infor.isVip === false || infor.isVip === null ? (
+                        {infor.isVip === false ? (
                             <div className="text-center">
                                 <div className="flex items-center justify-center border border-white  my-3">
                                     <p className="text-xl font-bold pt-1 mb-3 ">{t('Desc_Vip')}</p>

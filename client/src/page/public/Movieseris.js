@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import 'swiper/swiper.min.css'
@@ -8,20 +8,36 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import axios from 'axios'
 
 import { Section, Banner } from '../../components'
-import { ApiContext } from '../../components/ApiContext';
+import * as apis from '../../apis'
 
 SwiperCore.use([Navigation, Pagination])
 const Movieseris = () => {
-    const { top10Movies, randomMovies, genreDocumentary, genreComedy, genreAgent,
-        genreKorean,
-        genreAnime,
-        genreAction,
-        genreFamily,
-        genreScienFiction,
-        genreCriminal, } = useContext(ApiContext);
-
+    const [randomMovies, setRandomMovies] = useState([])
+    const [top10Movies, setTop10Movies] = useState(null)
     const movieId = randomMovies?._id
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await apis.apiMoviesRandom()
+                setRandomMovies(response)
+                // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const top10Movies = async () => {
+            const reponse = await apis.top10Movies()
+            setTop10Movies(reponse)
+        }
+        top10Movies()
+    }, [])
     const handleGetApiUPview = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URI}/movies/${movieId}/view`)
@@ -82,51 +98,6 @@ const Movieseris = () => {
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
                             <SwiperSlide key={item._id} className="swiper-scale">
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình truyền hình tội phạm
-                    </h3>
-                    <Swiper {...swiperParams}>
-                        {genreCriminal?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình truyền hình Hàn Quốc
-                    </h3>
-                    <Swiper {...swiperParams}>
-                        {genreKorean?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
-                                <Section data={item} />
-                            </SwiperSlide>
-                        ))}
-                        <div className="swiper-button-next"></div>
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
-                    </Swiper>
-                </div>
-                <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình khoa học viễn tưởng & giả tưởng
-                    </h3>
-                    <Swiper {...swiperParams}>
-                        {genreScienFiction?.map((item, index) => (
-                            <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
                         ))}
