@@ -13,6 +13,10 @@ import {
     Login,
     Register,
     VNPay,
+    Help,
+    Detailt,
+    ContactUs,
+    Infomation
 } from './page/public'
 import HomePageAdmin from './page/dashboard/HomePageAdmin'
 import * as action from './store/actions'
@@ -65,6 +69,10 @@ function App() {
                     <Route path="/search" element={<Search />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />
                     </Route>
+                    <Route path="/help" element={<Help />}></Route>
+                    <Route path="/detailt" element={<Detailt />}></Route>
+                    <Route path="/contactus" element={<ContactUs />}></Route>
+                    <Route path="/infomation" element={<Infomation />}></Route>
                 </Route>
                 <Route path="/vnpay_return" element={<VNPay />}></Route>
                 <Route path="*" element={<NotFound />} />
