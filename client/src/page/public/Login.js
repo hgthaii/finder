@@ -33,12 +33,14 @@ const Login = ({ onClose }) => {
     const [usernameValidationMsg, setUsernameValidationMsg] = useState()
     const [passwordValidationMsg, setPasswordValidationMsg] = useState()
     const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken'])
+    const [loading, setLoading] = useState(false)
 
     const onSubmitLogin = async () => {
         setUsernameValidationMsg('')
         setPasswordValidationMsg('')
         setValidationMsg('')
         try {
+            setLoading(true)
             const response = await axios.post(`${process.env.REACT_APP_API_URI}/user/signin`, {
                 username,
                 password,
@@ -68,19 +70,20 @@ const Login = ({ onClose }) => {
             const getrfToken = response.data.refresh_token
             localStorage.setItem('accessToken', getToken)
             localStorage.setItem('refreshToken', getrfToken)
-            const accessToken = localStorage.getItem('accessToken')
+            const accessToken = localStorage.getItem('accessToken') || cookies.accessToken
 
             const tokenBody = accessToken.split('.')[1]
             // const tokenBody = response.data.access_token.split('.')[1]
-
+            const base64 = tokenBody?.replace(/-/g, '+')?.replace(/_/g, '/') // Chuẩn hóa chuỗi Base64
             // Giai ma body voi base64
-            const decodedTokenBody = decodeURIComponent(escape(window.atob(tokenBody)))
+            const decodedTokenBody = decodeURIComponent(escape(atob(base64)))
 
             // Giai ma cac phan tu JSON cua body
             const parsedTokenBody = JSON.parse(decodedTokenBody)
 
             localStorage.setItem('displayName', parsedTokenBody.infor.displayName)
             localStorage.setItem('userId', parsedTokenBody.infor.id)
+            localStorage.setItem('isVip', parsedTokenBody.infor.isVip)
             if (parsedTokenBody.roles === 'admin') {
                 toast.success('Đăng nhập thành công')
                 // navigate('/home-admin')
@@ -90,6 +93,7 @@ const Login = ({ onClose }) => {
                 onClose()
                 navigate('/')
             }
+            setLoading(false)
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 const errorMessage = error.response.data.message
@@ -159,13 +163,15 @@ const Login = ({ onClose }) => {
             localStorage.setItem('accessToken', res.data.access_token)
             localStorage.setItem('refreshToken', res.data.refresh_token)
             localStorage.setItem('displayName', res.data.displayName)
+            localStorage.setItem('isVip', res.data.isVip)
+            console.log(res);
             localStorage.setItem('userId', res.data.userId)
             const accessToken = localStorage.getItem('accessToken')
 
             const tokenBody = accessToken.split('.')[1]
-
+            const base64 = tokenBody?.replace(/-/g, '+')?.replace(/_/g, '/') // Chuẩn hóa chuỗi Base64
             // Giai ma body voi base64
-            const decodedTokenBody = atob(tokenBody)
+            const decodedTokenBody = decodeURIComponent(escape(atob(base64)))
 
             // Giai ma cac phan tu JSON cua body
             const parsedTokenBody = JSON.parse(decodedTokenBody)
@@ -188,10 +194,10 @@ const Login = ({ onClose }) => {
     // const accessToken = gapi.auth.getToken().id_token;
 
     return (
-        <div className="bg-[#030014] h-full flex items-center justify-center flex-col">
-            <img src={logoWhite} alt="logo" />
-            <div className="flex flex-col text-white mt-8">
-                <h3 className="text-xl font-semibold">ĐĂNG NHẬP</h3>
+        <div className="bg-[#030014] h-full px-6 flex items-center justify-center flex-col">
+            <img src={logoWhite} alt="logo" className="mt-3" />
+            <div className="flex flex-col text-white mt-3">
+                <h3 className="text-xl font-semibold uppercase">ĐĂNG NHẬP</h3>
                 <p className="text-red-400 text-xs "> {validationMsg}</p>
                 <input
                     type="text"
@@ -214,9 +220,32 @@ const Login = ({ onClose }) => {
                     className="bg-[#037AEB] h-12 w-[374px] mt-5 rounded-md p-3 font-semibold "
                     onClick={onSubmitLogin}
                 >
-                    TIẾP TỤC
+                    {loading ? (
+                        <svg
+                            className="animate-spin text-center h-full w-full rounded text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            ></circle>
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                        </svg>
+                    ) : (
+                        'TIẾP TỤC'
+                    )}
                 </button>
-                <span className="text-center mt-2 mb-2">Hoặc</span>
+                <span className="text-center mt-2 mb-2 uppercase text-[10px]">Hoặc</span>
                 <div id="signInButton">
                     <GoogleLogin
                         clientId={client_id}
@@ -233,7 +262,7 @@ const Login = ({ onClose }) => {
         >
           Quên mật khẩu!
         </span> */}
-                <div className="mt-5  ">
+                <div className="mt-2 mb-4">
                     <span className="text-[#fff9] mr-1 text-sm">Bạn mới sử dụng Finder ?</span>
                     <span className="text-white text-sm cursor-pointer" onClick={handleOpen}>
                         Đăng kí ngay!

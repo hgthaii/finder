@@ -1,8 +1,8 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react'
 import * as apis from '../apis'
 
 // Khởi tạo Context API
-export const ApiContext = createContext();
+export const ApiContext = createContext()
 
 // Khởi tạo Provider
 export const ApiProvider = ({ children }) => {
@@ -81,7 +81,7 @@ export const ApiProvider = ({ children }) => {
         HandleGettop10Movies()
         HandleGetRandomMovies()
         // ...
-    }, []);
+    }, [])
 
     useEffect(() => {
         const top10Movies = async () => {
@@ -89,20 +89,25 @@ export const ApiProvider = ({ children }) => {
             setTop10Movies(reponse)
         }
         top10Movies()
-    }, []);
+    }, [])
 
     return (
-        <ApiContext.Provider value={{
-            top10Movies, randomMovies,
-            genreDocumentary, genreComedy, genreAgent,
-            genreKorean,
-            genreAnime,
-            genreAction,
-            genreFamily,
-            genreScienFiction,
-            genreCriminal
-        }}>
+        <ApiContext.Provider
+            value={{
+                top10Movies,
+                randomMovies,
+                genreDocumentary,
+                genreComedy,
+                genreAgent,
+                genreKorean,
+                genreAnime,
+                genreAction,
+                genreFamily,
+                genreScienFiction,
+                genreCriminal,
+            }}
+        >
             {children}
         </ApiContext.Provider>
-    );
-};
+    )
+}

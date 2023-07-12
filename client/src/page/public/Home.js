@@ -1,19 +1,36 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import { useSelector } from 'react-redux'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import axios from 'axios'
+import * as apis from '../../apis'
 
 import { Section, Banner } from '../../components'
 import { Outlet } from 'react-router'
-import { ApiContext } from '../../components/ApiContext';
+import { ApiContext } from '../../components/ApiContext.js'
+import { useTranslation } from 'react-i18next'
 
 SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
-    const { top10Movies, randomMovies, genreDocumentary, genreComedy, genreAgent,
+    const [randomMovies, setRandomMovie] = useState(null)
+    const {t} = useTranslation()
+    useEffect(() => {
+        async function fetchData() {
+            try {
+            const response = await apis.apiMoviesRandom()
+            setRandomMovie(response)
+            // Xử lý dữ liệu nhận được
+            } catch (error) {
+                // Xử lý lỗi
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [])
+    const { top10Movies, genreDocumentary, genreComedy, genreAgent,
         genreKorean,
         genreAnime,
         genreAction,
@@ -79,7 +96,7 @@ const Home = () => {
             <div className="relative top-[-10.3125rem] z-[6] bottom-0 left-0 mt-[100px] lg:mt-0">
                 <div className="my-4">
                     <h3 className="text-white mb-2 px-[48px] text-[18px] font-bold dark:text-main-300 ">
-                        Top 10 bộ phim hot trong tuần
+                        {t('Hot_Movies')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {top10Movies?.map((item, index) => (
@@ -94,7 +111,7 @@ const Home = () => {
                 </div>
                 <div className="my-4">
                     <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình truyền hình tội phạm
+                        {t('Crime_TV_show')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreCriminal?.map((item, index) => (
@@ -108,7 +125,9 @@ const Home = () => {
                     </Swiper>
                 </div>
                 <div className="my-4">
-                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">Loạt Anime</h3>
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        {t('Anime_Series')}
+                    </h3>
                     <Swiper {...swiperParams}>
                         {genreAnime?.map((item, index) => (
                             <SwiperSlide key={item._id}>
@@ -122,7 +141,7 @@ const Home = () => {
                 </div>
                 <div className="my-4">
                     <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình truyền hình Hàn Quốc
+                        {t('Korean_TV_show')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreKorean?.map((item, index) => (
@@ -137,7 +156,7 @@ const Home = () => {
                 </div>
                 <div className="my-4">
                     <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Chương trình khoa học viễn tưởng & giả tưởng
+                        {t('Science_fiction_and_fantasy_show')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreScienFiction?.map((item, index) => (
@@ -152,7 +171,7 @@ const Home = () => {
                 </div>
                 <div className="my-4">
                     <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Phim trẻ em & gia đình
+                        {t('Children_&_Family_Movies')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreFamily?.map((item, index) => (
@@ -167,10 +186,55 @@ const Home = () => {
                 </div>
                 <div className="my-4">
                     <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
-                        Phim hành động
+                        {t('Action_movies')}
                     </h3>
                     <Swiper {...swiperParams}>
                         {genreAction?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        {t('Spy_action_&_adventure_movies')}
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreAgent?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        {t('Comedy_movies')}
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreComedy?.map((item, index) => (
+                            <SwiperSlide key={item._id}>
+                                <Section data={item} />
+                            </SwiperSlide>
+                        ))}
+                        <div className="swiper-button-next"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-pagination"></div> {/* Hiển thị dots */}
+                    </Swiper>
+                </div>
+                <div className="my-4">
+                    <h3 className="text-white mb-4 px-[48px] text-[18px] font-bold  dark:text-main-300 ">
+                        {t('Documentary_series')}
+                    </h3>
+                    <Swiper {...swiperParams}>
+                        {genreDocumentary?.map((item, index) => (
                             <SwiperSlide key={item._id}>
                                 <Section data={item} />
                             </SwiperSlide>
