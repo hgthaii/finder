@@ -30,10 +30,11 @@ function VnpayReturnPage() {
     }, [])
 
     const handleGoHome = () => {
-        localStorage.clear()
-        removeAllCookies()
-        removeCookie('accessToken')
-        removeCookie('refreshToken')
+        
+localStorage.clear()
+removeAllCookies()
+removeCookie('accessToken')
+removeCookie('refreshToken')
         navigate('/')
     }
     const handleVnpayReturn = async (vnp_Params) => {

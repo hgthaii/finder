@@ -394,7 +394,6 @@ const handleExistingUser = async (req, res, user) => {
             updatedAt: user.updatedAt,
         },
     }
-
     const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
         expiresIn: '2h',
     })
@@ -456,7 +455,6 @@ const handleNewUser = async (req, res, email, name) => {
                 updatedAt: newUser.updatedAt,
             },
         }
-
         const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
             expiresIn: '2h',
         })
