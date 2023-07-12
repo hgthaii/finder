@@ -366,6 +366,7 @@ const signinWithGoogle = async (req, res) => {
 
         if (user) {
             handleExistingUser(req, res, user)
+            await notificationController.sendWelcomeNotification(user._id)
         } else {
             handleNewUser(req, res, email, name)
         }
@@ -387,6 +388,7 @@ const handleExistingUser = async (req, res, user) => {
         infor: {
             id: user.id,
             displayName: user.displayName,
+            email: user.email,
             username: user.username,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
@@ -394,16 +396,16 @@ const handleExistingUser = async (req, res, user) => {
     }
 
     const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-        expiresIn: '2h',
+        expiresIn: '24h',
     })
 
     const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-        expiresIn: '24h',
+        expiresIn: '72h',
     })
 
     const refreshTokenDoc = new refreshtokenModel({
         token: refreshToken,
-        expiryDate: 24 * 60 * 60 * 1000,
+        expiryDate: 72 * 60 * 60 * 1000,
         user: user.id,
     })
 
@@ -429,6 +431,7 @@ const handleNewUser = async (req, res, email, name) => {
         const newUser = new userModel({
             username: email,
             displayName: name,
+            email: email,
             password: newPassword,
             salt: email + process.env.TOKEN_SECRET,
         })
@@ -447,22 +450,23 @@ const handleNewUser = async (req, res, email, name) => {
                 id: newUser.id,
                 displayName: newUser.displayName,
                 username: newUser.username,
+                email: newUser.email,
                 createdAt: newUser.createdAt,
                 updatedAt: newUser.updatedAt,
             },
         }
 
         const accessToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '2h',
+            expiresIn: '24h',
         })
 
         const refreshToken = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, {
-            expiresIn: '24h',
+            expiresIn: '72h',
         })
 
         const refreshTokenDoc = new refreshtokenModel({
             token: refreshToken,
-            expiryDate: 24 * 60 * 60 * 1000,
+            expiryDate: 72 * 60 * 60 * 1000,
             user: newUser.id,
         })
 

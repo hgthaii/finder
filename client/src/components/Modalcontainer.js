@@ -23,6 +23,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ReactPaginate from 'react-paginate'
 import { useTranslation } from 'react-i18next'
+import {toast} from 'react-toastify'
 
 // import io from 'socket.io-client'
 
@@ -38,7 +39,8 @@ const Modalcontainer = ({ data, closeModal }) => {
     const displayName = localStorage.getItem('displayName')
     const userId = localStorage.getItem('userId')
     const [open, setOpen] = useState(false)
-    const [favorite, setFavorite] = useState()
+    const [favorite, setFavorite] = useState(true)
+    const [showLogin, setShowLogin] = useState(false)
     const { t } = useTranslation()
     // const [commentValue, setCommentValue] = useState('')
     const [postComment, setPostComment] = useState({
@@ -52,6 +54,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     // đóng mở modal login
     const handleClose = () => {
         setOpen(false)
+        setShowLogin(false)
     }
 
     const style = {
@@ -62,6 +65,12 @@ const Modalcontainer = ({ data, closeModal }) => {
         width: 900,
         height: 550,
         boxShadow: 24,
+    }
+    const accessToken = localStorage.getItem('accessToken')
+    if (!accessToken) {
+        toast.warn('Vui lòng đăng nhập để xem phim!')
+    } else {
+        setShowLogin(true)
     }
 
     useEffect(() => {
@@ -235,7 +244,7 @@ const Modalcontainer = ({ data, closeModal }) => {
     }
 
     const [showAllEpisodes, setShowAllEpisodes] = useState(false)
-    const limit = showAllEpisodes ? data?.episodes?.length : 5
+    const limit = showAllEpisodes ? data?.episodes?.length : 3
 
     const [content, setContent] = useState('')
     const [fontWeight, setFontWeight] = useState('normal')
@@ -299,7 +308,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                     handlePostFav={handlePostFav}
                     handleGetApiUPview={handleGetApiUPview}
                 />
-                <button onClick={() => navigate('/')} className="absolute top-[20px] right-[20px] cursor-pointer z-50 ">
+                <button
+                    onClick={() => navigate('/')}
+                    className="absolute top-[20px] right-[20px] cursor-pointer z-50 "
+                >
                     <span className="w-[36px] h-[36px] rounded-full flex justify-center items-center bg-black  cursor-pointer">
                         {' '}
                         <AiOutlineClose size={25} color="white" />
@@ -314,11 +326,13 @@ const Modalcontainer = ({ data, closeModal }) => {
                             {/* <span className="mr-2 text-[#46D369]">Độ trùng: 94%</span> */}
                             <span className="mr-2 ">{data?.release_date ? data?.release_date : ''}</span>
                             {data?.episodes?.length !== 0 && (
-                                <span className="mr-2 ">{`${data?.episodes?.length + 1} ${t('Episode_modal')}`}</span>
+                                <span className="mr-2 ">{`${data?.episodes?.length + 1} ${t(
+                                    'Episode_modal',
+                                )}`}</span>
                             )}
 
                             <span className="mr-2  px-[0.4rem] border dark:border-main-300  bg-transparent flex justify-center items-center">
-                                HD
+                                {t('HD')}
                             </span>
                             <div>
                                 <span className="text-[#777] text-sm">{t('View_modal')}</span>
@@ -356,8 +370,17 @@ const Modalcontainer = ({ data, closeModal }) => {
                     {data?.episodes?.slice(0, limit).map((item, index) => (
                         <Modalsection episodes={item} key={item?._id} index={index} />
                     ))}
-                    {!showAllEpisodes && data?.episodes?.length > 5 && (
-                        <button className="show-more-button" onClick={() => setShowAllEpisodes(true)}>
+                    {!showAllEpisodes && data?.episodes?.length > 3 && (
+                        <button
+                            className="show-more-button"
+                            onClick={() => {
+                                if (true) {
+                                    return setShowAllEpisodes(true)
+                                } else {
+                                    return toast.warn('Vui lòng đăng ký thành viên VIP để tiếp tục xem!')
+                                }
+                            }}
+                        >
                             <ExpandMoreIcon fontSize="large" />
                         </button>
                     )}
@@ -447,21 +470,33 @@ const Modalcontainer = ({ data, closeModal }) => {
 
                             <div className="flex justify-between items-center mt-3">
                                 {/* <div className="flex gap-2">
-                                    <span className="cursor-pointer" onClick={handleBoldClick}>
-                                        <FaBold />
-                                    </span>
-                                    <span className="cursor-pointer" onClick={handleItalicClick}>
-                                        <FaItalic />
-                                    </span>
-                                    <span className="cursor-pointer" onClick={handleUnderlineClick}>
-                                        <AiOutlineLink size={20} />
-                                    </span>
-                                </div> */}
-                                <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="text formatting">
-                                    <ToggleButton value={fontWeight} aria-label={fontWeight} onClick={handleBoldClick}>
+                    <span className="cursor-pointer" onClick={handleBoldClick}>
+                        <FaBold />
+                    </span>
+                    <span className="cursor-pointer" onClick={handleItalicClick}>
+                        <FaItalic />
+                    </span>
+                    <span className="cursor-pointer" onClick={handleUnderlineClick}>
+                        <AiOutlineLink size={20} />
+                    </span>
+                </div> */}
+                                <ToggleButtonGroup
+                                    value={formats}
+                                    onChange={handleFormat}
+                                    aria-label="text formatting"
+                                >
+                                    <ToggleButton
+                                        value={fontWeight}
+                                        aria-label={fontWeight}
+                                        onClick={handleBoldClick}
+                                    >
                                         <FormatBoldIcon />
                                     </ToggleButton>
-                                    <ToggleButton value={fontStyle} aria-label={fontStyle} onClick={handleItalicClick}>
+                                    <ToggleButton
+                                        value={fontStyle}
+                                        aria-label={fontStyle}
+                                        onClick={handleItalicClick}
+                                    >
                                         <FormatItalicIcon />
                                     </ToggleButton>
                                     <ToggleButton
@@ -536,7 +571,10 @@ const Modalcontainer = ({ data, closeModal }) => {
                         <span className=" w-10 h-5 mx-2 px-[0.4rem] border  border-white bg-transparent flex justify-center items-center">
                             {data?.age_rating}
                         </span>
-                        <span> {`${t('SuitableForAges_modal')} ${data?.age_rating} ${t('AndAbove_modal')}`} </span>
+                        <span>
+                            {' '}
+                            {`${t('SuitableForAges_modal')} ${data?.age_rating} ${t('AndAbove_modal')}`}{' '}
+                        </span>
                     </div>
                 </div>
             </div>
