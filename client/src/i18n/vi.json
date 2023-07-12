@@ -142,7 +142,8 @@
     "Accout_createdAt": "Ngày tạo: ",
     "Accout_updateAt": "Ngày cập nhật: ",
     "Accout_userName": "Tên người dùng: ",
-    "Accout_DisplayName": "Tên hiển thị ",
+    "Accout_DisplayName": "Tên hiển thị: ",
+    
     "Manage_genres": "Quản lý thể loại",
     "Manage_genres_add": "Thêm thể loại",
     "Manage_genres_update": "Chỉnh sửa thể loại",

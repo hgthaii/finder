@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import { useCookies } from 'react-cookie';
 
 function VnpayReturnPage() {
+        const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+        const [, , removeAllCookies] = useCookies()
     const location = useLocation()
     const navigate = useNavigate()
     const [result, setResult] = useState(null)
@@ -27,6 +30,10 @@ function VnpayReturnPage() {
     }, [])
 
     const handleGoHome = () => {
+        localStorage.clear()
+        removeAllCookies()
+        removeCookie('accessToken')
+        removeCookie('refreshToken')
         navigate('/')
     }
     const handleVnpayReturn = async (vnp_Params) => {
