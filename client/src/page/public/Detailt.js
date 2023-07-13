@@ -4,7 +4,7 @@ const Detailt = () => {
     return (
         <div className='bg-main-200 dark:bg-main-100  dark:text-main-300 text-white mt-[100px] h-full px-10'>
             <section id="example-1">
-                <h3 class="pb-3 pt-5 text-3xl font-semibold">Điều khoản sử dụng của Finder</h3>
+                <h3 className="pb-3 pt-5 text-3xl font-semibold">Điều khoản sử dụng của Finder</h3>
                 <p>Finder cung cấp dịch vụ đăng ký được cá nhân hóa, cho phép thành viên truy cập nội dung giải trí (“nội dung trên Finder”) qua Internet trên một số TV, máy tính và các thiết bị khác có kết nối Internet (“thiết bị tương thích với Finder”).</p>
                 <p>
                     Các Điều khoản sử dụng này điều chỉnh cách thức bạn sử dụng dịch vụ của chúng tôi. Như được sử dụng trong các Điều khoản sử dụng này, các thuật ngữ “dịch vụ của Finder”, “dịch vụ của chúng tôi” hoặc “dịch vụ” đều có nghĩa là dịch vụ được cá nhân hóa do Finder cung cấp để khám phá và thưởng thức nội dung trên Finder, bao gồm tất cả tính năng và chức năng, đề xuất và đánh giá, các trang web của chúng tôi và giao diện người dùng, cũng như tất cả nội dung và phần mềm liên kết với dịch vụ của chúng tôi. "Bạn" trong các Điều khoản sử dụng này đề cập đến thành viên đã tạo tài khoản Finder và phương thức thanh toán của thành viên này bị tính phí.
@@ -12,7 +12,7 @@ const Detailt = () => {
 
             </section>
             <section id="example-2">
-                <h3 class="pb-3 pt-5 font-semibold ">1. Tư cách thành viên</h3>
+                <h3 className="pb-3 pt-5 font-semibold ">1. Tư cách thành viên</h3>
                 <p>
                     Tư cách thành viên Finder của bạn sẽ tiếp tục cho đến khi bị chấm dứt. Để sử dụng dịch vụ Finder, bạn phải có quyền truy cập Internet và một thiết bị tương thích với Finder, đồng thời cung cấp cho chúng tôi một hay nhiều Phương thức thanh toán. “Phương thức thanh toán” có nghĩa là phương thức thanh toán hiện hành, hợp lệ, được chấp nhận, có thể được cập nhật tùy từng thời điểm và có thể bao gồm phương thức thanh toán qua tài khoản của bạn với bên thứ ba. Trừ trường hợp bạn hủy tư cách thành viên của mình trước ngày thanh toán, bạn cho phép chúng tôi tính phí thành viên cho chu kỳ thanh toán tiếp theo vào Phương thức thanh toán (xem mục “Hủy bỏ” dưới đây)
                 </p>
@@ -21,13 +21,13 @@ const Detailt = () => {
                 </p>
             </section>
             <section id="example-3">
-                <h3 class="pb-3 pt-5  font-semibold">2. Ưu đãi khuyến mãi</h3>
+                <h3 className="pb-3 pt-5  font-semibold">2. Ưu đãi khuyến mãi</h3>
                 <p>
                     Tùy thời điểm, chúng tôi có thể cung cấp các ưu đãi khuyến mãi, gói dịch vụ hoặc tư cách thành viên đặc biệt (“Ưu đãi”). Điều kiện nhận ưu đãi sẽ do Finder toàn quyền quyết định. Chúng tôi bảo lưu quyền thu hồi Ưu đãi và tạm ngưng tài khoản của bạn trong trường hợp chúng tôi xác định rằng bạn không đủ điều kiện. Các thành viên của hộ gia đình đã đăng ký hoặc mới hủy đăng ký tài khoản thành viên Finder có thể không đủ điều kiện nhận một số Ưu đãi chào mừng nhất định. Chúng tôi có thể sử dụng các thông tin như mã nhận dạng thiết bị, phương thức thanh toán hoặc địa chỉ email được sử dụng cho một tài khoản thành viên Finder đã đăng ký hoặc mới hủy đăng ký để xác định trạng thái đủ điều kiện nhận Ưu đãi. Các yêu cầu về điều kiện nhận ưu đãi cùng các giới hạn và điều kiện khác sẽ được thông báo khi bạn đăng ký nhận Ưu đãi hoặc trong các thông tin liên lạc khác gửi đến bạn
                 </p>
 
                 <section id="example-sub-A">
-                    <h3 class="pb-3 pt-5 text-xl font-semibold">3. Thanh toán và Hủy bỏ</h3>
+                    <h3 className="pb-3 pt-5 text-xl font-semibold">3. Thanh toán và Hủy bỏ</h3>
                     <p>
                         Chu kỳ thanh toán. Phí thành viên cho dịch vụ Finder và mọi khoản phí khác mà bạn có thể phải trả liên quan đến việc sử dụng dịch vụ, như thuế và phí giao dịch có thể phát sinh, sẽ được tính vào Phương thức thanh toán tại ngày thanh toán cụ thể được thể hiện trên trang “Tài khoản”. Độ dài của chu kỳ thanh toán sẽ phụ thuộc vào gói đăng ký mà bạn chọn khi đăng ký dịch vụ. Trong một số trường hợp, ngày thanh toán của bạn có thể thay đổi, ví dụ: nếu Phương thức thanh toán của bạn chưa được xử lý thành công, khi bạn thay đổi gói đăng ký hoặc nếu tài khoản thành viên trả phí của bạn bắt đầu vào một ngày không tồn tại trong một tháng nhất định. Vui lòng truy cập trang web Finder.com và nhấp vào liên kết “Thông tin thanh toán” trên trang “Tài khoản” để xem ngày thanh toán tiếp theo của bạn. Chúng tôi có thể tính phí vào Phương thức thanh toán của bạn trước ngày thanh toán phí thành viên hoặc các khoản phí liên quan đến dịch vụ thông qua các phương thức khác nhau, bao gồm cả việc tính phí vào Phương thức thanh toán cho thời hạn lên đến khoảng một tháng sử dụng dịch vụ ngay khi bạn đăng ký. Nếu bạn đã đăng ký Finder bằng tài khoản của bạn với một bên thứ ba làm Phương thức thanh toán, bạn có thể tìm thấy thông tin tính phí cho tư cách thành viên Finder của mình bằng cách truy cập vào tài khoản của bạn với bên thứ ba đó
                     </p>
@@ -39,7 +39,7 @@ const Detailt = () => {
                     </p>
                 </section>
                 <section id="example-sub-B">
-                    <h3 class="pb-3 pt-5 text-xl font-semibold">4. Mật khẩu và Truy cập tài khoản</h3>
+                    <h3 className="pb-3 pt-5 text-xl font-semibold">4. Mật khẩu và Truy cập tài khoản</h3>
                     <p>
                         Bạn chịu trách nhiệm về mọi hoạt động diễn ra thông qua tài khoản Finder. Bằng việc cho phép những người khác truy cập vào tài khoản (bao gồm cả truy cập vào thông tin về hoạt động xem của tài khoản), bạn đồng ý rằng những cá nhân đó đang hành động thay mặt bạn và bạn chịu ràng buộc với mọi thay đổi mà họ có thể thực hiện đối với tài khoản, bao gồm nhưng không giới hạn ở các thay đổi đối với gói đăng ký. Để giúp duy trì quyền kiểm soát tài khoản và ngăn chặn mọi người dùng trái phép truy cập vào tài khoản, bạn nên duy trì quyền kiểm soát các thiết bị được sử dụng để truy cập dịch vụ và không tiết lộ mật khẩu hoặc thông tin chi tiết về Phương thức thanh toán được liên kết với tài khoản cho bất kỳ ai. Bạn đồng ý cung cấp và duy trì thông tin chính xác liên quan đến tài khoản của mình, bao gồm cả địa chỉ email hợp lệ để chúng tôi có thể gửi cho bạn các thông báo liên quan đến tài khoản. Chúng tôi có thể chấm dứt tài khoản của bạn hoặc tạm giữ tài khoản của bạn để bảo vệ bạn, Finder hoặc các đối tác của chúng tôi khỏi hành vi trộm cắp danh tính hay hoạt động lừa đảo khác
                     </p>
@@ -47,7 +47,7 @@ const Detailt = () => {
                 </section>
             </section>
             <section id="example-4">
-                <h3 class="pb-3 pt-5 text-xl font-semibold">5. Dịch vụ Finder</h3>
+                <h3 className="pb-3 pt-5 text-xl font-semibold">5. Dịch vụ Finder</h3>
                 <p>
                     Bạn phải đủ 18 tuổi trở lên hoặc đạt độ tuổi thành niên tại tỉnh, lãnh thổ hay quốc gia của mình để trở thành thành viên của dịch vụ Finder. Người chưa thành niên chỉ có thể sử dụng dịch vụ dưới sự giám sát của người lớn
                 </p>

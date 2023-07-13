@@ -8,7 +8,7 @@ export const getHome = () => async (dispatch) => {
         //     type: actionType.GET_MOVIES,
         //     homeData: response,
         // })
-        console.log('this is home');
+        // console.log('this is home');
     } catch (error) {
         dispatch({
             type: actionType.GET_MOVIES,
