@@ -1,6 +1,4 @@
-/* eslint-disable */
 import React, { useContext } from 'react'
-
 import { Outlet } from 'react-router-dom'
 import { Section, Banner } from '../../components'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
@@ -226,7 +224,6 @@ const Movies = () => {
                     </Swiper>
                 </div>
             </div>
-
             <div className="">
                 <Outlet />
             </div>

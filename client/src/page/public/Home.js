@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import { useSelector } from 'react-redux'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.min.css'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import axios from 'axios'
-import * as apis from '../../apis'
-
 import { Section, Banner } from '../../components'
 import { Outlet } from 'react-router'
 import { ApiContext } from '../../components/ApiContext.js'
@@ -15,28 +13,15 @@ import { useTranslation } from 'react-i18next'
 SwiperCore.use([Navigation, Pagination])
 
 const Home = () => {
-    const [randomMovies, setRandomMovie] = useState(null)
-    const {t} = useTranslation()
-    useEffect(() => {
-        async function fetchData() {
-            try {
-            const response = await apis.apiMoviesRandom()
-            setRandomMovie(response)
-            // Xử lý dữ liệu nhận được
-            } catch (error) {
-                // Xử lý lỗi
-                console.error(error)
-            }
-        }
-        fetchData()
-    }, [])
+    const { t } = useTranslation()
+
     const { top10Movies, genreDocumentary, genreComedy, genreAgent,
         genreKorean,
         genreAnime,
         genreAction,
         genreFamily,
         genreScienFiction,
-        genreCriminal, } = useContext(ApiContext);
+        genreCriminal, randomMovies } = useContext(ApiContext);
 
     const movieId = randomMovies?._id
 
