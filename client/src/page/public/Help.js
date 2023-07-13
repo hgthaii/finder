@@ -38,17 +38,17 @@ const Help = () => {
                             </h6>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >How to change your Netflix password</a
+                                >How to change your Finder password</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >Netflix says to sign up when trying to sign in</a
+                                >Finder says to sign up when trying to sign in</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >Netflix says, 'This app is not compatible with your device.'</a
+                                >Finder says, 'This app is not compatible with your device.'</a
                                 >
                             </p>
                         </div>
@@ -59,33 +59,33 @@ const Help = () => {
                             </h6>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >Can't sign in to Netflix</a
+                                >Can't sign in to Finder</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >How to restart your Netflix account</a
+                                >How to restart your Finder account</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >Netflix account email was changed without permission</a
+                                >Finder account email was changed without permission</a
                                 >
                             </p>
                         </div>
                         <div className="">
                             <h6
                                 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-                                Watching Netflix
+                                Watching Finder
                             </h6>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >What devices can I use to stream Netflix?</a
+                                >What devices can I use to stream Finder?</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
                                 <a href="#!"
-                                >How to watch Netflix on your TV</a
+                                >How to watch Finder on your TV</a
                                 >
                             </p>
                             <p className="mb-4 hover:underline decoration-red-400">
