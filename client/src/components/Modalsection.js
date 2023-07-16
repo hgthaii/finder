@@ -1,8 +1,16 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Modalsection = ({ episodes, index }) => {
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate(`/episodes/${episodes._id}`)
+    // console.log('oke ne', episodes._id)
+
+    }
     return (
-        <div className="p-4 flex items-center justify-between  w-full  bg-main-200 text-white dark:bg-main-100 dark:text-main-300">
+        <div className="p-4 flex items-center justify-between  w-full  bg-main-200 text-white dark:bg-main-100 dark:text-main-300 cursor-pointer" onClick={handleClick}>
             <h3 className="px-3 text-[24px]">{index + 1}</h3>
             <img src={episodes?.episode_image} alt="image" className="object-contain w-[130px] h-[73px]" />
             <div className="flex flex-col">

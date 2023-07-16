@@ -51,6 +51,7 @@ function App() {
                     }
                 />
                 <Route path={path.VIDEO_MOVIES__ID} element={<Video />} />
+                <Route path={path.EPISODES_MOVIES__ID} element={<Video />} />
                 <Route path="/" element={<Public />}>
                     <Route path="/" element={<Home />}>
                         <Route path={path.DETAIL_MOVIES__ID} element={<Modal />} />

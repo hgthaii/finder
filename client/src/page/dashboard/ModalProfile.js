@@ -222,7 +222,11 @@ const ModalProfile = () => {
                                 <strong>{t('Accout_updateAt')}</strong> {formattedDateUpdated}
                             </label>
                         </div>
-                        {infor.isVip === false || infor.isVip === null ? (
+                        {infor.isVip ? (
+                            <div className="flex items-center justify-center border border-white p-3 mt-3">
+                                <p>{t('VIP')}</p>
+                            </div>
+                        ) : (
                             <div className="text-center">
                                 <div className="flex items-center justify-center border border-white  my-3">
                                     <p className="text-xl font-bold pt-1 mb-3 ">{t('Desc_Vip')}</p>
@@ -256,10 +260,6 @@ const ModalProfile = () => {
                                         t('PayNow')
                                     )}
                                 </button>
-                            </div>
-                        ) : (
-                            <div className="flex items-center justify-center border border-white p-3 mt-3">
-                                <p>{t('VIP')}</p>
                             </div>
                         )}
                     </TabPanel>
