@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'docker:dind' // Sử dụng Docker-in-Docker image
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Chia sẻ Unix socket của Docker
+            image 'docker:dind'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
