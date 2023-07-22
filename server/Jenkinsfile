@@ -1,31 +1,44 @@
 pipeline {
     agent any
 
+    environment {
+        PATH_SERVER = "server"
+        DOCKER_REGISTRY_URL = "hgthaii/server:latest"
+        DOCKER_IMAGE_NAME = "server"
+        NODE_VERSION = "14.21.2"
+    }
+
     stages {
-        stage('Build') {
+        stage("Checkout") {
             steps {
-                dir('${PATH_SERVER}') {
-                    sh 'pwd'
-                    sh 'npm install'
-                    sh 'npm run format'
+                echo "Clone source về Jenkins"
+                git "https://github.com/hgthaii/finder.git"
+            }
+        }
+
+        stage("Build") {
+            steps {
+                dir("${PATH_SERVER}") {
+                    sh "npm install -g node@${NODE_VERSION}"
+                    sh "nvm use ${NODE_VERSION}"
+                    sh "npm install"
+                    sh "npm run format"
                 }
             }
         }
-        stage('Test') {
+        stage("Test") {
             steps {
-                sh 'node -v'
-                sh 'npm -v'
-                // sh 'npm run test'
+                sh "node -v"
+                sh "npm -v"
             }
         }
-        stage('Build and push Docker image') {
+        stage("Build and push Docker image") {
             steps {
-                dir('${PATH_SERVER}') {
-                    // sh 'sudo '
-                    // sh 'sudo service docker status'
-                    // sh 'sudo service docker start'
-                    sh 'docker build -t server .'
-                    sh 'docker push hgthaii/server:latest'
+                dir("${PATH_SERVER}") {
+                    echo "Build docker image"
+                    sh "docker build -t ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    echo "Push image lên Dockerhub"
+                    sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
@@ -35,8 +48,8 @@ pipeline {
         success {
             sh """
     curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{"chat_id": "${USERID}", "text": " \ud83d\udc4d \ud83d\udc4d \ud83d\udc4d \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: SUCCESS \nCommit: ${GIT_COMMIT} ", "disable_notification": true}' \
+     -H "Content-Type: application/json" \
+     -d "{"chat_id": "${USERID}", "text": " \ud83d\udc4d \ud83d\udc4d \ud83d\udc4d \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: SUCCESS \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
      ${WEBHOOK_URL}
             """   
     }
@@ -44,8 +57,8 @@ pipeline {
         failure {
         sh """
     curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{"chat_id": "${USERID}", "text": " \ud83d\ude21 \ud83d\ude21 \ud83d\ude21 \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: FAILURE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}' \
+     -H "Content-Type: application/json" \
+     -d "{"chat_id": "${USERID}", "text": " \ud83d\ude21 \ud83d\ude21 \ud83d\ude21 \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: FAILURE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
      ${WEBHOOK_URL}
         """
         }
@@ -53,8 +66,8 @@ pipeline {
         aborted {
         sh """
     curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{"chat_id": "${USERID}", "text": " \u2620\ufe0f \u2620\ufe0f \u2620\ufe0f \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: ABORTED \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}' \
+     -H "Content-Type: application/json" \
+     -d "{"chat_id": "${USERID}", "text": " \u2620\ufe0f \u2620\ufe0f \u2620\ufe0f \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: ABORTED \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
      ${WEBHOOK_URL}
         """
         }
@@ -62,8 +75,8 @@ pipeline {
         unstable {
         sh """
     curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{"chat_id": "${USERID}", "text": " \ud83d\ude4a \ud83d\ude4a \ud83d\ude4a \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: UNSTABLE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}' \
+     -H "Content-Type: application/json" \
+     -d "{"chat_id": "${USERID}", "text": " \ud83d\ude4a \ud83d\ude4a \ud83d\ude4a \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: UNSTABLE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
      ${WEBHOOK_URL}
         """
         }
