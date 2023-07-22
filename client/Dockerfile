@@ -1,10 +1,10 @@
-FROM node:latest
+FROM node:14.21.2
 WORKDIR /tmp/client
 COPY package.json package-lock.json .
 COPY . .
 RUN npm install 
 COPY public/index.html public/index.html
-RUN npm run build-dev
+RUN npm run build
 EXPOSE 3000
 CMD ["npm", "start"]
 

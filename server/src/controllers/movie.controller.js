@@ -150,22 +150,22 @@ const searchMovieByGenre = async (req, res) => {
 
 // Hàm lấy ngẫu nhiên n phần tử từ mảng arr
 const getRandomElements = (arr, n) => {
-  if (n >= arr.length) {
-    return arr; // Nếu n lớn hơn hoặc bằng độ dài mảng, trả về toàn bộ mảng
-  }
-  
-  // Tạo một bản sao của mảng arr để tránh thay đổi mảng gốc
-  const copyArr = [...arr];
-  
-  // Dùng Fisher-Yates shuffle để xáo trộn mảng
-  for (let i = copyArr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
-  }
-  
-  // Trả về n phần tử đầu tiên của mảng đã xáo trộn
-  return copyArr.slice(0, n);
-};
+    if (n >= arr.length) {
+        return arr // Nếu n lớn hơn hoặc bằng độ dài mảng, trả về toàn bộ mảng
+    }
+
+    // Tạo một bản sao của mảng arr để tránh thay đổi mảng gốc
+    const copyArr = [...arr]
+
+    // Dùng Fisher-Yates shuffle để xáo trộn mảng
+    for (let i = copyArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]]
+    }
+
+    // Trả về n phần tử đầu tiên của mảng đã xáo trộn
+    return copyArr.slice(0, n)
+}
 
 // Lấy danh sách phim theo thể loại
 const getAllMovieByGenre = async (req, res) => {
@@ -180,7 +180,10 @@ const getAllMovieByGenre = async (req, res) => {
 
         // Tìm kiếm phim có cùng thể loại
         const movies = []
-        const listMovie = await movieModel.find().select('_id poster_path logo genres overview release_date title').sort('-createAt')
+        const listMovie = await movieModel
+            .find()
+            .select('_id poster_path logo genres overview release_date title')
+            .sort('-createAt')
 
         for (const index in listMovie) {
             const movie = listMovie[index]

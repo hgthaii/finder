@@ -68,7 +68,18 @@ export const ApiProvider = ({ children }) => {
         const response = await apis.genreKorean()
         setGenreKorean(response)
     }
+
     useEffect(() => {
+        const top10Movies = async () => {
+            const reponse = await apis.top10Movies()
+            setTop10Movies(reponse)
+        }
+        top10Movies()
+    }, [])
+
+    useEffect(() => {
+        HandleGettop10Movies()
+        HandleGetRandomMovies()
         fetchFamily()
         fetchAction()
         fetchScienFiction()
@@ -78,17 +89,7 @@ export const ApiProvider = ({ children }) => {
         fetchAgent()
         fetchComedy()
         fetchDocumentary()
-        HandleGettop10Movies()
-        HandleGetRandomMovies()
         // ...
-    }, [])
-
-    useEffect(() => {
-        const top10Movies = async () => {
-            const reponse = await apis.top10Movies()
-            setTop10Movies(reponse)
-        }
-        top10Movies()
     }, [])
 
     return (
