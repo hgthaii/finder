@@ -19,8 +19,7 @@ pipeline {
         stage("Build") {
             steps {
                 dir("${PATH_SERVER}") {
-                    sh "sudo npm install -g node@${NODE_VERSION}"
-                    sh "nvm use ${NODE_VERSION}"
+                    sh "npm install node@${NODE_VERSION}"
                     sh "npm install"
                     sh "npm run format"
                 }
