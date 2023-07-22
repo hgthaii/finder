@@ -40,9 +40,9 @@ pipeline {
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
-                    sh "docker build -t hgthaii/${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    sh "docker build -t ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER} ."
                     echo "Push image lên Dockerhub"
-                    sh "docker push hgthaii/${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    sh "docker push ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER}"
                 }
             }
         }
