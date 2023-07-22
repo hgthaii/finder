@@ -32,6 +32,9 @@ pipeline {
             }
         }
         stage("Build and push Docker image") {
+            agent {
+                docker { image "${DOCKER_REGISTRY_URL}"}
+            }
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
