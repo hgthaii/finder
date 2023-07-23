@@ -1,22 +1,62 @@
 pipeline {
     agent any
-
+    
+    environment {
+        PATH_CLIENT = "client"
+        DOCKER_REGISTRY_URL = "hgthaii/client"
+        REACT_APP_API_URL = "https://finder-api-hgthaii.vercel.app"
+    }
+    
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //       git credentialsId: "${env.GITHUB_CREDS}", url: "${env.GITHUB_REPO}"
-        //     }
-        // }
-        stage('Build') {
+        stage("Checkout") {
             steps {
-                dir('client') {
-                    sh '''
-                        pwd
-                        npm install
-                        npm run build
-                    '''
+                echo "Cloning source from Git repository"
+                git "https://github.com/hgthaii/finder.git"
+            }
+        }
+        
+        stage("Build") {
+            steps {
+                dir("${PATH_CLIENT}") {
+                    echo "Installing dependencies"
+                    sh "npm install"
+                    
+                    echo "Building the React app"
+                    sh "npm run build"
                 }
             }
+        }
+        
+        stage("Test") {
+            steps {
+                dir("${PATH_CLIENT}") {
+                    echo "Running tests"
+                    sh "npm run format"
+                }
+            }
+        }
+        
+        stage("Docker Build and Push") {
+            steps {
+                dir("${PATH_CLIENT}") {
+                    echo "Building Docker image for the React app"
+                    sh "docker build -t ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER} ."
+                    
+                    echo "Pushing Docker image to Docker Hub"
+                    sh "docker login -u hgthaii -p thajlh123"
+                    sh "docker push ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo "Build successful!"
+        }
+        
+        failure {
+            echo "Build failed!"
         }
     }
 }
