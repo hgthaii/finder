@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
 import icons from '../ultis/icons'
 import axios from 'axios'
@@ -18,11 +20,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
         AiFillHeart,
         FaSmileBeam,
         BsEmojiAngryFill,
-        FaBold,
-        FaItalic,
-        AiOutlineLink,
-        MdSend,
-        BsArrowReturnRight,
+
     } = icons
     const { t, i18n } = useTranslation()
 
@@ -153,6 +151,7 @@ const ReplyCommentList = ({ data, commentId, pastTime, like, replyId, handleChan
                 console.error(error)
             })
     }
+    // eslint-disable-next-line no-unused-vars
     const getIcon = (likedIcon) => {
         switch (likedIcon) {
             case 1100:

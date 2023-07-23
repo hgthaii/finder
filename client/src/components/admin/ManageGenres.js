@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -175,9 +177,8 @@ const ManageGenres = () => {
                         {t('Manage_genres_add')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
-                            disableUpdate && 'opacity-50'
-                        }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
+                            }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >

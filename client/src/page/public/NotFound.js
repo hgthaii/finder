@@ -1,11 +1,10 @@
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import axios from 'axios'
 
 const NotFound = () => {
     const navigate = useNavigate()
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const [, , removeCookie] = useCookies(['accessToken', 'refreshToken'])
     const [, , removeAllCookies] = useCookies()
 
     const refundHome = async () => {
