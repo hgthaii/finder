@@ -4,13 +4,12 @@ pipeline {
     environment {
         PATH_SERVER = "server"
         USERNAME = "hgthaii"
-        DOCKER_REGISTRY_URL = "hgthaii/server:latest"
         DOCKER_IMAGE_NAME = "server"
         NODE_VERSION = "14.21.2"
     }
 
     stages {
-        stage("Checkout") {
+        stage("Clone") {
             steps {
                 echo "Clone source về Jenkins"
                 git "https://github.com/hgthaii/finder.git"
@@ -35,9 +34,6 @@ pipeline {
         }
 
         stage("Build and push Docker image") {
-            // agent {
-            //     docker { image "${DOCKER_REGISTRY_URL}"}
-            // }
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
