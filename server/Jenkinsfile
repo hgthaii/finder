@@ -45,48 +45,4 @@ pipeline {
         //     }
         // }
     }
-
-    post {
-        success {
-            sh """
-    curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{"chat_id": "${USERID}", "text": " \ud83d\udc4d \ud83d\udc4d \ud83d\udc4d \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: SUCCESS \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
-     ${WEBHOOK_URL}
-            """   
-    }
-
-        failure {
-        sh """
-    curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{"chat_id": "${USERID}", "text": " \ud83d\ude21 \ud83d\ude21 \ud83d\ude21 \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: FAILURE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
-     ${WEBHOOK_URL}
-        """
-        }
-
-        aborted {
-        sh """
-    curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{"chat_id": "${USERID}", "text": " \u2620\ufe0f \u2620\ufe0f \u2620\ufe0f \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: ABORTED \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
-     ${WEBHOOK_URL}
-        """
-        }
-
-        unstable {
-        sh """
-    curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{"chat_id": "${USERID}", "text": " \ud83d\ude4a \ud83d\ude4a \ud83d\ude4a \nJobname: ${JOB_NAME} \nBuild number: ${BUILD_NUMBER} \nStatus: UNSTABLE \nStage: ${FAILED_STAGE} \nCommit: ${GIT_COMMIT} ", "disable_notification": true}" \
-     ${WEBHOOK_URL}
-        """
-        }
-
-        always {
-            deleteDir()
-        }
-
-
-}
 }
