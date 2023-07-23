@@ -164,7 +164,7 @@ const Login = ({ onClose }) => {
             localStorage.setItem('refreshToken', res.data.refresh_token)
             localStorage.setItem('displayName', res.data.displayName)
             localStorage.setItem('isVip', res.data.isVip)
-            console.log(res);
+            console.log(res)
             localStorage.setItem('userId', res.data.userId)
             const accessToken = localStorage.getItem('accessToken')
 

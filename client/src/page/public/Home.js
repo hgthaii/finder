@@ -15,13 +15,19 @@ SwiperCore.use([Navigation, Pagination])
 const Home = () => {
     const { t } = useTranslation()
 
-    const { top10Movies, genreDocumentary, genreComedy, genreAgent,
+    const {
+        top10Movies,
+        genreDocumentary,
+        genreComedy,
+        genreAgent,
         genreKorean,
         genreAnime,
         genreAction,
         genreFamily,
         genreScienFiction,
-        genreCriminal, randomMovies } = useContext(ApiContext);
+        genreCriminal,
+        randomMovies,
+    } = useContext(ApiContext)
 
     const movieId = randomMovies?._id
 

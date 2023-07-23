@@ -16,7 +16,7 @@ import {
     Help,
     Detailt,
     ContactUs,
-    Infomation
+    Infomation,
 } from './page/public'
 import HomePageAdmin from './page/dashboard/HomePageAdmin'
 import * as action from './store/actions'

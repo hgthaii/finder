@@ -5,7 +5,7 @@ import { ApiContext } from '../../components/ApiContext'
 import { Header, Footer } from '../../components'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress'
 
 const Public = () => {
     const [theme, setTheme] = useState('light')
