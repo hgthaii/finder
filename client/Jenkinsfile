@@ -21,7 +21,7 @@ pipeline {
                 dir("${PATH_CLIENT}") {
                     bat "npm install node@${NODE_VERSION}"
                     bat "npm install"
-                    bat "npm run build --no-verify"
+                    bat "npm run build-dev --no-verify"
                 }
             }
         }
