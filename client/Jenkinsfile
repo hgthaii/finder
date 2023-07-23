@@ -23,7 +23,7 @@ pipeline {
                     bat "npm install"
                     
                     echo "Building the React app"
-                    bat "npm run build-dev"
+                    bat "npm run build"
                 }
             }
         }
