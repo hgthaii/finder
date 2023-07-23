@@ -38,7 +38,7 @@ pipeline {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
                     bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
-                    bat "docker login -u ${USERNAME} -p thajlh123"
+                    bat "docker login -u ${USERNAME} -p ${PASSWORD_EMAIL}"
                     echo "Push image lên Dockerhub"
                     bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
                 }
