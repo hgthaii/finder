@@ -44,7 +44,7 @@ pipeline {
                     bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
                     bat "docker login -u ${USERNAME} -p thajlh123"
                     echo "Push image lên Dockerhub"
-                    bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
+                    bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
                 }
             }
         }
