@@ -1,6 +1,7 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 import axios from 'axios'
 import moment from 'moment'
 import 'moment/locale/vi'
@@ -22,11 +23,6 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
         AiFillHeart,
         FaSmileBeam,
         BsEmojiAngryFill,
-        FaBold,
-        FaItalic,
-        AiOutlineLink,
-        MdSend,
-        BsArrowReturnRight,
     } = icons
     const [timeAgo, setTimeAgo] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
@@ -43,6 +39,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
             }
         }, 1000)
         return () => clearInterval(interval)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pastTime])
 
     const handleClick = (event) => {
@@ -183,6 +180,7 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
         handleListIconLike()
         getListReply()
         handleChangeReply()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentId])
 
     const handleChangeReply = (newVal) => {
@@ -204,30 +202,35 @@ const Comment = ({ displayName, pastTime, content, commentId, handleChangeCommen
         switch (likedIcon) {
             case 1100:
                 return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => handleLikeClick(1100)} className="flex gap-1 items-center">
                         <AiTwotoneLike size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1101:
                 return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => handleLikeClick(1101)} className="flex gap-1 items-center">
                         <AiFillDislike size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1102:
                 return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => handleLikeClick(1102)} className="flex gap-1 items-center">
                         <AiFillHeart size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1103:
                 return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => handleLikeClick(1103)} className="flex gap-1 items-center">
                         <FaSmileBeam size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
                 )
             case 1104:
                 return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => handleLikeClick(1104)} className="flex gap-1 items-center">
                         <BsEmojiAngryFill size={19} color="yellow" /> {t('YouAnd_comment')}
                     </a>
