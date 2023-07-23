@@ -40,10 +40,10 @@ pipeline {
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
-                    bat "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    bat "docker build -t ${DOCKER_IMAGE_NAME}:latest ."
                     bat "docker login -u hgthaii -p thajlh123"
                     echo "Push image lên Dockerhub"
-                    bat "docker push ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
+                    bat "docker push ${DOCKER_IMAGE_NAME}:latest"
                 }
             }
         }
