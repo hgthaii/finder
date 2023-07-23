@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -181,7 +182,7 @@ const ModalProfile = () => {
     useEffect(() => {
         setVip(infor.isVip)
     }, [vip])
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
 
     return (
         <div className="bg-[#030014] h-full flex items-center flex-col text-white ">

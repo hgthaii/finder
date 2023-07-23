@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
@@ -6,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useCookies } from 'react-cookie'
 
 function VnpayReturnPage() {
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken'])
+    const [, , removeCookie] = useCookies(['accessToken', 'refreshToken'])
     const [, , removeAllCookies] = useCookies()
     const location = useLocation()
     const navigate = useNavigate()
@@ -24,6 +25,7 @@ function VnpayReturnPage() {
     const datetime = moment(datePayment, 'YYYYMMDDHHmmss').utcOffset('+07:00').format('YYYY-MM-DD HH:mm:ss')
 
     const { t } = useTranslation()
+
 
     useEffect(() => {
         handleVnpayReturn(vnp_Params)

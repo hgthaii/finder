@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { InputBase } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
@@ -173,9 +175,8 @@ const ManageCast = () => {
                         {t('Manage_cast_add')}
                     </button>
                     <button
-                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${
-                            disableUpdate && 'opacity-50'
-                        }`}
+                        className={`bg-[#24AB62] h-10 w-[170px] mt-5 mr-5 rounded-md text-white ${disableUpdate && 'opacity-50'
+                            }`}
                         onClick={handleOpenUpdate}
                         disabled={disableUpdate}
                     >

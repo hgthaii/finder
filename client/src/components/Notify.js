@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import moment from 'moment'
 import 'moment/locale/vi'
 import { useTranslation } from 'react-i18next'
-import io from 'socket.io-client'
 const Notify = ({ content, title, notify, pastTime }) => {
     const [timeAgo, setTimeAgo] = useState('')
     const { t, i18n } = useTranslation()
