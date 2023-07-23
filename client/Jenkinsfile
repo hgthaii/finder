@@ -19,6 +19,7 @@ pipeline {
         stage("Build") {
             steps {
                 dir("${PATH_CLIENT}") {
+                    bat "npm install node@${NODE_VERSION}"
                     echo "Installing dependencies"
                     bat "npm install"
                     
