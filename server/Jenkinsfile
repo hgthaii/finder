@@ -19,18 +19,20 @@ pipeline {
         stage("Build") {
             steps {
                 dir("${PATH_SERVER}") {
-                    bat "start /B \"npm install node@${NODE_VERSION}\""
-                    bat "start /B \"npm install\""
-                    bat "start /B \"npm run format\""
+                    bat "npm install node@${NODE_VERSION}"
+                    bat "npm install"
+                    bat "npm run format"
                 }
             }
         }
+
         stage("Test") {
             steps {
-                bat "start /B \"node -v\""
-                bat "start /B \"npm -v\""
+                bat "node -v"
+                bat "npm -v"
             }
         }
+
         // stage("Build and push Docker image") {
         //     agent {
         //         docker { image "${DOCKER_REGISTRY_URL}"}
