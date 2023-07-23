@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         PATH_SERVER = "server"
-        DOCKER_REGISTRY_URL = "hgthaii/server"
+        DOCKER_REGISTRY_URL = "hgthaii/server:latest"
         DOCKER_IMAGE_NAME = "server"
         NODE_VERSION = "14.21.2"
     }
@@ -40,10 +40,10 @@ pipeline {
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
-                    bat "docker build -t ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER} ."
+                    bat "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
                     bat "docker login -u hgthaii -p thajlh123"
                     echo "Push image lên Dockerhub"
-                    bat "docker push ${DOCKER_REGISTRY_URL}:${BUILD_NUMBER}"
+                    bat "docker push ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
