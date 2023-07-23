@@ -48,7 +48,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
-    "build-dev": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
+    "build-dev": "set \"ESLINT_NO_DEV_ERRORS=true\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.js\""
