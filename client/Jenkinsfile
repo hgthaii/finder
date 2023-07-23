@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        PATH_SERVER = "client"
+        PATH_CLIENT = "client"
         USERNAME = "hgthaii"
         DOCKER_IMAGE_NAME = "client"
         NODE_VERSION = "14.21.2"
@@ -37,14 +37,14 @@ pipeline {
             }
         }
         
-        stage("Docker Build and Pubat") {
+        stage("Docker Build and Push") {
             steps {
                 dir("${PATH_CLIENT}") {
                     echo "Build docker image"
                     bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
                     bat "docker login -u ${USERNAME} -p thajlh123"
                     echo "Pubat image lên Dockerhub"
-                    bat "docker pubat ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
+                    bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
                 }
             }
         }
