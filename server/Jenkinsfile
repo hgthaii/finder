@@ -31,19 +31,19 @@ pipeline {
                 sh "npm -v"
             }
         }
-        stage("Build and push Docker image") {
-            agent {
-                docker { image "${DOCKER_REGISTRY_URL}"}
-            }
-            steps {
-                dir("${PATH_SERVER}") {
-                    echo "Build docker image"
-                    sh "docker build -t ${DOCKER_REGISTRY_URL} ."
-                    echo "Push image lên Dockerhub"
-                    sh "docker push ${DOCKER_REGISTRY_URL}"
-                }
-            }
-        }
+        // stage("Build and push Docker image") {
+        //     agent {
+        //         docker { image "${DOCKER_REGISTRY_URL}"}
+        //     }
+        //     steps {
+        //         dir("${PATH_SERVER}") {
+        //             echo "Build docker image"
+        //             sh "docker build -t ${DOCKER_REGISTRY_URL} ."
+        //             echo "Push image lên Dockerhub"
+        //             sh "docker push ${DOCKER_REGISTRY_URL}"
+        //         }
+        //     }
+        // }
     }
 
     post {
