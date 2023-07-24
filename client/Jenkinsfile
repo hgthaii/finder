@@ -49,19 +49,21 @@ pipeline {
     post {
         success {
             emailext (
-                to: "${TO_EMAIL}",
-                subject: "Jenkins Pipeline Success",
+                attachLog: true,
                 body: "Jenkins Pipeline đã thực hiện thành công!",
-                from: "${FROM_EMAIL}"
+                subject: "Jenkins Pipeline Success",
+                to: "${TO_EMAIL}",
+                // from: "${FROM_EMAIL}"
             )
         }
         
         failure {
             emailext (
-                to: "${TO_EMAIL}",
-                subject: "Jenkins Pipeline Success",
+                attachLog: true,
                 body: "Jenkins Pipeline đã thất bại!",
-                from: "${FROM_EMAIL}"
+                subject: "Jenkins Pipeline Success",
+                to: "${TO_EMAIL}",
+                // from: "${FROM_EMAIL}"
             )
         }
     }
