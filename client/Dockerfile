@@ -2,6 +2,9 @@ FROM node:14.21.2
 WORKDIR /tmp/client
 COPY package.json package-lock.json .
 COPY . .
+ARG REACT_APP_API_URI
+ENV REACT_APP_API_URI=${REACT_APP_API_URI}
+
 RUN npm install 
 COPY public/index.html public/index.html
 RUN npm run build
