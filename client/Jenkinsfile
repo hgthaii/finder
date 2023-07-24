@@ -38,7 +38,7 @@ pipeline {
         stage("Docker Build and Push") {
             steps {
                 dir("${PATH_CLIENT}") {
-                    bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
+                    bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} --build-arg REACT_APP_API_URI=${REACT_APP_API_URI} ."
                     bat "docker login -u ${USERNAME} -p ${PASSWORD_EMAIL}"
                     bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
                 }

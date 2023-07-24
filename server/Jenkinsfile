@@ -37,7 +37,7 @@ pipeline {
             steps {
                 dir("${PATH_SERVER}") {
                     echo "Build docker image"
-                    bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
+                    bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} --build-arg MONGODB_URI=${MONGODB_URI} --build-arg TOKEN_SECRET=${TOKEN_SECRET} --build-arg CLIENT_ID=${CLIENT_ID} --build-arg CLIENT_SECRET=${CLIENT_SECRET} --build-arg FROM_EMAIL=${FROM_EMAIL} --build-arg TO_EMAIL=${TO_EMAIL} --build-arg PASSWORD_EMAIL=${PASSWORD_EMAIL} --build-arg SENDGRID_API_KEY=${SENDGRID_API_KEY} ."
                     bat "docker login -u ${USERNAME} -p ${PASSWORD_EMAIL}"
                     echo "Push image lên Dockerhub"
                     bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
