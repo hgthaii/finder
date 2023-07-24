@@ -50,8 +50,8 @@ pipeline {
         success {
             emailext (
                 attachLog: true,
-                body: "Jenkins Pipeline done successfully!",
-                subject: "Jenkins Pipeline Success",
+                body: "Jenkins Pipeline Server done successfully!",
+                subject: "Jenkins Pipeline Server Success",
                 to: "${TO_EMAIL}",
             )
         }
@@ -59,8 +59,8 @@ pipeline {
         failure {
             emailext (
                 attachLog: true,
-                body: "Jenkins Pipeline has failed!",
-                subject: "Jenkins Pipeline Failed",
+                body: "Jenkins Pipeline Server has failed!",
+                subject: "Jenkins Pipeline Server Failed",
                 to: "${TO_EMAIL}",
             )
         }
