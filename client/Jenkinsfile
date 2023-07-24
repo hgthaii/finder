@@ -21,7 +21,7 @@ pipeline {
                 dir("${PATH_CLIENT}") {
                     bat "npm install node@${NODE_VERSION}"
                     bat "npm install"
-                    bat "npm run build-dev --no-verify"
+                    bat "npm run build"
                 }
             }
         }
@@ -48,11 +48,21 @@ pipeline {
     
     post {
         success {
-            echo "Build successful!"
+            emailext (
+                to: "${TO_EMAIL}",
+                subject: "Jenkins Pipeline Success",
+                body: "Jenkins Pipeline đã thực hiện thành công!",
+                from: "${FROM_EMAIL}"
+            )
         }
         
         failure {
-            echo "Build failed!"
+            emailext (
+                to: "${TO_EMAIL}",
+                subject: "Jenkins Pipeline Success",
+                body: "Jenkins Pipeline đã thất bại!",
+                from: "${FROM_EMAIL}"
+            )
         }
     }
 }
