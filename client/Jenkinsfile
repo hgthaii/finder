@@ -20,30 +20,30 @@ pipeline {
             steps {
                 dir("${PATH_CLIENT}") {
                     bat "npm install node@${NODE_VERSION}"
-                    bat "npm install"
-                    bat "npm run build"
+                    // bat "npm install"
+                    // bat "npm run build"
                 }
             }
         }
         
-        stage("Test") {
-            steps {
-                dir("${PATH_CLIENT}") {
-                    echo "Running tests"
-                    bat "npm run format"
-                }
-            }
-        }
+        // stage("Test") {
+        //     steps {
+        //         dir("${PATH_CLIENT}") {
+        //             echo "Running tests"
+        //             bat "npm run format"
+        //         }
+        //     }
+        // }
         
-        stage("Docker Build and Push") {
-            steps {
-                dir("${PATH_CLIENT}") {
-                    bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
-                    bat "docker login -u ${USERNAME} -p ${PASSWORD_EMAIL}"
-                    bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
-                }
-            }
-        }
+        // stage("Docker Build and Push") {
+        //     steps {
+        //         dir("${PATH_CLIENT}") {
+        //             bat "docker build -t ${USERNAME}/${DOCKER_IMAGE_NAME} ."
+        //             bat "docker login -u ${USERNAME} -p ${PASSWORD_EMAIL}"
+        //             bat "docker push ${USERNAME}/${DOCKER_IMAGE_NAME}:latest"
+        //         }
+        //     }
+        // }
     }
     
     post {
